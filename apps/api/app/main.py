@@ -54,8 +54,10 @@ def create_app() -> FastAPI:
 
     # Include Routers
     from app.events.routes import router as events_router
+    from app.identity.routes import router as identity_router
 
     app.include_router(events_router)
+    app.include_router(identity_router)
 
     # Mount back office admin
     setup_admin(app, engine)
