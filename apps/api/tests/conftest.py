@@ -9,13 +9,14 @@ from app.db import Base, get_db
 from app.main import app
 
 test_engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
-test_session_maker = async_sessionmaker(
+db_session_maker = async_sessionmaker(
     test_engine, class_=AsyncSession, expire_on_commit=False
 )
+test_session_maker = db_session_maker
 
 
 async def override_get_db() -> AsyncGenerator[AsyncSession, None]:
-    async with test_session_maker() as session:
+    async with db_session_maker() as session:
         try:
             yield session
         finally:

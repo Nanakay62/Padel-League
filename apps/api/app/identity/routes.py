@@ -2,8 +2,7 @@
 
 from typing import Annotated
 
-import jwt
-from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -36,31 +35,7 @@ router = APIRouter(tags=["Authentication & Players"])
 DatabaseSession = Annotated[AsyncSession, Depends(get_db)]
 
 
-async def get_current_user_id(
-    authorization: Annotated[str | None, Header()] = None,
-) -> str:
-    """Dependency verifying Bearer access token."""
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Missing or invalid Authorization header",
-        )
-    token = authorization.split(" ")[1]
-    try:
-        payload = jwt.decode(
-            token, settings.secret_key, algorithms=[settings.jwt_algorithm]
-        )
-        user_id = payload.get("sub")
-        if not user_id:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token subject"
-            )
-        return str(user_id)
-    except jwt.PyJWTError as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Token validation error: {e}",
-        ) from e
+from app.identity.deps import get_current_user_id
 
 
 @router.post("/auth/otp/request", response_model=OtpResponse)

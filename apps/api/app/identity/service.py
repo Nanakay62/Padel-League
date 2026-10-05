@@ -227,6 +227,11 @@ class IdentityService:
             is_new_user=is_new_user,
         )
 
+    def create_access_token(
+        self, user_id: str, phone: str = "", role: str = "PLAYER"
+    ) -> str:
+        return self._create_access_token(user_id, role)
+
     def _create_access_token(self, user_id: str, role: str) -> str:
         now = _utc_now()
         payload = {
@@ -239,6 +244,36 @@ class IdentityService:
         return jwt.encode(
             payload, settings.secret_key, algorithm=settings.jwt_algorithm
         )
+
+    async def create_user(
+        self, phone_e164: str, name: str, role: str = "PLAYER"
+    ) -> User:
+        """Create a user and default profile directly (for testing and administrative setup)."""
+        normalized_phone = normalize_ghana_phone(phone_e164)
+        user = User(
+            id=str(uuid.uuid4()),
+            phone_e164=normalized_phone,
+            name=name.strip(),
+            role=role,
+            is_active=True,
+            is_guest=False,
+        )
+        self.db.add(user)
+        await self.db.flush()
+
+        profile = PlayerProfile(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            level=2.5,
+            reliability=0.5,
+            is_provisional=True,
+            preferred_side="EITHER",
+            competitiveness="BOTH",
+        )
+        self.db.add(profile)
+        await self.db.commit()
+        await self.db.refresh(user)
+        return user
 
     async def refresh_tokens(self, raw_refresh_token: str) -> TokenResponse:
         """Rotate refresh token and issue new access token."""
