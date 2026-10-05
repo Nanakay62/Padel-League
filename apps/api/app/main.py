@@ -52,6 +52,11 @@ def create_app() -> FastAPI:
             "force_update": False,
         }
 
+    # Include Routers
+    from app.events.routes import router as events_router
+
+    app.include_router(events_router)
+
     # Mount back office admin
     setup_admin(app, engine)
 
