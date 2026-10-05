@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend Check & Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: padel
+          POSTGRES_PASSWORD: padel
+          POSTGRES_DB: padel
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        working-directory: apps/api
+        run: uv sync
+
+      - name: Lint and Format Check
+        working-directory: apps/api
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: Type Check
+        working-directory: apps/api
+        run: uv run mypy app
+
+      - name: Run Tests
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql+psycopg://padel:padel@localhost:5432/padel
+        run: uv run pytest -q
+
+  client:
+    name: Mobile & Web Client Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm"
+          cache-dependency-path: apps/mobile/package-lock.json
+
+      - name: Install dependencies
+        working-directory: apps/mobile
+        run: npm ci
+
+      - name: Lint
+        working-directory: apps/mobile
+        run: npm run lint
+
+      - name: Unit Tests
+        working-directory: apps/mobile
+        run: npm test
+
+      - name: Type Check
+        working-directory: apps/mobile
+        run: npx tsc --noEmit
+
+      - name: Export Web Build
+        working-directory: apps/mobile
+        run: npx expo export --platform web

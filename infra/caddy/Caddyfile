@@ -1,0 +1,19 @@
+{
+    auto_https off
+}
+
+:80 {
+    # Reverse proxy to FastAPI API
+    handle /api/* {
+        uri strip_prefix /api
+        reverse_proxy api:8000 {
+            # Disable buffering for Server-Sent Events (SSE)
+            flush_interval -1
+        }
+    }
+
+    # Static web app or local development
+    handle {
+        reverse_proxy mobile:8081
+    }
+}
