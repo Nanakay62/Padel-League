@@ -5,7 +5,7 @@ import json
 from collections.abc import AsyncGenerator
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from fastapi.responses import PlainTextResponse, StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,18 +13,22 @@ from app.db import get_db
 from app.events.schemas import (
     AddPlayersRequest,
     AddPlayersResponse,
+    CancelEventRequest,
     EventCreate,
     EventResponse,
     LiveEventResponse,
     MatchResponse,
     RoundResponse,
+    ScoreCorrectionRequest,
     ScoreSubmissionRequest,
 )
 from app.events.service import EventService
+from app.identity.deps import get_current_user_id
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
 DatabaseSession = Annotated[AsyncSession, Depends(get_db)]
+CurrentUserId = Annotated[str, Depends(get_current_user_id)]
 
 
 @router.post("", response_model=EventResponse, status_code=status.HTTP_201_CREATED)
@@ -141,3 +145,101 @@ async def get_summary_text(
     service = EventService(db)
     summary = await service.get_summary_text(event_id)
     return PlainTextResponse(summary)
+
+
+@router.post("/{event_id}/duplicate", response_model=EventResponse)
+async def duplicate_event(
+    event_id: str,
+    db: DatabaseSession,
+    current_user_id: CurrentUserId,
+) -> EventResponse:
+    service = EventService(db)
+    cloned = await service.duplicate_event(event_id)
+    return EventResponse.model_validate(cloned)
+
+
+@router.post(
+    "/{event_id}/matches/{match_id}/correct-score", response_model=MatchResponse
+)
+async def correct_score(
+    event_id: str,
+    match_id: str,
+    payload: ScoreCorrectionRequest,
+    db: DatabaseSession,
+    current_user_id: CurrentUserId,
+) -> MatchResponse:
+    service = EventService(db)
+    match = await service.correct_score(
+        event_id=event_id,
+        match_id=match_id,
+        team_a_score=payload.team_a_score,
+        team_b_score=payload.team_b_score,
+        reason=payload.reason,
+        actor_id=current_user_id,
+    )
+    return MatchResponse.model_validate(match)
+
+
+@router.post("/{event_id}/cancel", response_model=EventResponse)
+async def cancel_event(
+    event_id: str,
+    payload: CancelEventRequest,
+    db: DatabaseSession,
+    current_user_id: CurrentUserId,
+) -> EventResponse:
+    service = EventService(db)
+    cancelled = await service.cancel_event(
+        event_id=event_id,
+        reason=payload.reason,
+        actor_id=current_user_id,
+    )
+    return EventResponse.model_validate(cancelled)
+
+
+@router.get("/{event_id}/export/registrations.csv")
+async def export_registrations_csv(
+    event_id: str,
+    db: DatabaseSession,
+    current_user_id: CurrentUserId,
+) -> Response:
+    service = EventService(db)
+    csv_content = await service.export_registrations_csv(event_id)
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=registrations_{event_id}.csv"
+        },
+    )
+
+
+@router.get("/{event_id}/export/results.csv")
+async def export_results_csv(
+    event_id: str,
+    db: DatabaseSession,
+    current_user_id: CurrentUserId,
+) -> Response:
+    service = EventService(db)
+    csv_content = await service.export_results_csv(event_id)
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename=results_{event_id}.csv"},
+    )
+
+
+@router.get("/{event_id}/export/settlement.csv")
+async def export_settlement_csv(
+    event_id: str,
+    db: DatabaseSession,
+    current_user_id: CurrentUserId,
+) -> Response:
+    service = EventService(db)
+    csv_content = await service.export_settlement_csv(event_id)
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=settlement_{event_id}.csv"
+        },
+    )

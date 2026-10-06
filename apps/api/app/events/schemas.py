@@ -25,7 +25,22 @@ class EventResponse(BaseModel):
     point_target: int
     planned_rounds: int
     status: str
+    price_pesewas: int = 0
+    court_rate_pesewas: int = 0
+    max_players: int = 8
+    start_time: datetime | None = None
+    cancellation_reason: str | None = None
     created_at: datetime
+
+
+class ScoreCorrectionRequest(BaseModel):
+    team_a_score: int = Field(..., ge=0)
+    team_b_score: int = Field(..., ge=0)
+    reason: str = Field(..., min_length=1, max_length=500)
+
+
+class CancelEventRequest(BaseModel):
+    reason: str = Field(..., min_length=1, max_length=255)
 
 
 class AddPlayersRequest(BaseModel):

@@ -85,3 +85,18 @@ class OpenMatchResponse(BaseModel):
     open_seats: int
     status: str
     confirmed_players: list[str]
+
+
+class VenueDashboardResponse(BaseModel):
+    venue_id: str
+    venue_name: str
+    court_hours_used: float
+    capacity_hours: float
+    fill_rate_percent: float
+    confirmed_players: int
+    waitlist_demand: int
+    new_players_count: int
+    total_revenue_pesewas: int
+    total_revenue_ghs: float
+    unreported_matches_count: int
+    whatsapp_summary: str

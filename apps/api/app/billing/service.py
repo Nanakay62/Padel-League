@@ -196,7 +196,7 @@ class BillingService:
         note: str | None = None,
     ) -> Registration:
         """Mark an order paid manually (MoMo / Cash), strictly accessible to organisers and admins."""
-        if actor.role not in ["ORGANISER", "ADMIN"]:
+        if actor.role not in ["ORGANISER", "ORGANIZER", "ADMIN"]:
             raise HTTPException(
                 status_code=403,
                 detail="Only organizers and admins can manually mark payments as confirmed.",
@@ -424,7 +424,7 @@ class BillingService:
         reason: str = "Cancelled by organiser",
     ) -> Event:
         """Cancel an entire event, refunding/crediting each confirmed player exactly once."""
-        if actor.role not in ["ORGANISER", "ADMIN"]:
+        if actor.role not in ["ORGANISER", "ORGANIZER", "ADMIN"]:
             raise HTTPException(
                 status_code=403, detail="Only organisers can cancel events"
             )
@@ -435,6 +435,7 @@ class BillingService:
 
         now = _utc_now()
         event.status = "CANCELLED"
+        event.cancellation_reason = reason
 
         stmt = (
             select(Registration)
@@ -472,6 +473,16 @@ class BillingService:
                     created_at=now,
                 )
                 self.db.add(audit)
+
+        event_audit = AuditLog(
+            actor_id=actor.id,
+            action="EVENT_CANCELLED",
+            target_type="EVENT",
+            target_id=event.id,
+            details=f"Event cancelled. Reason: {reason}",
+            created_at=now,
+        )
+        self.db.add(event_audit)
 
         await self.db.commit()
         await self.db.refresh(event)

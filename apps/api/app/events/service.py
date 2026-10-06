@@ -2,17 +2,30 @@
 
 import random
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.audit.models import AuditLog
+from app.billing.models import Credit, Order
 from app.domain.americano import RotationState, award_points, next_round
 from app.domain.leaderboard import PlayerStats, rank_leaderboard
 from app.domain.summary import format_whatsapp_summary
-from app.events.models import Event, EventMatch, EventPlayer, EventRound
+from app.events.export import (
+    format_registrations_csv,
+    format_results_csv,
+    format_settlement_csv,
+)
+from app.events.models import (
+    Event,
+    EventMatch,
+    EventPlayer,
+    EventRound,
+    Registration,
+)
 from app.events.schemas import (
     EventCreate,
     EventResponse,
@@ -347,3 +360,201 @@ class EventService:
             total_rounds=live_state.current_round,
             leaderboard=stats,
         )
+
+    async def duplicate_event(self, event_id: str) -> Event:
+        orig = await self.get_event(event_id)
+        new_start = orig.start_time + timedelta(days=7) if orig.start_time else None
+        cloned = Event(
+            id=str(uuid.uuid4()),
+            title=orig.title,
+            venue_name=orig.venue_name,
+            format=orig.format,
+            courts=orig.courts,
+            point_target=orig.point_target,
+            planned_rounds=orig.planned_rounds,
+            price_pesewas=orig.price_pesewas,
+            court_rate_pesewas=orig.court_rate_pesewas,
+            max_players=orig.max_players,
+            status="DRAFT",
+            start_time=new_start,
+        )
+        self.db.add(cloned)
+        await self.db.commit()
+        await self.db.refresh(cloned)
+        return cloned
+
+    async def correct_score(
+        self,
+        event_id: str,
+        match_id: str,
+        team_a_score: int,
+        team_b_score: int,
+        reason: str,
+        actor_id: str,
+    ) -> EventMatch:
+        if not reason or not reason.strip():
+            raise HTTPException(
+                status_code=400, detail="Reason is required for score correction"
+            )
+
+        event = await self.get_event(event_id)
+        if team_a_score + team_b_score != event.point_target:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Scores ({team_a_score}+{team_b_score}={team_a_score + team_b_score}) must sum to point target {event.point_target}",
+            )
+
+        stmt = (
+            select(EventMatch)
+            .where(EventMatch.id == match_id)
+            .options(selectinload(EventMatch.round))
+        )
+        res = await self.db.execute(stmt)
+        match = res.scalar_one_or_none()
+        if not match or match.round.event_id != event_id:
+            raise HTTPException(status_code=404, detail="Match not found")
+
+        match.team_a_score = team_a_score
+        match.team_b_score = team_b_score
+        match.status = "CORRECTED"
+        match.entered_at = _utc_now()
+
+        audit = AuditLog(
+            id=str(uuid.uuid4()),
+            actor_id=actor_id,
+            action="SCORE_CORRECTION",
+            target_type="MATCH",
+            target_id=match.id,
+            details=f"Scores corrected to {team_a_score}-{team_b_score}. Reason: {reason.strip()}",
+            created_at=_utc_now(),
+        )
+        self.db.add(audit)
+        await self.db.commit()
+        await self.db.refresh(match)
+        return match
+
+    async def cancel_event(
+        self,
+        event_id: str,
+        reason: str,
+        actor_id: str,
+    ) -> Event:
+        if not reason or not reason.strip():
+            raise HTTPException(
+                status_code=400, detail="Reason is required for cancellation"
+            )
+
+        event = await self.get_event(event_id)
+        now = _utc_now()
+        event.status = "CANCELLED"
+        event.cancellation_reason = reason.strip()
+
+        stmt = (
+            select(Registration)
+            .where(
+                Registration.event_id == event_id, Registration.status == "CONFIRMED"
+            )
+            .options(selectinload(Registration.order))
+        )
+        res = await self.db.execute(stmt)
+        regs = res.scalars().all()
+
+        for reg in regs:
+            reg.status = "CANCELLED_FREE"
+            if reg.order and reg.order.status == "PAID":
+                credit = Credit(
+                    id=str(uuid.uuid4()),
+                    user_id=reg.user_id,
+                    amount_pesewas=reg.order.amount_pesewas,
+                    reason=f"Event cancelled: {reason.strip()}",
+                    source_registration_id=reg.id,
+                    created_at=now,
+                )
+                self.db.add(credit)
+
+        audit = AuditLog(
+            id=str(uuid.uuid4()),
+            actor_id=actor_id,
+            action="EVENT_CANCELLED",
+            target_type="EVENT",
+            target_id=event.id,
+            details=f"Event cancelled. Reason: {reason.strip()}",
+            created_at=now,
+        )
+        self.db.add(audit)
+        await self.db.commit()
+        await self.db.refresh(event)
+        return event
+
+    async def export_registrations_csv(self, event_id: str) -> str:
+        stmt = (
+            select(Registration)
+            .where(Registration.event_id == event_id)
+            .options(selectinload(Registration.user), selectinload(Registration.order))
+        )
+        res = await self.db.execute(stmt)
+        regs = res.scalars().all()
+
+        rows = []
+        for reg in regs:
+            user = reg.user
+            order = reg.order
+            amount_ghs = (
+                f"{order.amount_pesewas / 100:.2f}"
+                if order and order.status == "PAID"
+                else "0.00"
+            )
+            rows.append(
+                {
+                    "name": user.name if user else "Unknown",
+                    "phone": user.phone_e164 if user else "",
+                    "status": reg.status,
+                    "amount_ghs": amount_ghs,
+                    "method": order.method if order else "N/A",
+                    "waitlist_position": reg.waitlist_position or "",
+                }
+            )
+        return format_registrations_csv(rows)
+
+    async def export_results_csv(self, event_id: str) -> str:
+        event = await self.get_event(event_id)
+        rows = []
+        for rd in sorted(event.rounds, key=lambda r: r.round_number):
+            for m in rd.matches:
+                rows.append(
+                    {
+                        "round": rd.round_number,
+                        "court": m.court_number,
+                        "team_a": f"{m.team_a_p1} & {m.team_a_p2}",
+                        "team_b": f"{m.team_b_p1} & {m.team_b_p2}",
+                        "score_a": m.team_a_score if m.team_a_score is not None else "",
+                        "score_b": m.team_b_score if m.team_b_score is not None else "",
+                        "status": m.status,
+                    }
+                )
+        return format_results_csv(rows)
+
+    async def export_settlement_csv(self, event_id: str) -> str:
+        stmt = select(Order).where(Order.event_id == event_id)
+        res = await self.db.execute(stmt)
+        orders = res.scalars().all()
+
+        paid_orders = [o for o in orders if o.status == "PAID"]
+        pending_manual = [
+            o
+            for o in orders
+            if o.status == "PENDING" and o.method in ("MANUAL_MOMO", "CASH")
+        ]
+
+        total_collected = sum(o.amount_pesewas for o in paid_orders)
+        court_costs = sum(o.court_fee_pesewas for o in paid_orders)
+        platform_fees = sum(o.platform_fee_pesewas for o in paid_orders)
+
+        data = {
+            "total_paid_players": len(paid_orders),
+            "total_collected_ghs": f"{total_collected / 100:.2f}",
+            "court_costs_ghs": f"{court_costs / 100:.2f}",
+            "platform_fees_ghs": f"{platform_fees / 100:.2f}",
+            "pending_manual_count": len(pending_manual),
+        }
+        return format_settlement_csv(data)

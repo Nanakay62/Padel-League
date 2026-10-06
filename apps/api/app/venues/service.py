@@ -8,7 +8,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.domain.club_metrics import (
+    calculate_venue_metrics,
+    format_weekly_club_summary,
+)
 from app.domain.money import format_ghs, price_per_player
+from app.events.models import Event, EventRound
 from app.identity.phone import normalize_ghana_phone
 from app.venues.models import Court, OpenMatch, OpenMatchParticipant, Venue
 from app.venues.schemas import (
@@ -16,6 +21,7 @@ from app.venues.schemas import (
     OpenMatchCreate,
     OpenMatchResponse,
     VenueCreate,
+    VenueDashboardResponse,
     VenueDetailResponse,
     VenueResponse,
 )
@@ -146,6 +152,94 @@ class VenueService:
             base_rate_pesewas_per_hour=venue.base_rate_pesewas_per_hour,
             base_rate_formatted=format_ghs(venue.base_rate_pesewas_per_hour),
             courts=court_resps,
+        )
+
+    async def get_venue_dashboard(self, venue_id: str) -> VenueDashboardResponse:
+        stmt = (
+            select(Venue)
+            .where(Venue.id == venue_id)
+            .options(selectinload(Venue.courts), selectinload(Venue.open_matches))
+        )
+        res = await self.db.execute(stmt)
+        venue = res.scalar_one_or_none()
+        if not venue:
+            raise HTTPException(status_code=404, detail="Venue not found")
+
+        court_count = max(1, len(venue.courts))
+        capacity_hours = court_count * 70.0
+
+        events_stmt = (
+            select(Event)
+            .where(Event.venue_name == venue.name)
+            .options(
+                selectinload(Event.registrations),
+                selectinload(Event.rounds).selectinload(EventRound.matches),
+            )
+        )
+        events_res = await self.db.execute(events_stmt)
+        events = events_res.scalars().all()
+
+        court_hours_used = 0.0
+        confirmed_players = 0
+        waitlist_demand = 0
+        total_revenue_pesewas = 0
+        unreported_matches_count = 0
+        unique_users: set[str] = set()
+
+        for ev in events:
+            round_count = len(ev.rounds) if ev.rounds else ev.planned_rounds
+            court_hours_used += ev.courts * (round_count * 0.35)
+            for reg in ev.registrations:
+                if reg.status in ("CONFIRMED", "PLAYED"):
+                    confirmed_players += 1
+                    total_revenue_pesewas += ev.price_pesewas
+                    unique_users.add(reg.user_id)
+                elif reg.status == "WAITLISTED":
+                    waitlist_demand += 1
+            for rd in ev.rounds:
+                for m in rd.matches:
+                    if m.status in ("SCHEDULED", "IN_PROGRESS"):
+                        unreported_matches_count += 1
+
+        for om in venue.open_matches:
+            duration_hours = (om.end_time - om.start_time).total_seconds() / 3600.0
+            court_hours_used += max(1.0, duration_hours)
+            confirmed_players += om.capacity - om.open_seats
+            total_revenue_pesewas += (
+                om.capacity - om.open_seats
+            ) * om.price_per_player_pesewas
+
+        metrics = calculate_venue_metrics(
+            court_hours_used=round(court_hours_used, 1),
+            capacity_hours=capacity_hours,
+            confirmed_players=confirmed_players,
+            waitlist_demand=waitlist_demand,
+            new_players_count=len(unique_users),
+            total_revenue_pesewas=total_revenue_pesewas,
+            unreported_matches_count=unreported_matches_count,
+        )
+
+        now = _utc_now()
+        week_label = f"Week {now.isocalendar()[1]} ({now.strftime('%b %Y')})"
+        summary_text = format_weekly_club_summary(
+            venue_name=venue.name,
+            metrics=metrics,
+            week_label=week_label,
+        )
+
+        return VenueDashboardResponse(
+            venue_id=venue.id,
+            venue_name=venue.name,
+            court_hours_used=metrics.court_hours_used,
+            capacity_hours=metrics.capacity_hours,
+            fill_rate_percent=metrics.fill_rate_percent,
+            confirmed_players=metrics.confirmed_players,
+            waitlist_demand=metrics.waitlist_demand,
+            new_players_count=metrics.new_players_count,
+            total_revenue_pesewas=metrics.total_revenue_pesewas,
+            total_revenue_ghs=metrics.total_revenue_ghs,
+            unreported_matches_count=metrics.unreported_matches_count,
+            whatsapp_summary=summary_text,
         )
 
     async def create_open_match(self, data: OpenMatchCreate) -> OpenMatchResponse:

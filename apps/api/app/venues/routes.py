@@ -11,6 +11,7 @@ from app.venues.schemas import (
     OpenMatchJoinRequest,
     OpenMatchResponse,
     VenueCreate,
+    VenueDashboardResponse,
     VenueDetailResponse,
     VenueResponse,
 )
@@ -47,6 +48,15 @@ async def get_venue_detail(
 ) -> VenueDetailResponse:
     service = VenueService(db)
     return await service.get_venue_detail(venue_id)
+
+
+@router.get("/venues/{venue_id}/dashboard", response_model=VenueDashboardResponse)
+async def get_venue_dashboard(
+    venue_id: str,
+    db: DatabaseSession,
+) -> VenueDashboardResponse:
+    service = VenueService(db)
+    return await service.get_venue_dashboard(venue_id)
 
 
 @router.post(

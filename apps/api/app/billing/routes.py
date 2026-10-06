@@ -1,6 +1,6 @@
 """FastAPI router for billing, orders, checkout, Paystack webhooks, and manual confirmations."""
 
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request, status
 from sqlalchemy import select
@@ -11,7 +11,6 @@ from app.audit.models import AuditLog
 from app.billing.models import Order
 from app.billing.schemas import (
     AuditLogResponse,
-    CancelEventRequest,
     CancelRegistrationResponse,
     JoinEventRequest,
     MarkPaidRequest,
@@ -99,7 +98,11 @@ async def get_order(
     order = res.scalar_one_or_none()
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
-    if order.user_id != user.id and user.role not in ["ORGANISER", "ADMIN"]:
+    if order.user_id != user.id and user.role not in [
+        "ORGANISER",
+        "ORGANIZER",
+        "ADMIN",
+    ]:
         raise HTTPException(status_code=403, detail="Forbidden")
     return OrderResponse.model_validate(order)
 
@@ -119,7 +122,7 @@ async def get_registration(
     reg = res.scalar_one_or_none()
     if not reg:
         raise HTTPException(status_code=404, detail="Registration not found")
-    if reg.user_id != user.id and user.role not in ["ORGANISER", "ADMIN"]:
+    if reg.user_id != user.id and user.role not in ["ORGANISER", "ORGANIZER", "ADMIN"]:
         raise HTTPException(status_code=403, detail="Forbidden")
     return RegistrationResponse.model_validate(reg)
 
@@ -138,18 +141,6 @@ async def cancel_registration(
     return CancelRegistrationResponse(**res)
 
 
-@router.post("/events/{event_id}/cancel")
-async def cancel_event(
-    event_id: str,
-    payload: CancelEventRequest,
-    user: CurrentUser,
-    db: DatabaseSession,
-) -> dict[str, Any]:
-    service = BillingService(db)
-    event = await service.cancel_event(event_id, user, payload.reason)
-    return {"id": event.id, "status": event.status, "title": event.title}
-
-
 @router.post("/billing/sweep-holds")
 async def sweep_holds(
     user: CurrentUser,
@@ -166,7 +157,7 @@ async def list_audit_logs(
     db: DatabaseSession,
     target_id: str | None = Query(None),
 ) -> list[AuditLogResponse]:
-    if user.role not in ["ORGANISER", "ADMIN"]:
+    if user.role not in ["ORGANISER", "ORGANIZER", "ADMIN"]:
         raise HTTPException(
             status_code=403, detail="Only organisers and admins can view audit logs"
         )
