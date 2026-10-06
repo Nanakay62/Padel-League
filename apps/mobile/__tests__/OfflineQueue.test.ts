@@ -1,4 +1,4 @@
-import { OfflineMutationQueue, ScoreMutationPayload } from '@/lib/offlineQueue';
+import { OfflineMutationQueue, ScoreMutationPayload } from '../src/lib/offlineQueue';
 
 describe('Offline Mutation Queue (Courtside Score Sync)', () => {
   let queue: OfflineMutationQueue;
