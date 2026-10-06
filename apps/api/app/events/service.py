@@ -92,16 +92,18 @@ class EventService:
                 status_code=400, detail="At least 4 players required to generate rounds"
             )
 
-        # Check if previous round has un-reported matches
+        # Check if previous round has un-reported matches (Round Gate)
         if event.rounds:
             last_round = max(event.rounds, key=lambda r: r.round_number)
             open_matches = [
-                m for m in last_round.matches if m.status != "SCORE_ENTERED"
+                m
+                for m in last_round.matches
+                if m.status not in ["SCORE_ENTERED", "CONFIRMED"]
             ]
             if open_matches:
                 raise HTTPException(
                     status_code=409,
-                    detail=f"Round {last_round.round_number} has unreported matches",
+                    detail="Cannot start next round: current round has unreported or incomplete match scores.",
                 )
             next_round_num = last_round.round_number + 1
         else:
@@ -112,23 +114,34 @@ class EventService:
             await self.db.commit()
             raise HTTPException(status_code=409, detail="All planned rounds completed")
 
-        # Build RotationState from match history
-        st = RotationState()
-        for r in event.rounds:
-            for m in r.matches:
-                if m.status == "SCORE_ENTERED" or m.status == "SCHEDULED":
-                    team_a = (m.team_a_p1, m.team_a_p2)
-                    team_b = (m.team_b_p1, m.team_b_p2)
-                    st.partnered[frozenset(team_a)] += 1
-                    st.partnered[frozenset(team_b)] += 1
-                    for x in team_a:
-                        st.played[x] += 1
-                        for y in team_b:
-                            st.opposed[frozenset((x, y))] += 1
-                    for y in team_b:
-                        st.played[y] += 1
+        if event.format == "MEXICANO":
+            from app.domain.leaderboard import calculate_leaderboard
+            from app.domain.mexicano import generate_mexicano_round
 
-        generated_matches = next_round(players, event.courts, st, rng=rng)
+            all_prior_matches = [m for r in event.rounds for m in r.matches]
+            standings = calculate_leaderboard(event.players, all_prior_matches)
+            mex_matches, _ = generate_mexicano_round(standings, event.courts)
+            generated_matches = [
+                (m.court_number, m.team_a, m.team_b) for m in mex_matches
+            ]
+        else:
+            # Build RotationState from match history for Americano
+            st = RotationState()
+            for r in event.rounds:
+                for m in r.matches:
+                    if m.status in ["SCORE_ENTERED", "CONFIRMED", "SCHEDULED"]:
+                        team_a = (m.team_a_p1, m.team_a_p2)
+                        team_b = (m.team_b_p1, m.team_b_p2)
+                        st.partnered[frozenset(team_a)] += 1
+                        st.partnered[frozenset(team_b)] += 1
+                        for x in team_a:
+                            st.played[x] += 1
+                            for y in team_b:
+                                st.opposed[frozenset((x, y))] += 1
+                        for y in team_b:
+                            st.played[y] += 1
+
+            generated_matches = next_round(players, event.courts, st, rng=rng)
 
         round_obj = EventRound(
             id=str(uuid.uuid4()),

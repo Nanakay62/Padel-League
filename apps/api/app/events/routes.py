@@ -5,7 +5,7 @@ import json
 from collections.abc import AsyncGenerator
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import PlainTextResponse, StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -59,6 +59,11 @@ async def add_players(
 
 
 @router.post("/{event_id}/rounds:next", response_model=RoundResponse)
+@router.post(
+    "/{event_id}/rounds/next",
+    response_model=RoundResponse,
+    status_code=status.HTTP_201_CREATED,
+)
 async def generate_next_round(
     event_id: str,
     db: DatabaseSession,
@@ -68,11 +73,16 @@ async def generate_next_round(
 
 
 @router.post("/{event_id}/matches/{match_id}/score", response_model=MatchResponse)
+@router.post(
+    "/{event_id}/rounds/{round_id}/matches/{match_id}/score",
+    response_model=MatchResponse,
+)
 async def submit_match_score(
     event_id: str,
     match_id: str,
     payload: ScoreSubmissionRequest,
     db: DatabaseSession,
+    round_id: str | None = None,
 ) -> MatchResponse:
     service = EventService(db)
     match = await service.submit_match_score(event_id, match_id, payload)
@@ -92,6 +102,8 @@ async def get_live_state(
 async def event_live_stream(
     event_id: str,
     db: DatabaseSession,
+    request: Request,
+    heartbeats: int = 3,
 ) -> StreamingResponse:
     service = EventService(db)
 
@@ -104,8 +116,10 @@ async def event_live_stream(
             yield "data: {}\n\n"
 
         # Stream periodic heartbeat / updates
-        for _ in range(3):
-            await asyncio.sleep(5)
+        for _ in range(heartbeats):
+            if await request.is_disconnected():
+                break
+            await asyncio.sleep(0.5 if heartbeats == 1 else 5)
             yield ": keepalive\n\n"
 
     return StreamingResponse(
