@@ -28,3 +28,10 @@ def normalize_ghana_phone(raw_phone: str) -> str:
         )
 
     return phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164)
+
+
+def mask_phone_number(phone_e164: str) -> str:
+    """Mask a phone number for privacy-compliant logging (e.g. +23324****567)."""
+    if len(phone_e164) <= 6:
+        return "***"
+    return f"{phone_e164[:6]}****{phone_e164[-3:]}"

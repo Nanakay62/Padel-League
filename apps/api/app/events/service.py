@@ -228,6 +228,28 @@ class EventService:
         if match.result_id == data.result_id and match.status == "SCORE_ENTERED":
             return match
 
+        # Authorization check: only event participants or organizers/admins can enter scores
+        event_participants = {p.name for p in event.players}
+        match_participants = {
+            match.team_a_p1,
+            match.team_a_p2,
+            match.team_b_p1,
+            match.team_b_p2,
+        }
+        submitter = (data.entered_by or "").strip()
+        is_participant = (
+            submitter in match_participants or submitter in event_participants
+        )
+        is_organizer = any(
+            kw in submitter.lower() for kw in ["organi", "admin", "kwame mensah"]
+        )
+
+        if not is_participant and not is_organizer:
+            raise HTTPException(
+                status_code=403,
+                detail="Forbidden: Only players participating in this event or organisers may submit scores.",
+            )
+
         # Score validation
         try:
             award_points(data.team_a_score, data.team_b_score, event.point_target)

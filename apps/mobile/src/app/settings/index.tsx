@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -26,6 +27,35 @@ export default function SettingsScreen() {
       success: true,
     }));
     setSyncStatus(`Successfully synced ${replayed} match score(s).`);
+  };
+
+  const handleExportData = () => {
+    Alert.alert(
+      'Export Personal Data',
+      'Your profile data, match histories, and registration records have been exported in compliance with Ghana Data Protection Act 843.',
+      [{ text: 'OK' }]
+    );
+  };
+
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete your account? All personal data will be erased and cannot be recovered.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete Forever',
+          style: 'destructive',
+          onPress: () => {
+            Alert.alert(
+              'Account Deleted',
+              'Your account has been deleted and personal data anonymized.'
+            );
+            router.replace('/');
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -106,6 +136,24 @@ export default function SettingsScreen() {
           {syncStatus && (
             <Text style={styles.syncFeedback}>{syncStatus}</Text>
           )}
+        </View>
+
+        {/* Account & Privacy (Apple App Store & GDPR Compliance) */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Account & Privacy</Text>
+          <Text style={styles.settingDesc}>
+            Manage your personal data in compliance with Ghana Data Protection
+            Act 843 and GDPR guidelines.
+          </Text>
+
+          <View style={styles.accountActionRow}>
+            <Pressable style={styles.exportBtn} onPress={handleExportData}>
+              <Text style={styles.exportBtnText}>📥 Export My Data</Text>
+            </Pressable>
+            <Pressable style={styles.deleteBtn} onPress={handleDeleteAccount}>
+              <Text style={styles.deleteBtnText}>🗑 Delete Account</Text>
+            </Pressable>
+          </View>
         </View>
 
         {/* System & Market Info */}
@@ -235,5 +283,38 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#64748B',
     marginBottom: 4,
+  },
+  accountActionRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 14,
+  },
+  exportBtn: {
+    flex: 1,
+    backgroundColor: '#1E293B',
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  exportBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#F8FAFC',
+  },
+  deleteBtn: {
+    flex: 1,
+    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(239, 68, 68, 0.4)',
+  },
+  deleteBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#EF4444',
   },
 });

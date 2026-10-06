@@ -1,6 +1,6 @@
 """FastAPI router for phone OTP auth, profile onboarding, and partner search."""
 
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy import select
@@ -105,6 +105,15 @@ async def onboard_player_level(
         ),
     )
     return onboarding_res
+
+
+@router.get("/me/export")
+async def export_my_data(
+    user_id: Annotated[str, Depends(get_current_user_id)],
+    db: DatabaseSession,
+) -> dict[str, Any]:
+    service = IdentityService(db)
+    return await service.export_user_data(user_id)
 
 
 @router.delete("/me", status_code=status.HTTP_204_NO_CONTENT)

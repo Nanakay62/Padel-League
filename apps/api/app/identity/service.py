@@ -5,6 +5,7 @@ import random
 import secrets
 import uuid
 from datetime import UTC, datetime, timedelta
+from typing import Any
 
 import jwt
 from fastapi import HTTPException
@@ -75,23 +76,23 @@ class IdentityService:
             raise HTTPException(status_code=400, detail=str(e))
 
         now = _utc_now()
-        one_hour_ago = now - timedelta(hours=1)
+        ten_mins_ago = now - timedelta(minutes=10)
 
-        # Rate limit: max 3 requests per phone per hour
+        # Rate limit: max 3 requests per phone per 10 minutes (SMS budget & toll fraud protection)
         count_stmt = (
             select(func.count())
             .select_from(PhoneOtp)
             .where(
                 PhoneOtp.phone_e164 == phone_e164,
-                PhoneOtp.created_at >= one_hour_ago,
+                PhoneOtp.created_at >= ten_mins_ago,
             )
         )
         count_res = await self.db.execute(count_stmt)
         recent_requests = count_res.scalar() or 0
-        if recent_requests >= 5:
+        if recent_requests >= 3:
             raise HTTPException(
                 status_code=429,
-                detail="Too many OTP requests for this phone number. Please wait an hour.",
+                detail="Too many OTP requests for this phone number. Please wait a few minutes before trying again.",
             )
 
         # Generate 6-digit numeric OTP
@@ -442,7 +443,9 @@ class IdentityService:
         return user.id, phone_e164, claim_link
 
     async def delete_user_account(self, user_id: str) -> None:
-        """GDPR/Act 843 compliant account deletion: anonymise name, wipe PII, keep matches intact."""
+        """GDPR/Act 843 compliant account deletion: anonymise name, wipe PII, cancel pending registrations, keep matches intact."""
+        from app.events.models import Registration
+
         stmt = (
             select(User)
             .where(User.id == user_id)
@@ -464,4 +467,65 @@ class IdentityService:
         for t in user.refresh_tokens:
             t.revoked = True
 
+        # Cancel any pending / held registrations
+        reg_stmt = select(Registration).where(Registration.user_id == user_id)
+        reg_res = await self.db.execute(reg_stmt)
+        registrations = reg_res.scalars().all()
+        for reg in registrations:
+            if reg.status in ["HELD", "REGISTERED"]:
+                reg.status = "CANCELLED"
+
         await self.db.commit()
+
+    async def export_user_data(self, user_id: str) -> dict[str, Any]:
+        """GDPR/Act 843 data portability export: returns all user data, profile, and registrations."""
+        from app.events.models import Registration
+
+        stmt = (
+            select(User).where(User.id == user_id).options(selectinload(User.profile))
+        )
+        res = await self.db.execute(stmt)
+        user = res.scalar_one_or_none()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        reg_stmt = select(Registration).where(Registration.user_id == user_id)
+        reg_res = await self.db.execute(reg_stmt)
+        registrations = reg_res.scalars().all()
+
+        regs_data = []
+        for reg in registrations:
+            regs_data.append(
+                {
+                    "id": reg.id,
+                    "event_id": reg.event_id,
+                    "status": reg.status,
+                    "created_at": reg.created_at.isoformat()
+                    if reg.created_at
+                    else None,
+                }
+            )
+
+        profile_data: dict[str, Any] = {}
+        if user.profile:
+            profile_data = {
+                "level": user.profile.level,
+                "level_band": compute_level_band(user.profile.level),
+                "reliability": user.profile.reliability,
+                "preferred_side": user.profile.preferred_side,
+                "home_venue_id": user.profile.home_venue_id,
+            }
+
+        return {
+            "user": {
+                "id": user.id,
+                "name": user.name,
+                "phone_e164": user.phone_e164,
+                "email": user.email,
+                "role": user.role,
+                "is_active": user.is_active,
+                "created_at": user.created_at.isoformat() if user.created_at else None,
+            },
+            "profile": profile_data,
+            "registrations": regs_data,
+        }
