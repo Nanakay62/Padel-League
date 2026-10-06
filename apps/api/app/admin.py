@@ -10,6 +10,7 @@ from app.audit.models import AuditLog
 from app.billing.models import Credit, Order
 from app.events.models import Event, Registration
 from app.identity.models import User
+from app.leagues.models import League, LeagueBox, LeaguePair
 from app.notify.models import NotificationLog, PushToken
 from app.ratings.models import RatingEvent
 from app.venues.models import Court, OpenMatch, Venue
@@ -224,6 +225,54 @@ class RatingEventAdmin(ModelView, model=RatingEvent):
     icon = "fa-solid fa-chart-line"
 
 
+class LeagueAdmin(ModelView, model=League):
+    column_list: ClassVar[list[Any]] = [
+        League.id,
+        League.title,
+        League.season_name,
+        League.status,
+        League.promote_count,
+        League.relegate_count,
+        League.cycle_weeks,
+        League.created_at,
+    ]
+    column_searchable_list: ClassVar[list[Any]] = [League.title, League.season_name]
+    column_filters: ClassVar[list[Any]] = [League.status]
+    name = "League"
+    name_plural = "Leagues"
+    icon = "fa-solid fa-trophy"
+
+
+class LeagueBoxAdmin(ModelView, model=LeagueBox):
+    column_list: ClassVar[list[Any]] = [
+        LeagueBox.id,
+        LeagueBox.league_id,
+        LeagueBox.box_number,
+        LeagueBox.name,
+        LeagueBox.min_rating,
+        LeagueBox.max_rating,
+        LeagueBox.cycle_deadline,
+    ]
+    name = "League Box"
+    name_plural = "League Boxes"
+    icon = "fa-solid fa-layer-group"
+
+
+class LeaguePairAdmin(ModelView, model=LeaguePair):
+    column_list: ClassVar[list[Any]] = [
+        LeaguePair.id,
+        LeaguePair.box_id,
+        LeaguePair.pair_name,
+        LeaguePair.combined_rating,
+        LeaguePair.status,
+        LeaguePair.substitutes_used,
+    ]
+    column_searchable_list: ClassVar[list[Any]] = [LeaguePair.pair_name]
+    name = "League Pair"
+    name_plural = "League Pairs"
+    icon = "fa-solid fa-user-group"
+
+
 def setup_admin(app: FastAPI, engine: AsyncEngine) -> Admin:
     """Mount SQLAdmin onto FastAPI application with scoped CRUD and audit views."""
     admin = Admin(app, engine, title="Padel Ghana Admin")
@@ -239,4 +288,7 @@ def setup_admin(app: FastAPI, engine: AsyncEngine) -> Admin:
     admin.add_view(NotificationLogAdmin)
     admin.add_view(PushTokenAdmin)
     admin.add_view(RatingEventAdmin)
+    admin.add_view(LeagueAdmin)
+    admin.add_view(LeagueBoxAdmin)
+    admin.add_view(LeaguePairAdmin)
     return admin

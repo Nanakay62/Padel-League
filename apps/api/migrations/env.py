@@ -10,6 +10,14 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+import app.audit.models
+import app.billing.models
+import app.events.models
+import app.identity.models
+import app.leagues.models
+import app.notify.models
+import app.ratings.models
+import app.venues.models  # noqa: F401
 from app.config import settings
 from app.db import Base
 

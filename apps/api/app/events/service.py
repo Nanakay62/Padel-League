@@ -411,7 +411,7 @@ class EventService:
         )
         res = await self.db.execute(stmt)
         match = res.scalar_one_or_none()
-        if not match or match.round.event_id != event_id:
+        if not match or not match.round or match.round.event_id != event_id:
             raise HTTPException(status_code=404, detail="Match not found")
 
         match.team_a_score = team_a_score

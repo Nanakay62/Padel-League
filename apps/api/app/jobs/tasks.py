@@ -177,3 +177,46 @@ async def send_event_reminders_task(
             sent_count += 1
 
     return sent_count
+
+
+@app.task
+async def auto_score_league_deadlines_task(db: AsyncSession) -> int:
+    """Nightly task that sweeps unplayed league matches past deadline and auto-scores them."""
+    from app.events.models import EventMatch
+    from app.leagues.models import LeagueBox
+
+    now = _utc_now()
+    # Find scheduled matches whose box cycle_deadline or match deadline_at has passed
+    stmt = (
+        select(EventMatch)
+        .outerjoin(LeagueBox, EventMatch.box_id == LeagueBox.id)
+        .where(
+            EventMatch.league_id.is_not(None),
+            EventMatch.status == "SCHEDULED",
+            (
+                (EventMatch.deadline_at.is_not(None) & (EventMatch.deadline_at < now))
+                | (
+                    LeagueBox.cycle_deadline.is_not(None)
+                    & (LeagueBox.cycle_deadline < now)
+                )
+            ),
+        )
+    )
+    res = await db.execute(stmt)
+    expired_matches = list(res.scalars().all())
+
+    count = 0
+    for match in expired_matches:
+        match.team_a_sets = 0
+        match.team_b_sets = 0
+        match.team_a_games = 0
+        match.team_b_games = 0
+        match.is_walkover = False
+        match.status = "SCORE_ENTERED"
+        match.entered_by = "SYSTEM_DEADLINE_JOB"
+        match.entered_at = now
+        count += 1
+
+    if count > 0:
+        await db.commit()
+    return count
