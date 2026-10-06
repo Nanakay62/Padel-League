@@ -11,6 +11,7 @@ from app.billing.models import Credit, Order
 from app.events.models import Event, Registration
 from app.identity.models import User
 from app.notify.models import NotificationLog, PushToken
+from app.ratings.models import RatingEvent
 from app.venues.models import Court, OpenMatch, Venue
 
 
@@ -202,6 +203,27 @@ class PushTokenAdmin(ModelView, model=PushToken):
     icon = "fa-solid fa-mobile-screen"
 
 
+class RatingEventAdmin(ModelView, model=RatingEvent):
+    can_create = False
+    can_edit = False
+    can_delete = False
+    column_list: ClassVar[list[Any]] = [
+        RatingEvent.id,
+        RatingEvent.user_id,
+        RatingEvent.match_id,
+        RatingEvent.rating_before,
+        RatingEvent.rating_after,
+        RatingEvent.delta,
+        RatingEvent.explanation,
+        RatingEvent.requires_review,
+        RatingEvent.created_at,
+    ]
+    column_filters: ClassVar[list[Any]] = [RatingEvent.requires_review]
+    name = "Rating Event"
+    name_plural = "Rating Events"
+    icon = "fa-solid fa-chart-line"
+
+
 def setup_admin(app: FastAPI, engine: AsyncEngine) -> Admin:
     """Mount SQLAdmin onto FastAPI application with scoped CRUD and audit views."""
     admin = Admin(app, engine, title="Padel Ghana Admin")
@@ -216,4 +238,5 @@ def setup_admin(app: FastAPI, engine: AsyncEngine) -> Admin:
     admin.add_view(AuditLogAdmin)
     admin.add_view(NotificationLogAdmin)
     admin.add_view(PushTokenAdmin)
+    admin.add_view(RatingEventAdmin)
     return admin

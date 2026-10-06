@@ -56,12 +56,14 @@ def create_app() -> FastAPI:
     from app.events.routes import router as events_router
     from app.identity.routes import router as identity_router
     from app.notify.routes import router as notify_router
+    from app.ratings.routes import router as ratings_router
     from app.venues.routes import router as venues_router
 
     app.include_router(billing_router)
     app.include_router(events_router)
     app.include_router(identity_router)
     app.include_router(notify_router)
+    app.include_router(ratings_router)
     app.include_router(venues_router)
 
     # Mount back office admin
