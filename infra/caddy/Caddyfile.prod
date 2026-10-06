@@ -1,0 +1,25 @@
+{
+    email {$ACME_EMAIL:admin@padelghana.com}
+}
+
+{$API_DOMAIN:api.padelghana.com} {
+    # Production TLS reverse proxy to FastAPI backend
+    reverse_proxy api:8000 {
+        # Strictly disable buffering for real-time Server-Sent Events (courtside live leaderboard)
+        flush_interval -1
+    }
+
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        X-XSS-Protection "1; mode=block"
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}

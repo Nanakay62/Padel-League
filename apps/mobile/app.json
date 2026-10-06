@@ -1,16 +1,21 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Padel Ghana",
+    "slug": "padel-ghana",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mobile",
+    "scheme": "padelghana",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.padelghana.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Find padel venues and matches near you in Ghana."
+      }
     },
     "android": {
+      "package": "com.padelghana.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
