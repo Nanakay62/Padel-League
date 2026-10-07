@@ -19,7 +19,7 @@
 
 - [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (112 files formatted), `uv run mypy app` (0 issues across 62 files), `uv run pytest -q` (289 passed in 36.8s) PASSED
 - [x] `cd apps/mobile && npm run lint && npm test && npx tsc --noEmit` passes: evidence: `npm run lint` (0 errors), `npm test` (9 suites, 23 passed), `npx tsc --noEmit` (0 errors) PASSED
-- [x] CI is green on the latest commit: evidence: `.github/workflows/ci.yml` and `.github/workflows/deploy.yml` verified on commit `164b93a` on `main`
+- [x] CI is green on the latest commit: evidence: all 4 CI & Deploy jobs (Backend Tests, Mobile & Web Client Check, Docker Build, Cloudflare Pages Export) passing green on commit `0d2c50b` on `main`
 - [x] No secrets, tokens, or real phone numbers committed: evidence: `git log -p | grep matches no hardcoded live keys; .env git-ignored`
 - [x] No tests were deleted or weakened this phase: evidence: all 289 backend + 23 mobile tests passing with full invariant assertions
 - [x] Client API types regenerated after any API change: evidence: `apps/mobile/src/lib/` and routes synchronized with API schemas
