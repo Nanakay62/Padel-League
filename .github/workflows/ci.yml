@@ -80,14 +80,7 @@ jobs:
 
       - name: Unit Tests
         working-directory: apps/mobile
-        run: |
-          npm test -- --maxWorkers=2 --verbose 2>&1 | tee /tmp/jest.log || {
-            echo "### Jest Failure Output" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            cat /tmp/jest.log >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            exit 1
-          }
+        run: npm test
 
       - name: Type Check
         working-directory: apps/mobile
@@ -95,11 +88,4 @@ jobs:
 
       - name: Export Web Build
         working-directory: apps/mobile
-        run: |
-          npx expo export --platform web 2>&1 | tee /tmp/expo-export.log || {
-            echo "### Expo Export Failure Output" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            cat /tmp/expo-export.log >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            exit 1
-          }
+        run: npx expo export --platform web
