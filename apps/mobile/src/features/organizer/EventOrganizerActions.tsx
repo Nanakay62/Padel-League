@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { PadelBrand } from '@/constants/theme';
+import { FeedbackDialog, useFeedbackDialog } from '@/components/ui/FeedbackDialog';
 
 interface EventOrganizerActionsProps {
   eventId: string;
@@ -23,14 +23,21 @@ export function EventOrganizerActions({
   onCancelEvent,
 }: EventOrganizerActionsProps) {
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
+  const { showDialog, dialogProps } = useFeedbackDialog();
 
   const handleDuplicate = async () => {
     setLoadingAction('duplicate');
     try {
       await onDuplicate();
-      Alert.alert('Success', "Cloned last week's event for next week in DRAFT status.");
+      showDialog({
+        title: 'Success',
+        message: "Cloned last week's event for next week in DRAFT status.",
+      });
     } catch (err: unknown) {
-      Alert.alert('Error', err instanceof Error ? err.message : 'Failed to duplicate event');
+      showDialog({
+        title: 'Error',
+        message: err instanceof Error ? err.message : 'Failed to duplicate event',
+      });
     } finally {
       setLoadingAction(null);
     }
@@ -41,64 +48,55 @@ export function EventOrganizerActions({
     try {
       await onExportCsv(type);
     } catch (err: unknown) {
-      Alert.alert('Export Failed', err instanceof Error ? err.message : 'Failed to export CSV');
+      showDialog({
+        title: 'Export Failed',
+        message: err instanceof Error ? err.message : 'Failed to export CSV',
+      });
     } finally {
       setLoadingAction(null);
     }
   };
 
   const handlePromptCancel = () => {
-    if (Alert.prompt) {
-      Alert.prompt(
-        'Cancel Event',
+    showDialog({
+      title: 'Cancel Event',
+      message:
         'Please enter a reason for cancelling this event. Confirmed players will be refunded with platform credits.',
-        [
-          { text: 'Back', style: 'cancel' },
-          {
-            text: 'Confirm Cancel',
-            style: 'destructive',
-            onPress: async (reason?: string) => {
-              if (!reason || !reason.trim()) {
-                Alert.alert('Error', 'Cancellation reason is required.');
-                return;
-              }
-              setLoadingAction('cancel');
-              try {
-                await onCancelEvent(reason.trim());
-                Alert.alert('Cancelled', 'Event has been cancelled and credits issued.');
-              } catch (e: unknown) {
-                Alert.alert('Error', e instanceof Error ? e.message : 'Cancellation failed');
-              } finally {
-                setLoadingAction(null);
-              }
-            },
+      prompt: {
+        placeholder: 'Reason for cancellation...',
+      },
+      buttons: [
+        { text: 'Back', style: 'cancel' },
+        {
+          text: 'Confirm Cancel',
+          style: 'destructive',
+          onPress: async (reason?: string) => {
+            if (!reason || !reason.trim()) {
+              showDialog({
+                title: 'Error',
+                message: 'Cancellation reason is required.',
+              });
+              return;
+            }
+            setLoadingAction('cancel');
+            try {
+              await onCancelEvent(reason.trim());
+              showDialog({
+                title: 'Cancelled',
+                message: 'Event has been cancelled and credits issued.',
+              });
+            } catch (e: unknown) {
+              showDialog({
+                title: 'Error',
+                message: e instanceof Error ? e.message : 'Cancellation failed',
+              });
+            } finally {
+              setLoadingAction(null);
+            }
           },
-        ]
-      );
-    } else {
-      Alert.alert(
-        'Cancel Event',
-        'Are you sure you want to cancel? All confirmed players will receive 100% platform credits.',
-        [
-          { text: 'Back', style: 'cancel' },
-          {
-            text: 'Cancel Event',
-            style: 'destructive',
-            onPress: async () => {
-              setLoadingAction('cancel');
-              try {
-                await onCancelEvent('Weather or court unavailability');
-                Alert.alert('Cancelled', 'Event has been cancelled.');
-              } catch (e: unknown) {
-                Alert.alert('Error', e instanceof Error ? e.message : 'Cancellation failed');
-              } finally {
-                setLoadingAction(null);
-              }
-            },
-          },
-        ]
-      );
-    }
+        },
+      ],
+    });
   };
 
   return (
@@ -158,6 +156,7 @@ export function EventOrganizerActions({
           <Text style={styles.dangerButtonText}>⚠️ Cancel Event (Auto-Credit All)</Text>
         )}
       </TouchableOpacity>
+      <FeedbackDialog {...dialogProps} />
     </View>
   );
 }

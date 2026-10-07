@@ -30,12 +30,18 @@ export default function HomeScreen() {
             <Text style={styles.appTitle}>Padel Ghana</Text>
             <Text style={styles.welcomeSubtitle}>Akwaaba, Kwadwo 🎾</Text>
           </View>
-          <View style={styles.balanceBadge}>
+          <Pressable
+            style={styles.balanceBadge}
+            onPress={() => router.push('/credits')}
+            accessibilityRole="button"
+            accessibilityLabel="Credit Balance"
+            testID="home-credit-balance-btn"
+          >
             <Text style={styles.balanceLabel}>Credit Balance</Text>
             <Text style={styles.balanceValue}>
               {formatGhanaCedis(userBalancePesewas)}
             </Text>
-          </View>
+          </Pressable>
         </View>
 
         {/* Next Session Hero Card */}
@@ -63,6 +69,7 @@ export default function HomeScreen() {
             <Pressable
               style={styles.actionBtn}
               onPress={() => router.push('/events/evt-001/live')}
+              testID="home-courtside-live-btn"
             >
               <Text style={styles.actionBtnText}>Courtside Live →</Text>
             </Pressable>
@@ -76,6 +83,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.gridCard}
             onPress={() => router.push('/events')}
+            testID="home-find-events-btn"
           >
             <Text style={styles.gridIcon}>🎾</Text>
             <Text style={styles.gridCardTitle}>Find Events</Text>
@@ -86,6 +94,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.gridCard}
             onPress={() => router.push('/leagues')}
+            testID="home-box-leagues-btn"
           >
             <Text style={styles.gridIcon}>🏆</Text>
             <Text style={styles.gridCardTitle}>Box Leagues</Text>
@@ -96,6 +105,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.gridCard}
             onPress={() => router.push('/partners')}
+            testID="home-partner-finder-btn"
           >
             <Text style={styles.gridIcon}>👥</Text>
             <Text style={styles.gridCardTitle}>Partner Finder</Text>
@@ -106,6 +116,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.gridCard}
             onPress={() => router.push('/ratings')}
+            testID="home-my-rating-btn"
           >
             <Text style={styles.gridIcon}>📈</Text>
             <Text style={styles.gridCardTitle}>My Rating</Text>
@@ -118,6 +129,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.gridCard}
             onPress={() => router.push('/venues')}
+            testID="home-venues-btn"
           >
             <Text style={styles.gridIcon}>📍</Text>
             <Text style={styles.gridCardTitle}>Venues</Text>
@@ -128,6 +140,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.gridCard}
             onPress={() => router.push('/settings')}
+            testID="home-settings-btn"
           >
             <Text style={styles.gridIcon}>⚙️</Text>
             <Text style={styles.gridCardTitle}>Settings</Text>
@@ -146,6 +159,7 @@ export default function HomeScreen() {
           <Pressable
             style={styles.createBtn}
             onPress={() => router.push('/events/create')}
+            testID="home-create-event-btn"
           >
             <Text style={styles.createBtnText}>Create Event</Text>
           </Pressable>

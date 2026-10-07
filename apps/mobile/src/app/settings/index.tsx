@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,12 +11,14 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PadelBrand } from '@/constants/theme';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
+import { FeedbackDialog, useFeedbackDialog } from '@/components/ui/FeedbackDialog';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const [dataLightMode, setDataLightMode] = useState(true);
   const [sunlightContrast, setSunlightContrast] = useState(true);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
+  const { showDialog, dialogProps } = useFeedbackDialog();
 
   const pendingCount = courtsideScoreQueue.size();
 
@@ -30,32 +31,40 @@ export default function SettingsScreen() {
   };
 
   const handleExportData = () => {
-    Alert.alert(
-      'Export Personal Data',
-      'Your profile data, match histories, and registration records have been exported in compliance with Ghana Data Protection Act 843.',
-      [{ text: 'OK' }]
-    );
+    showDialog({
+      title: 'Export Personal Data',
+      message:
+        'Your profile data, match histories, and registration records have been exported in compliance with Ghana Data Protection Act 843.',
+      buttons: [{ text: 'OK', style: 'default' }],
+    });
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert(
-      'Delete Account',
-      'Are you sure you want to delete your account? All personal data will be erased and cannot be recovered.',
-      [
+    showDialog({
+      title: 'Delete Account',
+      message:
+        'Are you sure you want to delete your account? All personal data will be erased and cannot be recovered.',
+      buttons: [
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Delete Forever',
           style: 'destructive',
           onPress: () => {
-            Alert.alert(
-              'Account Deleted',
-              'Your account has been deleted and personal data anonymized.'
-            );
-            router.replace('/');
+            showDialog({
+              title: 'Account Deleted',
+              message: 'Your account has been deleted and personal data anonymized.',
+              buttons: [
+                {
+                  text: 'OK',
+                  style: 'default',
+                  onPress: () => router.replace('/' as any),
+                },
+              ],
+            });
           },
         },
-      ]
-    );
+      ],
+    });
   };
 
   return (
@@ -165,6 +174,7 @@ export default function SettingsScreen() {
           <Text style={styles.infoItem}>Auth: +233 Mobile Phone OTP</Text>
         </View>
       </ScrollView>
+      <FeedbackDialog {...dialogProps} />
     </SafeAreaView>
   );
 }

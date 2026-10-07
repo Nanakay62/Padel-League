@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LiveEventScreen, MatchItem, LeaderboardRow } from '@/features/events/LiveEventScreen';
+import { PadelBrand } from '@/constants/theme';
 
 export default function LiveEventRoute() {
+  const router = useRouter();
   const params = useLocalSearchParams<{ id?: string }>();
   const eventId = params.id ?? 'demo-event';
 
@@ -62,17 +65,41 @@ export default function LiveEventRoute() {
   };
 
   return (
-    <LiveEventScreen
-      title={`Thursday Americano (${eventId})`}
-      venueName="Accra Padel Club"
-      currentRound={1}
-      totalRounds={8}
-      pointTarget={24}
-      matches={matches}
-      sitOuts={['Afia Poku', 'Kojo Antwi', 'Esi Mansa']}
-      leaderboard={leaderboard}
-      onScoreSubmitted={handleScoreSubmitted}
-      onGenerateNextRound={handleGenerateNextRound}
-    />
+    <View style={styles.container}>
+      <View style={styles.topBar}>
+        <Pressable onPress={() => router.back()} testID="live-back-btn">
+          <Text style={styles.backText}>← Back</Text>
+        </Pressable>
+      </View>
+      <LiveEventScreen
+        title={`Thursday Americano (${eventId})`}
+        venueName="Accra Padel Club"
+        currentRound={1}
+        totalRounds={8}
+        pointTarget={24}
+        matches={matches}
+        sitOuts={['Afia Poku', 'Kojo Antwi', 'Esi Mansa']}
+        leaderboard={leaderboard}
+        onScoreSubmitted={handleScoreSubmitted}
+        onGenerateNextRound={handleGenerateNextRound}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0F1715',
+  },
+  topBar: {
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 4,
+  },
+  backText: {
+    fontSize: 14,
+    color: PadelBrand.electricGreen,
+    fontWeight: '700',
+  },
+});
