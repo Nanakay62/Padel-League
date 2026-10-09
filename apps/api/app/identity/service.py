@@ -64,35 +64,57 @@ def format_display_name(full_name: str) -> str:
     return f"{parts[0]} {parts[-1][0]}."
 
 
+_ip_otp_history: dict[str, list[datetime]] = {}
+
+
+def clear_ip_rate_limits() -> None:
+    _ip_otp_history.clear()
+
+
 class IdentityService:
     def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
-    async def request_otp(self, raw_phone: str) -> tuple[str, str]:
-        """Validate phone, generate 6-digit OTP, rate limit, and dispatch SMS."""
+    async def request_otp(
+        self, raw_phone: str, client_ip: str | None = None
+    ) -> tuple[str, str, datetime]:
+        """Validate phone, generate 6-digit OTP, rate limit by phone & IP, and dispatch SMS."""
         try:
             phone_e164 = normalize_ghana_phone(raw_phone)
         except ValueError as e:
             raise HTTPException(status_code=400, detail=str(e))
 
         now = _utc_now()
-        ten_mins_ago = now - timedelta(minutes=10)
+        one_hour_ago = now - timedelta(hours=1)
 
-        # Rate limit: max 3 requests per phone per 10 minutes (SMS budget & toll fraud protection)
+        # 1. IP rate limiting: max requests per IP per hour
+        if client_ip:
+            recent_ip_reqs = [
+                t for t in _ip_otp_history.get(client_ip, []) if t >= one_hour_ago
+            ]
+            if len(recent_ip_reqs) >= settings.otp_rate_limit_per_ip_per_hour:
+                raise HTTPException(
+                    status_code=429,
+                    detail="Too many OTP requests from this IP address. Please wait before trying again.",
+                )
+            recent_ip_reqs.append(now)
+            _ip_otp_history[client_ip] = recent_ip_reqs
+
+        # 2. Phone rate limit: max 3 requests per phone per hour (SMS budget & toll fraud protection)
         count_stmt = (
             select(func.count())
             .select_from(PhoneOtp)
             .where(
                 PhoneOtp.phone_e164 == phone_e164,
-                PhoneOtp.created_at >= ten_mins_ago,
+                PhoneOtp.created_at >= one_hour_ago,
             )
         )
         count_res = await self.db.execute(count_stmt)
         recent_requests = count_res.scalar() or 0
-        if recent_requests >= 3:
+        if recent_requests >= settings.otp_rate_limit_per_phone_per_hour:
             raise HTTPException(
                 status_code=429,
-                detail="Too many OTP requests for this phone number. Please wait a few minutes before trying again.",
+                detail="Too many OTP requests for this phone number. Please wait before trying again.",
             )
 
         # Generate 6-digit numeric OTP
@@ -117,7 +139,7 @@ class IdentityService:
         message = f"Your Padel Ghana login code is: {code}. Valid for 5 minutes. Do not share."
         await sms.send_sms(phone_e164, message)
 
-        return phone_e164, code
+        return phone_e164, code, expires_at
 
     async def verify_otp(
         self, raw_phone: str, code: str, name: str | None = None
@@ -318,6 +340,19 @@ class IdentityService:
             refresh_token=new_raw_refresh,
             is_new_user=False,
         )
+
+    async def revoke_refresh_token(self, raw_refresh_token: str) -> None:
+        """Revoke a refresh token on logout."""
+        token_hash = _hash_token(raw_refresh_token)
+        stmt = select(RefreshToken).where(
+            RefreshToken.token_hash == token_hash,
+            RefreshToken.revoked == False,
+        )
+        res = await self.db.execute(stmt)
+        record = res.scalar_one_or_none()
+        if record:
+            record.revoked = True
+            await self.db.commit()
 
     async def get_user_profile(self, user_id: str) -> UserProfileResponse:
         stmt = (

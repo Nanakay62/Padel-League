@@ -1,9 +1,11 @@
 import React from 'react';
+import { useRouter } from 'expo-router';
 import {
   RatingHistoryData,
   RatingHistoryScreen,
 } from '@/features/ratings/RatingHistoryScreen';
-import { Screen, PageHeader } from '@/components/ui';
+import { Screen, PageHeader, Button } from '@/components/ui';
+import { useAuth } from '@/context/AuthContext';
 
 const SAMPLE_RATING_DATA: RatingHistoryData = {
   user_id: 'usr-kwadwo',
@@ -35,14 +37,36 @@ const SAMPLE_RATING_DATA: RatingHistoryData = {
 };
 
 export default function RatingsIndexScreen() {
+  const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
+
+  const data: RatingHistoryData =
+    isAuthenticated && user && user.level !== undefined
+      ? {
+          user_id: user.id,
+          current_rating: user.level,
+          level_band: user.level_band || 'Intermediate',
+          is_provisional: user.is_provisional ?? true,
+          history: [],
+        }
+      : SAMPLE_RATING_DATA;
+
   return (
     <Screen>
       <PageHeader
         title="My Rating"
         subtitle="Performance & Level History"
         showBack
+        rightAction={
+          <Button
+            title="Calibrate Level"
+            variant="secondary"
+            size="sm"
+            onPress={() => router.push('/onboarding' as any)}
+          />
+        }
       />
-      <RatingHistoryScreen data={SAMPLE_RATING_DATA} />
+      <RatingHistoryScreen data={data} />
     </Screen>
   );
 }

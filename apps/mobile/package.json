@@ -50,7 +50,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest --watchAll=false --passWithNoTests",
+    "test": "jest --watchAll=false --passWithNoTests --testPathIgnorePatterns=real-api",
+    "test:integration": "jest --testPathPattern=real-api --watchAll=false --runInBand",
     "test:e2e": "node ./scripts/run-e2e.js"
   },
   "jest": {

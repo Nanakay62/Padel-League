@@ -4,6 +4,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
 
+import { AuthProvider } from '@/context/AuthContext';
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -20,20 +22,25 @@ export default function RootLayout() {
   }, [fontsLoaded, fontError]);
 
   return (
-    <>
+    <AuthProvider>
       <AnimatedSplashOverlay />
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="events" options={{ headerShown: false }} />
-        <Stack.Screen name="venues" options={{ headerShown: false }} />
-        <Stack.Screen name="leagues" options={{ headerShown: false }} />
-        <Stack.Screen name="ratings" options={{ headerShown: false }} />
-        <Stack.Screen name="partners" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ headerShown: false }} />
-        <Stack.Screen name="credits" options={{ headerShown: false }} />
-        <Stack.Screen name="search" options={{ headerShown: false }} />
-        <Stack.Screen name="notifications" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="events/index" />
+        <Stack.Screen name="events/create" />
+        <Stack.Screen name="events/[id]/index" />
+        <Stack.Screen name="events/[id]/live" />
+        <Stack.Screen name="venues/index" />
+        <Stack.Screen name="leagues/index" />
+        <Stack.Screen name="ratings/index" />
+        <Stack.Screen name="partners/index" />
+        <Stack.Screen name="settings/index" />
+        <Stack.Screen name="credits" />
+        <Stack.Screen name="search" />
+        <Stack.Screen name="notifications" />
+        <Stack.Screen name="login" />
+        <Stack.Screen name="onboarding" />
       </Stack>
-    </>
+    </AuthProvider>
   );
 }

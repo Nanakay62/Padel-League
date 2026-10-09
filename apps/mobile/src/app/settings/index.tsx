@@ -7,13 +7,14 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Wifi, Database, Download, Trash2, RefreshCw } from 'lucide-react-native';
-import { Tokens, Typography } from '@/constants/theme';
+import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
 import { FeedbackDialog, useFeedbackDialog } from '@/components/ui/FeedbackDialog';
 import { Screen, PageHeader, Card, Button, StatusPill } from '@/components/ui';
 
 export default function SettingsScreen() {
   const router = useRouter();
+  const { isDesktop, isTablet } = useResponsiveLayout();
   const [dataLightMode, setDataLightMode] = useState(true);
   const [sunlightContrast, setSunlightContrast] = useState(true);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
@@ -74,7 +75,7 @@ export default function SettingsScreen() {
         showBack
       />
 
-      <View style={styles.container}>
+      <View style={[styles.container, (isDesktop || isTablet) && styles.containerWide]}>
         {/* Network & Data-Light Card */}
         <Card style={styles.card}>
           <View style={styles.cardHeader}>
@@ -178,6 +179,11 @@ const styles = StyleSheet.create({
   container: {
     gap: Tokens.spacing.base,
     paddingBottom: Tokens.spacing.xxxl,
+  },
+  containerWide: {
+    maxWidth: 800,
+    alignSelf: 'center',
+    width: '100%',
   },
   card: {
     gap: Tokens.spacing.base,

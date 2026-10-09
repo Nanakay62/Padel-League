@@ -8,19 +8,64 @@ import {
   View,
 } from 'react-native';
 import { Tokens } from '@/constants/theme';
+import { useAuth } from '@/context/AuthContext';
+import { apiFetch } from '@/lib/api-client';
 
 interface LevelOnboardingProps {
   onComplete: (calculatedLevel: number, band: string) => void;
 }
 
 export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
+  const { isAuthenticated, refreshProfile } = useAuth();
   const [yearsPlaying, setYearsPlaying] = useState<'less_than_1' | '1_to_3' | 'more_than_3'>('less_than_1');
   const [experience, setExperience] = useState<'social_only' | 'regular' | 'tournament'>('social_only');
   const [usesBandeja, setUsesBandeja] = useState<boolean>(false);
   const [wallConfidence, setWallConfidence] = useState<'learning' | 'comfortable' | 'advanced'>('learning');
-  const [result, setResult] = useState<{ level: number; band: string } | null>(null);
+  const [result, setResult] = useState<{
+    level: number;
+    band: string;
+    explanation?: string;
+    isProvisional?: boolean;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const calculate = () => {
+  const calculate = async () => {
+    setError(null);
+    if (isAuthenticated) {
+      setIsLoading(true);
+      try {
+        const res = await apiFetch('/me/onboarding', {
+          method: 'POST',
+          body: JSON.stringify({
+            years_playing: yearsPlaying,
+            match_experience: experience,
+            uses_bandeja_vibora: usesBandeja,
+            wall_confidence: wallConfidence,
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setResult({
+            level: data.level,
+            band: data.level_band,
+            explanation: data.explanation,
+            isProvisional: data.is_provisional,
+          });
+          setIsLoading(false);
+          return;
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          setError(errData.detail || 'Failed to calculate rating. Please try again.');
+        }
+      } catch (err: any) {
+        setError(err.message || 'Network error. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    // Heuristic fallback when offline or unauthenticated
     let score = 1.5;
     if (yearsPlaying === '1_to_3') score += 0.5;
     if (yearsPlaying === 'more_than_3') score += 1.0;
@@ -40,7 +85,20 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
     if (finalLevel >= 4.0 && finalLevel < 5.5) band = '4.0 - 5.5 (Advanced)';
     if (finalLevel >= 5.5) band = '5.5 - 7.0 (Expert)';
 
-    setResult({ level: finalLevel, band });
+    setResult({
+      level: finalLevel,
+      band,
+      explanation: `Based on your responses, we've set your starting level to ${band}. This is provisional and will calibrate after your first recorded matches.`,
+      isProvisional: true,
+    });
+  };
+
+  const handleConfirm = async () => {
+    if (!result) return;
+    if (isAuthenticated) {
+      await refreshProfile();
+    }
+    onComplete(result.level, result.band);
   };
 
   return (
@@ -195,21 +253,28 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
           </View>
         </View>
 
+        {error ? (
+          <View style={styles.errorBox}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        ) : null}
+
         {result ? (
           <View style={styles.resultCard}>
             <Text style={styles.resultLabel}>PROVISIONAL RATING</Text>
             <View style={styles.circleGauge}>
-              <Text style={styles.circleScore}>{result.level}</Text>
+              <Text style={styles.circleScore}>{result.level.toFixed(1)}</Text>
               <Text style={styles.circleBand}>{result.band.split(' ')[2] || 'Level'}</Text>
             </View>
             <Text style={styles.bandTitle}>{result.band}</Text>
             <Text style={styles.resultExpl}>
-              We think you are {result.band}. Your rating starts provisional with 50% reliability and automatically tunes after each match.
+              {result.explanation ||
+                `We think you are ${result.band}. Your rating starts provisional and automatically tunes after each match.`}
             </Text>
 
             <TouchableOpacity
               style={styles.confirmBtn}
-              onPress={() => onComplete(result.level, result.band)}
+              onPress={handleConfirm}
               accessibilityRole="button"
               accessibilityLabel="Save My Level and Continue"
             >
@@ -220,10 +285,13 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
           <TouchableOpacity
             style={styles.calcBtn}
             onPress={calculate}
+            disabled={isLoading}
             accessibilityRole="button"
             accessibilityLabel="Calculate My Level"
           >
-            <Text style={styles.calcBtnText}>Calculate My Level</Text>
+            <Text style={styles.calcBtnText}>
+              {isLoading ? 'Calculating...' : 'Calculate My Level'}
+            </Text>
           </TouchableOpacity>
         )}
       </ScrollView>
@@ -380,5 +448,18 @@ const styles = StyleSheet.create({
     color: Tokens.colors.primaryForeground,
     fontSize: Tokens.fontSize.base,
     fontWeight: Tokens.fontWeight.semibold,
+  },
+  errorBox: {
+    backgroundColor: Tokens.colors.errorLight,
+    borderColor: Tokens.colors.errorBorder,
+    borderWidth: Tokens.borders.width,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.md,
+  },
+  errorText: {
+    color: Tokens.colors.errorText,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
   },
 });

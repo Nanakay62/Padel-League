@@ -4,6 +4,8 @@
  * Returns { data, isMock: true, isLoading: false } while mocked.
  */
 
+import { useAuth } from '@/context/AuthContext';
+
 export interface MoneyBreakdown {
   court_share_pesewas: number;
   platform_fee_pesewas: number;
@@ -267,6 +269,31 @@ export function useEvents(): HookResult<EventItemData[]> {
 }
 
 export function useRating(): HookResult<PlayerRatingData> {
+  const { user, isAuthenticated } = useAuth();
+
+  if (isAuthenticated && user && user.level !== undefined) {
+    const level = user.level;
+    const min_range = Math.max(1.0, Math.floor(level * 2) / 2);
+    const max_range = Math.min(7.0, min_range + 0.5);
+    const reliability = user.reliability ?? (user.is_provisional ? 0.5 : 1.0);
+
+    return {
+      data: {
+        rating: level,
+        min_range,
+        max_range,
+        reliability,
+        category: user.level_band || 'Intermediate',
+        delta_month: user.is_provisional ? 'Provisional' : '+0.00 this month',
+        matches_played: 0,
+        matches_won: 0,
+      },
+      isMock: false,
+      isLoading: false,
+      error: null,
+    };
+  }
+
   return {
     data: SEED_RATING,
     isMock: true,

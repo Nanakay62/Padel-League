@@ -68,12 +68,30 @@ class Settings(BaseSettings):
     refresh_token_expire_days: int = 30
     otp_expire_minutes: int = 5
     otp_max_attempts: int = 5
+    otp_rate_limit_per_phone_per_hour: int = 3
+    otp_rate_limit_per_ip_per_hour: int = 10
 
     # Payments & Integrations
     paystack_secret_key: str = ""
     paystack_public_key: str = ""
     sms_provider: str = "console"
-    cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+    # Windows IPv6 note: Windows resolves localhost to either ::1 or 127.0.0.1.
+    # Both must be listed in dev CORS origins. In production, origins must come from env.
+    cors_origins: list[str] = Field(
+        default_factory=lambda: [
+            "http://localhost:8081",
+            "http://127.0.0.1:8081",
+            "http://localhost:8082",
+            "http://127.0.0.1:8082",
+            "http://localhost:8085",
+            "http://127.0.0.1:8085",
+            "http://localhost:8086",
+            "http://127.0.0.1:8086",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "http://test",
+        ]
+    )
 
 
 settings = Settings()

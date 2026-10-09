@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import { LiveEventScreen, MatchItem, LeaderboardRow } from '@/features/events/LiveEventScreen';
-import { Tokens } from '@/constants/theme';
+import { Tokens, Typography } from '@/constants/theme';
 
 export default function LiveEventRoute() {
   const router = useRouter();
@@ -69,7 +69,13 @@ export default function LiveEventRoute() {
     <View style={styles.container}>
       <View style={styles.topBar}>
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace(`/events/${eventId}` as any);
+            }
+          }}
           testID="live-back-btn"
           style={styles.backButton}
           accessibilityLabel="Back to event"
@@ -111,7 +117,9 @@ const styles = StyleSheet.create({
     minHeight: Tokens.dimensions.minTouchTarget,
   },
   backText: {
+    fontFamily: Typography.fontFamily.semibold,
     fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
     color: Tokens.colors.live.primary,
     fontWeight: Tokens.fontWeight.semibold,
   },

@@ -5,8 +5,11 @@ from collections.abc import AsyncGenerator
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
+from app.config import settings
 from app.db import Base, get_db
 from app.main import app
+
+settings.environment = "test"
 
 test_engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
 db_session_maker = async_sessionmaker(

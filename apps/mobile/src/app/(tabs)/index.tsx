@@ -19,8 +19,9 @@ import {
   Settings,
   Shield,
   Play,
+  Activity,
 } from 'lucide-react-native';
-import { Tokens, Typography } from '@/constants/theme';
+import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { formatGhanaCedis, formatAccraDateTime } from '@/lib/formatting';
 import { t } from '@/lib/i18n';
 import {
@@ -38,6 +39,7 @@ import {
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { isDesktop, margin, gutter, maxContentWidth } = useResponsiveLayout();
 
   const userBalancePesewas = 5000; // GH₵ 50.00
   const nextGameResult = useNextGame();
@@ -55,7 +57,14 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          {
+            paddingHorizontal: margin,
+            maxWidth: maxContentWidth,
+            gap: gutter,
+          },
+        ]}
         showsVerticalScrollIndicator={false}
       >
         {/* Top Header Row with Demo Data Badge & Balance */}
@@ -86,9 +95,18 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
-        {/* Hero Section */}
+        {/* Hero Banner Section */}
         <Card style={styles.heroCard}>
-          <Text style={styles.heroTitle}>{t('heroTitle')}</Text>
+          <View style={styles.heroBadgeRow}>
+            <View style={styles.heroCircuitBadge}>
+              <Text style={styles.heroCircuitBadgeText}>Accra Padel Circuit</Text>
+            </View>
+            <Text style={styles.heroDot}>•</Text>
+            <Text style={styles.heroBadgeSubtext}>Community Open Play</Text>
+          </View>
+          <Text style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop]}>
+            {t('heroTitle')}
+          </Text>
           <Text style={styles.heroSubtitle}>{t('heroSubtitle')}</Text>
           <View style={styles.heroStatsRow}>
             <View style={styles.heroPill}>
@@ -107,20 +125,23 @@ export default function HomeScreen() {
         </Card>
 
         {/* Main Grid: Next Game & Your Rating */}
-        <View style={styles.topCardsRow}>
+        <View style={[styles.topCardsRow, isDesktop ? styles.topCardsRowDesktop : styles.topCardsRowMobile]}>
           {/* Next Game Card */}
-          <Card style={styles.cardFlex}>
+          <Card style={[styles.cardFlex, isDesktop && styles.nextGameCardDesktop]}>
             <View style={styles.cardHeaderRow}>
-              <StatusPill label={t('inTwoDaysBadge')} variant="neutral" />
-              <View style={styles.timeRow}>
+              <View style={styles.sectionTagRow}>
                 <Clock size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-                <Text style={styles.timeLabel}>
-                  {formatAccraDateTime(nextGame.start_time)}
-                </Text>
+                <Text style={styles.sectionTagText}>Your Next Game</Text>
               </View>
+              <Text style={[styles.nextGameTimeText, Typography.tabularNums]}>
+                {formatAccraDateTime(nextGame.start_time)}
+              </Text>
             </View>
 
-            <Text style={styles.cardTitle}>{nextGame.title}</Text>
+            <View style={styles.nextGameTitleRow}>
+              <Text style={styles.cardTitle}>{nextGame.title}</Text>
+              <StatusPill label={t('inTwoDaysBadge')} variant="neutral" />
+            </View>
 
             <View style={styles.metaRow}>
               <MapPin size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
@@ -173,9 +194,12 @@ export default function HomeScreen() {
           </Card>
 
           {/* Your Rating Card */}
-          <Card style={styles.cardFlex}>
+          <Card style={[styles.cardFlex, isDesktop && styles.ratingCardDesktop]}>
             <View style={styles.cardHeaderRow}>
-              <Text style={styles.cardCategoryTitle}>{t('ratingTitle')}</Text>
+              <View style={styles.sectionTagRow}>
+                <Activity size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                <Text style={styles.sectionTagText}>{t('ratingTitle')}</Text>
+              </View>
               {isProvisional ? (
                 <StatusPill label={t('ratingProvisionalTag')} variant="neutral" />
               ) : null}
@@ -197,6 +221,15 @@ export default function HomeScreen() {
                   percent: Math.round(rating.reliability * 100),
                 })}
               </Text>
+            </View>
+
+            <View style={styles.reliabilityBarContainer}>
+              <View
+                style={[
+                  styles.reliabilityBarFill,
+                  { width: `${Math.round(rating.reliability * 100)}%` as any },
+                ]}
+              />
             </View>
 
             <Text style={styles.ratingDeltaText}>{t('ratingDeltaMonth')}</Text>
@@ -228,7 +261,10 @@ export default function HomeScreen() {
 
         <View style={styles.eventsGrid}>
           {events.slice(0, 2).map((item) => (
-            <Card key={item.id} style={styles.eventCard}>
+            <Card
+              key={item.id}
+              style={[styles.eventCard, isDesktop ? styles.eventCardDesktop : styles.eventCardMobile]}
+            >
               <View style={styles.cardHeaderRow}>
                 <StatusPill
                   label={
@@ -245,7 +281,9 @@ export default function HomeScreen() {
 
               <View style={styles.metaRow}>
                 <Clock size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-                <Text style={styles.metaText}>{formatAccraDateTime(item.start_time)}</Text>
+                <Text style={[styles.metaText, Typography.tabularNums]}>
+                  {formatAccraDateTime(item.start_time)}
+                </Text>
               </View>
 
               <View style={styles.metaRow}>
@@ -289,7 +327,7 @@ export default function HomeScreen() {
           {leagues.map((item) => (
             <Card
               key={item.id}
-              style={styles.leagueCard}
+              style={[styles.leagueCard, isDesktop ? styles.leagueCardDesktop : styles.leagueCardMobile]}
               onPress={() => router.push('/leagues')}
               testID={item.id === 'lg-001' ? 'home-league-lg-001' : `home-league-${item.id}`}
             >
@@ -305,7 +343,9 @@ export default function HomeScreen() {
 
               <View style={styles.metaRow}>
                 <Trophy size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-                <Text style={styles.metaText}>{item.teams_count} teams</Text>
+                <Text style={[styles.metaText, Typography.tabularNums]}>
+                  {item.teams_count} teams
+                </Text>
               </View>
 
               <View style={styles.metaRow}>
@@ -328,7 +368,7 @@ export default function HomeScreen() {
             testID="home-create-event-btn"
           >
             <View style={styles.quickActionIconPrimary}>
-              <Plus size={20} color={Tokens.colors.textOnPrimary} strokeWidth={2} />
+              <Plus size={20} color={Tokens.colors.textOnPrimary} strokeWidth={1.75} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionCreateEvent')}</Text>
             <Text style={styles.quickActionSubtitle}>Americano or Mexicano</Text>
@@ -423,13 +463,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: Tokens.spacing.base,
     paddingTop: Tokens.spacing.base,
     paddingBottom: Tokens.spacing.xxxl + 64,
-    maxWidth: 900,
     width: '100%',
     alignSelf: 'center',
-    gap: Tokens.spacing.lg,
   },
   header: {
     flexDirection: 'row',
@@ -500,7 +537,43 @@ const styles = StyleSheet.create({
   heroCard: {
     backgroundColor: Tokens.colors.card,
     padding: Tokens.spacing.lg,
+    borderRadius: Tokens.radii.card,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
     gap: Tokens.spacing.sm,
+  },
+  heroBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+  },
+  heroCircuitBadge: {
+    backgroundColor: Tokens.colors.background,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: 2,
+    borderRadius: Tokens.radii.pill,
+  },
+  heroCircuitBadgeText: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.text,
+  },
+  heroDot: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.textMuted,
+  },
+  heroBadgeSubtext: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   heroTitle: {
     fontFamily: Typography.fontFamily.semibold,
@@ -508,6 +581,10 @@ const styles = StyleSheet.create({
     fontSize: Tokens.fontSize.xl,
     lineHeight: Tokens.lineHeight.xl,
     color: Tokens.colors.text,
+  },
+  heroTitleDesktop: {
+    fontSize: Tokens.fontSize.xxl,
+    lineHeight: Tokens.lineHeight.xxl,
   },
   heroSubtitle: {
     fontFamily: Typography.fontFamily.regular,
@@ -541,31 +618,57 @@ const styles = StyleSheet.create({
     color: Tokens.colors.textMuted,
   },
   topCardsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: Tokens.spacing.base,
+  },
+  topCardsRowDesktop: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
+  topCardsRowMobile: {
+    flexDirection: 'column',
   },
   cardFlex: {
     flex: 1,
-    minWidth: 280,
     gap: Tokens.spacing.md,
+    borderRadius: Tokens.radii.card,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+  },
+  nextGameCardDesktop: {
+    flex: 2,
+  },
+  ratingCardDesktop: {
+    flex: 1,
   },
   cardHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  timeRow: {
+  sectionTagRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Tokens.spacing.xs,
   },
-  timeLabel: {
-    fontFamily: Typography.fontFamily.regular,
-    fontWeight: Tokens.fontWeight.regular,
+  sectionTagText: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
     fontSize: Tokens.fontSize.xs,
     lineHeight: Tokens.lineHeight.xs,
     color: Tokens.colors.textMuted,
+  },
+  nextGameTimeText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.greenText,
+  },
+  nextGameTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Tokens.spacing.sm,
   },
   cardTitle: {
     fontFamily: Typography.fontFamily.semibold,
@@ -573,13 +676,7 @@ const styles = StyleSheet.create({
     fontSize: Tokens.fontSize.lg,
     lineHeight: Tokens.lineHeight.lg,
     color: Tokens.colors.text,
-  },
-  cardCategoryTitle: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
-    fontSize: Tokens.fontSize.base,
-    lineHeight: Tokens.lineHeight.base,
-    color: Tokens.colors.text,
+    flex: 1,
   },
   metaRow: {
     flexDirection: 'row',
@@ -643,6 +740,18 @@ const styles = StyleSheet.create({
     lineHeight: Tokens.lineHeight.sm,
     color: Tokens.colors.greenText,
   },
+  reliabilityBarContainer: {
+    width: '100%',
+    height: 6,
+    borderRadius: Tokens.radii.pill,
+    backgroundColor: Tokens.colors.background,
+    overflow: 'hidden',
+  },
+  reliabilityBarFill: {
+    height: '100%',
+    backgroundColor: Tokens.colors.text,
+    borderRadius: Tokens.radii.pill,
+  },
   ratingDeltaText: {
     fontFamily: Typography.fontFamily.regular,
     fontWeight: Tokens.fontWeight.regular,
@@ -673,9 +782,17 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.base,
   },
   eventCard: {
-    flex: 1,
-    minWidth: 280,
     gap: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.card,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+  },
+  eventCardDesktop: {
+    flex: 1,
+    minWidth: 320,
+  },
+  eventCardMobile: {
+    width: '100%',
   },
   eventFormatText: {
     fontFamily: Typography.fontFamily.medium,
@@ -718,9 +835,17 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.base,
   },
   leagueCard: {
-    flex: 1,
-    minWidth: 280,
     gap: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.card,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+  },
+  leagueCardDesktop: {
+    flex: 1,
+    minWidth: 320,
+  },
+  leagueCardMobile: {
+    width: '100%',
   },
   leagueDivisionText: {
     fontFamily: Typography.fontFamily.medium,
@@ -743,10 +868,13 @@ const styles = StyleSheet.create({
   },
   quickActionTile: {
     flex: 1,
-    minWidth: 160,
+    minWidth: 150,
     alignItems: 'flex-start',
     gap: Tokens.spacing.xs,
     padding: Tokens.spacing.base,
+    borderRadius: Tokens.radii.card,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
   },
   quickActionIconPrimary: {
     width: 36,
@@ -790,6 +918,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     gap: Tokens.spacing.md,
+    borderRadius: Tokens.radii.card,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
   },
   bannerContent: {
     flex: 1,

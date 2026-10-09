@@ -1,4 +1,4 @@
-"""Pydantic schemas for authentication, profiles, OTP, and partner search."""
+from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -11,6 +11,7 @@ class OtpResponse(BaseModel):
     message: str
     phone_e164: str
     expires_in_seconds: int
+    expires_at: datetime | None = None
 
 
 class OtpVerifyRequest(BaseModel):
@@ -27,7 +28,11 @@ class TokenResponse(BaseModel):
 
 
 class RefreshTokenRequest(BaseModel):
-    refresh_token: str
+    refresh_token: str | None = None
+
+
+class LogoutRequest(BaseModel):
+    refresh_token: str | None = None
 
 
 class UserProfileResponse(BaseModel):

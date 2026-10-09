@@ -13,7 +13,7 @@ import { Tokens, Typography } from '@/constants/theme';
 export interface ButtonProps {
   title?: string;
   children?: React.ReactNode;
-  onPress?: () => void;
+  onPress?: (event?: any) => void;
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;

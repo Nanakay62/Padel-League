@@ -1,5 +1,5 @@
 import '@/global.css';
-import { Platform, TextStyle } from 'react-native';
+import { Platform, TextStyle, useWindowDimensions } from 'react-native';
 
 export const Tokens = {
   colors: {
@@ -60,11 +60,31 @@ export const Tokens = {
     minStepper: 64,
   },
   radii: {
+    xs: 4,
     sm: 8,
+    chip: 6,
     card: 12,
     button: 12,
     input: 12,
     pill: 9999,
+  },
+  layout: {
+    breakpoints: {
+      mobile: 768,
+      tablet: 1024,
+    },
+    maxContentWidth: 1280,
+    sidebarWidth: 260,
+    gutter: {
+      mobile: 12,
+      tablet: 16,
+      desktop: 24,
+    },
+    margin: {
+      mobile: 16,
+      tablet: 24,
+      desktop: 32,
+    },
   },
   spacing: {
     xs: 4,
@@ -87,7 +107,9 @@ export const Tokens = {
     lg: 18,
     xl: 20,
     xxl: 24,
+    displayMobile: 28,
     display: 30,
+    displayLg: 36,
   },
   lineHeight: {
     xs: 16,
@@ -96,7 +118,9 @@ export const Tokens = {
     lg: 26,
     xl: 28,
     xxl: 32,
+    displayMobile: 36,
     display: 38,
+    displayLg: 44,
   },
   fontWeight: {
     regular: '400' as const,
@@ -174,6 +198,87 @@ export const Typography = {
   tabularNums: {
     fontVariant: ['tabular-nums'] as TextStyle['fontVariant'],
   },
+  // Stitch Typography Presets
+  displayLg: {
+    fontFamily: Tokens.fontFamily.semibold,
+    fontSize: Tokens.fontSize.displayLg,
+    lineHeight: Tokens.lineHeight.displayLg,
+    fontWeight: Tokens.fontWeight.semibold,
+    letterSpacing: -0.72,
+  } as TextStyle,
+  displayLgMobile: {
+    fontFamily: Tokens.fontFamily.semibold,
+    fontSize: Tokens.fontSize.displayMobile,
+    lineHeight: Tokens.lineHeight.displayMobile,
+    fontWeight: Tokens.fontWeight.semibold,
+    letterSpacing: -0.42,
+  } as TextStyle,
+  headlineLg: {
+    fontFamily: Tokens.fontFamily.semibold,
+    fontSize: Tokens.fontSize.xxl,
+    lineHeight: Tokens.lineHeight.xxl,
+    fontWeight: Tokens.fontWeight.semibold,
+    letterSpacing: -0.36,
+  } as TextStyle,
+  headlineMd: {
+    fontFamily: Tokens.fontFamily.semibold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+    letterSpacing: -0.2,
+  } as TextStyle,
+  headlineSm: {
+    fontFamily: Tokens.fontFamily.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    letterSpacing: -0.08,
+  } as TextStyle,
+  bodyLg: {
+    fontFamily: Tokens.fontFamily.regular,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    fontWeight: Tokens.fontWeight.regular,
+  } as TextStyle,
+  bodyMd: {
+    fontFamily: Tokens.fontFamily.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    fontWeight: Tokens.fontWeight.regular,
+  } as TextStyle,
+  bodySm: {
+    fontFamily: Tokens.fontFamily.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    fontWeight: Tokens.fontWeight.regular,
+  } as TextStyle,
+  labelMd: {
+    fontFamily: Tokens.fontFamily.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    fontWeight: Tokens.fontWeight.medium,
+  } as TextStyle,
+  labelSm: {
+    fontFamily: Tokens.fontFamily.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    fontWeight: Tokens.fontWeight.medium,
+  } as TextStyle,
+  dataMonoLg: {
+    fontFamily: Tokens.fontFamily.semibold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+    letterSpacing: -0.2,
+    fontVariant: ['tabular-nums'] as TextStyle['fontVariant'],
+  } as TextStyle,
+  dataMonoMd: {
+    fontFamily: Tokens.fontFamily.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    fontWeight: Tokens.fontWeight.medium,
+    fontVariant: ['tabular-nums'] as TextStyle['fontVariant'],
+  } as TextStyle,
 } as const;
 
 export const Spacing = {
@@ -187,7 +292,9 @@ export const Spacing = {
 } as const;
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
-export const MaxContentWidth = 800;
+export const MaxContentWidth = Tokens.layout.maxContentWidth;
+export const Layout = Tokens.layout;
+export const Breakpoints = Tokens.layout.breakpoints;
 
 export interface TokenPair {
   name: string;
@@ -271,3 +378,28 @@ export const TokenContrastPairs: TokenPair[] = [
     context: 'Error alerts and destructive confirmation notices',
   },
 ];
+
+export function useResponsiveLayout() {
+  const { width } = useWindowDimensions();
+  const isMobile = width < Tokens.layout.breakpoints.mobile;
+  const isTablet = width >= Tokens.layout.breakpoints.mobile && width < Tokens.layout.breakpoints.tablet;
+  const isDesktop = width >= Tokens.layout.breakpoints.tablet;
+
+  return {
+    width,
+    isMobile,
+    isTablet,
+    isDesktop,
+    gutter: isDesktop
+      ? Tokens.layout.gutter.desktop
+      : isTablet
+        ? Tokens.layout.gutter.tablet
+        : Tokens.layout.gutter.mobile,
+    margin: isDesktop
+      ? Tokens.layout.margin.desktop
+      : isTablet
+        ? Tokens.layout.margin.tablet
+        : Tokens.layout.margin.mobile,
+    maxContentWidth: Tokens.layout.maxContentWidth,
+  };
+}

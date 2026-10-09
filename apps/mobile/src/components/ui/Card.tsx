@@ -1,11 +1,19 @@
 import React from 'react';
-import { View, Pressable, StyleSheet, ViewStyle, StyleProp } from 'react-native';
+import {
+  View,
+  Pressable,
+  StyleSheet,
+  ViewStyle,
+  StyleProp,
+  AccessibilityRole,
+} from 'react-native';
 import { Tokens } from '@/constants/theme';
 
 export interface CardProps {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
+  accessibilityRole?: AccessibilityRole;
   accessibilityLabel?: string;
   testID?: string;
 }
@@ -14,6 +22,7 @@ export function Card({
   children,
   style,
   onPress,
+  accessibilityRole,
   accessibilityLabel,
   testID,
 }: CardProps) {
@@ -21,7 +30,7 @@ export function Card({
     return (
       <Pressable
         testID={testID}
-        accessibilityRole="button"
+        accessibilityRole={accessibilityRole}
         accessibilityLabel={accessibilityLabel}
         onPress={onPress}
         style={({ pressed }) => [

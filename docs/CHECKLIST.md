@@ -17,11 +17,11 @@
 
 ## GLOBAL GATES (re-check at the end of EVERY phase)
 
-- [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (112 files formatted), `uv run mypy app` (0 issues across 62 files), `uv run pytest -q` (289 passed in 36.8s) PASSED
-- [x] `cd apps/mobile && npm run lint && npm test && npx tsc --noEmit` passes: evidence: `npm run lint` (0 errors), `npm test` (9 suites, 23 passed), `npx tsc --noEmit` (0 errors) PASSED
+- [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (112 files formatted), `uv run mypy app` (0 issues across 62 files), `uv run pytest -q` (294 passed) PASSED
+- [x] `cd apps/mobile && npm run lint && npm test && npx tsc --noEmit` passes: evidence: `npm run lint` (0 errors), `npm test` (13 suites, 103 passed), `npm run test:integration` (passed against live API), `npx tsc --noEmit` (0 errors), `npx expo export --platform web` (0 errors) PASSED
 - [x] CI is green on the latest commit: evidence: all 4 CI & Deploy jobs (Backend Tests, Mobile & Web Client Check, Docker Build, Cloudflare Pages Export) passing green on commit `0d2c50b` on `main`
 - [x] No secrets, tokens, or real phone numbers committed: evidence: `git log -p | grep matches no hardcoded live keys; .env git-ignored`
-- [x] No tests were deleted or weakened this phase: evidence: all 289 backend + 23 mobile tests passing with full invariant assertions
+- [x] No tests were deleted or weakened this phase: evidence: all 294 backend + 103 mobile tests passing with full invariant assertions
 - [x] Client API types regenerated after any API change: evidence: `apps/mobile/src/lib/` and routes synchronized with API schemas
 - [x] Docs, ADRs and this checklist updated: evidence: `docs/adr/0001` through `0010`, `docs/security-review.md`, `docs/runbook.md`, `docs/privacy-data-inventory.md`, and `docs/CHECKLIST.md` updated
 
@@ -83,20 +83,20 @@
 
 ## PHASE 3: IDENTITY, LEVELS, FINDING PLAYERS
 
-- [ ] `POST /auth/otp/request` and `/auth/otp/verify` work from mobile client: backend endpoints pass, pending mobile client auth integration (Slice A)
+- [x] `POST /auth/otp/request` and `/auth/otp/verify` work from mobile client: evidence: `apps/mobile/__tests__/AuthFlow.real-api.test.ts` tests phone request, verify, invalid code 400, cookie handling, token refresh, and logout against real FastAPI server PASSED
 - [x] OTP: 6 digits, hashed at rest, 5-minute expiry, max 5 attempts, rate limit per number AND per IP (tests prove each): evidence: `pytest tests/api/test_auth_otp.py::test_brute_force_otp_protection and tests/api/test_security_compliance.py::test_otp_request_rate_limiting PASSED`
 - [x] OTP replay and brute force blocked (tests): evidence: `pytest tests/api/test_auth_otp.py::test_brute_force_otp_protection PASSED`
-- [ ] Access token about 15 min; refresh token rotates; mobile uses `expo-secure-store`; web uses HttpOnly/Secure/SameSite cookie: backend passes, pending mobile client auth integration (Slice A)
+- [x] Access token about 15 min; refresh token rotates; mobile uses `expo-secure-store`; web uses HttpOnly/Secure/SameSite cookie: evidence: `tests/api/test_auth_otp.py::test_cookie_auth_flow`, `apps/mobile/__tests__/ApiClient.test.ts` (single-flight mutex for 3 parallel requests), `apps/mobile/__tests__/AuthFlow.real-api.test.ts` PASSED
 - [x] `SmsProvider` interface + `ConsoleSmsProvider`; no vendor hard-coded: evidence: `apps/api/app/notify/sms.py`
 - [x] Admin login separate: email + argon2 + optional TOTP: evidence: `apps/api/app/admin.py`
 - [x] Guest players added by name + phone; claim via WhatsApp-shareable invite keeps history and rating: evidence: `IdentityService.create_guest_player` in `apps/api/app/identity/service.py`
 - [x] Profile fields complete (name, level, reliability, side, home venue, play times, competitiveness, regular partners, notification prefs): evidence: `PlayerProfile` in `apps/api/app/identity/models.py`
-- [ ] Level onboarding gives a **range** (e.g. 2.5-3.0) marked PROVISIONAL: backend passes, pending mobile onboarding screen connection to live API
+- [x] Level onboarding gives a **range** (e.g. 2.5-3.0) marked PROVISIONAL: evidence: `apps/mobile/__tests__/LevelOnboardingAndPartners.real-api.test.ts` proves live questionnaire submission to `POST /me/onboarding`, `is_provisional: true`, and profile calibrated level update; `apps/mobile/src/features/profile/LevelOnboarding.tsx` and Home screen `useRating` render provisional range and tag PASSED
 - [x] Partner finder and "looking for a fourth" posts work; invitations expire: evidence: `pytest tests/api/test_venues_and_open_matches.py::test_open_match_looking_for_a_fourth_lifecycle PASSED`
-- [x] **Public display is first name + initial everywhere** (including leaderboards and Top Players); phone numbers revealed only after mutual accept or inside a confirmed event: evidence: `pytest tests/api/test_auth_otp.py::test_level_onboarding_and_account_deletion (finds Akua D.) PASSED`
+- [x] **Public display is first name + initial everywhere** (including leaderboards and Top Players); phone numbers revealed only after mutual accept or inside a confirmed event: evidence: `pytest tests/api/test_auth_otp.py::test_level_onboarding_and_account_deletion` (finds Akua D.), `apps/mobile/__tests__/LevelOnboardingAndPartners.real-api.test.ts` (finds Kofi M. in live `/partners`), `apps/mobile/src/app/partners/index.tsx` enforces `First L.` format PASSED
 - [ ] `DELETE /me` anonymises results as "Former player", deletes personal data: backend passes, pending mobile /profile account deletion flow connection
 - [x] `GET /app/version` minimum-version gate works: evidence: `pytest tests/api/test_production_readiness.py::test_app_version_gating PASSED`
-- [ ] Login screen, OTP screen and level-onboarding screens built: UI built, pending live API connection (Slice A)
+- [x] Login screen, OTP screen and level-onboarding screens built: evidence: `apps/mobile/src/features/auth/PhoneLoginScreen.tsx` and `apps/mobile/src/features/profile/LevelOnboarding.tsx` wired to live API; verified in `AuthFlow.real-api.test.ts` and `LevelOnboardingAndPartners.real-api.test.ts` PASSED
 
 ## PHASE 4: VENUES, COURTS AND COST IN GH₵
 

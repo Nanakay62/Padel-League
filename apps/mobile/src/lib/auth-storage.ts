@@ -4,16 +4,21 @@ import * as SecureStore from 'expo-secure-store';
 const ACCESS_KEY = 'padel_access_token';
 const REFRESH_KEY = 'padel_refresh_token';
 
-export async function saveAuthTokens(accessToken: string, refreshToken: string): Promise<void> {
+// In-memory access token storage for web (never written to localStorage)
+let memoryAccessToken: string | null = null;
+
+export async function saveAuthTokens(
+  accessToken: string,
+  refreshToken?: string | null
+): Promise<void> {
   if (Platform.OS === 'web') {
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(ACCESS_KEY, accessToken);
-      window.localStorage.setItem(REFRESH_KEY, refreshToken);
-    }
+    memoryAccessToken = accessToken;
     return;
   }
   await SecureStore.setItemAsync(ACCESS_KEY, accessToken);
-  await SecureStore.setItemAsync(REFRESH_KEY, refreshToken);
+  if (refreshToken) {
+    await SecureStore.setItemAsync(REFRESH_KEY, refreshToken);
+  }
 }
 
 export async function getAuthTokens(): Promise<{
@@ -21,13 +26,10 @@ export async function getAuthTokens(): Promise<{
   refreshToken: string | null;
 }> {
   if (Platform.OS === 'web') {
-    if (typeof window !== 'undefined') {
-      return {
-        accessToken: window.localStorage.getItem(ACCESS_KEY),
-        refreshToken: window.localStorage.getItem(REFRESH_KEY),
-      };
-    }
-    return { accessToken: null, refreshToken: null };
+    return {
+      accessToken: memoryAccessToken,
+      refreshToken: null, // Managed via HttpOnly cookie on web
+    };
   }
   const accessToken = await SecureStore.getItemAsync(ACCESS_KEY);
   const refreshToken = await SecureStore.getItemAsync(REFRESH_KEY);
@@ -36,12 +38,17 @@ export async function getAuthTokens(): Promise<{
 
 export async function clearAuthTokens(): Promise<void> {
   if (Platform.OS === 'web') {
-    if (typeof window !== 'undefined') {
-      window.localStorage.removeItem(ACCESS_KEY);
-      window.localStorage.removeItem(REFRESH_KEY);
-    }
+    memoryAccessToken = null;
     return;
   }
   await SecureStore.deleteItemAsync(ACCESS_KEY);
   await SecureStore.deleteItemAsync(REFRESH_KEY);
+}
+
+export function setMemoryAccessToken(token: string | null): void {
+  memoryAccessToken = token;
+}
+
+export function getMemoryAccessToken(): string | null {
+  return memoryAccessToken;
 }

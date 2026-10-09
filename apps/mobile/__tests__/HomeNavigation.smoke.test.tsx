@@ -79,7 +79,7 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
       expect(getByTestId('home-partner-finder-btn')).toBeTruthy();
     });
     fireEvent.press(getByTestId('home-partner-finder-btn'));
-    expect(await findByText(/Kojo Ansah/i)).toBeTruthy();
+    expect(await findByText(/Kojo A\./i)).toBeTruthy();
 
     act(() => {
       router.replace('/' as any);
