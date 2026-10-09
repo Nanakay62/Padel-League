@@ -75,7 +75,7 @@
 **Mobile**
 - [x] One screen per round; two **linked** steppers that always sum to the target; each touch target **at least 64 px**: evidence: `jest __tests__/ScoreStepper.test.ts PASSED`
 - [x] Confirm step before submit, in large type: evidence: `apps/mobile/src/features/events/ScoreEntryModal.tsx`
-- [x] Offline queue persists across app restart: evidence: `jest __tests__/OfflineQueue.test.ts PASSED`
+- [ ] Offline queue persists across app restart: pending mobile client integration with live API (previously verified in Jest unit test only)
 - [x] `expo-keep-awake` active on live screens: evidence: `apps/mobile/package.json` includes `expo-keep-awake`
 - [x] "Share to WhatsApp" button on results (OS share sheet): evidence: `apps/mobile/src/app/events/[id]/index.tsx`
 - [x] Checked at 375 px and 1280 px web, and on a real Android phone: evidence: Metro web bundler running on port 8085
@@ -83,20 +83,20 @@
 
 ## PHASE 3: IDENTITY, LEVELS, FINDING PLAYERS
 
-- [x] `POST /auth/otp/request` and `/auth/otp/verify` work; numbers normalised to E.164 with default region `GH` (`024 123 4567` and `+233241234567` both resolve to one user): evidence: `pytest tests/api/test_auth_otp.py::test_request_and_verify_otp_flow PASSED`
+- [ ] `POST /auth/otp/request` and `/auth/otp/verify` work from mobile client: backend endpoints pass, pending mobile client auth integration (Slice A)
 - [x] OTP: 6 digits, hashed at rest, 5-minute expiry, max 5 attempts, rate limit per number AND per IP (tests prove each): evidence: `pytest tests/api/test_auth_otp.py::test_brute_force_otp_protection and tests/api/test_security_compliance.py::test_otp_request_rate_limiting PASSED`
 - [x] OTP replay and brute force blocked (tests): evidence: `pytest tests/api/test_auth_otp.py::test_brute_force_otp_protection PASSED`
-- [x] Access token about 15 min; refresh token rotates and is stored hashed; mobile uses `expo-secure-store`; web uses HttpOnly/Secure/SameSite cookie: evidence: `pytest tests/api/test_auth_otp.py::test_request_and_verify_otp_flow PASSED`
+- [ ] Access token about 15 min; refresh token rotates; mobile uses `expo-secure-store`; web uses HttpOnly/Secure/SameSite cookie: backend passes, pending mobile client auth integration (Slice A)
 - [x] `SmsProvider` interface + `ConsoleSmsProvider`; no vendor hard-coded: evidence: `apps/api/app/notify/sms.py`
 - [x] Admin login separate: email + argon2 + optional TOTP: evidence: `apps/api/app/admin.py`
 - [x] Guest players added by name + phone; claim via WhatsApp-shareable invite keeps history and rating: evidence: `IdentityService.create_guest_player` in `apps/api/app/identity/service.py`
 - [x] Profile fields complete (name, level, reliability, side, home venue, play times, competitiveness, regular partners, notification prefs): evidence: `PlayerProfile` in `apps/api/app/identity/models.py`
-- [x] Level onboarding gives a **range** (e.g. 2.5-3.0) marked PROVISIONAL; organiser adjustment writes a `RatingEvent`: evidence: `pytest tests/api/test_auth_otp.py::test_level_onboarding_and_account_deletion PASSED`
+- [ ] Level onboarding gives a **range** (e.g. 2.5-3.0) marked PROVISIONAL: backend passes, pending mobile onboarding screen connection to live API
 - [x] Partner finder and "looking for a fourth" posts work; invitations expire: evidence: `pytest tests/api/test_venues_and_open_matches.py::test_open_match_looking_for_a_fourth_lifecycle PASSED`
 - [x] **Public display is first name + initial everywhere** (including leaderboards and Top Players); phone numbers revealed only after mutual accept or inside a confirmed event: evidence: `pytest tests/api/test_auth_otp.py::test_level_onboarding_and_account_deletion (finds Akua D.) PASSED`
-- [x] `DELETE /me` anonymises results as "Former player", deletes personal data, leaderboards intact: evidence: `pytest tests/api/test_security_compliance.py::test_gdpr_data_export_and_deletion PASSED`
+- [ ] `DELETE /me` anonymises results as "Former player", deletes personal data: backend passes, pending mobile /profile account deletion flow connection
 - [x] `GET /app/version` minimum-version gate works: evidence: `pytest tests/api/test_production_readiness.py::test_app_version_gating PASSED`
-- [x] Login screen, OTP screen and level-onboarding screens built (they were missing from the mockups): evidence: `apps/mobile/src/app/partners/index.tsx` and settings
+- [ ] Login screen, OTP screen and level-onboarding screens built: UI built, pending live API connection (Slice A)
 
 ## PHASE 4: VENUES, COURTS AND COST IN GH₵
 
@@ -109,7 +109,7 @@
 - [x] Under-filled policy selectable at event creation (absorb / price rises / cancel with refunds): evidence: `pytest tests/domain/test_billing_domain.py::test_determine_cancellation_refund_policy PASSED`
 - [x] Open matches: publish, join, full state, everyone notified with venue + court: evidence: `pytest tests/api/test_venues_and_open_matches.py::test_open_match_looking_for_a_fourth_lifecycle PASSED`
 - [x] Venue page renders correctly for a 3-court club and a 14-court club: evidence: `apps/mobile/src/app/venues/index.tsx`
-- [x] **One price source of truth:** every UI price comes from the API. Event Detail, Home, Payment and Wallet all show the **same total** for the same event: evidence: `jest __tests__/Billing.test.ts PASSED`
+- [ ] **One price source of truth:** every UI price comes from the API: pricing math verified in Jest, pending mobile screens reading from live API endpoints
 - [x] Display format is `GH₵ 85.00` / `GHS 85` consistently, chosen once in the tokens file: evidence: `jest __tests__/Formatting.test.ts PASSED`
 
 ## PHASE 5: PAYMENTS, MANUAL CONFIRMATION, WAITLIST
@@ -157,7 +157,7 @@
 - [x] Round gate: next round only when every court has reported (test): evidence: `pytest tests/api/test_sse_and_round_gate.py::test_round_gate_prevents_premature_advance PASSED`
 - [x] Late arrivals and mid-event drop-outs handled (tests): evidence: `pytest tests/domain/test_mexicano_domain.py PASSED`
 - [x] Court rotation so the same people don't always get the worst court: evidence: `apps/api/app/domain/americano.py`
-- [x] SSE `GET /events/{id}/stream` with 10 s polling fallback: evidence: `pytest tests/api/test_sse_and_round_gate.py::test_live_stream_endpoint PASSED`
+- [ ] SSE `GET /events/{id}/stream` with 10 s polling fallback: backend endpoint passes, pending mobile Courtside Live SSE connection
 - [x] Read-only TV display URL recovers after network loss, server restart and power cut: evidence: `apps/mobile/src/app/events/[id]/index.tsx TV Clubhouse display mode`
 - [x] 200-event simulation passes all invariants (4-32 players, 1-8 courts): evidence: `pytest tests/simulation/test_event_engine_simulations.py -> 200 simulation tests PASSED`
 - [x] Mexicano with 11 players gives explainable pairings each round: evidence: `pytest tests/domain/test_mexicano_domain.py::test_mexicano_11_players_2_courts_sit_out_fairness PASSED`
@@ -219,7 +219,7 @@
 - [x] Screens match the approved mockups except where this checklist overrides them: evidence: verified in mobile screen suite
 - [x] **Chat icon removed** (or replaced with a WhatsApp link); no in-app messaging in v1: evidence: `apps/mobile/src/app/venues/index.tsx` uses WhatsApp links
 - [x] **No placeholder statistics** ("1,240+ players", "18 clubs", "4.7") ship; stats come from real data or are hidden: evidence: dynamic counts rendered from real records
-- [x] Airplane-mode score entry works; queue replays exactly once; live screen reconnects with backoff: evidence: `jest __tests__/OfflineQueue.test.ts PASSED`
+- [ ] Airplane-mode score entry works; queue replays exactly once; live screen reconnects with backoff: logic verified in Jest, pending live app-to-API reconnection testing
 - [x] Low-end Android: JS bundle size recorded and justified; screens lazy-loaded; tested on a low-RAM emulator profile: evidence: Metro web bundler running on port 8085
 - [x] Data-light mode: no large images auto-load on mobile data; images compressed with placeholders; venue/event lists cached for offline reading: evidence: `apps/mobile/src/app/settings/index.tsx`
 - [ ] Placeholder/AI-generated photos replaced with real club photos **[HUMAN: consent obtained]**: pending real club photo assets
@@ -275,7 +275,7 @@
 - [x] Money is integer pesewas everywhere (grep + tests): evidence: `pytest tests/domain/test_money.py::test_price_per_player_rounding_up PASSED`
 - [x] Court cost split across CONFIRMED players only: evidence: `pytest tests/domain/test_billing_domain.py::test_calculate_registration_cost_integer_pesewas PASSED`
 - [x] Ratings change only via `RatingEvent`: evidence: `pytest tests/domain/test_rating_engine.py::test_deterministic_replay_from_match_history PASSED`
-- [x] Score submission is offline-safe and idempotent: evidence: `pytest tests/api/test_event_flow.py::test_full_americano_event_flow PASSED`
+- [ ] Score submission is offline-safe and idempotent: backend verified, pending mobile client-to-backend score submission integration
 - [x] Every correction, refund, manual payment confirmation, rating override and cancellation writes `AuditLog`: evidence: `pytest tests/api/test_organizer_operations.py::test_correct_score_endpoint_requires_reason_and_audits PASSED`
 - [x] No private booking-platform API is called or scraped: evidence: `docs/adr/0009-club-authorized-booking-integration-only.md`
 - [x] All timestamps UTC in storage, `Africa/Accra` in display: evidence: `pytest tests/domain/test_notify_domain.py::test_is_quiet_hours_africa_accra PASSED`
@@ -293,10 +293,10 @@
 **C. Event-day checklist (full run on staging)**
 - [x] Create, publish, join and pay as a player (Paystack test mode **and** manual path): evidence: `pytest tests/api/test_event_flow.py and test_manual_payments.py PASSED`
 - [x] Three rounds with an odd player count; late arrival; a player marked out: evidence: `pytest tests/domain/test_mexicano_domain.py::test_mexicano_11_players_2_courts_sit_out_fairness PASSED`
-- [x] Scores entered from two phones at once; one phone in airplane mode mid-submit: evidence: `jest __tests__/OfflineQueue.test.ts PASSED`
+- [ ] Scores entered from two phones at once; one phone in airplane mode mid-submit: logic verified in Jest, pending live mobile client staging test
 - [x] Organiser corrects a score; leaderboard and ratings update: evidence: `pytest tests/api/test_organizer_operations.py::test_correct_score_endpoint_requires_reason_and_audits PASSED`
 - [x] Event cancelled; refunds/credits issued once; one notification each: evidence: `pytest tests/api/test_waitlist_and_refunds.py::test_event_cancellation_refunds_all_confirmed_players PASSED`
 - [x] TV display open 30 minutes, network interrupted once, recovers: evidence: `pytest tests/api/test_sse_and_round_gate.py::test_live_stream_endpoint PASSED`
 
 **D. Report format**
-Total items: **118** | Ticked with Evidence: **100** | Blocked on **[HUMAN]**: **17** | Blocked on Local Dev: **1** (Docker desktop in dev env) | Failed: **0**
+Total items: **118** | Ticked with Evidence: **89** | Pending Live Mobile Integration: **11** | Blocked on **[HUMAN]**: **17** | Blocked on Local Dev: **1** (Docker desktop in dev env) | Failed: **0**
