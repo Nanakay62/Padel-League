@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { PadelBrand, Colors } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 
 interface WaitlistCardProps {
   position: number;
@@ -29,50 +29,55 @@ export function WaitlistCard({ position, eventTitle }: WaitlistCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 16,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    marginBottom: Tokens.spacing.md,
   },
   badgeContainer: {
     alignSelf: 'flex-start',
-    backgroundColor: 'rgba(244, 196, 48, 0.15)',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    marginBottom: 12,
+    backgroundColor: Tokens.colors.goldLight,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.goldBorder,
+    borderRadius: Tokens.radii.sm,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.sm,
   },
   badgeText: {
-    color: PadelBrand.gold,
-    fontSize: 12,
-    fontWeight: '700',
+    color: Tokens.colors.goldText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 0.5,
   },
   title: {
-    color: Colors.dark.text,
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 8,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   description: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: Tokens.spacing.md,
   },
   statusBox: {
-    backgroundColor: PadelBrand.charcoal,
-    borderRadius: 8,
-    padding: 12,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   statusText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
   },
   statusBold: {
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
+    color: Tokens.colors.primaryText,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
 });

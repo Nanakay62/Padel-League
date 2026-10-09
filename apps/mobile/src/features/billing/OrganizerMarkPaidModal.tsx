@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand, Colors } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 
 interface OrganizerMarkPaidModalProps {
   visible: boolean;
@@ -65,7 +65,7 @@ export function OrganizerMarkPaidModal({
           <TextInput
             style={styles.input}
             placeholder="e.g. CASH-RECEPTION or MoMo ID"
-            placeholderTextColor={Colors.dark.textSecondary}
+            placeholderTextColor={Tokens.colors.textMuted}
             value={reference}
             onChangeText={setReference}
             autoCapitalize="characters"
@@ -75,13 +75,19 @@ export function OrganizerMarkPaidModal({
           <TextInput
             style={styles.input}
             placeholder="e.g. Paid at desk to Coach Kojo"
-            placeholderTextColor={Colors.dark.textSecondary}
+            placeholderTextColor={Tokens.colors.textMuted}
             value={note}
             onChangeText={setNote}
           />
 
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose} disabled={isSubmitting}>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={onClose}
+              disabled={isSubmitting}
+              accessibilityRole="button"
+              accessibilityLabel="Cancel"
+            >
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
 
@@ -89,9 +95,11 @@ export function OrganizerMarkPaidModal({
               style={styles.confirmButton}
               onPress={handleSubmit}
               disabled={isSubmitting}
+              accessibilityRole="button"
+              accessibilityLabel="Confirm Paid"
             >
               {isSubmitting ? (
-                <ActivityIndicator color="#000" size="small" />
+                <ActivityIndicator color={Tokens.colors.primaryForeground} size="small" />
               ) : (
                 <Text style={styles.confirmText}>Confirm Paid</Text>
               )}
@@ -106,84 +114,86 @@ export function OrganizerMarkPaidModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(20, 24, 26, 0.4)',
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: PadelBrand.cardDark,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
-    borderTopWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.surface,
+    borderTopLeftRadius: Tokens.radii.card,
+    borderTopRightRadius: Tokens.radii.card,
+    padding: Tokens.spacing.lg,
+    borderTopWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   title: {
-    color: Colors.dark.text,
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: 8,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   subtitle: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
-    marginBottom: 20,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.md,
     lineHeight: 20,
   },
   bold: {
-    color: Colors.dark.text,
-    fontWeight: '700',
+    color: Tokens.colors.text,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   label: {
-    color: Colors.dark.text,
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 6,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   input: {
-    backgroundColor: PadelBrand.charcoal,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    borderRadius: 12,
-    color: Colors.dark.text,
-    padding: 14,
-    fontSize: 15,
-    marginBottom: 16,
+    backgroundColor: Tokens.colors.surface,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    borderRadius: Tokens.radii.sm,
+    color: Tokens.colors.text,
+    padding: Tokens.spacing.sm,
+    fontSize: Tokens.fontSize.base,
+    marginBottom: Tokens.spacing.md,
   },
   errorText: {
-    color: '#EF4444',
-    fontSize: 13,
-    marginBottom: 12,
+    color: Tokens.colors.errorText,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.sm,
   },
   buttonRow: {
     flexDirection: 'row',
-    gap: 12,
-    marginTop: 8,
+    gap: Tokens.spacing.sm,
+    marginTop: Tokens.spacing.xs,
   },
   cancelButton: {
     flex: 1,
-    paddingVertical: 14,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    borderRadius: Tokens.radii.button,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   cancelText: {
-    color: Colors.dark.textSecondary,
-    fontWeight: '600',
-    fontSize: 15,
+    color: Tokens.colors.text,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
   },
   confirmButton: {
     flex: 2,
-    backgroundColor: PadelBrand.electricGreen,
-    paddingVertical: 14,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 12,
+    borderRadius: Tokens.radii.button,
   },
   confirmText: {
-    color: '#000',
-    fontWeight: '700',
-    fontSize: 15,
+    color: Tokens.colors.primaryForeground,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
   },
 });

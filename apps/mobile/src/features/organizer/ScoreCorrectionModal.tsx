@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 
 interface ScoreCorrectionModalProps {
   visible: boolean;
@@ -96,6 +96,7 @@ export function ScoreCorrectionModal({
                 value={scoreA}
                 onChangeText={setScoreA}
                 placeholder="0"
+                placeholderTextColor={Tokens.colors.textMuted}
               />
             </View>
 
@@ -109,6 +110,7 @@ export function ScoreCorrectionModal({
                 value={scoreB}
                 onChangeText={setScoreB}
                 placeholder="0"
+                placeholderTextColor={Tokens.colors.textMuted}
               />
             </View>
           </View>
@@ -119,6 +121,7 @@ export function ScoreCorrectionModal({
             value={reason}
             onChangeText={setReason}
             placeholder="e.g. Scores inverted on paper scoresheet, verified with both pairs"
+            placeholderTextColor={Tokens.colors.textMuted}
             multiline
             numberOfLines={3}
           />
@@ -128,6 +131,8 @@ export function ScoreCorrectionModal({
               style={[styles.button, styles.cancelButton]}
               onPress={onClose}
               disabled={isSubmitting}
+              accessibilityRole="button"
+              accessibilityLabel="Cancel"
             >
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
@@ -136,9 +141,11 @@ export function ScoreCorrectionModal({
               style={[styles.button, styles.confirmButton]}
               onPress={handleSubmit}
               disabled={isSubmitting}
+              accessibilityRole="button"
+              accessibilityLabel="Audit and Save"
             >
               {isSubmitting ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color={Tokens.colors.primaryForeground} />
               ) : (
                 <Text style={styles.confirmButtonText}>Audit & Save</Text>
               )}
@@ -153,85 +160,86 @@ export function ScoreCorrectionModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(20, 24, 26, 0.4)',
     justifyContent: 'center',
-    padding: 16,
+    padding: Tokens.spacing.md,
   },
   modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.lg,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: 4,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.xs,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 16,
+    fontSize: Tokens.fontSize.sm,
+    color: Tokens.colors.textMuted,
+    marginBottom: Tokens.spacing.md,
   },
   errorText: {
-    color: '#DC2626',
-    fontSize: 13,
-    marginBottom: 12,
+    color: Tokens.colors.errorText,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.sm,
   },
   scoreRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: Tokens.spacing.md,
   },
   scoreInputContainer: {
     flex: 1,
     alignItems: 'center',
   },
   scoreLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 6,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.xs,
     textAlign: 'center',
   },
   scoreInput: {
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    fontSize: 20,
-    fontWeight: 'bold',
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    borderRadius: Tokens.radii.sm,
+    paddingVertical: Tokens.spacing.xs,
+    paddingHorizontal: Tokens.spacing.md,
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
     textAlign: 'center',
     width: '80%',
-    color: '#111827',
+    color: Tokens.colors.text,
+    backgroundColor: Tokens.colors.surface,
+    fontVariant: ['tabular-nums'],
   },
   vsText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#9CA3AF',
-    marginHorizontal: 8,
-    marginTop: 20,
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.textMuted,
+    marginHorizontal: Tokens.spacing.xs,
+    marginTop: Tokens.spacing.md,
   },
   label: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 6,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.xs,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 14,
-    marginBottom: 16,
-    color: '#111827',
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.md,
+    color: Tokens.colors.text,
+    backgroundColor: Tokens.colors.surface,
   },
   textArea: {
     height: 72,
@@ -239,27 +247,33 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: 'row',
-    gap: 12,
-    marginTop: 8,
+    gap: Tokens.spacing.sm,
+    marginTop: Tokens.spacing.xs,
   },
   button: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 8,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   cancelButton: {
-    backgroundColor: '#F3F4F6',
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   cancelButtonText: {
-    color: '#4B5563',
-    fontWeight: '600',
+    color: Tokens.colors.text,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
   },
   confirmButton: {
-    backgroundColor: PadelBrand.electricGreen,
+    backgroundColor: Tokens.colors.primary,
   },
   confirmButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: Tokens.colors.primaryForeground,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
   },
 });

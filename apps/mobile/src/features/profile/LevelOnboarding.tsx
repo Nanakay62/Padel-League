@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 
 interface LevelOnboardingProps {
   onComplete: (calculatedLevel: number, band: string) => void;
@@ -34,11 +34,11 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
     if (wallConfidence === 'advanced') score += 0.7;
 
     const finalLevel = Math.round(Math.min(7.0, Math.max(1.0, score)) * 10) / 10;
-    let band = '1.0 – 2.0 (Beginner)';
-    if (finalLevel >= 2.0 && finalLevel < 3.0) band = '2.0 – 3.0 (Improver)';
-    if (finalLevel >= 3.0 && finalLevel < 4.0) band = '3.0 – 4.0 (Intermediate)';
-    if (finalLevel >= 4.0 && finalLevel < 5.5) band = '4.0 – 5.5 (Advanced)';
-    if (finalLevel >= 5.5) band = '5.5 – 7.0 (Expert)';
+    let band = '1.0 - 2.0 (Beginner)';
+    if (finalLevel >= 2.0 && finalLevel < 3.0) band = '2.0 - 3.0 (Improver)';
+    if (finalLevel >= 3.0 && finalLevel < 4.0) band = '3.0 - 4.0 (Intermediate)';
+    if (finalLevel >= 4.0 && finalLevel < 5.5) band = '4.0 - 5.5 (Advanced)';
+    if (finalLevel >= 5.5) band = '5.5 - 7.0 (Expert)';
 
     setResult({ level: finalLevel, band });
   };
@@ -58,7 +58,7 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
           <View style={styles.optionsRow}>
             {[
               { id: 'less_than_1', label: '< 1 Year' },
-              { id: '1_to_3', label: '1 – 3 Years' },
+              { id: '1_to_3', label: '1 - 3 Years' },
               { id: 'more_than_3', label: '3+ Years' },
             ].map((opt) => (
               <TouchableOpacity
@@ -68,6 +68,8 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
                   yearsPlaying === opt.id && styles.optionChipActive,
                 ]}
                 onPress={() => setYearsPlaying(opt.id as typeof yearsPlaying)}
+                accessibilityRole="button"
+                accessibilityLabel={opt.label}
               >
                 <Text
                   style={[
@@ -99,6 +101,8 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
                   experience === opt.id && styles.optionChipActive,
                 ]}
                 onPress={() => setExperience(opt.id as typeof experience)}
+                accessibilityRole="button"
+                accessibilityLabel={opt.label}
               >
                 <Text
                   style={[
@@ -124,6 +128,8 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
                 !usesBandeja && styles.optionChipActive,
               ]}
               onPress={() => setUsesBandeja(false)}
+              accessibilityRole="button"
+              accessibilityLabel="Still Learning"
             >
               <Text
                 style={[
@@ -141,6 +147,8 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
                 usesBandeja && styles.optionChipActive,
               ]}
               onPress={() => setUsesBandeja(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Yes, Deliberately"
             >
               <Text
                 style={[
@@ -171,6 +179,8 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
                   wallConfidence === opt.id && styles.optionChipActive,
                 ]}
                 onPress={() => setWallConfidence(opt.id as typeof wallConfidence)}
+                accessibilityRole="button"
+                accessibilityLabel={opt.label}
               >
                 <Text
                   style={[
@@ -200,12 +210,19 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
             <TouchableOpacity
               style={styles.confirmBtn}
               onPress={() => onComplete(result.level, result.band)}
+              accessibilityRole="button"
+              accessibilityLabel="Save My Level and Continue"
             >
-              <Text style={styles.confirmBtnText}>Save My Level & Continue →</Text>
+              <Text style={styles.confirmBtnText}>Save My Level & Continue</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <TouchableOpacity style={styles.calcBtn} onPress={calculate}>
+          <TouchableOpacity
+            style={styles.calcBtn}
+            onPress={calculate}
+            accessibilityRole="button"
+            accessibilityLabel="Calculate My Level"
+          >
             <Text style={styles.calcBtnText}>Calculate My Level</Text>
           </TouchableOpacity>
         )}
@@ -217,145 +234,151 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: PadelBrand.charcoal,
+    backgroundColor: Tokens.colors.background,
   },
   container: {
-    padding: 20,
-    paddingBottom: 40,
+    padding: Tokens.spacing.lg,
+    paddingBottom: Tokens.spacing.xl,
   },
   title: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '800',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   subtitle: {
-    color: '#94A3B8',
-    fontSize: 14,
-    marginTop: 4,
-    marginBottom: 20,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    marginTop: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.lg,
     lineHeight: 20,
   },
   card: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   questionNum: {
-    color: PadelBrand.electricGreen,
-    fontSize: 11,
-    fontWeight: '700',
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 1,
   },
   questionText: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    fontWeight: '600',
-    marginTop: 4,
-    marginBottom: 12,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginTop: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.md,
   },
   optionsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: Tokens.spacing.xs,
   },
   optionChip: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: '#1E2623',
-    borderWidth: 1,
-    borderColor: '#293630',
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.xs,
+    paddingHorizontal: Tokens.spacing.md,
+    borderRadius: Tokens.radii.sm,
+    backgroundColor: Tokens.colors.surface,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   optionChipActive: {
-    backgroundColor: PadelBrand.electricGreen,
-    borderColor: PadelBrand.electricGreen,
+    backgroundColor: Tokens.colors.primaryLight,
+    borderColor: Tokens.colors.primaryText,
   },
   optionChipText: {
-    color: '#CBD5E1',
-    fontSize: 13,
-    fontWeight: '600',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
   },
   optionChipTextActive: {
-    color: '#0B0F0E',
-    fontWeight: '700',
+    color: Tokens.colors.primaryText,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   calcBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    height: 54,
-    borderRadius: 12,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    height: 48,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: Tokens.spacing.sm,
   },
   calcBtnText: {
-    color: '#0B0F0E',
-    fontSize: 16,
-    fontWeight: '800',
+    color: Tokens.colors.primaryForeground,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   resultCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 18,
-    padding: 24,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.lg,
     alignItems: 'center',
-    marginTop: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.electricGreen,
+    marginTop: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   resultLabel: {
-    color: PadelBrand.gold,
-    fontSize: 12,
-    fontWeight: '800',
+    color: Tokens.colors.goldText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 1.5,
   },
   circleGauge: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 4,
-    borderColor: PadelBrand.electricGreen,
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    borderWidth: 3,
+    borderColor: Tokens.colors.primaryText,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 14,
-    backgroundColor: '#0F1513',
+    marginVertical: Tokens.spacing.md,
+    backgroundColor: Tokens.colors.surfaceMuted,
   },
   circleScore: {
-    color: '#FFFFFF',
-    fontSize: 32,
-    fontWeight: '900',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.xxl,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
   circleBand: {
-    color: PadelBrand.electricGreen,
-    fontSize: 10,
-    fontWeight: '700',
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     textTransform: 'uppercase',
   },
   bandTitle: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   resultExpl: {
-    color: '#94A3B8',
-    fontSize: 13,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
     textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 20,
+    marginTop: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.lg,
     lineHeight: 18,
   },
   confirmBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    height: 52,
-    borderRadius: 12,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    height: 48,
+    borderRadius: Tokens.radii.button,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   confirmBtnText: {
-    color: '#0B0F0E',
-    fontSize: 15,
-    fontWeight: '800',
+    color: Tokens.colors.primaryForeground,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
   },
 });

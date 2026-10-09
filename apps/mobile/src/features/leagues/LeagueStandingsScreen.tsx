@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
   FlatList,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens, Typography } from '@/constants/theme';
+import { Card, Chip, StatusPill, Button } from '@/components/ui';
 
 export interface BoxStandingItem {
   rank: number;
@@ -56,12 +56,12 @@ export function LeagueStandingsScreen({
   return (
     <View style={styles.container}>
       {/* Header Info */}
-      <View style={styles.headerCard}>
+      <Card style={styles.headerCard}>
         <Text style={styles.leagueTitle}>{leagueTitle}</Text>
         <Text style={styles.seasonSubtitle}>
           {seasonName} • {cycleWeeks}-Week Box Cycle
         </Text>
-      </View>
+      </Card>
 
       {/* Box Tabs */}
       {boxes.length > 1 && (
@@ -72,41 +72,30 @@ export function LeagueStandingsScreen({
           contentContainerStyle={styles.tabsContent}
         >
           {boxes.map((b, idx) => (
-            <Pressable
+            <Chip
               key={b.id}
-              style={[
-                styles.tabButton,
-                selectedBoxIndex === idx && styles.tabButtonActive,
-              ]}
+              label={`Box ${b.box_number}: ${b.name}`}
+              selected={selectedBoxIndex === idx}
               onPress={() => setSelectedBoxIndex(idx)}
-            >
-              <Text
-                style={[
-                  styles.tabButtonText,
-                  selectedBoxIndex === idx && styles.tabButtonTextActive,
-                ]}
-              >
-                Box {b.box_number}: {b.name}
-              </Text>
-            </Pressable>
+            />
           ))}
         </ScrollView>
       )}
 
       {/* Standings Table Card */}
       {currentBox ? (
-        <View style={styles.boxCard}>
+        <Card style={styles.boxCard}>
           <View style={styles.boxHeaderRow}>
             <Text style={styles.boxTitle}>
               Box {currentBox.box_number} Standings
             </Text>
             {onViewFixtures && (
-              <Pressable
-                style={styles.viewFixturesButton}
+              <Button
+                title="View Fixtures"
+                variant="ghost"
+                size="sm"
                 onPress={() => onViewFixtures(currentBox.id)}
-              >
-                <Text style={styles.viewFixturesButtonText}>View Fixtures →</Text>
-              </Pressable>
+              />
             )}
           </View>
 
@@ -128,7 +117,7 @@ export function LeagueStandingsScreen({
             scrollEnabled={false}
             renderItem={({ item }) => (
               <View style={styles.tableRow}>
-                <Text style={[styles.cellText, styles.rankCol, styles.boldText]}>
+                <Text style={[styles.cellText, styles.rankCol, styles.boldText, Typography.tabularNums]}>
                   {item.rank}
                 </Text>
                 <View style={styles.pairCol}>
@@ -141,16 +130,17 @@ export function LeagueStandingsScreen({
                     </Text>
                   )}
                 </View>
-                <Text style={[styles.cellText, styles.numCol]}>
+                <Text style={[styles.cellText, styles.numCol, Typography.tabularNums]}>
                   {item.matches_played}
                 </Text>
-                <Text style={[styles.cellText, styles.numCol]}>
+                <Text style={[styles.cellText, styles.numCol, Typography.tabularNums]}>
                   {item.sets_won}-{item.sets_lost}
                 </Text>
                 <Text
                   style={[
                     styles.cellText,
                     styles.numCol,
+                    Typography.tabularNums,
                     item.game_difference > 0
                       ? styles.positiveDiff
                       : item.game_difference < 0
@@ -162,235 +152,183 @@ export function LeagueStandingsScreen({
                     ? `+${item.game_difference}`
                     : `${item.game_difference}`}
                 </Text>
-                <Text style={[styles.cellText, styles.ptsCol, styles.boldPts]}>
+                <Text style={[styles.cellText, styles.ptsCol, styles.boldPts, Typography.tabularNums]}>
                   {item.points}
                 </Text>
                 <View style={styles.zoneCol}>
                   {item.zone === 'PROMOTION' && (
-                    <View style={[styles.badge, styles.promoBadge]}>
-                      <Text style={styles.promoText}>▲ Up</Text>
-                    </View>
+                    <StatusPill label="Up" variant="success" />
                   )}
                   {item.zone === 'RELEGATION' && (
-                    <View style={[styles.badge, styles.relegBadge]}>
-                      <Text style={styles.relegText}>▼ Down</Text>
-                    </View>
+                    <StatusPill label="Down" variant="danger" />
                   )}
                   {item.zone === 'SAFE' && (
-                    <Text style={styles.safeText}>—</Text>
+                    <Text style={styles.safeText}>-</Text>
                   )}
                 </View>
               </View>
             )}
           />
-        </View>
+        </Card>
       ) : null}
 
       {/* League Scoring Rules Footnote */}
-      <View style={styles.rulesNoteCard}>
+      <Card style={styles.rulesNoteCard}>
         <Text style={styles.rulesNoteTitle}>Scoring & Tie-break System</Text>
         <Text style={styles.rulesNoteBody}>
-          • Win: 3 pts | Played Loss: 1 pt | Walkover Loss: 0 pts{'\n'}
-          • Tiebreak: Points → Head-to-Head → Set Diff → Game Diff{'\n'}
-          • Top pairs promoted up; bottom pairs relegated at cycle end.
+          Win: 3 pts | Played Loss: 1 pt | Walkover Loss: 0 pts{'\n'}
+          Tiebreak: Points, Head-to-Head, Set Diff, Game Diff{'\n'}
+          Top pairs promoted up; bottom pairs relegated at cycle end.
         </Text>
-      </View>
+      </Card>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-    padding: 16,
+    gap: Tokens.spacing.base,
   },
   headerCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    gap: Tokens.spacing.xs,
   },
   leagueTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 4,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    lineHeight: Tokens.lineHeight.lg,
+    color: Tokens.colors.text,
   },
   seasonSubtitle: {
-    fontSize: 13,
-    color: PadelBrand.electricGreen,
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
   },
   tabsContainer: {
-    maxHeight: 44,
-    marginBottom: 12,
+    flexGrow: 0,
   },
   tabsContent: {
-    gap: 8,
-  },
-  tabButton: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: PadelBrand.cardDark,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-  },
-  tabButtonActive: {
-    backgroundColor: PadelBrand.electricGreen,
-    borderColor: PadelBrand.electricGreen,
-  },
-  tabButtonText: {
-    fontSize: 13,
-    color: '#94A3B8',
-    fontWeight: '600',
-  },
-  tabButtonTextActive: {
-    color: '#0B0F0E',
-    fontWeight: '700',
+    flexDirection: 'row',
+    gap: Tokens.spacing.sm,
   },
   boxCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
+    padding: Tokens.spacing.base,
+    gap: Tokens.spacing.md,
   },
   boxHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
   },
   boxTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  viewFixturesButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    backgroundColor: '#25302C',
-    borderRadius: 6,
-  },
-  viewFixturesButtonText: {
-    fontSize: 12,
-    color: PadelBrand.electricGreen,
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.text,
   },
   tableHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: Tokens.spacing.xs,
     borderBottomWidth: 1,
-    borderBottomColor: PadelBrand.borderDark,
-    paddingBottom: 8,
-    marginBottom: 6,
+    borderBottomColor: Tokens.colors.border,
   },
   headerCell: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#94A3B8',
-    textTransform: 'uppercase',
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+    textAlign: 'center',
   },
   tableRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: Tokens.spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: '#1A2320',
+    borderBottomColor: Tokens.colors.border,
+    minHeight: Tokens.touch.minTarget,
+  },
+  cellText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
+    textAlign: 'center',
+  },
+  boldText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+  },
+  boldPts: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.greenText,
+  },
+  pairNameText: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
+  },
+  walkoverSubtext: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.danger,
+    marginTop: 2,
   },
   rankCol: {
     width: 24,
-    textAlign: 'center',
   },
   pairCol: {
     flex: 1,
-    paddingHorizontal: 6,
+    paddingHorizontal: Tokens.spacing.xs,
   },
   numCol: {
     width: 38,
-    textAlign: 'center',
   },
   ptsCol: {
-    width: 36,
-    textAlign: 'center',
+    width: 34,
   },
   zoneCol: {
-    width: 54,
+    width: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cellText: {
-    fontSize: 12,
-    color: '#E2E8F0',
-  },
-  boldText: {
-    fontWeight: '700',
-  },
-  boldPts: {
-    fontWeight: '700',
-    color: PadelBrand.electricGreen,
-  },
-  pairNameText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#FFFFFF',
-  },
-  walkoverSubtext: {
-    fontSize: 10,
-    color: '#F43F5E',
-  },
   positiveDiff: {
-    color: PadelBrand.electricGreen,
+    color: Tokens.colors.greenText,
   },
   negativeDiff: {
-    color: '#F43F5E',
-  },
-  badge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  promoBadge: {
-    backgroundColor: 'rgba(0, 200, 83, 0.15)',
-  },
-  promoText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: PadelBrand.electricGreen,
-  },
-  relegBadge: {
-    backgroundColor: 'rgba(244, 63, 94, 0.15)',
-  },
-  relegText: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: '#F43F5E',
+    color: Tokens.colors.danger,
   },
   safeText: {
-    fontSize: 11,
-    color: '#64748B',
+    color: Tokens.colors.textMuted,
+    textAlign: 'center',
   },
   rulesNoteCard: {
-    backgroundColor: 'rgba(22, 28, 26, 0.6)',
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    gap: Tokens.spacing.xs,
   },
   rulesNoteTitle: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#94A3B8',
-    marginBottom: 4,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   rulesNoteBody: {
-    fontSize: 11,
-    color: '#64748B',
-    lineHeight: 16,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
   },
 });

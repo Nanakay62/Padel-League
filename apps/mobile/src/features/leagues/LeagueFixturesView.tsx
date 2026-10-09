@@ -9,7 +9,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { MapPin } from 'lucide-react-native';
+import { Tokens } from '@/constants/theme';
 
 export interface LeagueFixtureItem {
   id: string;
@@ -109,14 +110,17 @@ export function LeagueFixturesView({
               </View>
               <Text style={styles.vsText}>VS</Text>
               <View style={styles.teamCol}>
-                <Text style={styles.teamTitle}>
+                <Text style={[styles.teamTitle, { textAlign: 'right' }]}>
                   {item.team_b_p1} & {item.team_b_p2}
                 </Text>
               </View>
             </View>
 
             {item.venue_name && (
-              <Text style={styles.venueText}>📍 {item.venue_name}</Text>
+              <View style={styles.venueRow}>
+                <MapPin size={12} color={Tokens.colors.textMuted} />
+                <Text style={styles.venueText}>{item.venue_name}</Text>
+              </View>
             )}
 
             <View style={styles.statusRow}>
@@ -132,6 +136,8 @@ export function LeagueFixturesView({
                 <Pressable
                   style={styles.scoreButton}
                   onPress={() => handleOpenModal(item)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Enter Score"
                 >
                   <Text style={styles.scoreButtonText}>Enter Score</Text>
                 </Pressable>
@@ -162,7 +168,7 @@ export function LeagueFixturesView({
                 <Switch
                   value={isWalkover}
                   onValueChange={setIsWalkover}
-                  trackColor={{ false: '#25302C', true: PadelBrand.electricGreen }}
+                  trackColor={{ false: Tokens.colors.border, true: Tokens.colors.primary }}
                 />
               </View>
 
@@ -174,6 +180,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setSetsA(Math.max(0, setsA - 1))}
+                        accessibilityRole="button"
+                        accessibilityLabel="Decrease sets A"
                       >
                         <Text style={styles.stepBtnText}>-</Text>
                       </Pressable>
@@ -181,6 +189,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setSetsA(setsA + 1)}
+                        accessibilityRole="button"
+                        accessibilityLabel="Increase sets A"
                       >
                         <Text style={styles.stepBtnText}>+</Text>
                       </Pressable>
@@ -188,6 +198,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setSetsB(Math.max(0, setsB - 1))}
+                        accessibilityRole="button"
+                        accessibilityLabel="Decrease sets B"
                       >
                         <Text style={styles.stepBtnText}>-</Text>
                       </Pressable>
@@ -195,6 +207,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setSetsB(setsB + 1)}
+                        accessibilityRole="button"
+                        accessibilityLabel="Increase sets B"
                       >
                         <Text style={styles.stepBtnText}>+</Text>
                       </Pressable>
@@ -207,6 +221,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setGamesA(Math.max(0, gamesA - 1))}
+                        accessibilityRole="button"
+                        accessibilityLabel="Decrease games A"
                       >
                         <Text style={styles.stepBtnText}>-</Text>
                       </Pressable>
@@ -214,6 +230,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setGamesA(gamesA + 1)}
+                        accessibilityRole="button"
+                        accessibilityLabel="Increase games A"
                       >
                         <Text style={styles.stepBtnText}>+</Text>
                       </Pressable>
@@ -221,6 +239,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setGamesB(Math.max(0, gamesB - 1))}
+                        accessibilityRole="button"
+                        accessibilityLabel="Decrease games B"
                       >
                         <Text style={styles.stepBtnText}>-</Text>
                       </Pressable>
@@ -228,6 +248,8 @@ export function LeagueFixturesView({
                       <Pressable
                         style={styles.stepBtn}
                         onPress={() => setGamesB(gamesB + 1)}
+                        accessibilityRole="button"
+                        accessibilityLabel="Increase games B"
                       >
                         <Text style={styles.stepBtnText}>+</Text>
                       </Pressable>
@@ -243,13 +265,15 @@ export function LeagueFixturesView({
                 value={venueName}
                 onChangeText={setVenueName}
                 placeholder="Club / Venue Name"
-                placeholderTextColor="#64748B"
+                placeholderTextColor={Tokens.colors.textMuted}
               />
 
               <View style={styles.modalButtons}>
                 <Pressable
                   style={styles.cancelBtn}
                   onPress={() => setActiveModalMatch(null)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Cancel"
                 >
                   <Text style={styles.cancelBtnText}>Cancel</Text>
                 </Pressable>
@@ -257,6 +281,8 @@ export function LeagueFixturesView({
                   style={[styles.submitBtn, isSubmitting && styles.btnDisabled]}
                   onPress={handleSubmit}
                   disabled={isSubmitting}
+                  accessibilityRole="button"
+                  accessibilityLabel={isSubmitting ? 'Saving' : 'Submit Result'}
                 >
                   <Text style={styles.submitBtnText}>
                     {isSubmitting ? 'Saving...' : 'Submit Result'}
@@ -274,183 +300,201 @@ export function LeagueFixturesView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-    padding: 16,
+    backgroundColor: Tokens.colors.background,
+    padding: Tokens.spacing.md,
   },
   sectionHeader: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 12,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.sm,
   },
   fixtureCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 12,
-    padding: 14,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   teamsRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: Tokens.spacing.xs,
   },
   teamCol: {
     flex: 1,
   },
   teamTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
   },
   vsText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: PadelBrand.electricGreen,
-    paddingHorizontal: 8,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.textMuted,
+    paddingHorizontal: Tokens.spacing.xs,
+  },
+  venueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.xs,
   },
   venueText: {
-    fontSize: 12,
-    color: '#94A3B8',
-    marginBottom: 8,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.textMuted,
   },
   statusRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    marginTop: Tokens.spacing.xs,
   },
   scoreBadge: {
-    backgroundColor: 'rgba(0, 200, 83, 0.15)',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 6,
+    backgroundColor: Tokens.colors.primaryLight,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.primaryBorder,
   },
   scoreText: {
-    fontSize: 12,
-    color: PadelBrand.electricGreen,
-    fontWeight: '600',
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.primaryText,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   scoreButton: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    borderRadius: 6,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingHorizontal: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.button,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scoreButtonText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#0B0F0E',
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.primaryForeground,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(20, 24, 26, 0.4)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: Tokens.spacing.md,
   },
   modalContent: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 20,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.lg,
     width: '100%',
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 4,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.xs,
   },
   modalSubtitle: {
-    fontSize: 13,
-    color: '#94A3B8',
-    marginBottom: 16,
+    fontSize: Tokens.fontSize.sm,
+    color: Tokens.colors.textMuted,
+    marginBottom: Tokens.spacing.md,
   },
   switchRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: Tokens.spacing.md,
   },
   fieldLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#CBD5E1',
-    marginBottom: 6,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.xs,
   },
   stepperRow: {
-    marginBottom: 14,
+    marginBottom: Tokens.spacing.md,
   },
   steppers: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: Tokens.spacing.xs,
   },
   stepBtn: {
-    backgroundColor: '#25302C',
-    width: 36,
-    height: 36,
-    borderRadius: 6,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    minWidth: Tokens.dimensions.minTouchTarget,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    borderRadius: Tokens.radii.sm,
     alignItems: 'center',
     justifyContent: 'center',
   },
   stepBtnText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
   },
   stepVal: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FFFFFF',
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
     minWidth: 24,
     textAlign: 'center',
+    fontVariant: ['tabular-nums'],
   },
   divider: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: PadelBrand.electricGreen,
-    marginHorizontal: 4,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.textMuted,
+    marginHorizontal: Tokens.spacing.xs,
   },
   input: {
-    backgroundColor: '#0B0F0E',
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    color: '#FFFFFF',
-    fontSize: 14,
-    marginBottom: 18,
+    backgroundColor: Tokens.colors.surface,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    borderRadius: Tokens.radii.sm,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.md,
   },
   modalButtons: {
     flexDirection: 'row',
-    gap: 10,
+    gap: Tokens.spacing.sm,
     justifyContent: 'flex-end',
   },
   cancelBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 8,
-    backgroundColor: '#25302C',
+    paddingHorizontal: Tokens.spacing.md,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.button,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   cancelBtnText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#E2E8F0',
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
   },
   submitBtn: {
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    borderRadius: 8,
-    backgroundColor: PadelBrand.electricGreen,
+    paddingHorizontal: Tokens.spacing.md,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.button,
+    backgroundColor: Tokens.colors.primary,
   },
   submitBtnText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#0B0F0E',
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.primaryForeground,
   },
   btnDisabled: {
     opacity: 0.5,

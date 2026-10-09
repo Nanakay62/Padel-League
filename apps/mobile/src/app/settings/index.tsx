@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import {
-  Pressable,
-  ScrollView,
   StyleSheet,
   Switch,
   Text,
   View,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { PadelBrand } from '@/constants/theme';
+import { Wifi, Database, Download, Trash2, RefreshCw } from 'lucide-react-native';
+import { Tokens, Typography } from '@/constants/theme';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
 import { FeedbackDialog, useFeedbackDialog } from '@/components/ui/FeedbackDialog';
+import { Screen, PageHeader, Card, Button, StatusPill } from '@/components/ui';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -68,23 +67,20 @@ export default function SettingsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-      >
-        <Pressable style={styles.backBtn} onPress={() => router.back()}>
-          <Text style={styles.backBtnText}>← Home</Text>
-        </Pressable>
+    <Screen>
+      <PageHeader
+        title="Settings & Performance"
+        subtitle="Optimized for Ghanaian connectivity and outdoor court play"
+        showBack
+      />
 
-        <Text style={styles.title}>Settings & Performance</Text>
-        <Text style={styles.subtitle}>
-          Optimized for Ghanaian connectivity and outdoor court play.
-        </Text>
-
+      <View style={styles.container}>
         {/* Network & Data-Light Card */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Data & Connectivity</Text>
+        <Card style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Wifi size={18} color={Tokens.colors.text} strokeWidth={1.75} />
+            <Text style={styles.cardTitle}>Data & Connectivity</Text>
+          </View>
 
           <View style={styles.settingRow}>
             <View style={styles.settingTextCol}>
@@ -97,234 +93,149 @@ export default function SettingsScreen() {
             <Switch
               value={dataLightMode}
               onValueChange={setDataLightMode}
-              trackColor={{ false: '#25302C', true: PadelBrand.electricGreen }}
+              trackColor={{ false: Tokens.colors.border, true: Tokens.colors.primary }}
+              thumbColor={Tokens.colors.card}
             />
           </View>
-        </View>
-
-        {/* Display & Sunlight Card */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Display & Sunlight</Text>
 
           <View style={styles.settingRow}>
             <View style={styles.settingTextCol}>
               <Text style={styles.settingLabel}>High Sunlight Contrast</Text>
               <Text style={styles.settingDesc}>
-                Maximum contrast ratios for reading scoreboards under bright
-                midday sun on outdoor glass courts.
+                High-contrast court legibility in bright midday sun.
               </Text>
             </View>
             <Switch
               value={sunlightContrast}
               onValueChange={setSunlightContrast}
-              trackColor={{ false: '#25302C', true: PadelBrand.electricGreen }}
+              trackColor={{ false: Tokens.colors.border, true: Tokens.colors.primary }}
+              thumbColor={Tokens.colors.card}
             />
           </View>
-        </View>
+        </Card>
 
-        {/* Offline Scoring Queue Card */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Offline Courtside Scoring</Text>
+        {/* Offline Match Scores Queue */}
+        <Card style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Database size={18} color={Tokens.colors.text} strokeWidth={1.75} />
+            <Text style={styles.cardTitle}>Offline Score Storage</Text>
+          </View>
+
           <Text style={styles.settingDesc}>
-            Pending score mutations recorded during spotty cellular coverage or
-            airplane mode.
+            Scores recorded during power loss or network cuts are cached locally
+            and safely submitted once reconnected.
           </Text>
 
           <View style={styles.queueStatusRow}>
-            <Text style={styles.queueCountText}>
-              Pending mutations: {pendingCount}
-            </Text>
-            <Pressable
-              style={styles.syncBtn}
-              onPress={handleSyncNow}
-            >
-              <Text style={styles.syncBtnText}>Sync Queue Now</Text>
-            </Pressable>
+            <Text style={styles.queueLabel}>Pending match submissions:</Text>
+            <StatusPill
+              label={`${pendingCount} Pending`}
+              variant={pendingCount > 0 ? 'gold' : 'success'}
+            />
           </View>
 
-          {syncStatus && (
-            <Text style={styles.syncFeedback}>{syncStatus}</Text>
-          )}
-        </View>
+          {syncStatus ? (
+            <Text style={styles.syncStatusText}>{syncStatus}</Text>
+          ) : null}
 
-        {/* Account & Privacy (Apple App Store & GDPR Compliance) */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Account & Privacy</Text>
-          <Text style={styles.settingDesc}>
-            Manage your personal data in compliance with Ghana Data Protection
-            Act 843 and GDPR guidelines.
-          </Text>
+          <Button
+            title="Sync Scores Now"
+            variant="secondary"
+            size="md"
+            onPress={handleSyncNow}
+            icon={<RefreshCw size={16} color={Tokens.colors.text} strokeWidth={1.75} />}
+          />
+        </Card>
 
-          <View style={styles.accountActionRow}>
-            <Pressable style={styles.exportBtn} onPress={handleExportData}>
-              <Text style={styles.exportBtnText}>📥 Export My Data</Text>
-            </Pressable>
-            <Pressable style={styles.deleteBtn} onPress={handleDeleteAccount}>
-              <Text style={styles.deleteBtnText}>🗑 Delete Account</Text>
-            </Pressable>
-          </View>
-        </View>
+        {/* Privacy & Account Management */}
+        <Card style={styles.card}>
+          <Text style={styles.cardTitle}>Privacy & Account</Text>
 
-        {/* System & Market Info */}
-        <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>Padel Ghana Platform</Text>
-          <Text style={styles.infoItem}>Version: 1.0.0 (Production Release)</Text>
-          <Text style={styles.infoItem}>Market Timezone: Africa/Accra (UTC+0)</Text>
-          <Text style={styles.infoItem}>Official Currency: Ghana Cedis (GHS)</Text>
-          <Text style={styles.infoItem}>Auth: +233 Mobile Phone OTP</Text>
-        </View>
-      </ScrollView>
+          <Button
+            title="Export My Personal Data (Act 843)"
+            variant="secondary"
+            size="md"
+            onPress={handleExportData}
+            icon={<Download size={16} color={Tokens.colors.text} strokeWidth={1.75} />}
+          />
+
+          <Button
+            title="Delete Account & Anonymize"
+            variant="danger"
+            size="md"
+            onPress={handleDeleteAccount}
+            icon={<Trash2 size={16} color={Tokens.colors.card} strokeWidth={1.75} />}
+          />
+        </Card>
+      </View>
+
       <FeedbackDialog {...dialogProps} />
-    </SafeAreaView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
   container: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  backBtn: {
-    marginBottom: 12,
-  },
-  backBtnText: {
-    fontSize: 13,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: '800',
-    color: '#FFFFFF',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: '#94A3B8',
-    marginBottom: 20,
-    lineHeight: 18,
+    gap: Tokens.spacing.base,
+    paddingBottom: Tokens.spacing.xxxl,
   },
   card: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
+    gap: Tokens.spacing.base,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.sm,
   },
   cardTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 12,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.text,
   },
   settingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 12,
+    gap: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.xs,
   },
   settingTextCol: {
     flex: 1,
+    gap: 2,
   },
   settingLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 4,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
   settingDesc: {
-    fontSize: 12,
-    color: '#94A3B8',
-    lineHeight: 16,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   queueStatusRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#25302C',
   },
-  queueCountText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#CBD5E1',
+  queueLabel: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
-  syncBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  syncBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: '#0B0F0E',
-  },
-  syncFeedback: {
-    fontSize: 12,
-    color: PadelBrand.electricGreen,
-    marginTop: 8,
-    fontWeight: '600',
-  },
-  infoCard: {
-    backgroundColor: '#0B0F0E',
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-  },
-  infoTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  infoItem: {
-    fontSize: 11,
-    color: '#64748B',
-    marginBottom: 4,
-  },
-  accountActionRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginTop: 14,
-  },
-  exportBtn: {
-    flex: 1,
-    backgroundColor: '#1E293B',
-    paddingVertical: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#334155',
-  },
-  exportBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#F8FAFC',
-  },
-  deleteBtn: {
-    flex: 1,
-    backgroundColor: 'rgba(239, 68, 68, 0.15)',
-    paddingVertical: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(239, 68, 68, 0.4)',
-  },
-  deleteBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#EF4444',
+  syncStatusText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.greenText,
   },
 });

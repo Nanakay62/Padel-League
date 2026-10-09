@@ -1,12 +1,9 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { PadelBrand } from '@/constants/theme';
 import {
   RatingHistoryData,
   RatingHistoryScreen,
 } from '@/features/ratings/RatingHistoryScreen';
+import { Screen, PageHeader } from '@/components/ui';
 
 const SAMPLE_RATING_DATA: RatingHistoryData = {
   user_id: 'usr-kwadwo',
@@ -38,32 +35,14 @@ const SAMPLE_RATING_DATA: RatingHistoryData = {
 };
 
 export default function RatingsIndexScreen() {
-  const router = useRouter();
-
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.topBar}>
-        <Pressable onPress={() => router.back()}>
-          <Text style={styles.backText}>← Home</Text>
-        </Pressable>
-      </View>
+    <Screen>
+      <PageHeader
+        title="My Rating"
+        subtitle="Performance & Level History"
+        showBack
+      />
       <RatingHistoryScreen data={SAMPLE_RATING_DATA} />
-    </SafeAreaView>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
-  topBar: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-  },
-  backText: {
-    fontSize: 13,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
-  },
-});

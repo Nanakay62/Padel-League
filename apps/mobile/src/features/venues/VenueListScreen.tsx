@@ -1,14 +1,14 @@
 import React from 'react';
 import {
   Linking,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { MapPin, Star, Navigation } from 'lucide-react-native';
+import { Tokens, Typography } from '@/constants/theme';
+import { Card, Button, StatusPill } from '@/components/ui';
 
 export interface VenueItem {
   id: string;
@@ -48,223 +48,186 @@ export function VenueListScreen({ venues, onSelectVenue }: VenueListScreenProps)
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Padel Venues in Ghana</Text>
-        <Text style={styles.subtitle}>
-          Discover courts in Accra, Tema, and Kumasi with verified prices in GH₵.
-        </Text>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <Text style={styles.title}>Padel Venues in Ghana</Text>
+      <Text style={styles.subtitle}>
+        Discover courts in Accra, Tema, and Kumasi with verified prices in GH₵.
+      </Text>
 
-        {venues.map((venue) => (
-          <View key={venue.id} style={styles.card}>
-            <View style={styles.cardHeader}>
-              <View style={styles.titleCol}>
-                <Text style={styles.venueName}>{venue.name}</Text>
-                <Text style={styles.venueAddress}>📍 {venue.address}</Text>
-              </View>
-
-              <View style={styles.ratingBadge}>
-                <Text style={styles.starText}>★</Text>
-                <Text style={styles.ratingNum}>{venue.rating ?? 4.8}</Text>
+      {venues.map((venue) => (
+        <Card key={venue.id} style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={styles.titleCol}>
+              <Text style={styles.venueName}>{venue.name}</Text>
+              <View style={styles.addressRow}>
+                <MapPin size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                <Text style={styles.venueAddress}>{venue.address}</Text>
               </View>
             </View>
 
-            {/* GPS & Court Specs Row */}
-            <View style={styles.specsRow}>
-              {venue.ghanapostGps ? (
-                <View style={styles.gpsBadge}>
-                  <Text style={styles.gpsText}>GPS: {venue.ghanapostGps}</Text>
-                </View>
-              ) : null}
-
-              <View style={styles.courtsBadge}>
-                <Text style={styles.courtsText}>
-                  🎾 {venue.courtCount} {venue.courtCount === 1 ? 'Court' : 'Courts'}
-                  {venue.indoorCourts ? ` (${venue.indoorCourts} Indoor)` : ''}
-                </Text>
-              </View>
-            </View>
-
-            {/* Price & Action Row */}
-            <View style={styles.priceRow}>
-              <View>
-                <Text style={styles.priceLabel}>Hourly Court Rate</Text>
-                <Text style={styles.priceValue}>From {venue.baseRateFormatted} / hr</Text>
-              </View>
-
-              <View style={styles.actionBtns}>
-                {venue.mapsUrl && (
-                  <TouchableOpacity
-                    style={styles.mapBtn}
-                    onPress={() => handleOpenMaps(venue.mapsUrl)}
-                  >
-                    <Text style={styles.mapBtnText}>Directions 🗺️</Text>
-                  </TouchableOpacity>
-                )}
-
-                <TouchableOpacity
-                  style={styles.bookBtn}
-                  onPress={() => {
-                    if (onSelectVenue) {
-                      onSelectVenue(venue.id);
-                    } else {
-                      handleBookClub(venue.bookingUrl, venue.bookingPhone);
-                    }
-                  }}
-                >
-                  <Text style={styles.bookBtnText}>Book at Club →</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={styles.ratingBadge}>
+              <Star size={14} color={Tokens.colors.gold} strokeWidth={1.75} fill={Tokens.colors.gold} />
+              <Text style={[styles.ratingNum, Typography.tabularNums]}>
+                {(venue.rating ?? 4.8).toFixed(1)}
+              </Text>
             </View>
           </View>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+
+          {/* GPS & Court Specs Row */}
+          <View style={styles.specsRow}>
+            {venue.ghanapostGps ? (
+              <StatusPill label={`GPS: ${venue.ghanapostGps}`} variant="neutral" />
+            ) : null}
+
+            <StatusPill
+              label={`${venue.courtCount} ${venue.courtCount === 1 ? 'Court' : 'Courts'}${
+                venue.indoorCourts ? ` (${venue.indoorCourts} Indoor)` : ''
+              }`}
+              variant="neutral"
+            />
+          </View>
+
+          {/* Price & Action Row */}
+          <View style={styles.priceRow}>
+            <View>
+              <Text style={styles.priceLabel}>Hourly Court Rate</Text>
+              <Text style={[styles.priceValue, Typography.tabularNums]}>
+                From {venue.baseRateFormatted}
+              </Text>
+            </View>
+
+            <View style={styles.actionBtns}>
+              {venue.mapsUrl && (
+                <Button
+                  title="Directions"
+                  variant="secondary"
+                  size="sm"
+                  onPress={() => handleOpenMaps(venue.mapsUrl)}
+                  icon={<Navigation size={14} color={Tokens.colors.text} strokeWidth={1.75} />}
+                />
+              )}
+
+              <Button
+                title="Book at Club"
+                variant="primary"
+                size="sm"
+                onPress={() => {
+                  if (onSelectVenue) {
+                    onSelectVenue(venue.id);
+                  } else {
+                    handleBookClub(venue.bookingUrl, venue.bookingPhone);
+                  }
+                }}
+              />
+            </View>
+          </View>
+        </Card>
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
   container: {
-    padding: 20,
-    paddingBottom: 40,
+    paddingBottom: Tokens.spacing.xxxl,
+    gap: Tokens.spacing.base,
   },
   title: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '800',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    color: Tokens.colors.text,
   },
   subtitle: {
-    color: '#94A3B8',
-    fontSize: 14,
-    marginTop: 4,
-    marginBottom: 20,
-    lineHeight: 20,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
+    marginTop: -Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.xs,
   },
   card: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 18,
-    padding: 18,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    gap: Tokens.spacing.base,
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
   },
   titleCol: {
     flex: 1,
-    paddingRight: 10,
+    paddingRight: Tokens.spacing.sm,
+    gap: Tokens.spacing.xs,
   },
   venueName: {
-    color: '#FFFFFF',
-    fontSize: 19,
-    fontWeight: '800',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    lineHeight: Tokens.lineHeight.lg,
+    color: Tokens.colors.text,
+  },
+  addressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
   },
   venueAddress: {
-    color: '#94A3B8',
-    fontSize: 13,
-    marginTop: 2,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   ratingBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    backgroundColor: '#272212',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
+    gap: Tokens.spacing.xs,
+    backgroundColor: Tokens.colors.background,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.pill,
     borderWidth: 1,
-    borderColor: '#3F361C',
-  },
-  starText: {
-    color: PadelBrand.gold,
-    fontSize: 13,
+    borderColor: Tokens.colors.border,
   },
   ratingNum: {
-    color: PadelBrand.gold,
-    fontSize: 13,
-    fontWeight: '800',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.text,
   },
   specsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 16,
-  },
-  gpsBadge: {
-    backgroundColor: '#1E2522',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#293530',
-  },
-  gpsText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  courtsBadge: {
-    backgroundColor: '#202624',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-  },
-  courtsText: {
-    color: '#CBD5E1',
-    fontSize: 12,
-    fontWeight: '600',
+    gap: Tokens.spacing.sm,
   },
   priceRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 14,
+    paddingTop: Tokens.spacing.xs,
     borderTopWidth: 1,
-    borderTopColor: '#1F2925',
+    borderTopColor: Tokens.colors.border,
   },
   priceLabel: {
-    color: '#64748B',
-    fontSize: 11,
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   priceValue: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '800',
-    marginTop: 2,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.greenText,
   },
   actionBtns: {
     flexDirection: 'row',
-    gap: 8,
-  },
-  mapBtn: {
-    backgroundColor: '#202925',
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },
-  mapBtnText: {
-    color: '#CBD5E1',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  bookBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },
-  bookBtnText: {
-    color: '#0B0F0E',
-    fontSize: 13,
-    fontWeight: '800',
+    alignItems: 'center',
+    gap: Tokens.spacing.sm,
   },
 });

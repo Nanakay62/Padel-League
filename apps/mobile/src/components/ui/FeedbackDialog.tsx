@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens, Typography } from '@/constants/theme';
 
 export interface DialogButton {
   text: string;
@@ -74,7 +74,7 @@ function FeedbackDialogModal({ config, onClose }: { config: DialogConfig; onClos
             <TextInput
               style={styles.input}
               placeholder={config.prompt.placeholder || 'Enter text...'}
-              placeholderTextColor="#64748B"
+              placeholderTextColor={Tokens.colors.textMuted}
               value={inputValue}
               onChangeText={setInputValue}
               autoFocus
@@ -147,90 +147,93 @@ export function useFeedbackDialog() {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
+    padding: Tokens.spacing.lg,
   },
   dialogCard: {
     width: '100%',
     maxWidth: 420,
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 16,
+    backgroundColor: Tokens.colors.card,
+    borderRadius: Tokens.radii.card,
     borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.5,
-    shadowRadius: 16,
-    elevation: 12,
+    borderColor: Tokens.colors.border,
+    padding: Tokens.spacing.xl,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#FFFFFF',
-    marginBottom: 8,
-    letterSpacing: -0.3,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    lineHeight: Tokens.lineHeight.lg,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.sm,
   },
   message: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#CBD5E1',
-    marginBottom: 16,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
+    marginBottom: Tokens.spacing.base,
   },
   input: {
-    backgroundColor: '#0B0F0E',
+    backgroundColor: Tokens.colors.background,
     borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    color: '#FFFFFF',
-    fontSize: 14,
-    marginBottom: 16,
+    borderColor: Tokens.colors.border,
+    borderRadius: Tokens.radii.input,
+    paddingHorizontal: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.sm,
+    color: Tokens.colors.text,
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    minHeight: Tokens.touch.minTarget,
+    marginBottom: Tokens.spacing.base,
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    gap: 10,
-    marginTop: 4,
+    gap: Tokens.spacing.sm,
+    marginTop: Tokens.spacing.xs,
   },
   button: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 8,
+    minHeight: Tokens.touch.minTarget,
+    paddingHorizontal: Tokens.spacing.base,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.button,
     minWidth: 80,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 14,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
   },
   defaultButton: {
-    backgroundColor: PadelBrand.electricGreen,
+    backgroundColor: Tokens.colors.primary,
   },
   defaultButtonText: {
-    color: '#0B0F0E',
-    fontWeight: '700',
-    fontSize: 14,
+    color: Tokens.colors.textOnPrimary,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   cancelButton: {
-    backgroundColor: '#1E2925',
+    backgroundColor: Tokens.colors.card,
     borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    borderColor: Tokens.colors.border,
   },
   cancelButtonText: {
-    color: '#94A3B8',
-    fontWeight: '600',
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
   },
   destructiveButton: {
-    backgroundColor: '#DC2626',
+    backgroundColor: Tokens.colors.danger,
   },
   destructiveButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 14,
+    color: Tokens.colors.card,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
 });

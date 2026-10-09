@@ -92,3 +92,44 @@ export function formatGhanaPhoneDisplay(phone: string): string {
 
   return phone;
 }
+
+/**
+ * Formats an ISO UTC timestamp to Accra local time (e.g. "6:00 PM").
+ * Time zone is Africa/Accra (UTC+0, no daylight saving). Never outputs "UTC".
+ */
+export function formatAccraTime(isoString: string): string {
+  if (!isoString) return '';
+  const date = new Date(isoString);
+  if (isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Africa/Accra',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(date);
+}
+
+/**
+ * Formats an ISO UTC timestamp to Accra short date (e.g. "Thu, Oct 8").
+ */
+export function formatAccraDate(isoString: string): string {
+  if (!isoString) return '';
+  const date = new Date(isoString);
+  if (isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Africa/Accra',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  }).format(date);
+}
+
+/**
+ * Formats an ISO UTC timestamp to combined Accra date and time (e.g. "Thu, Oct 8 • 6:00 PM").
+ */
+export function formatAccraDateTime(isoString: string): string {
+  if (!isoString) return '';
+  const date = new Date(isoString);
+  if (isNaN(date.getTime())) return '';
+  return `${formatAccraDate(isoString)} • ${formatAccraTime(isoString)}`;
+}

@@ -1,6 +1,6 @@
 import { Platform, StyleSheet, Text, type TextProps } from 'react-native';
 
-import { Fonts, ThemeColor } from '@/constants/theme';
+import { Fonts, ThemeColor, Tokens } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ThemedTextProps = TextProps & {
@@ -10,11 +10,12 @@ export type ThemedTextProps = TextProps & {
 
 export function ThemedText({ style, type = 'default', themeColor, ...rest }: ThemedTextProps) {
   const theme = useTheme();
+  const colorKey: ThemeColor = themeColor ?? 'text';
 
   return (
     <Text
       style={[
-        { color: theme[themeColor ?? 'text'] },
+        { color: (theme as Record<ThemeColor, string>)[colorKey] },
         type === 'default' && styles.default,
         type === 'title' && styles.title,
         type === 'small' && styles.small,
@@ -32,42 +33,42 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
 
 const styles = StyleSheet.create({
   small: {
-    fontSize: 14,
+    fontSize: Tokens.fontSize.sm,
     lineHeight: 20,
-    fontWeight: 500,
+    fontWeight: Tokens.fontWeight.medium,
   },
   smallBold: {
-    fontSize: 14,
+    fontSize: Tokens.fontSize.sm,
     lineHeight: 20,
-    fontWeight: 700,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   default: {
-    fontSize: 16,
+    fontSize: Tokens.fontSize.base,
     lineHeight: 24,
-    fontWeight: 500,
+    fontWeight: Tokens.fontWeight.medium,
   },
   title: {
-    fontSize: 48,
-    fontWeight: 600,
-    lineHeight: 52,
+    fontSize: Tokens.fontSize.xxl,
+    fontWeight: Tokens.fontWeight.semibold,
+    lineHeight: 38,
   },
   subtitle: {
-    fontSize: 32,
-    lineHeight: 44,
-    fontWeight: 600,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: 28,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   link: {
     lineHeight: 30,
-    fontSize: 14,
+    fontSize: Tokens.fontSize.sm,
   },
   linkPrimary: {
     lineHeight: 30,
-    fontSize: 14,
-    color: '#3c87f7',
+    fontSize: Tokens.fontSize.sm,
+    color: Tokens.colors.primaryText,
   },
   code: {
     fontFamily: Fonts.mono,
-    fontWeight: Platform.select({ android: 700 }) ?? 500,
-    fontSize: 12,
+    fontWeight: Platform.select({ android: Tokens.fontWeight.semibold }) ?? Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
   },
 });

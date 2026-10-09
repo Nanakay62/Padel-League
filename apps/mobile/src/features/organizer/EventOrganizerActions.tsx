@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { BarChart2, Copy, Download, Receipt, TriangleAlert } from 'lucide-react-native';
+import { Tokens } from '@/constants/theme';
 import { FeedbackDialog, useFeedbackDialog } from '@/components/ui/FeedbackDialog';
 
 interface EventOrganizerActionsProps {
@@ -108,11 +109,16 @@ export function EventOrganizerActions({
         style={[styles.primaryButton, loadingAction === 'duplicate' && styles.disabledButton]}
         onPress={handleDuplicate}
         disabled={loadingAction !== null}
+        accessibilityRole="button"
+        accessibilityLabel="Duplicate For Next Week"
       >
         {loadingAction === 'duplicate' ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={Tokens.colors.primaryForeground} />
         ) : (
-          <Text style={styles.primaryButtonText}>🔁 Duplicate For Next Week</Text>
+          <View style={styles.buttonInnerRow}>
+            <Copy size={16} color={Tokens.colors.primaryForeground} />
+            <Text style={styles.primaryButtonText}>Duplicate For Next Week</Text>
+          </View>
         )}
       </TouchableOpacity>
 
@@ -123,24 +129,39 @@ export function EventOrganizerActions({
           style={styles.secondaryButton}
           onPress={() => handleExport('registrations')}
           disabled={loadingAction !== null}
+          accessibilityRole="button"
+          accessibilityLabel="Export Registrations CSV"
         >
-          <Text style={styles.secondaryButtonText}>📥 Registrations</Text>
+          <View style={styles.buttonInnerRow}>
+            <Download size={14} color={Tokens.colors.text} />
+            <Text style={styles.secondaryButtonText}>Registrations</Text>
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.secondaryButton}
           onPress={() => handleExport('results')}
           disabled={loadingAction !== null}
+          accessibilityRole="button"
+          accessibilityLabel="Export Results CSV"
         >
-          <Text style={styles.secondaryButtonText}>📊 Results</Text>
+          <View style={styles.buttonInnerRow}>
+            <BarChart2 size={14} color={Tokens.colors.text} />
+            <Text style={styles.secondaryButtonText}>Results</Text>
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.secondaryButton}
           onPress={() => handleExport('settlement')}
           disabled={loadingAction !== null}
+          accessibilityRole="button"
+          accessibilityLabel="Export Settlement CSV"
         >
-          <Text style={styles.secondaryButtonText}>💰 Settlement</Text>
+          <View style={styles.buttonInnerRow}>
+            <Receipt size={14} color={Tokens.colors.text} />
+            <Text style={styles.secondaryButtonText}>Settlement</Text>
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -149,11 +170,16 @@ export function EventOrganizerActions({
         style={[styles.dangerButton, loadingAction === 'cancel' && styles.disabledButton]}
         onPress={handlePromptCancel}
         disabled={loadingAction !== null}
+        accessibilityRole="button"
+        accessibilityLabel="Cancel Event and Auto-Credit All"
       >
         {loadingAction === 'cancel' ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={Tokens.colors.errorText} />
         ) : (
-          <Text style={styles.dangerButtonText}>⚠️ Cancel Event (Auto-Credit All)</Text>
+          <View style={styles.buttonInnerRow}>
+            <TriangleAlert size={16} color={Tokens.colors.errorText} />
+            <Text style={styles.dangerButtonText}>Cancel Event (Auto-Credit All)</Text>
+          </View>
         )}
       </TouchableOpacity>
       <FeedbackDialog {...dialogProps} />
@@ -163,69 +189,80 @@ export function EventOrganizerActions({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginVertical: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   sectionHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: 12,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
+    marginBottom: Tokens.spacing.sm,
   },
   subHeader: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#4B5563',
-    marginTop: 14,
-    marginBottom: 8,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.textMuted,
+    marginTop: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.xs,
   },
   primaryButton: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingVertical: 12,
-    borderRadius: 8,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonInnerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
   },
   primaryButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 14,
+    color: Tokens.colors.primaryForeground,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
   },
   exportGrid: {
     flexDirection: 'row',
-    gap: 8,
-    marginBottom: 12,
+    gap: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.sm,
   },
   secondaryButton: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
-    paddingVertical: 10,
-    borderRadius: 8,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    justifyContent: 'center',
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   secondaryButtonText: {
-    color: '#374151',
-    fontWeight: '600',
-    fontSize: 12,
+    color: Tokens.colors.text,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
   },
   dangerButton: {
-    backgroundColor: '#FEE2E2',
-    borderWidth: 1,
-    borderColor: '#FCA5A5',
-    paddingVertical: 12,
-    borderRadius: 8,
+    backgroundColor: Tokens.colors.errorLight,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.errorBorder,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
-    marginTop: 8,
+    justifyContent: 'center',
+    marginTop: Tokens.spacing.xs,
   },
   dangerButtonText: {
-    color: '#DC2626',
-    fontWeight: 'bold',
-    fontSize: 13,
+    color: Tokens.colors.errorText,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
   },
   disabledButton: {
     opacity: 0.6,

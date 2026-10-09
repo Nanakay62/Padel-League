@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { MapPin, Send } from 'lucide-react-native';
+import { Tokens, Typography } from '@/constants/theme';
+import { Card, Button, Chip, StatusPill } from '@/components/ui';
 
 export interface PartnerItem {
   id: string;
@@ -32,218 +32,155 @@ export function PartnerFinder({ partners, onInvite }: PartnerFinderProps) {
   });
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Find a Partner</Text>
-        <Text style={styles.subtitle}>
-          Connect with players in Ghana at your skill level looking for games.
-        </Text>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <Text style={styles.title}>Find a Partner</Text>
+      <Text style={styles.subtitle}>
+        Connect with players in Ghana at your skill level looking for games.
+      </Text>
 
-        {/* Filter Chips */}
-        <View style={styles.filterRow}>
-          {[
-            { id: 'ALL', label: 'All Sides' },
-            { id: 'LEFT', label: 'Left Side' },
-            { id: 'RIGHT', label: 'Right Side' },
-          ].map((f) => (
-            <TouchableOpacity
-              key={f.id}
-              style={[
-                styles.filterChip,
-                sideFilter === f.id && styles.filterChipActive,
-              ]}
-              onPress={() => setSideFilter(f.id as typeof sideFilter)}
-            >
-              <Text
-                style={[
-                  styles.filterChipText,
-                  sideFilter === f.id && styles.filterChipTextActive,
-                ]}
-              >
-                {f.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Player Cards */}
-        {filtered.map((player) => (
-          <View key={player.id} style={styles.playerCard}>
-            <View style={styles.playerHeader}>
-              <View style={styles.playerInfo}>
-                <Text style={styles.playerName}>{player.displayName}</Text>
-                <Text style={styles.venueText}>
-                  📍 {player.homeVenueName || 'Accra Padel Club'}
-                </Text>
-              </View>
-
-              <View style={styles.levelBadge}>
-                <Text style={styles.levelNum}>{player.level}</Text>
-                <Text style={styles.levelSub}>LEVEL</Text>
-              </View>
-            </View>
-
-            <View style={styles.metaRow}>
-              <View style={styles.sideBadge}>
-                <Text style={styles.sideText}>
-                  Side: {player.preferredSide === 'EITHER' ? 'Left or Right' : player.preferredSide}
-                </Text>
-              </View>
-              <Text style={styles.bandText}>{player.levelBand}</Text>
-            </View>
-
-            <TouchableOpacity
-              style={styles.inviteBtn}
-              onPress={() => onInvite(player.id)}
-            >
-              <Text style={styles.inviteBtnText}>Invite to Match 🎾</Text>
-            </TouchableOpacity>
-          </View>
+      {/* Filter Chips */}
+      <View style={styles.filterRow}>
+        {[
+          { id: 'ALL', label: 'All Sides' },
+          { id: 'LEFT', label: 'Left Side' },
+          { id: 'RIGHT', label: 'Right Side' },
+        ].map((f) => (
+          <Chip
+            key={f.id}
+            label={f.label}
+            selected={sideFilter === f.id}
+            onPress={() => setSideFilter(f.id as typeof sideFilter)}
+          />
         ))}
+      </View>
 
-        {filtered.length === 0 && (
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyText}>No players found for this filter.</Text>
+      {/* Player Cards */}
+      {filtered.map((player) => (
+        <Card key={player.id} style={styles.playerCard}>
+          <View style={styles.playerHeader}>
+            <View style={styles.playerInfo}>
+              <Text style={styles.playerName}>{player.displayName}</Text>
+              <View style={styles.venueRow}>
+                <MapPin size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                <Text style={styles.venueText}>
+                  {player.homeVenueName || 'Accra Padel Club'}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.levelBadge}>
+              <Text style={[styles.levelNum, Typography.tabularNums]}>
+                {player.level.toFixed(1)}
+              </Text>
+              <Text style={styles.levelSub}>LEVEL</Text>
+            </View>
           </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+
+          <View style={styles.metaRow}>
+            <StatusPill
+              label={`Side: ${player.preferredSide === 'EITHER' ? 'Left or Right' : player.preferredSide}`}
+              variant="neutral"
+            />
+            <StatusPill label={player.levelBand} variant="neutral" />
+          </View>
+
+          <Button
+            title="Invite to Match"
+            variant="primary"
+            size="md"
+            onPress={() => onInvite(player.id)}
+            icon={<Send size={16} color={Tokens.colors.textOnPrimary} strokeWidth={1.75} />}
+          />
+        </Card>
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
   container: {
-    padding: 20,
-    paddingBottom: 40,
+    paddingBottom: Tokens.spacing.xxxl,
+    gap: Tokens.spacing.base,
   },
   title: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '800',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    color: Tokens.colors.text,
   },
   subtitle: {
-    color: '#94A3B8',
-    fontSize: 14,
-    marginTop: 4,
-    marginBottom: 16,
-    lineHeight: 20,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
+    marginTop: -Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.xs,
   },
   filterRow: {
     flexDirection: 'row',
-    gap: 8,
-    marginBottom: 20,
-  },
-  filterChip: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: '#1E2623',
-    borderWidth: 1,
-    borderColor: '#293630',
-  },
-  filterChipActive: {
-    backgroundColor: PadelBrand.electricGreen,
-    borderColor: PadelBrand.electricGreen,
-  },
-  filterChipText: {
-    color: '#94A3B8',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  filterChipTextActive: {
-    color: '#0B0F0E',
-    fontWeight: '700',
+    gap: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.xs,
   },
   playerCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    gap: Tokens.spacing.md,
   },
   playerHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
   },
   playerInfo: {
     flex: 1,
+    gap: Tokens.spacing.xs,
   },
   playerName: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    lineHeight: Tokens.lineHeight.lg,
+    color: Tokens.colors.text,
+  },
+  venueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
   },
   venueText: {
-    color: '#94A3B8',
-    fontSize: 13,
-    marginTop: 2,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   levelBadge: {
-    backgroundColor: '#1B2721',
-    borderWidth: 1,
-    borderColor: PadelBrand.electricGreen,
-    borderRadius: 12,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Tokens.colors.background,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+    paddingHorizontal: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.card,
   },
   levelNum: {
-    color: PadelBrand.electricGreen,
-    fontSize: 18,
-    fontWeight: '800',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.text,
   },
   levelSub: {
-    color: '#94A3B8',
-    fontSize: 9,
-    fontWeight: '700',
-    marginTop: -2,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 14,
-  },
-  sideBadge: {
-    backgroundColor: '#202825',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  sideText: {
-    color: PadelBrand.gold,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  bandText: {
-    color: '#64748B',
-    fontSize: 12,
-  },
-  inviteBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    height: 46,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inviteBtnText: {
-    color: '#0B0F0E',
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  emptyState: {
-    alignItems: 'center',
-    paddingVertical: 40,
-  },
-  emptyText: {
-    color: '#64748B',
-    fontSize: 15,
+    gap: Tokens.spacing.sm,
   },
 });

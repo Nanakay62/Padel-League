@@ -11,7 +11,8 @@ import {
   View,
 } from 'react-native';
 import { useKeepAwake } from 'expo-keep-awake';
-import { PadelBrand } from '@/constants/theme';
+import { MapPin, Share2, Zap } from 'lucide-react-native';
+import { Tokens } from '@/constants/theme';
 import { ScoreStepper } from './ScoreStepper';
 
 export interface MatchItem {
@@ -68,20 +69,20 @@ export function LiveEventScreen({
 
   const handleShareToWhatsApp = async () => {
     const lines = [
-      '🇬🇭 *PADEL GHANA — AMERICANO LEADERBOARD* 🇬🇭',
-      `🎾 *${title}*`,
-      `📍 Venue: ${venueName}`,
-      `🔄 Round ${currentRound} of ${totalRounds} | Target: ${pointTarget} pts`,
+      '*PADEL GHANA — AMERICANO LEADERBOARD*',
+      `*${title}*`,
+      `Venue: ${venueName}`,
+      `Round ${currentRound} of ${totalRounds} | Target: ${pointTarget} pts`,
       '',
-      '🏆 *STANDINGS*:',
+      '*STANDINGS*:',
     ];
 
     leaderboard.forEach((p) => {
       const diff = p.pointDifference > 0 ? `+${p.pointDifference}` : `${p.pointDifference}`;
-      lines.push(`${p.rank}. *${p.name}* — ${p.points} pts (${diff})`);
+      lines.push(`${p.rank}. *${p.name}* - ${p.points} pts (${diff})`);
     });
 
-    lines.push('', 'Play. Connect. Compete. 🇬🇭', 'https://padelghana.com');
+    lines.push('', 'Play. Connect. Compete.', 'https://padelghana.com');
 
     const message = lines.join('\n');
     try {
@@ -101,7 +102,10 @@ export function LiveEventScreen({
         <View style={styles.header}>
           <View>
             <Text style={styles.eventTitle}>{title}</Text>
-            <Text style={styles.venueText}>📍 {venueName}</Text>
+            <View style={styles.venueRow}>
+              <MapPin size={14} color={Tokens.colors.live.textMuted} />
+              <Text style={styles.venueText}>{venueName}</Text>
+            </View>
           </View>
           {isOffline && (
             <View style={styles.offlineBadge}>
@@ -131,7 +135,7 @@ export function LiveEventScreen({
               <Text style={styles.courtNum}>COURT {match.courtNumber}</Text>
               {match.status === 'SCORE_ENTERED' ? (
                 <View style={styles.reportedBadge}>
-                  <Text style={styles.reportedText}>✓ REPORTED</Text>
+                  <Text style={styles.reportedText}>REPORTED</Text>
                 </View>
               ) : (
                 <View style={styles.inProgressBadge}>
@@ -151,7 +155,7 @@ export function LiveEventScreen({
               <View style={styles.scoreContainer}>
                 {match.status === 'SCORE_ENTERED' ? (
                   <Text style={styles.finalScore}>
-                    {match.teamAScore} — {match.teamBScore}
+                    {match.teamAScore} - {match.teamBScore}
                   </Text>
                 ) : (
                   <Text style={styles.vsText}>VS</Text>
@@ -172,15 +176,22 @@ export function LiveEventScreen({
                 match.status === 'SCORE_ENTERED' ? styles.editScoreBtn : styles.submitScoreBtn,
               ]}
               onPress={() => setActiveMatch(match)}
+              accessibilityRole="button"
+              accessibilityLabel={match.status === 'SCORE_ENTERED' ? 'Edit Score' : 'Enter Score'}
             >
-              <Text
-                style={[
-                  styles.enterScoreBtnText,
-                  match.status === 'SCORE_ENTERED' && { color: '#CBD5E1' },
-                ]}
-              >
-                {match.status === 'SCORE_ENTERED' ? 'Edit Score' : '⚡ Enter Score'}
-              </Text>
+              <View style={styles.btnInnerRow}>
+                {match.status !== 'SCORE_ENTERED' && (
+                  <Zap size={16} color={Tokens.colors.live.primaryForeground} />
+                )}
+                <Text
+                  style={[
+                    styles.enterScoreBtnText,
+                    match.status === 'SCORE_ENTERED' && { color: Tokens.colors.live.textMuted },
+                  ]}
+                >
+                  {match.status === 'SCORE_ENTERED' ? 'Edit Score' : 'Enter Score'}
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
         ))}
@@ -188,7 +199,7 @@ export function LiveEventScreen({
         {/* Sit-outs indicator */}
         {sitOuts.length > 0 && (
           <View style={styles.sitOutCard}>
-            <Text style={styles.sitOutTitle}>🛋️ Resting This Round</Text>
+            <Text style={styles.sitOutTitle}>Resting This Round</Text>
             <Text style={styles.sitOutNames}>{sitOuts.join(' • ')}</Text>
           </View>
         )}
@@ -200,8 +211,13 @@ export function LiveEventScreen({
             <TouchableOpacity
               style={styles.whatsAppBtn}
               onPress={handleShareToWhatsApp}
+              accessibilityRole="button"
+              accessibilityLabel="Share to WhatsApp"
             >
-              <Text style={styles.whatsAppBtnText}>📲 Share to WhatsApp</Text>
+              <View style={styles.btnInnerRow}>
+                <Share2 size={14} color={Tokens.colors.live.primary} />
+                <Text style={styles.whatsAppBtnText}>Share Standings</Text>
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -218,13 +234,13 @@ export function LiveEventScreen({
                 key={row.name}
                 style={[
                   styles.tableRow,
-                  row.rank === 1 && { backgroundColor: '#1A2520' },
+                  row.rank === 1 && { backgroundColor: Tokens.colors.live.surfaceMuted },
                 ]}
               >
                 <Text
                   style={[
                     styles.rankNum,
-                    row.rank === 1 && { color: PadelBrand.gold, fontWeight: '800' },
+                    row.rank === 1 && { color: Tokens.colors.live.gold, fontWeight: Tokens.fontWeight.semibold },
                   ]}
                 >
                   {row.rank}
@@ -237,10 +253,10 @@ export function LiveEventScreen({
                   style={[
                     styles.playerDiff,
                     row.pointDifference > 0
-                      ? { color: PadelBrand.electricGreen }
+                      ? { color: Tokens.colors.live.primary }
                       : row.pointDifference < 0
-                      ? { color: '#EF4444' }
-                      : { color: '#94A3B8' },
+                      ? { color: Tokens.colors.live.error }
+                      : { color: Tokens.colors.live.textMuted },
                   ]}
                 >
                   {row.pointDifference > 0 ? `+${row.pointDifference}` : row.pointDifference}
@@ -258,14 +274,16 @@ export function LiveEventScreen({
           ]}
           disabled={!allReported}
           onPress={onGenerateNextRound}
+          accessibilityRole="button"
+          accessibilityLabel="Generate Next Round"
         >
           <Text
             style={[
               styles.nextRoundBtnText,
-              !allReported && { color: '#64748B' },
+              !allReported && { color: Tokens.colors.live.textMuted },
             ]}
           >
-            {allReported ? 'Generate Next Round →' : 'Waiting for all courts to report...'}
+            {allReported ? 'Generate Next Round' : 'Waiting for all courts to report...'}
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -302,285 +320,306 @@ export function LiveEventScreen({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: PadelBrand.charcoal,
+    backgroundColor: Tokens.colors.live.background,
   },
   container: {
-    padding: 16,
-    paddingBottom: 40,
+    padding: Tokens.spacing.md,
+    paddingBottom: Tokens.spacing.xl,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: Tokens.spacing.md,
   },
   eventTitle: {
-    color: '#FFFFFF',
-    fontSize: 22,
-    fontWeight: '800',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+  },
+  venueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+    marginTop: Tokens.spacing.xs,
   },
   venueText: {
-    color: '#94A3B8',
-    fontSize: 14,
-    marginTop: 2,
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.sm,
   },
   offlineBadge: {
-    backgroundColor: '#DC2626',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
+    backgroundColor: Tokens.colors.live.errorBackground,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.errorBorder,
   },
   offlineText: {
-    color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: '800',
+    color: Tokens.colors.live.errorText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 0.5,
   },
   roundBanner: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
+    backgroundColor: Tokens.colors.live.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
   },
   roundLabel: {
-    color: PadelBrand.electricGreen,
-    fontSize: 11,
-    fontWeight: '700',
+    color: Tokens.colors.live.primary,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 1,
   },
   roundValue: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
-    marginTop: 2,
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginTop: Tokens.spacing.xs,
   },
   pointBadge: {
-    backgroundColor: '#1E2924',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#2D3E36',
+    backgroundColor: Tokens.colors.live.goldBackground,
+    paddingHorizontal: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
   },
   pointBadgeText: {
-    color: PadelBrand.gold,
-    fontSize: 13,
-    fontWeight: '800',
+    color: Tokens.colors.live.gold,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
   sectionTitle: {
-    color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: '700',
-    marginBottom: 12,
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.sm,
   },
   courtCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.live.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
   },
   courtHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.sm,
   },
   courtNum: {
-    color: PadelBrand.electricGreen,
-    fontSize: 13,
-    fontWeight: '800',
+    color: Tokens.colors.live.primary,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 1,
   },
   reportedBadge: {
-    backgroundColor: '#133E2B',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
+    backgroundColor: Tokens.colors.live.successBackground,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
   },
   reportedText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 11,
-    fontWeight: '700',
+    color: Tokens.colors.live.primary,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   inProgressBadge: {
-    backgroundColor: '#372E15',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
+    backgroundColor: Tokens.colors.live.goldBackground,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
   },
   inProgressText: {
-    color: PadelBrand.gold,
-    fontSize: 11,
-    fontWeight: '700',
+    color: Tokens.colors.live.gold,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   matchTeamsRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: Tokens.spacing.md,
   },
   teamCol: {
     flex: 1,
   },
   teamTitle: {
-    color: '#64748B',
-    fontSize: 11,
-    fontWeight: '600',
-    marginBottom: 2,
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.medium,
+    marginBottom: Tokens.spacing.xs,
   },
   teamNames: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
   },
   scoreContainer: {
-    paddingHorizontal: 12,
+    paddingHorizontal: Tokens.spacing.sm,
     alignItems: 'center',
   },
   finalScore: {
-    color: PadelBrand.electricGreen,
-    fontSize: 22,
-    fontWeight: '800',
+    color: Tokens.colors.live.primary,
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
   vsText: {
-    color: '#475569',
-    fontSize: 14,
-    fontWeight: '700',
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   enterScoreBtn: {
-    height: 48,
-    borderRadius: 10,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
     justifyContent: 'center',
   },
   submitScoreBtn: {
-    backgroundColor: PadelBrand.electricGreen,
+    backgroundColor: Tokens.colors.live.primary,
   },
   editScoreBtn: {
-    backgroundColor: '#202825',
-    borderWidth: 1,
-    borderColor: '#2F3C37',
+    backgroundColor: Tokens.colors.live.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
+  },
+  btnInnerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
   },
   enterScoreBtnText: {
-    color: '#0B0F0E',
-    fontSize: 15,
-    fontWeight: '700',
+    color: Tokens.colors.live.primaryForeground,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   sitOutCard: {
-    backgroundColor: '#1E2421',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#2A3530',
+    backgroundColor: Tokens.colors.live.surfaceMuted,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
   },
   sitOutTitle: {
-    color: '#CBD5E1',
-    fontSize: 12,
-    fontWeight: '700',
-    marginBottom: 4,
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   sitOutNames: {
-    color: PadelBrand.gold,
-    fontSize: 13,
-    fontWeight: '600',
+    color: Tokens.colors.live.gold,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
   },
   leaderboardSection: {
-    marginTop: 8,
-    marginBottom: 20,
+    marginTop: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.md,
   },
   leaderboardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.sm,
   },
   whatsAppBtn: {
-    backgroundColor: '#1D3B2E',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
+    backgroundColor: Tokens.colors.live.surfaceMuted,
+    paddingHorizontal: Tokens.spacing.sm,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.button,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
   },
   whatsAppBtnText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 12,
-    fontWeight: '700',
+    color: Tokens.colors.live.primary,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   tableCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.live.surface,
+    borderRadius: Tokens.radii.card,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
     overflow: 'hidden',
   },
   tableHead: {
     flexDirection: 'row',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    backgroundColor: '#121715',
-    borderBottomWidth: 1,
-    borderBottomColor: PadelBrand.borderDark,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.sm,
+    backgroundColor: Tokens.colors.live.surfaceMuted,
+    borderBottomWidth: Tokens.borders.width,
+    borderBottomColor: Tokens.colors.live.border,
   },
   th: {
-    color: '#64748B',
-    fontSize: 12,
-    fontWeight: '700',
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   tableRow: {
     flexDirection: 'row',
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingHorizontal: Tokens.spacing.sm,
+    minHeight: Tokens.dimensions.minTouchTarget,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#1A221E',
+    borderBottomWidth: Tokens.borders.width,
+    borderBottomColor: Tokens.colors.live.border,
   },
   rankNum: {
     width: 32,
-    color: '#94A3B8',
-    fontSize: 14,
-    fontWeight: '700',
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
   playerName: {
     flex: 1,
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
   },
   playerPts: {
     width: 44,
     textAlign: 'right',
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '700',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
   playerDiff: {
     width: 44,
     textAlign: 'right',
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
+    fontVariant: ['tabular-nums'],
   },
   nextRoundBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    height: 54,
-    borderRadius: 14,
+    backgroundColor: Tokens.colors.live.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    height: 48,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 8,
+    marginTop: Tokens.spacing.xs,
   },
   nextRoundBtnDisabled: {
-    backgroundColor: '#1E2623',
+    backgroundColor: Tokens.colors.live.surfaceMuted,
   },
   nextRoundBtnText: {
-    color: '#0B0F0E',
-    fontSize: 16,
-    fontWeight: '700',
+    color: Tokens.colors.live.primaryForeground,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   modalBackdrop: {
     flex: 1,
@@ -588,11 +627,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: PadelBrand.charcoal,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    backgroundColor: Tokens.colors.live.background,
+    borderTopLeftRadius: Tokens.radii.card,
+    borderTopRightRadius: Tokens.radii.card,
     paddingBottom: Platform.OS === 'ios' ? 40 : 20,
-    borderTopWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    borderTopWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.live.border,
   },
 });

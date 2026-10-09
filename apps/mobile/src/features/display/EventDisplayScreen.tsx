@@ -8,7 +8,8 @@ import {
   View,
 } from 'react-native';
 import { useKeepAwake } from 'expo-keep-awake';
-import { PadelBrand, Colors } from '@/constants/theme';
+import { Tokens, Typography } from '@/constants/theme';
+import { Card, StatusPill } from '@/components/ui';
 
 interface MatchItem {
   id: string;
@@ -55,7 +56,7 @@ export function EventDisplayScreen({
 
   const [liveData, setLiveData] = useState<LiveEventData | null>(null);
   const [isReconnecting, setIsReconnecting] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [, setLastUpdated] = useState<Date>(new Date());
 
   useEffect(() => {
     let isMounted = true;
@@ -78,15 +79,12 @@ export function EventDisplayScreen({
       }
     };
 
-    // Initial fetch
     void loadData();
 
-    // 10-second polling fallback guarantees recovery after power cut / server reboot
     const pollInterval = setInterval(() => {
       void loadData();
     }, 10000);
 
-    // If on Web, also attach EventSource SSE with auto-retry
     let eventSource: EventSource | null = null;
     if (Platform.OS === 'web' && typeof window !== 'undefined' && 'EventSource' in window) {
       try {
@@ -125,7 +123,7 @@ export function EventDisplayScreen({
   if (!liveData && isReconnecting) {
     return (
       <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={PadelBrand.electricGreen} />
+        <ActivityIndicator size="large" color={Tokens.colors.primary} />
         <Text style={styles.reconnectingText}>Connecting to Court Display...</Text>
       </View>
     );
@@ -134,7 +132,7 @@ export function EventDisplayScreen({
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Top Header Bar */}
-      <View style={styles.header}>
+      <Card style={styles.header}>
         <View>
           <Text style={styles.eventTitle}>{liveData?.title ?? 'Padel Tournament'}</Text>
           <Text style={styles.eventSubtitle}>
@@ -145,16 +143,11 @@ export function EventDisplayScreen({
 
         <View style={styles.statusBadgeRow}>
           {isReconnecting && (
-            <View style={styles.reconnectingBadge}>
-              <Text style={styles.reconnectingBadgeText}>RECONNECTING</Text>
-            </View>
+            <StatusPill label="Reconnecting" variant="danger" />
           )}
-          <View style={styles.liveBadge}>
-            <View style={styles.liveDot} />
-            <Text style={styles.liveBadgeText}>LIVE TV</Text>
-          </View>
+          <StatusPill label="Live TV" variant="success" />
         </View>
-      </View>
+      </Card>
 
       {/* Courts & Leaderboard Grid */}
       <View style={styles.grid}>
@@ -162,10 +155,10 @@ export function EventDisplayScreen({
         <View style={styles.column}>
           <Text style={styles.sectionHeader}>Active Courts</Text>
           {liveData?.matches.map((m) => (
-            <View key={m.id} style={styles.matchCard}>
+            <Card key={m.id} style={styles.matchCard}>
               <View style={styles.courtHeader}>
-                <Text style={styles.courtName}>COURT {m.court_number}</Text>
-                <Text style={styles.matchStatus}>{m.status}</Text>
+                <Text style={styles.courtName}>Court {m.court_number}</Text>
+                <StatusPill label={m.status} variant="neutral" />
               </View>
 
               <View style={styles.matchRow}>
@@ -175,11 +168,11 @@ export function EventDisplayScreen({
                 </View>
 
                 <View style={styles.scoreBox}>
-                  <Text style={styles.scoreText}>
+                  <Text style={[styles.scoreText, Typography.tabularNums]}>
                     {m.team_a_score !== null ? m.team_a_score : '-'}
                   </Text>
                   <Text style={styles.vsText}>vs</Text>
-                  <Text style={styles.scoreText}>
+                  <Text style={[styles.scoreText, Typography.tabularNums]}>
                     {m.team_b_score !== null ? m.team_b_score : '-'}
                   </Text>
                 </View>
@@ -189,14 +182,14 @@ export function EventDisplayScreen({
                   <Text style={styles.playerText}>{m.team_b_p2}</Text>
                 </View>
               </View>
-            </View>
+            </Card>
           ))}
         </View>
 
         {/* Right Column: High-Contrast Standings */}
         <View style={styles.column}>
           <Text style={styles.sectionHeader}>Leaderboard</Text>
-          <View style={styles.leaderboardTable}>
+          <Card style={styles.leaderboardTable}>
             <View style={styles.tableHeaderRow}>
               <Text style={[styles.tableHeaderCell, styles.rankCol]}>#</Text>
               <Text style={[styles.tableHeaderCell, styles.nameCol]}>PLAYER</Text>
@@ -212,40 +205,44 @@ export function EventDisplayScreen({
                   style={[
                     styles.tableRow,
                     isPodium && styles.podiumRow,
-                    index % 2 === 1 && styles.alternateRow,
                   ]}
                 >
                   <Text
                     style={[
                       styles.rankText,
-                      isPodium && styles.podiumRankText,
                       styles.rankCol,
+                      Typography.tabularNums,
                     ]}
                   >
-                    {index + 1}
+                    {row.rank}
                   </Text>
-                  <Text
-                    style={[styles.nameText, isPodium && styles.podiumNameText, styles.nameCol]}
-                    numberOfLines={1}
-                  >
+                  <Text style={[styles.playerNameText, styles.nameCol]} numberOfLines={1}>
                     {row.player_name}
                   </Text>
-                  <Text style={[styles.pointsText, styles.statCol]}>{row.total_points}</Text>
-                  <Text style={[styles.diffText, styles.statCol]}>
-                    {row.point_difference > 0 ? `+${row.point_difference}` : row.point_difference}
+                  <Text style={[styles.statText, styles.statCol, Typography.tabularNums]}>
+                    {row.total_points}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.statText,
+                      styles.statCol,
+                      Typography.tabularNums,
+                      row.point_difference > 0
+                        ? styles.positiveText
+                        : row.point_difference < 0
+                          ? styles.negativeText
+                          : null,
+                    ]}
+                  >
+                    {row.point_difference > 0
+                      ? `+${row.point_difference}`
+                      : `${row.point_difference}`}
                   </Text>
                 </View>
               );
             })}
-          </View>
+          </Card>
         </View>
-      </View>
-
-      {/* Footer bar */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          Padel Ghana • Auto-refreshes • Last sync: {lastUpdated.toLocaleTimeString()}
-        </Text>
       </View>
     </ScrollView>
   );
@@ -254,117 +251,88 @@ export function EventDisplayScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: PadelBrand.charcoal,
+    backgroundColor: Tokens.colors.background,
   },
   content: {
-    padding: 24,
+    padding: Tokens.spacing.lg,
+    gap: Tokens.spacing.base,
+    maxWidth: 1200,
+    width: '100%',
+    alignSelf: 'center',
   },
   centerContainer: {
     flex: 1,
-    backgroundColor: PadelBrand.charcoal,
+    backgroundColor: Tokens.colors.background,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: Tokens.spacing.md,
   },
   reconnectingText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 16,
-    marginTop: 12,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.textMuted,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    paddingBottom: 20,
-    marginBottom: 24,
+    padding: Tokens.spacing.lg,
   },
   eventTitle: {
-    color: Colors.dark.text,
-    fontSize: 28,
-    fontWeight: '800',
-    letterSpacing: -0.5,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    color: Tokens.colors.text,
   },
   eventSubtitle: {
-    color: PadelBrand.electricGreen,
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 4,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
+    marginTop: 2,
   },
   statusBadgeRow: {
     flexDirection: 'row',
-    gap: 10,
     alignItems: 'center',
-  },
-  reconnectingBadge: {
-    backgroundColor: 'rgba(239, 68, 68, 0.2)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  reconnectingBadgeText: {
-    color: '#EF4444',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  liveBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 200, 83, 0.15)',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 8,
-    gap: 6,
-  },
-  liveDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: PadelBrand.electricGreen,
-  },
-  liveBadgeText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 13,
-    fontWeight: '700',
-    letterSpacing: 0.5,
+    gap: Tokens.spacing.sm,
   },
   grid: {
     flexDirection: 'row',
-    gap: 24,
+    flexWrap: 'wrap',
+    gap: Tokens.spacing.lg,
   },
   column: {
     flex: 1,
+    minWidth: 320,
+    gap: Tokens.spacing.md,
   },
   sectionHeader: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
-    fontWeight: '700',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
     textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 14,
+    letterSpacing: 0.5,
   },
   matchCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 16,
-    padding: 18,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
+    gap: Tokens.spacing.sm,
   },
   courtHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 12,
+    alignItems: 'center',
   },
   courtName: {
-    color: PadelBrand.gold,
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  matchStatus: {
-    color: Colors.dark.textSecondary,
-    fontSize: 12,
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
   matchRow: {
     flexDirection: 'row',
@@ -373,111 +341,105 @@ const styles = StyleSheet.create({
   },
   teamBox: {
     flex: 2,
-    gap: 4,
+    gap: 2,
   },
   teamRight: {
     alignItems: 'flex-end',
   },
   playerText: {
-    color: Colors.dark.text,
-    fontSize: 16,
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
   scoreBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 12,
+    gap: Tokens.spacing.xs,
+    paddingHorizontal: Tokens.spacing.md,
   },
   scoreText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 22,
-    fontWeight: '800',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    color: Tokens.colors.greenText,
   },
   vsText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 12,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   leaderboardTable: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 16,
+    padding: 0,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
   },
   tableHeaderRow: {
     flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    alignItems: 'center',
+    paddingVertical: Tokens.spacing.sm,
+    paddingHorizontal: Tokens.spacing.md,
     borderBottomWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    borderBottomColor: Tokens.colors.border,
   },
   tableHeaderCell: {
-    color: Colors.dark.textSecondary,
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.5,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
   tableRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: PadelBrand.borderDark,
-  },
-  alternateRow: {
-    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+    paddingVertical: Tokens.spacing.sm,
+    paddingHorizontal: Tokens.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: Tokens.colors.border,
+    minHeight: Tokens.touch.minTarget,
   },
   podiumRow: {
-    backgroundColor: 'rgba(244, 196, 48, 0.04)',
+    backgroundColor: Tokens.colors.background,
   },
   rankCol: {
-    width: 32,
+    width: 28,
   },
   nameCol: {
     flex: 1,
+    paddingHorizontal: Tokens.spacing.xs,
   },
   statCol: {
-    width: 50,
-    textAlign: 'right',
+    width: 44,
+    textAlign: 'center',
   },
   rankText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 15,
-    fontWeight: '700',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
-  podiumRankText: {
-    color: PadelBrand.gold,
+  playerNameText: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
-  nameText: {
-    color: Colors.dark.text,
-    fontSize: 15,
-    fontWeight: '600',
+  statText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
-  podiumNameText: {
-    color: Colors.dark.text,
-    fontWeight: '700',
+  positiveText: {
+    color: Tokens.colors.greenText,
   },
-  pointsText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  diffText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  footer: {
-    marginTop: 24,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    alignItems: 'center',
-  },
-  footerText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 12,
+  negativeText: {
+    color: Tokens.colors.danger,
   },
 });

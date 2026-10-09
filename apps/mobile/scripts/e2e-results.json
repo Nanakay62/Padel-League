@@ -1,0 +1,394 @@
+[
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Top Bar Search",
+    "selector": "[data-testid=\"topbar-search-btn\"]",
+    "targetUrl": "/search",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Top Bar Notifications",
+    "selector": "[data-testid=\"topbar-notifications-btn\"]",
+    "targetUrl": "/notifications",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Top Bar Profile",
+    "selector": "[data-testid=\"topbar-profile-btn\"]",
+    "targetUrl": "/profile",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Home",
+    "selector": "[data-testid=\"sidebar-home-link\"]",
+    "targetUrl": "/",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Play",
+    "selector": "[data-testid=\"sidebar-play-link\"]",
+    "targetUrl": "/play",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Leagues",
+    "selector": "[data-testid=\"sidebar-leagues-link\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Community",
+    "selector": "[data-testid=\"sidebar-community-link\"]",
+    "targetUrl": "/community",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Venues",
+    "selector": "[data-testid=\"sidebar-venues-link\"]",
+    "targetUrl": "/venues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Credits",
+    "selector": "[data-testid=\"sidebar-credits-link\"]",
+    "targetUrl": "/credits",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Profile",
+    "selector": "[data-testid=\"sidebar-profile-link\"]",
+    "targetUrl": "/profile",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Quick: Create Event",
+    "selector": "[data-testid=\"sidebar-create-event-btn\"]",
+    "targetUrl": "/events/create",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Quick: Find a Fourth",
+    "selector": "[data-testid=\"sidebar-find-fourth-btn\"]",
+    "targetUrl": "/partners",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Quick: Join League",
+    "selector": "[data-testid=\"sidebar-join-league-btn\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Sidebar Quick: View Venues",
+    "selector": "[data-testid=\"sidebar-view-venues-btn\"]",
+    "targetUrl": "/venues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Credit Balance Badge",
+    "selector": "[data-testid=\"home-credit-balance-btn\"]",
+    "targetUrl": "/credits",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Next Game View Session",
+    "selector": "[data-testid=\"home-view-session-btn\"]",
+    "targetUrl": "/events/evt-001",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Next Game Courtside Live",
+    "selector": "[data-testid=\"home-courtside-live-btn\"]",
+    "targetUrl": "/events/evt-001/live",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Rating View Details",
+    "selector": "[data-testid=\"home-my-rating-btn\"]",
+    "targetUrl": "/ratings",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Play Near You See All",
+    "selector": "[data-testid=\"home-see-all-sessions-btn\"]",
+    "targetUrl": "/play",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Play Near You Join Evt 1",
+    "selector": "[data-testid=\"home-join-session-evt-001\"]",
+    "targetUrl": "/events/evt-001",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Upcoming Leagues See All",
+    "selector": "[data-testid=\"home-see-all-leagues-btn\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home League Card lg-001",
+    "selector": "[data-testid=\"home-league-lg-001\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Quick Action Find Events",
+    "selector": "[data-testid=\"home-find-events-btn\"]",
+    "targetUrl": "/play",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Quick Action Find a Fourth",
+    "selector": "[data-testid=\"home-partner-finder-btn\"]",
+    "targetUrl": "/partners",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Quick Action Box Leagues",
+    "selector": "[data-testid=\"home-box-leagues-btn\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Quick Action Venues",
+    "selector": "[data-testid=\"home-venues-btn\"]",
+    "targetUrl": "/venues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Quick Action Create Event",
+    "selector": "[data-testid=\"home-create-event-btn\"]",
+    "targetUrl": "/events/create",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Quick Action Settings",
+    "selector": "[data-testid=\"home-settings-btn\"]",
+    "targetUrl": "/settings",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "1280px (Desktop)",
+    "element": "Home Community Banner Explore",
+    "selector": "[data-testid=\"home-explore-venues-banner-btn\"]",
+    "targetUrl": "/venues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Bottom Tab Home",
+    "selector": "[data-testid=\"tab-home-btn\"]",
+    "targetUrl": "/",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Bottom Tab Play",
+    "selector": "[data-testid=\"tab-play-btn\"]",
+    "targetUrl": "/play",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Bottom Tab Leagues",
+    "selector": "[data-testid=\"tab-leagues-btn\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Bottom Tab Community",
+    "selector": "[data-testid=\"tab-community-btn\"]",
+    "targetUrl": "/community",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Bottom Tab Profile",
+    "selector": "[data-testid=\"tab-profile-btn\"]",
+    "targetUrl": "/profile",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Credit Balance Badge",
+    "selector": "[data-testid=\"home-credit-balance-btn\"]",
+    "targetUrl": "/credits",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Next Game View Session",
+    "selector": "[data-testid=\"home-view-session-btn\"]",
+    "targetUrl": "/events/evt-001",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Next Game Courtside Live",
+    "selector": "[data-testid=\"home-courtside-live-btn\"]",
+    "targetUrl": "/events/evt-001/live",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Rating View Details",
+    "selector": "[data-testid=\"home-my-rating-btn\"]",
+    "targetUrl": "/ratings",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Play Near You See All",
+    "selector": "[data-testid=\"home-see-all-sessions-btn\"]",
+    "targetUrl": "/play",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Play Near You Join Evt 1",
+    "selector": "[data-testid=\"home-join-session-evt-001\"]",
+    "targetUrl": "/events/evt-001",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Upcoming Leagues See All",
+    "selector": "[data-testid=\"home-see-all-leagues-btn\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home League Card lg-001",
+    "selector": "[data-testid=\"home-league-lg-001\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Quick Action Find Events",
+    "selector": "[data-testid=\"home-find-events-btn\"]",
+    "targetUrl": "/play",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Quick Action Find a Fourth",
+    "selector": "[data-testid=\"home-partner-finder-btn\"]",
+    "targetUrl": "/partners",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Quick Action Box Leagues",
+    "selector": "[data-testid=\"home-box-leagues-btn\"]",
+    "targetUrl": "/leagues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Quick Action Venues",
+    "selector": "[data-testid=\"home-venues-btn\"]",
+    "targetUrl": "/venues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Quick Action Create Event",
+    "selector": "[data-testid=\"home-create-event-btn\"]",
+    "targetUrl": "/events/create",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Quick Action Settings",
+    "selector": "[data-testid=\"home-settings-btn\"]",
+    "targetUrl": "/settings",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  },
+  {
+    "viewport": "375px (Mobile)",
+    "element": "Home Community Banner Explore",
+    "selector": "[data-testid=\"home-explore-venues-banner-btn\"]",
+    "targetUrl": "/venues",
+    "hitTest": "PASS (Uncovered)",
+    "status": "WORKS"
+  }
+]

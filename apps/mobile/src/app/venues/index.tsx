@@ -1,9 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { PadelBrand } from '@/constants/theme';
 import { VenueItem, VenueListScreen } from '@/features/venues/VenueListScreen';
+import { Screen, PageHeader } from '@/components/ui';
 
 const SAMPLE_VENUES: VenueItem[] = [
   {
@@ -42,32 +39,14 @@ const SAMPLE_VENUES: VenueItem[] = [
 ];
 
 export default function VenuesIndexScreen() {
-  const router = useRouter();
-
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.topBar}>
-        <Pressable onPress={() => router.back()}>
-          <Text style={styles.backText}>← Home</Text>
-        </Pressable>
-      </View>
+    <Screen>
+      <PageHeader
+        title="Padel Venues"
+        subtitle="Accra, Tema & Kumasi"
+        showBack
+      />
       <VenueListScreen venues={SAMPLE_VENUES} />
-    </SafeAreaView>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
-  topBar: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-  },
-  backText: {
-    fontSize: 13,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
-  },
-});

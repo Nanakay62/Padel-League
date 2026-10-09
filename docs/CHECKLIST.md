@@ -227,6 +227,7 @@
 - [x] Dark mode, accessibility labels, landscape, deep links, empty states with next action: evidence: `PadelBrand.charcoal` theme in `apps/mobile/src/constants/theme.ts`
 - [x] Web build `output: "static"`; layout adapts by width: evidence: `apps/mobile/app.json web.output = "static"`
 - [x] Phone and currency formatting: `GH₵ 50.00`; +233 entry accepts both local and international forms: evidence: `jest __tests__/Formatting.test.ts PASSED`
+- [ ] search field: pending (top bar search acts as trigger button navigating to /search)
 - [x] Verified on web, Android and iPhone: evidence: verified on `http://localhost:8085`
 
 ## PHASE 12: SECURITY, PRIVACY, COMPLIANCE

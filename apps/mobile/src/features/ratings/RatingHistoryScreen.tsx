@@ -5,7 +5,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens, Typography } from '@/constants/theme';
+import { Card, StatusPill } from '@/components/ui';
 
 export interface RatingEventHistoryItem {
   id: string;
@@ -42,21 +43,24 @@ export function RatingHistoryScreen({ data }: RatingHistoryScreenProps) {
   return (
     <View style={styles.container}>
       {/* Current Rating Hero Card */}
-      <View style={styles.heroCard}>
+      <Card style={styles.heroCard}>
         <Text style={styles.heroTitle}>Your Ghana Padel Rating</Text>
-        <Text style={styles.ratingNumber}>{data.current_rating.toFixed(2)}</Text>
-        <View style={styles.bandBadge}>
-          <Text style={styles.bandBadgeText}>{data.level_band}</Text>
-        </View>
-        <Text style={styles.reliabilityText}>
-          {data.is_provisional ? '🟡 Provisional Level (< 10 matches)' : '🟢 Established Level'}
+        <Text style={[styles.ratingNumber, Typography.tabularNums]}>
+          {data.current_rating.toFixed(2)}
         </Text>
-      </View>
+        <View style={styles.badgeRow}>
+          <StatusPill label={data.level_band} variant="neutral" />
+          <StatusPill
+            label={data.is_provisional ? 'Provisional (< 10 matches)' : 'Established Level'}
+            variant={data.is_provisional ? 'gold' : 'success'}
+          />
+        </View>
+      </Card>
 
       {/* Level Bands Reference Table */}
       <View style={styles.bandsSection}>
         <Text style={styles.sectionTitle}>Level Bands Guide</Text>
-        <View style={styles.bandsTable}>
+        <Card style={styles.bandsTable}>
           {LEVEL_BANDS.map((band) => {
             const isCurrent = band.name.toLowerCase() === data.level_band.toLowerCase();
             return (
@@ -65,51 +69,53 @@ export function RatingHistoryScreen({ data }: RatingHistoryScreenProps) {
                   <Text style={[styles.bandName, isCurrent && styles.activeBandText]}>
                     {band.name} ({band.range})
                   </Text>
-                  {isCurrent && <Text style={styles.currentIndicator}>Current</Text>}
+                  {isCurrent && (
+                    <StatusPill label="Current" variant="success" />
+                  )}
                 </View>
                 <Text style={styles.bandDesc}>{band.desc}</Text>
               </View>
             );
           })}
-        </View>
+        </Card>
       </View>
 
       {/* Rating Event Progression History */}
-      <Text style={[styles.sectionTitle, { marginTop: 16 }]}>Rating History Log</Text>
+      <Text style={styles.sectionTitle}>Rating History Log</Text>
       {data.history.length === 0 ? (
-        <View style={styles.emptyState}>
+        <Card style={styles.emptyState}>
           <Text style={styles.emptyStateText}>No rated matches played yet.</Text>
-        </View>
+        </Card>
       ) : (
         <FlatList
           data={[...data.history].reverse()}
           keyExtractor={(item) => item.id}
+          scrollEnabled={false}
           renderItem={({ item }) => {
             const isPositive = item.delta >= 0;
             return (
-              <View style={styles.historyCard}>
+              <Card style={styles.historyCard}>
                 <View style={styles.historyTopRow}>
-                  <Text style={styles.ratingChangeText}>
-                    {item.rating_before.toFixed(2)} → {item.rating_after.toFixed(2)}
+                  <Text style={[styles.ratingChangeText, Typography.tabularNums]}>
+                    {item.rating_before.toFixed(2)} to {item.rating_after.toFixed(2)}
                   </Text>
-                  <View
-                    style={[
-                      styles.deltaBadge,
-                      isPositive ? styles.positiveDeltaBadge : styles.negativeDeltaBadge,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.deltaText,
-                        isPositive ? styles.positiveDeltaText : styles.negativeDeltaText,
-                      ]}
-                    >
-                      {isPositive ? `+${item.delta.toFixed(2)}` : item.delta.toFixed(2)}
-                    </Text>
-                  </View>
+                  <StatusPill
+                    label={isPositive ? `+${item.delta.toFixed(2)}` : item.delta.toFixed(2)}
+                    variant={isPositive ? 'success' : 'danger'}
+                  />
                 </View>
+
                 <Text style={styles.explanationText}>{item.explanation}</Text>
-              </View>
+
+                <View style={styles.historyFooter}>
+                  <Text style={[styles.kFactorText, Typography.tabularNums]}>
+                    Weight K={item.k_factor.toFixed(2)}
+                  </Text>
+                  <Text style={styles.dateText}>
+                    {item.created_at.split('T')[0]}
+                  </Text>
+                </View>
+              </Card>
             );
           }}
         />
@@ -120,73 +126,54 @@ export function RatingHistoryScreen({ data }: RatingHistoryScreenProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-    padding: 16,
+    gap: Tokens.spacing.base,
   },
   heroCard: {
-    backgroundColor: PadelBrand.charcoal,
-    borderRadius: 16,
-    padding: 24,
     alignItems: 'center',
-    marginBottom: 16,
+    padding: Tokens.spacing.xl,
+    gap: Tokens.spacing.sm,
   },
   heroTitle: {
-    color: '#9CA3AF',
-    fontSize: 13,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 6,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
   },
   ratingNumber: {
-    fontSize: 48,
-    fontWeight: '900',
-    color: PadelBrand.electricGreen,
-    letterSpacing: -1,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.display,
+    lineHeight: Tokens.lineHeight.display,
+    color: Tokens.colors.text,
   },
-  bandBadge: {
-    backgroundColor: '#25302C',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-    marginTop: 6,
-    marginBottom: 8,
-  },
-  bandBadgeText: {
-    color: '#F4C430',
-    fontWeight: 'bold',
-    fontSize: 13,
-  },
-  reliabilityText: {
-    color: '#D1D5DB',
-    fontSize: 12,
-  },
-  sectionTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: 8,
+  badgeRow: {
+    flexDirection: 'row',
+    gap: Tokens.spacing.xs,
+    marginTop: Tokens.spacing.xs,
   },
   bandsSection: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    gap: Tokens.spacing.sm,
+  },
+  sectionTitle: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.text,
   },
   bandsTable: {
-    gap: 8,
+    padding: 0,
+    overflow: 'hidden',
   },
   bandRow: {
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    borderRadius: 6,
+    padding: Tokens.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: Tokens.colors.border,
+    gap: 2,
   },
   activeBandRow: {
-    backgroundColor: '#ECFDF5',
-    borderWidth: 1,
-    borderColor: '#A7F3D0',
+    backgroundColor: Tokens.colors.background,
   },
   bandHeaderRow: {
     flexDirection: 'row',
@@ -194,73 +181,78 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bandName: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: '#374151',
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
   activeBandText: {
-    color: '#065F46',
-  },
-  currentIndicator: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    color: '#059669',
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.greenText,
   },
   bandDesc: {
-    fontSize: 11,
-    color: '#6B7280',
-    marginTop: 2,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+  },
+  emptyState: {
+    padding: Tokens.spacing.xl,
+    alignItems: 'center',
+  },
+  emptyStateText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
   },
   historyCard: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    marginBottom: Tokens.spacing.sm,
+    gap: Tokens.spacing.xs,
   },
   historyTopRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
   },
   ratingChangeText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#111827',
-  },
-  deltaBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-  },
-  positiveDeltaBadge: {
-    backgroundColor: '#DCFCE7',
-  },
-  negativeDeltaBadge: {
-    backgroundColor: '#FEE2E2',
-  },
-  deltaText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  positiveDeltaText: {
-    color: '#16A34A',
-  },
-  negativeDeltaText: {
-    color: '#DC2626',
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
   explanationText: {
-    fontSize: 12,
-    color: '#4B5563',
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
-  emptyState: {
-    padding: 24,
+  historyFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: Tokens.spacing.xs,
+    borderTopWidth: 1,
+    borderTopColor: Tokens.colors.border,
   },
-  emptyStateText: {
-    color: '#9CA3AF',
-    fontSize: 13,
+  kFactorText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+  },
+  dateText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
 });

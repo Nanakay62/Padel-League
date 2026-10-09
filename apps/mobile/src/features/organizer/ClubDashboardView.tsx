@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Share2, TriangleAlert } from 'lucide-react-native';
+import { Tokens } from '@/constants/theme';
 
 export interface VenueMetricsData {
   venue_id: string;
@@ -55,13 +56,13 @@ export function ClubDashboardView({ metrics }: ClubDashboardViewProps) {
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.cardValue}>GH₵ {metrics.total_revenue_ghs.toLocaleString()}</Text>
+          <Text style={styles.cardValue}>₵ {metrics.total_revenue_ghs.toLocaleString()}</Text>
           <Text style={styles.cardLabel}>Settlement Revenue</Text>
           <Text style={styles.cardSub}>{metrics.confirmed_players} confirmed seats</Text>
         </View>
 
         <View style={styles.card}>
-          <Text style={[styles.cardValue, { color: PadelBrand.gold }]}>
+          <Text style={[styles.cardValue, { color: Tokens.colors.goldText }]}>
             {metrics.waitlist_demand}
           </Text>
           <Text style={styles.cardLabel}>Unmet Demand</Text>
@@ -77,15 +78,24 @@ export function ClubDashboardView({ metrics }: ClubDashboardViewProps) {
 
       {metrics.unreported_matches_count > 0 && (
         <View style={styles.warningBanner}>
+          <TriangleAlert size={16} color={Tokens.colors.goldText} />
           <Text style={styles.warningText}>
-            ⚠️ {metrics.unreported_matches_count} matches have pending/unreported scores!
+            {metrics.unreported_matches_count} matches have pending/unreported scores!
           </Text>
         </View>
       )}
 
       {/* WhatsApp Share Action */}
-      <TouchableOpacity style={styles.shareWhatsAppButton} onPress={handleShareWhatsApp}>
-        <Text style={styles.shareWhatsAppText}>📲 Share Weekly Summary to WhatsApp</Text>
+      <TouchableOpacity
+        style={styles.shareWhatsAppButton}
+        onPress={handleShareWhatsApp}
+        accessibilityRole="button"
+        accessibilityLabel="Share Weekly Summary to WhatsApp"
+      >
+        <View style={styles.buttonInnerRow}>
+          <Share2 size={16} color={Tokens.colors.primaryForeground} />
+          <Text style={styles.shareWhatsAppText}>Share Weekly Summary to WhatsApp</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -93,79 +103,87 @@ export function ClubDashboardView({ metrics }: ClubDashboardViewProps) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    marginVertical: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginVertical: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   venueTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#111827',
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
   },
   dashboardSubtitle: {
-    fontSize: 13,
-    color: '#6B7280',
-    marginBottom: 16,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.textMuted,
+    marginBottom: Tokens.spacing.md,
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 16,
+    gap: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.md,
   },
   card: {
     flexBasis: '48%',
-    backgroundColor: '#F9FAFB',
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   cardValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: PadelBrand.electricGreen,
-    marginBottom: 2,
+    fontSize: Tokens.fontSize.xl,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.primaryText,
+    fontVariant: ['tabular-nums'],
+    marginBottom: Tokens.spacing.xs,
   },
   cardLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#374151',
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
   },
   cardSub: {
-    fontSize: 11,
-    color: '#9CA3AF',
-    marginTop: 2,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.textMuted,
+    marginTop: Tokens.spacing.xs,
   },
   warningBanner: {
-    backgroundColor: '#FEF3C7',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 14,
-    borderWidth: 1,
-    borderColor: '#FDE68A',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+    backgroundColor: Tokens.colors.goldLight,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.goldBorder,
   },
   warningText: {
-    color: '#92400E',
-    fontSize: 12,
-    fontWeight: '600',
+    color: Tokens.colors.goldText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
+    flex: 1,
   },
   shareWhatsAppButton: {
-    backgroundColor: '#25D366',
-    paddingVertical: 14,
-    borderRadius: 10,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
-    shadowColor: '#25D366',
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 3,
+    justifyContent: 'center',
+  },
+  buttonInnerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
   },
   shareWhatsAppText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 14,
+    color: Tokens.colors.primaryForeground,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
   },
 });

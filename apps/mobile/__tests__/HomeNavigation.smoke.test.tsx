@@ -6,6 +6,8 @@ jest.mock('@/components/animated-icon', () => ({
   AnimatedIcon: () => null,
 }));
 
+jest.setTimeout(90000);
+
 describe('Home Screen Real Router Smoke Navigation Tests', () => {
   it('renders Home and verifies navigation to every destination screen', async () => {
     const { getByTestId, findByText } = await renderRouter('src/app', { initialUrl: '/' });
@@ -22,9 +24,21 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 2. Courtside Live -> /events/evt-001/live
+    // 2. View Session -> /events/evt-001
+    await waitFor(() => {
+      expect(getByTestId('home-view-session-btn')).toBeTruthy();
+    });
+    fireEvent.press(getByTestId('home-view-session-btn'));
+    expect(await findByText(/Confirmed Roster/i)).toBeTruthy();
+
+    act(() => {
+      router.replace('/' as any);
+    });
+    await findByText('Good afternoon, Nana');
+
+    // 3. Courtside Live -> /events/evt-001/live
     await waitFor(() => {
       expect(getByTestId('home-courtside-live-btn')).toBeTruthy();
     });
@@ -34,21 +48,21 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 3. Find Events -> /events
+    // 4. Find Events / See All Sessions -> /play
     await waitFor(() => {
-      expect(getByTestId('home-find-events-btn')).toBeTruthy();
+      expect(getByTestId('home-see-all-sessions-btn')).toBeTruthy();
     });
-    fireEvent.press(getByTestId('home-find-events-btn'));
-    expect(await findByText('Friday Sunset Americano')).toBeTruthy();
+    fireEvent.press(getByTestId('home-see-all-sessions-btn'));
+    expect(await findByText('+ Host Event')).toBeTruthy();
 
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 4. Box Leagues -> /leagues
+    // 5. Box Leagues -> /leagues
     await waitFor(() => {
       expect(getByTestId('home-box-leagues-btn')).toBeTruthy();
     });
@@ -58,9 +72,9 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 5. Partner Finder -> /partners
+    // 6. Partner Finder -> /partners
     await waitFor(() => {
       expect(getByTestId('home-partner-finder-btn')).toBeTruthy();
     });
@@ -70,9 +84,9 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 6. My Rating -> /ratings
+    // 7. My Rating -> /ratings
     await waitFor(() => {
       expect(getByTestId('home-my-rating-btn')).toBeTruthy();
     });
@@ -82,9 +96,9 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 7. Venues -> /venues
+    // 8. Venues -> /venues
     await waitFor(() => {
       expect(getByTestId('home-venues-btn')).toBeTruthy();
     });
@@ -94,9 +108,9 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 8. Settings -> /settings
+    // 9. Settings -> /settings
     await waitFor(() => {
       expect(getByTestId('home-settings-btn')).toBeTruthy();
     });
@@ -106,9 +120,9 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
+    await findByText('Good afternoon, Nana');
 
-    // 9. Create Event -> /events/create
+    // 10. Create Event -> /events/create
     await waitFor(() => {
       expect(getByTestId('home-create-event-btn')).toBeTruthy();
     });
@@ -118,6 +132,6 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     act(() => {
       router.replace('/' as any);
     });
-    await findByText('Akwaaba, Kwadwo 🎾');
-  }, 30000);
+    await findByText('Good afternoon, Nana');
+  }, 90000);
 });

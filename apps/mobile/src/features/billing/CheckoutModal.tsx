@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import { PadelBrand, Colors } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 import { computePricingBreakdown, formatPesewasToGHS } from './billing-utils';
 
 interface CheckoutModalProps {
@@ -121,7 +121,7 @@ export function CheckoutModal({
 
           {isWaitingForApproval ? (
             <View style={styles.waitingContainer}>
-              <ActivityIndicator size="large" color={PadelBrand.electricGreen} />
+              <ActivityIndicator size="large" color={Tokens.colors.primary} />
               <Text style={styles.waitingTitle}>Waiting for Approval on Your Phone</Text>
               <Text style={styles.waitingSubtitle}>
                 Please check your phone for the Mobile Money prompt (MTN MoMo, Telecel Cash, or AT
@@ -147,7 +147,12 @@ export function CheckoutModal({
                   Reference: <Text style={styles.momoBold}>{manualReference}</Text>
                 </Text>
               </View>
-              <TouchableOpacity style={styles.doneButton} onPress={onClose}>
+              <TouchableOpacity
+                style={styles.doneButton}
+                onPress={onClose}
+                accessibilityRole="button"
+                accessibilityLabel="Done"
+              >
                 <Text style={styles.doneButtonText}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -161,6 +166,8 @@ export function CheckoutModal({
                     selectedMethod === 'PAYSTACK' && styles.methodSelected,
                   ]}
                   onPress={() => setSelectedMethod('PAYSTACK')}
+                  accessibilityRole="button"
+                  accessibilityLabel="MoMo or Card via Paystack"
                 >
                   <Text
                     style={[
@@ -178,6 +185,8 @@ export function CheckoutModal({
                     selectedMethod === 'MANUAL_MOMO' && styles.methodSelected,
                   ]}
                   onPress={() => setSelectedMethod('MANUAL_MOMO')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Direct MoMo to Organiser"
                 >
                   <Text
                     style={[
@@ -195,6 +204,8 @@ export function CheckoutModal({
                     selectedMethod === 'CASH' && styles.methodSelected,
                   ]}
                   onPress={() => setSelectedMethod('CASH')}
+                  accessibilityRole="button"
+                  accessibilityLabel="Cash at Club"
                 >
                   <Text
                     style={[
@@ -214,6 +225,8 @@ export function CheckoutModal({
                   style={styles.cancelBtn}
                   onPress={onClose}
                   disabled={isProcessing}
+                  accessibilityRole="button"
+                  accessibilityLabel="Cancel payment"
                 >
                   <Text style={styles.cancelBtnText}>Cancel</Text>
                 </TouchableOpacity>
@@ -222,9 +235,11 @@ export function CheckoutModal({
                   style={styles.payBtn}
                   onPress={handleStartPayment}
                   disabled={isProcessing}
+                  accessibilityRole="button"
+                  accessibilityLabel={selectedMethod === 'PAYSTACK' ? 'Pay Now' : 'Hold Seat for 10 minutes'}
                 >
                   {isProcessing ? (
-                    <ActivityIndicator color="#000" size="small" />
+                    <ActivityIndicator color={Tokens.colors.primaryForeground} size="small" />
                   ) : (
                     <Text style={styles.payBtnText}>
                       {selectedMethod === 'PAYSTACK' ? 'Pay Now' : 'Hold Seat (10m)'}
@@ -243,193 +258,203 @@ export function CheckoutModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(20, 24, 26, 0.4)',
     justifyContent: 'flex-end',
   },
   content: {
-    backgroundColor: PadelBrand.cardDark,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
-    borderTopWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.surface,
+    borderTopLeftRadius: Tokens.radii.card,
+    borderTopRightRadius: Tokens.radii.card,
+    padding: Tokens.spacing.lg,
+    borderTopWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   title: {
-    color: Colors.dark.text,
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: 4,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   eventTitle: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
-    marginBottom: 16,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.md,
   },
   breakdownCard: {
-    backgroundColor: PadelBrand.charcoal,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   breakdownRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: Tokens.spacing.xs,
   },
   breakdownLabel: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
   },
   breakdownValue: {
-    color: Colors.dark.text,
-    fontSize: 14,
-    fontWeight: '500',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
+    fontVariant: ['tabular-nums'],
   },
   divider: {
-    height: 1,
-    backgroundColor: PadelBrand.borderDark,
-    marginVertical: 8,
+    height: Tokens.borders.width,
+    backgroundColor: Tokens.colors.border,
+    marginVertical: Tokens.spacing.xs,
   },
   totalLabel: {
-    color: Colors.dark.text,
-    fontSize: 16,
-    fontWeight: '700',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   totalValue: {
-    color: PadelBrand.electricGreen,
-    fontSize: 18,
-    fontWeight: '700',
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
   },
   sectionTitle: {
-    color: Colors.dark.text,
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 12,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.sm,
   },
   methodSelector: {
-    gap: 8,
-    marginBottom: 20,
+    gap: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.md,
   },
   methodOption: {
-    padding: 14,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    backgroundColor: PadelBrand.charcoal,
+    padding: Tokens.spacing.sm,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    backgroundColor: Tokens.colors.surface,
   },
   methodSelected: {
-    borderColor: PadelBrand.electricGreen,
-    backgroundColor: 'rgba(0, 200, 83, 0.1)',
+    borderColor: Tokens.colors.primaryText,
+    backgroundColor: Tokens.colors.primaryLight,
   },
   methodText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
-    fontWeight: '600',
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   methodTextSelected: {
-    color: PadelBrand.electricGreen,
+    color: Tokens.colors.primaryText,
   },
   errorText: {
-    color: '#EF4444',
-    fontSize: 13,
-    marginBottom: 12,
+    color: Tokens.colors.errorText,
+    fontSize: Tokens.fontSize.sm,
+    marginBottom: Tokens.spacing.sm,
   },
   buttonRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: Tokens.spacing.sm,
   },
   cancelBtn: {
     flex: 1,
-    paddingVertical: 14,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
     alignItems: 'center',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.button,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   cancelBtnText: {
-    color: Colors.dark.textSecondary,
-    fontSize: 15,
-    fontWeight: '600',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   payBtn: {
     flex: 2,
-    backgroundColor: PadelBrand.electricGreen,
-    paddingVertical: 14,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
     alignItems: 'center',
-    borderRadius: 12,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.button,
   },
   payBtnText: {
-    color: '#000',
-    fontSize: 15,
-    fontWeight: '700',
+    color: Tokens.colors.primaryForeground,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   waitingContainer: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: Tokens.spacing.lg,
   },
   waitingTitle: {
-    color: Colors.dark.text,
-    fontSize: 17,
-    fontWeight: '700',
-    marginTop: 16,
-    marginBottom: 8,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginTop: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.xs,
     textAlign: 'center',
   },
   waitingSubtitle: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
     lineHeight: 20,
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.sm,
   },
   holdNotice: {
-    color: PadelBrand.electricGreen,
-    fontSize: 13,
-    fontWeight: '600',
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   manualContainer: {
-    paddingVertical: 12,
+    paddingVertical: Tokens.spacing.sm,
   },
   manualTitle: {
-    color: PadelBrand.electricGreen,
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 6,
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   manualSubtitle: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
     lineHeight: 20,
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.sm,
   },
   momoDetailBox: {
-    backgroundColor: PadelBrand.charcoal,
-    borderRadius: 12,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
-    gap: 6,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    marginBottom: Tokens.spacing.md,
+    gap: Tokens.spacing.xs,
   },
   momoRow: {
-    color: Colors.dark.textSecondary,
-    fontSize: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
   },
   momoBold: {
-    color: Colors.dark.text,
-    fontWeight: '700',
+    color: Tokens.colors.text,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   doneButton: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingVertical: 14,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingVertical: Tokens.spacing.sm,
     alignItems: 'center',
-    borderRadius: 12,
+    justifyContent: 'center',
+    borderRadius: Tokens.radii.button,
   },
   doneButtonText: {
-    color: '#000',
-    fontWeight: '700',
-    fontSize: 15,
+    color: Tokens.colors.primaryForeground,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
   },
 });

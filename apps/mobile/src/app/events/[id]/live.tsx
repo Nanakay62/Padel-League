@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ArrowLeft } from 'lucide-react-native';
 import { LiveEventScreen, MatchItem, LeaderboardRow } from '@/features/events/LiveEventScreen';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 
 export default function LiveEventRoute() {
   const router = useRouter();
@@ -67,8 +68,14 @@ export default function LiveEventRoute() {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <Pressable onPress={() => router.back()} testID="live-back-btn">
-          <Text style={styles.backText}>← Back</Text>
+        <Pressable
+          onPress={() => router.back()}
+          testID="live-back-btn"
+          style={styles.backButton}
+          accessibilityLabel="Back to event"
+        >
+          <ArrowLeft size={18} color={Tokens.colors.live.primary} />
+          <Text style={styles.backText}>Back</Text>
         </Pressable>
       </View>
       <LiveEventScreen
@@ -90,16 +97,22 @@ export default function LiveEventRoute() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0F1715',
+    backgroundColor: Tokens.colors.live.background,
   },
   topBar: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 4,
+    paddingHorizontal: Tokens.spacing.md,
+    paddingTop: Tokens.spacing.sm,
+    paddingBottom: Tokens.spacing.xs,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+    minHeight: Tokens.dimensions.minTouchTarget,
   },
   backText: {
-    fontSize: 14,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
+    fontSize: Tokens.fontSize.sm,
+    color: Tokens.colors.live.primary,
+    fontWeight: Tokens.fontWeight.semibold,
   },
 });

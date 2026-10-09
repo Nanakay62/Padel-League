@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Tokens } from '@/constants/theme';
 
 export interface OpenMatchCardProps {
   id: string;
@@ -46,7 +46,7 @@ export function OpenMatchCard({
             ]}
           >
             {isLookingForFourth
-              ? '🎾 LOOKING FOR A FOURTH'
+              ? 'LOOKING FOR A FOURTH'
               : `${openSeats} SEATS LEFT`}
           </Text>
         </View>
@@ -86,9 +86,16 @@ export function OpenMatchCard({
           ]}
           disabled={openSeats === 0}
           onPress={() => onJoin(id)}
+          accessibilityRole="button"
+          accessibilityLabel={openSeats > 0 ? `Join for ${priceFormatted}` : 'Match Full'}
         >
-          <Text style={styles.joinBtnText}>
-            {openSeats > 0 ? `Join for ${priceFormatted} →` : 'Match Full'}
+          <Text
+            style={[
+              styles.joinBtnText,
+              openSeats === 0 && styles.joinBtnTextDisabled,
+            ]}
+          >
+            {openSeats > 0 ? `Join for ${priceFormatted}` : 'Match Full'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -98,110 +105,123 @@ export function OpenMatchCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 18,
-    padding: 18,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    backgroundColor: Tokens.colors.surface,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.md,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   badgeRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.sm,
   },
   seatsBadge: {
-    backgroundColor: '#1E2C24',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#294333',
+    backgroundColor: Tokens.colors.primaryLight,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.primaryBorder,
   },
   seatsBadgeFourth: {
-    backgroundColor: '#372B15',
-    borderColor: '#544018',
+    backgroundColor: Tokens.colors.goldLight,
+    borderColor: Tokens.colors.goldBorder,
   },
   seatsBadgeText: {
-    color: PadelBrand.electricGreen,
-    fontSize: 11,
-    fontWeight: '800',
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 0.5,
   },
   seatsBadgeTextFourth: {
-    color: PadelBrand.gold,
+    color: Tokens.colors.goldText,
   },
   levelBadge: {
-    backgroundColor: '#1C2420',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   levelText: {
-    color: '#CBD5E1',
-    fontSize: 12,
-    fontWeight: '700',
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   venueTitle: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '800',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   courtSubtitle: {
-    color: '#94A3B8',
-    fontSize: 13,
-    marginTop: 2,
-    marginBottom: 14,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    marginTop: Tokens.spacing.xs,
+    marginBottom: Tokens.spacing.md,
   },
   playersSection: {
-    backgroundColor: '#111714',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 16,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   playersLabel: {
-    color: '#64748B',
-    fontSize: 11,
-    fontWeight: '600',
-    marginBottom: 2,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.medium,
+    marginBottom: Tokens.spacing.xs,
   },
   playersList: {
-    color: '#E2E8F0',
-    fontSize: 13,
-    fontWeight: '600',
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
   },
   footerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#1E2824',
+    paddingTop: Tokens.spacing.sm,
+    borderTopWidth: Tokens.borders.width,
+    borderTopColor: Tokens.colors.border,
   },
   costLabel: {
-    color: '#64748B',
-    fontSize: 11,
-    fontWeight: '600',
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.medium,
   },
   costValue: {
-    color: PadelBrand.electricGreen,
-    fontSize: 18,
-    fontWeight: '900',
-    marginTop: 1,
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.lg,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontVariant: ['tabular-nums'],
+    marginTop: Tokens.spacing.xs,
   },
   joinBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 12,
+    backgroundColor: Tokens.colors.primary,
+    minHeight: Tokens.dimensions.minTouchTarget,
+    paddingHorizontal: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.button,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   joinBtnDisabled: {
-    backgroundColor: '#1E2622',
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   joinBtnText: {
-    color: '#0B0F0E',
-    fontSize: 14,
-    fontWeight: '800',
+    color: Tokens.colors.primaryForeground,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+  },
+  joinBtnTextDisabled: {
+    color: Tokens.colors.textMuted,
   },
 });

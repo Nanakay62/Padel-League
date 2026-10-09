@@ -1,18 +1,9 @@
 import React from 'react';
 import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { PadelBrand } from '@/constants/theme';
-import {
   LeagueBoxItem,
   LeagueStandingsScreen,
 } from '@/features/leagues/LeagueStandingsScreen';
+import { Screen, PageHeader } from '@/components/ui';
 
 const SAMPLE_BOXES: LeagueBoxItem[] = [
   {
@@ -33,7 +24,7 @@ const SAMPLE_BOXES: LeagueBoxItem[] = [
         set_difference: 5,
         game_difference: 18,
         walkovers_given: 0,
-        zone: 'SAFE', // Box 1 champion stays in Box 1
+        zone: 'SAFE',
       },
       {
         rank: 2,
@@ -122,53 +113,20 @@ const SAMPLE_BOXES: LeagueBoxItem[] = [
 ];
 
 export default function LeaguesIndexScreen() {
-  const router = useRouter();
-
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container}>
-        <View style={styles.header}>
-          <Pressable style={styles.backBtn} onPress={() => router.back()}>
-            <Text style={styles.backBtnText}>← Home</Text>
-          </Pressable>
-          <Text style={styles.headerTitle}>Greater Accra Box Leagues</Text>
-        </View>
+    <Screen>
+      <PageHeader
+        title="Greater Accra Box Leagues"
+        subtitle="Cycle 3 • October 2026"
+        showBack
+      />
 
-        <LeagueStandingsScreen
-          leagueTitle="Greater Accra Box League 2026"
-          seasonName="Cycle 3 • October"
-          cycleWeeks={4}
-          boxes={SAMPLE_BOXES}
-        />
-      </ScrollView>
-    </SafeAreaView>
+      <LeagueStandingsScreen
+        leagueTitle="Greater Accra Box League 2026"
+        seasonName="Cycle 3 • October"
+        cycleWeeks={4}
+        boxes={SAMPLE_BOXES}
+      />
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
-  container: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    marginBottom: 4,
-  },
-  backBtn: {
-    marginBottom: 8,
-  },
-  backBtnText: {
-    fontSize: 13,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: '#FFFFFF',
-  },
-});

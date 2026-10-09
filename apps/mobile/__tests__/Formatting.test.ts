@@ -3,6 +3,9 @@ import {
   formatGhanaPhoneDisplay,
   normalizeGhanaPhoneE164,
   validateGhanaPhone,
+  formatAccraTime,
+  formatAccraDate,
+  formatAccraDateTime,
 } from '@/lib/formatting';
 
 describe('Formatting Utilities (Ghana Cedis & +233 Phones)', () => {
@@ -47,6 +50,29 @@ describe('Formatting Utilities (Ghana Cedis & +233 Phones)', () => {
     it('formats E.164 into readable spaced Ghanaian display format', () => {
       expect(formatGhanaPhoneDisplay('+233241234567')).toBe('+233 24 123 4567');
       expect(formatGhanaPhoneDisplay('0241234567')).toBe('024 123 4567');
+    });
+  });
+
+  describe('Accra Time Zone Formatting (Africa/Accra, no UTC)', () => {
+    it('formats ISO UTC timestamp to Accra local time without UTC in string', () => {
+      const iso = '2026-10-08T18:00:00Z';
+      const time = formatAccraTime(iso);
+      expect(time).toMatch(/6:00\s?PM/);
+      expect(time).not.toContain('UTC');
+    });
+
+    it('formats ISO UTC timestamp to Accra date', () => {
+      const iso = '2026-10-08T18:00:00Z';
+      const date = formatAccraDate(iso);
+      expect(date).toContain('Oct 8');
+    });
+
+    it('formats combined date and time', () => {
+      const iso = '2026-10-08T18:00:00Z';
+      const dateTime = formatAccraDateTime(iso);
+      expect(dateTime).toContain('Oct 8');
+      expect(dateTime).toMatch(/6:00\s?PM/);
+      expect(dateTime).not.toContain('UTC');
     });
   });
 });

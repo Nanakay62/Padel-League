@@ -1,9 +1,119 @@
 :root {
-  --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/assets/fonts/InterVariable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD, U+20A0-20CF;
+}
+
+/* ==========================================================================
+   Ghana Padel Platform - Responsive App Shell Media Queries (1024px Breakpoint)
+   ========================================================================== */
+
+.shell-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #F6F6F4;
+  box-sizing: border-box;
+}
+
+.desktop-sidebar {
+  display: none !important;
+}
+
+.desktop-topbar {
+  display: none !important;
+}
+
+.mobile-bottom-tabs {
+  display: flex !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #FFFFFF;
+  border-top: 1px solid #E7E7E3;
+  z-index: 999;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.shell-right-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  padding-bottom: 60px; /* Space for bottom tabs on mobile */
+  box-sizing: border-box;
+}
+
+.shell-main-content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop Viewport >= 1024px */
+@media (min-width: 1024px) {
+  .shell-root {
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .desktop-sidebar {
+    display: flex !important;
+    flex-direction: column;
+    width: 256px;
+    min-width: 256px;
+    max-width: 256px;
+    height: 100vh;
+    background-color: #FFFFFF;
+    border-right: 1px solid #E7E7E3;
+    overflow-y: auto;
+    z-index: 100;
+    box-sizing: border-box;
+  }
+
+  .shell-right-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 0 !important;
+  }
+
+  .desktop-topbar {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    min-height: 64px;
+    padding: 0 24px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E7E7E3;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    box-sizing: border-box;
+  }
+
+  .mobile-bottom-tabs {
+    display: none !important;
+  }
 }

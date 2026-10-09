@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PadelBrand } from '@/constants/theme';
+import { Minus, Plus } from 'lucide-react-native';
+import { Tokens, Typography } from '@/constants/theme';
 
 interface ScoreStepperProps {
   teamANames: [string, string];
@@ -54,16 +55,16 @@ export function ScoreStepper({
             <Text style={styles.confirmTeamNames}>
               {teamANames[0]} & {teamANames[1]}
             </Text>
-            <Text style={styles.confirmBigScore}>{scoreA}</Text>
+            <Text style={[styles.confirmBigScore, Typography.tabularNums]}>{scoreA}</Text>
           </View>
 
-          <Text style={styles.confirmDivider}>—</Text>
+          <Text style={styles.confirmDivider}>-</Text>
 
           <View style={styles.confirmTeamColumn}>
             <Text style={styles.confirmTeamNames}>
               {teamBNames[0]} & {teamBNames[1]}
             </Text>
-            <Text style={styles.confirmBigScore}>{scoreB}</Text>
+            <Text style={[styles.confirmBigScore, Typography.tabularNums]}>{scoreB}</Text>
           </View>
         </View>
 
@@ -105,11 +106,11 @@ export function ScoreStepper({
             disabled={disabled || scoreA <= 0}
             accessibilityLabel="Decrease Team A score"
           >
-            <Text style={styles.stepBtnText}>−</Text>
+            <Minus size={24} color={Tokens.colors.live.text} strokeWidth={2} />
           </TouchableOpacity>
 
           <View style={styles.scoreDisplay}>
-            <Text style={styles.scoreText}>{scoreA}</Text>
+            <Text style={[styles.scoreText, Typography.tabularNums]}>{scoreA}</Text>
             <Text style={styles.targetLabel}>pts</Text>
           </View>
 
@@ -119,14 +120,14 @@ export function ScoreStepper({
             disabled={disabled || scoreA >= pointTarget}
             accessibilityLabel="Increase Team A score"
           >
-            <Text style={styles.stepBtnText}>+</Text>
+            <Plus size={24} color={Tokens.colors.live.text} strokeWidth={2} />
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Target indicator */}
       <View style={styles.targetBadge}>
-        <Text style={styles.targetBadgeText}>
+        <Text style={[styles.targetBadgeText, Typography.tabularNums]}>
           Total: {scoreA + scoreB} / {pointTarget} pts
         </Text>
       </View>
@@ -147,11 +148,11 @@ export function ScoreStepper({
             disabled={disabled || scoreB <= 0}
             accessibilityLabel="Decrease Team B score"
           >
-            <Text style={styles.stepBtnText}>−</Text>
+            <Minus size={24} color={Tokens.colors.live.text} strokeWidth={2} />
           </TouchableOpacity>
 
           <View style={styles.scoreDisplay}>
-            <Text style={styles.scoreText}>{scoreB}</Text>
+            <Text style={[styles.scoreText, Typography.tabularNums]}>{scoreB}</Text>
             <Text style={styles.targetLabel}>pts</Text>
           </View>
 
@@ -161,7 +162,7 @@ export function ScoreStepper({
             disabled={disabled || scoreB >= pointTarget}
             accessibilityLabel="Increase Team B score"
           >
-            <Text style={styles.stepBtnText}>+</Text>
+            <Plus size={24} color={Tokens.colors.live.text} strokeWidth={2} />
           </TouchableOpacity>
         </View>
       </View>
@@ -190,30 +191,32 @@ export function ScoreStepper({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    backgroundColor: PadelBrand.charcoal,
-    borderRadius: 16,
+    padding: Tokens.spacing.base,
+    backgroundColor: Tokens.colors.live.background,
+    borderRadius: Tokens.radii.card,
   },
   teamCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
+    backgroundColor: Tokens.colors.live.card,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.base,
     borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    borderColor: Tokens.colors.live.border,
   },
   teamHeader: {
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.md,
   },
   teamLabel: {
-    color: PadelBrand.electricGreen,
-    fontSize: 12,
-    fontWeight: '700',
+    color: Tokens.colors.primary,
+    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
     letterSpacing: 1.5,
   },
   playerNames: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.lg,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
     marginTop: 2,
   },
   stepperRow: {
@@ -223,19 +226,13 @@ const styles = StyleSheet.create({
   },
   stepBtn: {
     width: 72,
-    height: 64,
-    backgroundColor: '#232D29',
-    borderRadius: 12,
+    height: Tokens.touch.minStepper,
+    backgroundColor: Tokens.colors.live.card,
+    borderRadius: Tokens.radii.card,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#303E38',
-  },
-  stepBtnText: {
-    color: '#FFFFFF',
-    fontSize: 32,
-    fontWeight: '600',
-    lineHeight: 36,
+    borderColor: Tokens.colors.live.border,
   },
   scoreDisplay: {
     alignItems: 'center',
@@ -243,116 +240,126 @@ const styles = StyleSheet.create({
     minWidth: 90,
   },
   scoreText: {
-    color: '#FFFFFF',
-    fontSize: 48,
-    fontWeight: '800',
-    letterSpacing: -1,
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.display,
+    lineHeight: Tokens.lineHeight.display,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   targetLabel: {
-    color: '#94A3B8',
-    fontSize: 13,
-    fontWeight: '500',
-    marginTop: -4,
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    marginTop: -Tokens.spacing.xs,
   },
   targetBadge: {
     alignSelf: 'center',
-    marginVertical: 12,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    backgroundColor: '#1B2420',
-    borderRadius: 20,
+    marginVertical: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.xs,
+    paddingHorizontal: Tokens.spacing.base,
+    backgroundColor: Tokens.colors.live.card,
+    borderRadius: Tokens.radii.pill,
     borderWidth: 1,
-    borderColor: '#293831',
+    borderColor: Tokens.colors.live.border,
   },
   targetBadgeText: {
-    color: PadelBrand.gold,
-    fontSize: 13,
-    fontWeight: '700',
+    color: Tokens.colors.live.gold,
+    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   bottomActions: {
     flexDirection: 'row',
-    gap: 12,
-    marginTop: 16,
+    gap: Tokens.spacing.md,
+    marginTop: Tokens.spacing.base,
   },
   btn: {
-    height: 56,
-    borderRadius: 14,
+    minHeight: Tokens.touch.minTarget,
+    borderRadius: Tokens.radii.button,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: Tokens.spacing.lg,
   },
   btnPrimary: {
-    backgroundColor: PadelBrand.electricGreen,
+    backgroundColor: Tokens.colors.primary,
   },
   btnPrimaryText: {
-    color: '#0B0F0E',
-    fontSize: 16,
-    fontWeight: '700',
+    color: Tokens.colors.textOnPrimary,
+    fontSize: Tokens.fontSize.base,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   btnSecondary: {
-    backgroundColor: '#232D29',
+    backgroundColor: Tokens.colors.live.card,
     borderWidth: 1,
-    borderColor: '#303E38',
+    borderColor: Tokens.colors.live.border,
   },
   btnSecondaryText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.base,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
   },
   confirmContainer: {
-    padding: 24,
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
+    padding: Tokens.spacing.base,
+    backgroundColor: Tokens.colors.live.background,
+    borderRadius: Tokens.radii.card,
   },
   confirmTitle: {
-    color: '#FFFFFF',
-    fontSize: 22,
-    fontWeight: '700',
+    color: Tokens.colors.live.text,
+    fontSize: Tokens.fontSize.lg,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    textAlign: 'center',
   },
   confirmSub: {
-    color: '#94A3B8',
-    fontSize: 14,
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.sm,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    textAlign: 'center',
     marginTop: 4,
-    marginBottom: 20,
+    marginBottom: Tokens.spacing.lg,
   },
   confirmScoreBoard: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    paddingVertical: 16,
-    backgroundColor: '#0E1311',
-    borderRadius: 14,
-    marginBottom: 24,
+    justifyContent: 'space-around',
+    backgroundColor: Tokens.colors.live.card,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.lg,
+    borderWidth: 1,
+    borderColor: Tokens.colors.live.border,
+    marginBottom: Tokens.spacing.lg,
   },
   confirmTeamColumn: {
-    flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 10,
+    flex: 1,
   },
   confirmTeamNames: {
-    color: '#CBD5E1',
-    fontSize: 14,
-    fontWeight: '500',
+    color: Tokens.colors.live.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: Tokens.spacing.xs,
   },
   confirmBigScore: {
-    color: PadelBrand.electricGreen,
-    fontSize: 54,
-    fontWeight: '800',
+    color: Tokens.colors.primary,
+    fontSize: Tokens.fontSize.display,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
   confirmDivider: {
-    color: '#64748B',
-    fontSize: 32,
-    fontWeight: '600',
+    color: Tokens.colors.live.border,
+    fontSize: Tokens.fontSize.xxl,
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    paddingHorizontal: Tokens.spacing.sm,
   },
   confirmActions: {
     flexDirection: 'row',
-    gap: 12,
-    width: '100%',
+    gap: Tokens.spacing.md,
   },
 });

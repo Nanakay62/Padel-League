@@ -1,334 +1,263 @@
 import React, { useState } from 'react';
 import {
-  Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { PadelBrand } from '@/constants/theme';
-import { formatGhanaCedis } from '@/lib/formatting';
+import { MapPin, Clock, Radio } from 'lucide-react-native';
+import { Tokens, Typography } from '@/constants/theme';
+import { formatGhanaCedis, formatAccraDateTime } from '@/lib/formatting';
+import { useEvents } from '@/hooks/useData';
+import {
+  Screen,
+  PageHeader,
+  Card,
+  Button,
+  StatusPill,
+  Stat,
+} from '@/components/ui';
 
 export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const [isJoined, setIsJoined] = useState(false);
+  const { data: events } = useEvents();
+
+  const foundEvent = events.find((e) => e.id === id);
 
   const event = {
     id: id || 'evt-001',
-    title: 'Friday Sunset Americano (24 Pts)',
-    venue_name: 'Accra City Padel Club',
-    address: 'Ring Road Central, Accra',
+    title: foundEvent?.title || 'Thursday Americano',
+    venue_name: foundEvent?.venue_name || 'Accra Padel Club',
+    address: 'Airport Residential Area, Accra',
     ghanapost_gps: 'GA-492-8012',
-    format: 'AMERICANO',
-    courts: 2,
-    point_target: 24,
+    format: foundEvent?.format || 'AMERICANO',
+    courts: foundEvent?.courts || 2,
+    point_target: foundEvent?.point_target || 24,
     planned_rounds: 8,
-    price_pesewas: 6000,
-    start_time: 'Friday, 18:00 UTC',
+    price_pesewas: foundEvent?.pricing.total_price_pesewas || 8500,
+    start_time: foundEvent?.start_time ? formatAccraDateTime(foundEvent.start_time) : 'Thu, Oct 8 • 6:00 PM',
     confirmed_players: [
+      'Nana Kwame (3.8)',
+      'Daniel Kojo (3.5)',
+      'Ama Boateng (3.4)',
+      'Kofi Mensah (3.2)',
+      'Esi Appiah (3.0)',
       'Kojo Ansah (3.4)',
-      'Kwame Mensah (3.1)',
       'Yaw Boateng (3.8)',
-      'Esi Appiah (2.9)',
-      'Kofi Osei (3.5)',
-      'Ama Darko (3.2)',
       'Fiifi Sam (3.6)',
     ],
-    max_players: 8,
+    max_players: foundEvent?.max_players || 12,
   };
 
   const isFull = event.confirmed_players.length >= event.max_players;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Navigation Back */}
-        <Pressable style={styles.backBtn} onPress={() => router.back()}>
-          <Text style={styles.backBtnText}>← Back to Events</Text>
-        </Pressable>
+    <Screen>
+      <PageHeader
+        title={event.title}
+        subtitle={event.venue_name}
+        showBack
+      />
 
+      <View style={styles.container}>
         {/* Event Hero Card */}
-        <View style={styles.heroCard}>
-          <View style={styles.formatTag}>
-            <Text style={styles.formatText}>{event.format}</Text>
+        <Card style={styles.heroCard}>
+          <View style={styles.formatRow}>
+            <StatusPill label={event.format} variant="neutral" />
+            <Text style={[styles.priceHighlight, Typography.tabularNums]}>
+              {formatGhanaCedis(event.price_pesewas)}
+            </Text>
           </View>
-          <Text style={styles.eventTitle}>{event.title}</Text>
-          <Text style={styles.venueName}>📍 {event.venue_name}</Text>
-          <Text style={styles.gpsAddress}>GPS: {event.ghanapost_gps}</Text>
-          <Text style={styles.timeTag}>🕒 {event.start_time}</Text>
 
-          <View style={styles.metaGrid}>
-            <View style={styles.metaItem}>
-              <Text style={styles.metaLabel}>Courts</Text>
-              <Text style={styles.metaValue}>{event.courts}</Text>
-            </View>
-            <View style={styles.metaItem}>
-              <Text style={styles.metaLabel}>Target</Text>
-              <Text style={styles.metaValue}>{event.point_target} pts</Text>
-            </View>
-            <View style={styles.metaItem}>
-              <Text style={styles.metaLabel}>Fee</Text>
-              <Text style={styles.metaValueHighlight}>
-                {formatGhanaCedis(event.price_pesewas)}
-              </Text>
-            </View>
+          <Text style={styles.eventTitle}>{event.title}</Text>
+
+          <View style={styles.metaRow}>
+            <MapPin size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+            <Text style={styles.metaText}>{event.venue_name} ({event.ghanapost_gps})</Text>
           </View>
-        </View>
+
+          <View style={styles.metaRow}>
+            <Clock size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+            <Text style={styles.metaText}>{event.start_time}</Text>
+          </View>
+
+          <View style={styles.statsRow}>
+            <Stat label="Courts" value={event.courts} />
+            <Stat label="Target" value={`${event.point_target} pts`} />
+            <Stat
+              label="Spots Left"
+              value={Math.max(0, event.max_players - event.confirmed_players.length)}
+            />
+          </View>
+        </Card>
 
         {/* Confirmed Roster */}
-        <View style={styles.rosterCard}>
+        <Card style={styles.rosterCard}>
           <View style={styles.rosterHeader}>
             <Text style={styles.sectionTitle}>Confirmed Roster</Text>
-            <Text style={styles.rosterCount}>
-              {event.confirmed_players.length} / {event.max_players}
-            </Text>
+            <StatusPill
+              label={`${event.confirmed_players.length} / ${event.max_players}`}
+              variant="neutral"
+            />
           </View>
 
           {event.confirmed_players.map((p, idx) => (
             <View key={idx} style={styles.playerRow}>
-              <Text style={styles.playerNum}>#{idx + 1}</Text>
+              <Text style={[styles.playerNum, Typography.tabularNums]}>#{idx + 1}</Text>
               <Text style={styles.playerName}>{p}</Text>
-              <Text style={styles.confirmedCheck}>✓ Confirmed</Text>
+              <StatusPill label="Confirmed" variant="success" />
             </View>
           ))}
-        </View>
+        </Card>
 
-        {/* Live Event Shortcuts */}
-        <Pressable
-          style={styles.liveShortcut}
-          onPress={() => router.push(`/events/${event.id}/live`)}
-        >
-          <Text style={styles.liveShortcutText}>
-            View Courtside Live Screen →
-          </Text>
-        </Pressable>
-      </ScrollView>
+        {/* Live Courtside Action */}
+        <Button
+          title="Courtside Live Screen"
+          variant="secondary"
+          size="lg"
+          onPress={() => router.push(`/events/${event.id}/live` as any)}
+          icon={<Radio size={18} color={Tokens.colors.text} strokeWidth={1.75} />}
+        />
 
-      {/* Floating Checkout Footer */}
-      <View style={styles.footer}>
-        <View>
-          <Text style={styles.footerLabel}>Entry Fee</Text>
-          <Text style={styles.footerPrice}>
-            {formatGhanaCedis(event.price_pesewas)}
-          </Text>
-        </View>
-        <Pressable
-          style={[
-            styles.joinBtn,
-            isJoined && styles.joinedBtn,
-            isFull && !isJoined && styles.waitlistBtn,
-          ]}
-          onPress={() => setIsJoined(!isJoined)}
-        >
-          <Text style={styles.joinBtnText}>
-            {isJoined
-              ? '✓ You Are Confirmed'
-              : isFull
-                ? 'Join Waitlist (MoMo)'
-                : 'Confirm & Pay (Paystack/MoMo)'}
-          </Text>
-        </Pressable>
+        {/* Join Session CTA */}
+        <Card style={styles.joinCard}>
+          <View style={styles.joinInfoRow}>
+            <View>
+              <Text style={styles.feeLabel}>Total Entry Fee</Text>
+              <Text style={[styles.feeValue, Typography.tabularNums]}>
+                {formatGhanaCedis(event.price_pesewas)}
+              </Text>
+            </View>
+
+            <Button
+              title={
+                isJoined
+                  ? 'Confirmed'
+                  : isFull
+                    ? 'Join Waitlist'
+                    : 'Confirm & Pay'
+              }
+              variant={isJoined ? 'secondary' : 'primary'}
+              size="md"
+              onPress={() => setIsJoined(!isJoined)}
+            />
+          </View>
+        </Card>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: PadelBrand.charcoal,
-  },
   container: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 100,
-  },
-  backBtn: {
-    marginBottom: 12,
-  },
-  backBtnText: {
-    fontSize: 13,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
+    gap: Tokens.spacing.base,
+    paddingBottom: Tokens.spacing.xxxl,
   },
   heroCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
+    gap: Tokens.spacing.sm,
   },
-  formatTag: {
-    alignSelf: 'flex-start',
-    backgroundColor: 'rgba(0, 200, 83, 0.15)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    marginBottom: 8,
-  },
-  formatText: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: PadelBrand.electricGreen,
-  },
-  eventTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#FFFFFF',
-    marginBottom: 4,
-  },
-  venueName: {
-    fontSize: 14,
-    color: '#CBD5E1',
-    marginBottom: 2,
-  },
-  gpsAddress: {
-    fontSize: 12,
-    color: '#94A3B8',
-    marginBottom: 6,
-  },
-  timeTag: {
-    fontSize: 13,
-    color: '#94A3B8',
-    marginBottom: 14,
-  },
-  metaGrid: {
+  formatRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#0B0F0E',
-    borderRadius: 10,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#25302C',
-  },
-  metaItem: {
     alignItems: 'center',
   },
-  metaLabel: {
-    fontSize: 11,
-    color: '#94A3B8',
-    marginBottom: 2,
+  priceHighlight: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.greenText,
   },
-  metaValue: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#FFFFFF',
+  eventTitle: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    lineHeight: Tokens.lineHeight.lg,
+    color: Tokens.colors.text,
   },
-  metaValueHighlight: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: PadelBrand.electricGreen,
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+  },
+  metaText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: Tokens.spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: Tokens.colors.border,
+    marginTop: Tokens.spacing.xs,
   },
   rosterCard: {
-    backgroundColor: PadelBrand.cardDark,
-    borderRadius: 14,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: PadelBrand.borderDark,
-    marginBottom: 16,
+    gap: Tokens.spacing.sm,
   },
   rosterHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: Tokens.spacing.xs,
   },
   sectionTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  rosterCount: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: PadelBrand.electricGreen,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.base,
+    lineHeight: Tokens.lineHeight.base,
+    color: Tokens.colors.text,
   },
   playerRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: Tokens.spacing.xs,
     borderBottomWidth: 1,
-    borderBottomColor: '#1A2320',
+    borderBottomColor: Tokens.colors.border,
+    gap: Tokens.spacing.sm,
+    minHeight: Tokens.touch.minTarget,
   },
   playerNum: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
     width: 24,
-    fontSize: 12,
-    color: '#94A3B8',
-    fontWeight: '600',
   },
   playerName: {
     flex: 1,
-    fontSize: 13,
-    color: '#FFFFFF',
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.text,
   },
-  confirmedCheck: {
-    fontSize: 11,
-    color: PadelBrand.electricGreen,
-    fontWeight: '700',
+  joinCard: {
+    padding: Tokens.spacing.base,
   },
-  liveShortcut: {
-    backgroundColor: '#1E2925',
-    borderRadius: 10,
-    padding: 14,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: PadelBrand.electricGreen,
-  },
-  liveShortcutText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: PadelBrand.electricGreen,
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: PadelBrand.cardDark,
-    borderTopWidth: 1,
-    borderTopColor: PadelBrand.borderDark,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+  joinInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  footerLabel: {
-    fontSize: 10,
-    color: '#94A3B8',
-    textTransform: 'uppercase',
+  feeLabel: {
+    fontFamily: Typography.fontFamily.regular,
+    fontWeight: Tokens.fontWeight.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
   },
-  footerPrice: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: '#FFFFFF',
-  },
-  joinBtn: {
-    backgroundColor: PadelBrand.electricGreen,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  joinedBtn: {
-    backgroundColor: '#25302C',
-  },
-  waitlistBtn: {
-    backgroundColor: '#F59E0B',
-  },
-  joinBtnText: {
-    fontSize: 13,
-    fontWeight: '800',
-    color: '#0B0F0E',
+  feeValue: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    lineHeight: Tokens.lineHeight.lg,
+    color: Tokens.colors.text,
   },
 });
