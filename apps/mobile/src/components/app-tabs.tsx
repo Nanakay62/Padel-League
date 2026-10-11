@@ -40,6 +40,22 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
+      <NativeTabs.Trigger name="venues">
+        <NativeTabs.Trigger.Label>Venues</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/home.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="credits">
+        <NativeTabs.Trigger.Label>Credits</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/home.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
       <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Label>Profile</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon

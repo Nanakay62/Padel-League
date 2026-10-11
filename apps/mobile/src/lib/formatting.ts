@@ -21,6 +21,8 @@ export function formatGhanaCedis(pesewas: number): string {
   return `${prefix}${cedisFormatted}.${pesewasFormatted}`;
 }
 
+export const formatGhs = formatGhanaCedis;
+
 const GHANA_VALID_PREFIXES = [
   '24',
   '54',

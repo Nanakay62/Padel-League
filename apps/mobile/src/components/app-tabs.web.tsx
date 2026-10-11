@@ -34,30 +34,36 @@ export default function AppTabs() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const isHome = pathname === '/' || pathname === '';
-  const isPlay = pathname.startsWith('/play');
-  const isLeagues = pathname.startsWith('/leagues');
-  const isCommunity = pathname.startsWith('/community');
-  const isVenues = pathname.startsWith('/venues');
-  const isCredits = pathname.startsWith('/credits');
-  const isProfile = pathname.startsWith('/profile');
+  const isHome = pathname === '/' || pathname === '' || pathname === '/(tabs)' || pathname === '/(tabs)/';
+  const isPlay = pathname.includes('/play');
+  const isLeagues = pathname.includes('/leagues');
+  const isCommunity = pathname.includes('/community');
+  const isVenues = pathname.includes('/venues');
+  const isCredits = pathname.includes('/credits');
+  const isProfile = pathname.includes('/profile');
 
   return (
     <Tabs>
       <TabList style={{ display: 'none' }}>
-        <TabTrigger name="index" href={"/" as any}>
+        <TabTrigger name="index" href={"/(tabs)" as any}>
           <span>Home</span>
         </TabTrigger>
-        <TabTrigger name="play" href={"/play" as any}>
+        <TabTrigger name="play" href={"/(tabs)/play" as any}>
           <span>Play</span>
         </TabTrigger>
-        <TabTrigger name="leagues" href={"/leagues" as any}>
+        <TabTrigger name="leagues" href={"/(tabs)/leagues" as any}>
           <span>Leagues</span>
         </TabTrigger>
-        <TabTrigger name="community" href={"/community" as any}>
+        <TabTrigger name="community" href={"/(tabs)/community" as any}>
           <span>Community</span>
         </TabTrigger>
-        <TabTrigger name="profile" href={"/profile" as any}>
+        <TabTrigger name="venues" href={"/(tabs)/venues" as any}>
+          <span>Venues</span>
+        </TabTrigger>
+        <TabTrigger name="credits" href={"/(tabs)/credits" as any}>
+          <span>Credits</span>
+        </TabTrigger>
+        <TabTrigger name="profile" href={"/(tabs)/profile" as any}>
           <span>Profile</span>
         </TabTrigger>
       </TabList>
@@ -73,6 +79,7 @@ export default function AppTabs() {
               alignItems: 'center',
               gap: Tokens.spacing.md,
               cursor: 'pointer',
+              borderBottom: `1px solid ${Tokens.colors.sidebarBorder}`,
             }}
             onClick={() => router.push('/')}
           >
@@ -83,7 +90,7 @@ export default function AppTabs() {
                   style={{
                     fontSize: Tokens.fontSize.base,
                     fontWeight: Tokens.fontWeight.semibold,
-                    color: Tokens.colors.text,
+                    color: Tokens.colors.sidebarText,
                     letterSpacing: -0.5,
                     fontFamily: Typography.fontFamily.semibold,
                   }}
@@ -94,7 +101,7 @@ export default function AppTabs() {
                   style={{
                     fontSize: Tokens.fontSize.base,
                     fontWeight: Tokens.fontWeight.semibold,
-                    color: Tokens.colors.greenText,
+                    color: Tokens.colors.primary,
                     letterSpacing: -0.5,
                     fontFamily: Typography.fontFamily.semibold,
                   }}
@@ -105,7 +112,7 @@ export default function AppTabs() {
               <div
                 style={{
                   fontSize: Tokens.fontSize.xs,
-                  color: Tokens.colors.textMuted,
+                  color: Tokens.colors.sidebarTextMuted,
                   fontWeight: Tokens.fontWeight.medium,
                   fontFamily: Typography.fontFamily.medium,
                 }}
@@ -136,9 +143,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isHome ? Tokens.colors.background : 'transparent',
-                color: isHome ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isHome ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isHome ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isHome ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -148,7 +156,7 @@ export default function AppTabs() {
             >
               <Home
                 size={18}
-                color={isHome ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isHome ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navHome')}</span>
@@ -158,7 +166,7 @@ export default function AppTabs() {
               type="button"
               data-testid="sidebar-play-link"
               aria-label={t('navPlay')}
-              onClick={() => router.push('/play')}
+              onClick={() => router.push('/(tabs)/play' as any)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -166,9 +174,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isPlay ? Tokens.colors.background : 'transparent',
-                color: isPlay ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isPlay ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isPlay ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isPlay ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -178,7 +187,7 @@ export default function AppTabs() {
             >
               <Play
                 size={18}
-                color={isPlay ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isPlay ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navPlay')}</span>
@@ -188,7 +197,7 @@ export default function AppTabs() {
               type="button"
               data-testid="sidebar-leagues-link"
               aria-label={t('navLeagues')}
-              onClick={() => router.push('/leagues')}
+              onClick={() => router.push('/(tabs)/leagues' as any)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -196,9 +205,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isLeagues ? Tokens.colors.background : 'transparent',
-                color: isLeagues ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isLeagues ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isLeagues ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isLeagues ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -208,7 +218,7 @@ export default function AppTabs() {
             >
               <Trophy
                 size={18}
-                color={isLeagues ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isLeagues ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navLeagues')}</span>
@@ -218,7 +228,7 @@ export default function AppTabs() {
               type="button"
               data-testid="sidebar-community-link"
               aria-label={t('navCommunity')}
-              onClick={() => router.push('/community')}
+              onClick={() => router.push('/(tabs)/community' as any)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -226,9 +236,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isCommunity ? Tokens.colors.background : 'transparent',
-                color: isCommunity ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isCommunity ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isCommunity ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isCommunity ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -238,7 +249,7 @@ export default function AppTabs() {
             >
               <Users
                 size={18}
-                color={isCommunity ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isCommunity ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navCommunity')}</span>
@@ -248,7 +259,7 @@ export default function AppTabs() {
               type="button"
               data-testid="sidebar-venues-link"
               aria-label={t('navVenues')}
-              onClick={() => router.push('/venues')}
+              onClick={() => router.push('/(tabs)/venues' as any)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -256,9 +267,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isVenues ? Tokens.colors.background : 'transparent',
-                color: isVenues ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isVenues ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isVenues ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isVenues ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -268,7 +280,7 @@ export default function AppTabs() {
             >
               <MapPin
                 size={18}
-                color={isVenues ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isVenues ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navVenues')}</span>
@@ -278,7 +290,7 @@ export default function AppTabs() {
               type="button"
               data-testid="sidebar-credits-link"
               aria-label={t('navCredits')}
-              onClick={() => router.push('/credits')}
+              onClick={() => router.push('/(tabs)/credits' as any)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -286,9 +298,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isCredits ? Tokens.colors.background : 'transparent',
-                color: isCredits ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isCredits ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isCredits ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isCredits ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -298,7 +311,7 @@ export default function AppTabs() {
             >
               <CreditCard
                 size={18}
-                color={isCredits ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isCredits ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navCredits')}</span>
@@ -308,7 +321,7 @@ export default function AppTabs() {
               type="button"
               data-testid="sidebar-profile-link"
               aria-label={t('navProfile')}
-              onClick={() => router.push('/profile')}
+              onClick={() => router.push('/(tabs)/profile' as any)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -316,9 +329,10 @@ export default function AppTabs() {
                 padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
                 minHeight: Tokens.touch.minTarget,
                 borderRadius: Tokens.radii.button,
-                backgroundColor: isProfile ? Tokens.colors.background : 'transparent',
-                color: isProfile ? Tokens.colors.text : Tokens.colors.textMuted,
-                border: isProfile ? `1px solid ${Tokens.colors.border}` : '1px solid transparent',
+                backgroundColor: isProfile ? Tokens.colors.sidebarItemActiveBg : 'transparent',
+                color: isProfile ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
+                border: 'none',
+                outline: 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontSize: Tokens.fontSize.sm,
@@ -328,7 +342,7 @@ export default function AppTabs() {
             >
               <User
                 size={18}
-                color={isProfile ? Tokens.colors.greenText : Tokens.colors.textMuted}
+                color={isProfile ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
                 strokeWidth={1.75}
               />
               <span>{t('navProfile')}</span>
@@ -340,13 +354,13 @@ export default function AppTabs() {
             style={{
               margin: `${Tokens.spacing.lg}px ${Tokens.spacing.md}px 0`,
               paddingTop: Tokens.spacing.base,
-              borderTop: `1px solid ${Tokens.colors.border}`,
+              borderTop: `1px solid ${Tokens.colors.sidebarBorder}`,
             }}
           >
             <div
               style={{
                 fontSize: Tokens.fontSize.xs,
-                color: Tokens.colors.textMuted,
+                color: Tokens.colors.sidebarTextMuted,
                 textTransform: 'uppercase',
                 letterSpacing: 0.5,
                 fontWeight: Tokens.fontWeight.semibold,
@@ -395,16 +409,16 @@ export default function AppTabs() {
                   padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
                   minHeight: Tokens.touch.minTarget,
                   borderRadius: Tokens.radii.button,
-                  backgroundColor: 'transparent',
-                  color: Tokens.colors.text,
-                  border: `1px solid ${Tokens.colors.border}`,
+                  backgroundColor: Tokens.colors.sidebarQuickActionBg,
+                  color: Tokens.colors.sidebarText,
+                  border: `1px solid ${Tokens.colors.sidebarQuickActionBorder}`,
                   cursor: 'pointer',
                   fontSize: Tokens.fontSize.sm,
                   fontWeight: Tokens.fontWeight.medium,
                   fontFamily: Typography.fontFamily.medium,
                 }}
               >
-                <Users size={16} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                <Users size={16} color={Tokens.colors.sidebarTextMuted} strokeWidth={1.75} />
                 <span>{t('actionFindFourth')}</span>
               </button>
 
@@ -412,7 +426,7 @@ export default function AppTabs() {
                 type="button"
                 data-testid="sidebar-join-league-btn"
                 aria-label={t('actionJoinLeague')}
-                onClick={() => router.push('/leagues')}
+                onClick={() => router.push('/(tabs)/leagues' as any)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -420,16 +434,16 @@ export default function AppTabs() {
                   padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
                   minHeight: Tokens.touch.minTarget,
                   borderRadius: Tokens.radii.button,
-                  backgroundColor: 'transparent',
-                  color: Tokens.colors.text,
-                  border: `1px solid ${Tokens.colors.border}`,
+                  backgroundColor: Tokens.colors.sidebarQuickActionBg,
+                  color: Tokens.colors.sidebarText,
+                  border: `1px solid ${Tokens.colors.sidebarQuickActionBorder}`,
                   cursor: 'pointer',
                   fontSize: Tokens.fontSize.sm,
                   fontWeight: Tokens.fontWeight.medium,
                   fontFamily: Typography.fontFamily.medium,
                 }}
               >
-                <Trophy size={16} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                <Trophy size={16} color={Tokens.colors.sidebarTextMuted} strokeWidth={1.75} />
                 <span>{t('actionJoinLeague')}</span>
               </button>
 
@@ -437,7 +451,7 @@ export default function AppTabs() {
                 type="button"
                 data-testid="sidebar-view-venues-btn"
                 aria-label={t('actionViewVenues')}
-                onClick={() => router.push('/venues')}
+                onClick={() => router.push('/(tabs)/venues' as any)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -445,16 +459,16 @@ export default function AppTabs() {
                   padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
                   minHeight: Tokens.touch.minTarget,
                   borderRadius: Tokens.radii.button,
-                  backgroundColor: 'transparent',
-                  color: Tokens.colors.text,
-                  border: `1px solid ${Tokens.colors.border}`,
+                  backgroundColor: Tokens.colors.sidebarQuickActionBg,
+                  color: Tokens.colors.sidebarText,
+                  border: `1px solid ${Tokens.colors.sidebarQuickActionBorder}`,
                   cursor: 'pointer',
                   fontSize: Tokens.fontSize.sm,
                   fontWeight: Tokens.fontWeight.medium,
                   fontFamily: Typography.fontFamily.medium,
                 }}
               >
-                <MapPin size={16} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                <MapPin size={16} color={Tokens.colors.sidebarTextMuted} strokeWidth={1.75} />
                 <span>{t('actionViewVenues')}</span>
               </button>
             </div>
@@ -519,7 +533,7 @@ export default function AppTabs() {
                 type="button"
                 data-testid="topbar-profile-btn"
                 aria-label={t('navProfile')}
-                onClick={() => router.push('/profile')}
+                onClick={() => router.push('/(tabs)/profile' as any)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -536,22 +550,16 @@ export default function AppTabs() {
                   fontFamily: Typography.fontFamily.medium,
                 }}
               >
-                <div
+                <img
+                  alt="Nana K."
+                  src="https://lh3.googleusercontent.com/aida/AEtjO1XqMzywArgQMCs2_7pEHQakoPhf30KfGCWivMto-yKD2Mu4Ov-d2gUTL6vqT-S4afGf9g4L0H4YLVDTyswT1mAiIUJMH0S2JlAgttn79NpCmUmWmEB3LXjRcv90rrsi1BN_NH8ZVexdg0yAtcbTmWLr_jwM--2lrI51eRd8xlyN6W4rv7Owv5YeNg0hg9kNUbLvacgtEY_kHqg9pNzgDKskdY8E1qrY3Mk4avXnqsMY-mIQHcvcS-jQ83E"
                   style={{
                     width: 28,
                     height: 28,
                     borderRadius: Tokens.radii.pill,
-                    backgroundColor: Tokens.colors.primary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: Tokens.fontSize.xs,
-                    fontWeight: Tokens.fontWeight.semibold,
-                    color: Tokens.colors.textOnPrimary,
+                    objectFit: 'cover',
                   }}
-                >
-                  N
-                </div>
+                />
                 <span>Nana</span>
               </button>
 

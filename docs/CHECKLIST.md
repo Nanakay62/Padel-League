@@ -264,6 +264,26 @@
 - [ ] **[HUMAN]** Developer present at the pilot club for the first two events: pending pilot launch date
 - [x] No release shipped on the morning of an event: evidence: release freeze policy codified in `docs/runbook.md`
 
+## PHASE 14: VENUE/COURT PAGES & DYNAMIC PRICE QUOTES
+
+- [x] Peak bands and duration multipliers are per-venue data, with no hardcoded hours: evidence: `pytest tests/domain/test_quote_engine.py::test_dynamic_quote_pure_function` and `tests/api/test_quotes_and_freshness.py::test_public_quote_generation` PASSED
+- [x] No default prices; unpriced venues show "Ask the club": evidence: migration `0010` sets existing base rates to NULL; `pytest tests/domain/test_quote_engine.py::test_unpriced_court_returns_unpriced` and mobile `VenueQuoteRaceAndDetail.test.tsx` PASSED
+- [x] No floats in money, including tax (basis points): evidence: `tax_rate_bps` integer; quote calculation pure integer pesewas; `pytest tests/domain/test_quote_engine.py::test_tax_stays_off_and_basis_points` PASSED
+- [x] Unexpired quotes keep their price; expired ones recompute and return 409 if changed: evidence: `pytest tests/api/test_quotes_and_freshness.py::test_checkout_verify_quote_valid` and `test_checkout_verify_quote_expired_price_conflict_returns_409` PASSED
+- [x] Public quote endpoint is stateless/rate-limited, with no row per call: evidence: `POST /quotes` creates 0 DB rows; `QuoteRateLimiter` with idle eviction; `pytest tests/api/test_quotes_and_freshness.py::test_public_quote_rate_limiting` PASSED
+- [x] Sessions crossing a price band are priced per half-hour (tested): evidence: `pytest tests/domain/test_quote_engine.py::test_session_crossing_price_bands_half_hour_resolution` PASSED
+- [x] Opening hours structured; no fake availability or slot picker: evidence: `opening_hours_config` JSON with day, opens_minute, closes_minute; `is_within_opening_hours` validation; `pytest tests/domain/test_quote_engine.py` PASSED
+- [x] Court-booking Pay button leads to a real state, covered by a click test: evidence: `CourtBookingScreen` and `VenueListScreen` show "Court booking opens soon" card with direct `tel:` and `https://wa.me/` links; covered in `VenueQuoteRaceAndDetail.test.tsx` and `VenuesScreenLayout.test.tsx` PASSED
+- [x] Overnight spans: after-midnight portion belongs to the previous day (Fri->Sat tested): evidence: `pytest tests/domain/test_quote_engine.py::test_overnight_opening_hours_and_price_bands_attribution` (Fri->Sat, Sat->Sun, Sun->Mon, Sat 00:30 session, closing boundary exact closing vs 1 min late) PASSED
+- [x] Band overlap validation covers midnight wrap: evidence: `pytest tests/domain/test_quote_engine.py::test_band_overlap_validation_across_midnight_wrap` PASSED
+- [x] Price version hook uses before_flush; docs state which write paths bypass it: evidence: session `before_flush` hook calculates SHA256 `price_hash` and bumps `price_version`; comments document bypass paths (bulk UPDATE, raw SQL, migrations); `pytest tests/api/test_quotes_and_freshness.py::test_price_version_bump_on_flush` PASSED
+- [x] Rate limiter ignores spoofed proxy headers from untrusted peers: evidence: `get_client_ip` verifies peer in `settings.trusted_proxies`; `pytest tests/api/test_quotes_and_freshness.py::test_rate_limiter_spoofed_proxy_headers_ignored` PASSED
+- [x] tzdata installed; Africa/Accra loads on Windows: evidence: `tzdata>=2025.1` in pyproject.toml; `pytest tests/domain/test_quote_engine.py::test_tzdata_installed_and_accra_timezone_loads` PASSED
+- [x] Malformed price JSON returns "Ask the club", never a 500: evidence: Pydantic write validators in `venues/schemas.py`; graceful degradation in `service.py`; `pytest tests/api/test_quotes_and_freshness.py::test_malformed_price_json_returns_unpriced_never_500` and `test_invalid_price_json_on_write_rejected_422` PASSED
+- [x] Token keyring with key_id, max age, and login required at checkout: evidence: `sign_quote_token`/`verify_quote_token` with key_id, max age 24h; `POST /checkout/verify-quote` requires logged-in user; `pytest tests/domain/test_quote_engine.py` and `tests/api/test_quotes_and_freshness.py` PASSED
+- [ ] **[HUMAN]** Pilot club confirms its real price bands, duration pricing and platform fee
+- [ ] **[HUMAN][VERIFY]** Accountant sets tax mode (inclusive or exclusive) and taxable lines
+
 ---
 
 ## FINAL AUDIT (run after Phase 13; Gemini prints this report)

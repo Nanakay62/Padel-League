@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { Tokens, Typography } from '@/constants/theme';
+import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { formatGhanaCedis } from '@/lib/formatting';
 import { Screen, PageHeader, Card, Stat } from '@/components/ui';
 
 export default function CreditsScreen() {
+  const { isDesktop } = useResponsiveLayout();
   const balancePesewas = 5000; // GH₵ 50.00
 
   return (
@@ -12,7 +13,7 @@ export default function CreditsScreen() {
       <PageHeader
         title="Credits"
         subtitle="Platform credits and balance"
-        showBack
+        showBack={!isDesktop}
       />
 
       <Card style={styles.card}>

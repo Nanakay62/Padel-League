@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Image,
   Linking,
   ScrollView,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import {
   MapPin,
   Navigation,
@@ -16,8 +18,8 @@ import {
   Lock,
   Zap,
   Info,
-  Check,
   Phone,
+  MessageCircle,
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { Card, Button } from '@/components/ui';
@@ -26,6 +28,7 @@ export interface VenueItem {
   id: string;
   name: string;
   address: string;
+  imageUrl?: string;
   ghanapostGps?: string;
   mapsUrl?: string;
   bookingPhone?: string;
@@ -64,6 +67,7 @@ const TIME_SLOTS: TimeSlot[] = [
 ];
 
 export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueListScreenProps) {
+  const router = useRouter();
   const { isDesktop, isTablet } = useResponsiveLayout();
   const [selectedVenueId, setSelectedVenueId] = useState<string>(venues[0]?.id || 'v1');
   const [selectedSlot, setSelectedSlot] = useState<string>('6:00 PM');
@@ -71,20 +75,25 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
   const [includeBalls, setIncludeBalls] = useState<boolean>(true);
   const [includeRackets, setIncludeRackets] = useState<boolean>(false);
   const [matchType, setMatchType] = useState<'private' | 'public'>('private');
-  const [paymentMethod, setPaymentMethod] = useState<'mtn' | 'telecel' | 'wallet'>('mtn');
+  const [paymentMethod, setPaymentMethod] = useState<'mtn' | 'telecel' | 'at' | 'card' | 'club'>('mtn');
   const [momoPhone, setMomoPhone] = useState<string>('024 412 3456');
+  const [showBookingOpensModal, setShowBookingOpensModal] = useState<boolean>(false);
 
   const selectedVenue = venues.find((v) => v.id === selectedVenueId) || venues[0];
 
-  const handleOpenMaps = (url?: string) => {
-    if (url) {
-      Linking.openURL(url).catch(() => {});
-    }
-  };
+
 
   const handleCallClub = (phone?: string) => {
     if (phone) {
       Linking.openURL(`tel:${phone}`).catch(() => {});
+    }
+  };
+
+  const handleWhatsAppClub = (phone?: string) => {
+    if (phone) {
+      const clean = phone.replace(/[^0-9]/g, '');
+      const text = encodeURIComponent(`Hi ${selectedVenue.name}, I'd like to ask about court availability.`);
+      Linking.openURL(`https://wa.me/${clean}?text=${text}`).catch(() => {});
     }
   };
 
@@ -104,6 +113,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
   };
 
   const handleCheckout = () => {
+    setShowBookingOpensModal(true);
     if (onBookSlot) {
       onBookSlot({
         venueId: selectedVenue.id,
@@ -121,16 +131,9 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
       {/* Top Section Header */}
       <View style={styles.topHeader}>
         <View style={styles.headerInfo}>
-          <View style={styles.circuitLiveRow}>
-            <View style={styles.circuitBadge}>
-              <View style={styles.pulseDot} />
-              <Text style={styles.circuitBadgeText}>Accra Circuit Live</Text>
-            </View>
-            <Text style={styles.circuitSubtitle}>• Instant MTN / Telecel MoMo Confirmation</Text>
-          </View>
           <Text style={styles.mainTitle}>Accra Padel Clubs & Court Booking</Text>
           <Text style={styles.mainSubtitle}>
-            Book panoramic glass courts with instant Mobile Money confirmation across Airport Residential, East Legon, and Cantonments.
+            Book panoramic glass courts across Accra with real-time pricing and slot availability.
           </Text>
         </View>
 
@@ -186,63 +189,68 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
                   onPress={() => handleVenueClick(venue.id)}
                 >
                   <Card style={[styles.clubCard, isSelected && styles.clubCardSelected]}>
-                    <View style={styles.clubCardContent}>
-                      <View style={styles.clubTitleRow}>
-                        <View style={styles.clubNameWrapper}>
-                          <Text style={styles.clubName}>{venue.name}</Text>
-                          <CheckCircle2 size={16} color={Tokens.colors.greenText} />
-                        </View>
-                        <View style={styles.openCourtsBadge}>
-                          <Text style={styles.openCourtsText}>
-                            {venue.courtsAvailableToday || venue.courtCount} courts open
-                          </Text>
-                        </View>
-                      </View>
-
-                      <View style={styles.addressRow}>
-                        <MapPin size={14} color={Tokens.colors.textMuted} />
-                        <Text style={styles.addressText}>{venue.address}</Text>
-                      </View>
-
-                      <Text style={styles.descriptionText} numberOfLines={2}>
-                        {venue.description ||
-                          `${venue.courtCount} panoramic glass courts with LED floodlights, pro shop & lounge.`}
-                      </Text>
-
-                      <View style={styles.clubCardFooter}>
-                        <View style={styles.rateCol}>
-                          <Text style={[styles.rateAmount, Typography.tabularNums]}>
-                            {venue.baseRateFormatted}
-                          </Text>
-                          {venue.peakRateFormatted && (
-                            <Text style={styles.peakSubtext}>
-                              (Peak: {venue.peakRateFormatted})
-                            </Text>
+                    <View style={[styles.clubCardLayout, (isDesktop || isTablet) && styles.clubCardLayoutRow]}>
+                      {venue.imageUrl ? (
+                        <View style={[styles.clubImageWrapper, (isDesktop || isTablet) && styles.clubImageWrapperRow]}>
+                          <Image
+                            source={{ uri: venue.imageUrl }}
+                            style={styles.clubImage}
+                            resizeMode="cover"
+                          />
+                          {isSelected && (
+                            <View style={styles.selectedBadge}>
+                              <Text style={styles.selectedBadgeText}>Selected</Text>
+                            </View>
                           )}
                         </View>
+                      ) : null}
+                      <View style={styles.clubCardContent}>
+                        <View style={styles.clubTitleRow}>
+                          <View style={styles.clubNameWrapper}>
+                            <Text style={styles.clubName}>{venue.name}</Text>
+                            <CheckCircle2 size={16} color={Tokens.colors.greenText} />
+                          </View>
+                          <View style={styles.openCourtsBadge}>
+                            <Text style={styles.openCourtsText}>
+                              {venue.courtsAvailableToday || venue.courtCount} courts open
+                            </Text>
+                          </View>
+                        </View>
 
-                        <View style={styles.clubActions}>
-                          {venue.mapsUrl && (
+                        <View style={styles.addressRow}>
+                          <MapPin size={14} color={Tokens.colors.textMuted} />
+                          <Text style={styles.addressText}>{venue.address}</Text>
+                        </View>
+
+                        <Text style={styles.descriptionText} numberOfLines={2}>
+                          {venue.description ||
+                            `${venue.courtCount} panoramic glass courts with LED floodlights, pro shop & lounge.`}
+                        </Text>
+
+                        <View style={styles.clubCardFooter}>
+                          <View style={styles.rateCol}>
+                            <Text style={[styles.rateAmount, Typography.tabularNums]}>
+                              {venue.baseRateFormatted}
+                            </Text>
+                            {venue.peakRateFormatted && (
+                              <Text style={styles.peakSubtext}>
+                                (Peak: {venue.peakRateFormatted})
+                              </Text>
+                            )}
+                          </View>
+
+                          <View style={styles.clubActions}>
                             <Button
-                              title="Directions"
-                              variant="secondary"
+                              title="View club"
+                              variant="primary"
                               size="sm"
-                              icon={<Navigation size={14} color={Tokens.colors.text} />}
+                              style={styles.clubActionBtn}
                               onPress={(e) => {
                                 e?.stopPropagation?.();
-                                handleOpenMaps(venue.mapsUrl);
+                                router.push(`/venues/${venue.id}` as any);
                               }}
                             />
-                          )}
-                          <Button
-                            title={isSelected ? 'Selected' : 'Select'}
-                            variant={isSelected ? 'primary' : 'secondary'}
-                            size="sm"
-                            onPress={(e) => {
-                              e?.stopPropagation?.();
-                              handleVenueClick(venue.id);
-                            }}
-                          />
+                          </View>
                         </View>
                       </View>
                     </View>
@@ -439,10 +447,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
           <Card style={styles.checkoutCard}>
             <View style={styles.checkoutHeader}>
               <View style={styles.checkoutTitleRow}>
-                <Text style={styles.checkoutTitle}>Mobile Money Checkout</Text>
-              </View>
-              <View style={styles.instantReleaseBadge}>
-                <Text style={styles.instantReleaseText}>Instant Release</Text>
+                <Text style={styles.checkoutTitle}>Checkout & Payment</Text>
               </View>
             </View>
 
@@ -487,28 +492,55 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
                   <Text style={styles.activeText}>Active</Text>
                 </TouchableOpacity>
 
-                {/* Padel Ghana Wallet */}
+                {/* AT Money */}
                 <TouchableOpacity
                   style={[
                     styles.paymentMethodBox,
-                    paymentMethod === 'wallet' && styles.paymentMethodBoxSelected,
+                    paymentMethod === 'at' && styles.paymentMethodBoxSelected,
                   ]}
-                  onPress={() => setPaymentMethod('wallet')}
+                  onPress={() => setPaymentMethod('at')}
                 >
                   <View style={styles.paymentMethodLeft}>
-                    <View style={[styles.providerLogo, styles.walletLogo]}>
-                      <Text style={styles.providerLogoTextWallet}>PG</Text>
+                    <View style={[styles.providerLogo, styles.atLogo]}>
+                      <Text style={styles.providerLogoTextAt}>AT</Text>
                     </View>
-                    <View>
-                      <Text style={styles.paymentMethodName}>Padel Ghana Wallet</Text>
-                      <Text style={[styles.walletBalText, Typography.tabularNums]}>
-                        Bal: GH₵ 340.00
-                      </Text>
+                    <Text style={styles.paymentMethodName}>AT Money</Text>
+                  </View>
+                  <Text style={styles.activeText}>Active</Text>
+                </TouchableOpacity>
+
+                {/* Card */}
+                <TouchableOpacity
+                  style={[
+                    styles.paymentMethodBox,
+                    paymentMethod === 'card' && styles.paymentMethodBoxSelected,
+                  ]}
+                  onPress={() => setPaymentMethod('card')}
+                >
+                  <View style={styles.paymentMethodLeft}>
+                    <View style={[styles.providerLogo, styles.cardLogo]}>
+                      <Text style={styles.providerLogoTextCard}>CARD</Text>
                     </View>
+                    <Text style={styles.paymentMethodName}>Credit / Debit Card</Text>
                   </View>
-                  <View style={styles.readyBadge}>
-                    <Text style={styles.readyBadgeText}>Ready</Text>
+                  <Text style={styles.activeText}>Visa/MC</Text>
+                </TouchableOpacity>
+
+                {/* Pay at Club */}
+                <TouchableOpacity
+                  style={[
+                    styles.paymentMethodBox,
+                    paymentMethod === 'club' && styles.paymentMethodBoxSelected,
+                  ]}
+                  onPress={() => setPaymentMethod('club')}
+                >
+                  <View style={styles.paymentMethodLeft}>
+                    <View style={[styles.providerLogo, styles.clubLogo]}>
+                      <Text style={styles.providerLogoTextClub}>CLUB</Text>
+                    </View>
+                    <Text style={styles.paymentMethodName}>Pay at Club</Text>
                   </View>
+                  <Text style={styles.activeText}>Desk</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -531,9 +563,6 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
                 />
                 <CheckCircle2 size={16} color={Tokens.colors.greenText} />
               </View>
-              <Text style={styles.registeredNameText}>
-                Registered: Kwame Antwi-Boasiako
-              </Text>
             </View>
 
             {/* Price Breakdown Table */}
@@ -588,7 +617,15 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
             <View style={styles.checkoutActionCol}>
               <Button
                 title={`Pay GH₵ ${totalCedis.toFixed(2)} via ${
-                  paymentMethod === 'mtn' ? 'MTN MoMo' : paymentMethod === 'telecel' ? 'Telecel Cash' : 'Wallet'
+                  paymentMethod === 'mtn'
+                    ? 'MTN MoMo'
+                    : paymentMethod === 'telecel'
+                    ? 'Telecel Cash'
+                    : paymentMethod === 'at'
+                    ? 'AT Money'
+                    : paymentMethod === 'card'
+                    ? 'Card'
+                    : 'Pay at Club'
                 }`}
                 variant="primary"
                 size="lg"
@@ -599,22 +636,47 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
               <View style={styles.promptSecurityNote}>
                 <Info size={16} color={Tokens.colors.textMuted} />
                 <Text style={styles.promptSecurityText}>
-                  Prompt will be sent to your phone for mobile money PIN confirmation. Court slot held for 5 mins.
+                  Slot held during reservation. Prompt will be sent to your phone for payment confirmation.
                 </Text>
               </View>
             </View>
 
-            {/* Venue Guarantee */}
-            <View style={styles.guaranteeRow}>
-              <View style={styles.guaranteeItem}>
-                <Check size={14} color={Tokens.colors.greenText} />
-                <Text style={styles.guaranteeText}>Guaranteed Floodlight Power</Text>
-              </View>
-              <View style={styles.guaranteeItem}>
-                <Zap size={14} color={Tokens.colors.greenText} />
-                <Text style={styles.guaranteeText}>Automatic Backup</Text>
-              </View>
-            </View>
+            {/* Booking Opens Soon Contact Modal/Card */}
+            {showBookingOpensModal && (
+              <Card style={styles.bookingModalCard}>
+                <View style={styles.modalHeader}>
+                  <Zap size={20} color={Tokens.colors.primary} />
+                  <Text style={styles.modalTitle}>Court booking opens soon</Text>
+                </View>
+                <Text style={styles.modalDesc}>
+                  Online slot reservations and mobile money checkout are rolling out across Accra clubs. In the meantime, contact the club directly to hold this court.
+                </Text>
+                <View style={styles.modalActions}>
+                  {selectedVenue.bookingPhone ? (
+                    <Button
+                      title="Call Club"
+                      variant="primary"
+                      size="md"
+                      icon={<Phone size={16} color={Tokens.colors.textOnPrimary} />}
+                      onPress={() => handleCallClub(selectedVenue.bookingPhone)}
+                      style={styles.modalBtn}
+                    />
+                  ) : null}
+                  {selectedVenue.bookingWhatsapp || selectedVenue.bookingPhone ? (
+                    <Button
+                      title="WhatsApp Club"
+                      variant="secondary"
+                      size="md"
+                      icon={<MessageCircle size={16} color={Tokens.colors.text} />}
+                      onPress={() =>
+                        handleWhatsAppClub(selectedVenue.bookingWhatsapp || selectedVenue.bookingPhone)
+                      }
+                      style={styles.modalBtn}
+                    />
+                  ) : null}
+                </View>
+              </Card>
+            )}
           </Card>
 
           {/* Venue Access / Directions Snip */}
@@ -665,38 +727,6 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 280,
     gap: Tokens.spacing.xs,
-  },
-  circuitLiveRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.xs,
-    flexWrap: 'wrap',
-  },
-  circuitBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.xs,
-    paddingHorizontal: Tokens.spacing.sm,
-    paddingVertical: 2,
-    borderRadius: Tokens.radii.pill,
-    backgroundColor: Tokens.colors.primaryLight,
-  },
-  pulseDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: Tokens.colors.primary,
-  },
-  circuitBadgeText: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.primaryText,
-  },
-  circuitSubtitle: {
-    ...Typography.bodySm,
-    color: Tokens.colors.textMuted,
   },
   mainTitle: {
     ...Typography.headlineLg,
@@ -813,8 +843,48 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.text,
     borderWidth: 2,
   },
+  clubCardLayout: {
+    flexDirection: 'column',
+    gap: Tokens.spacing.base,
+  },
+  clubCardLayoutRow: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
+  clubImageWrapper: {
+    width: '100%',
+    height: 160,
+    borderRadius: Tokens.radii.sm,
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundColor: Tokens.colors.surfaceMuted,
+  },
+  clubImageWrapperRow: {
+    width: 176,
+    minHeight: 144,
+    alignSelf: 'stretch',
+  },
+  clubImage: {
+    width: '100%',
+    height: '100%',
+  },
+  selectedBadge: {
+    position: 'absolute',
+    top: Tokens.spacing.sm,
+    left: Tokens.spacing.sm,
+    backgroundColor: Tokens.colors.text,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: 2,
+    borderRadius: Tokens.radii.xs,
+  },
+  selectedBadgeText: {
+    ...Typography.labelSm,
+    color: Tokens.colors.surface,
+  },
   clubCardContent: {
+    flex: 1,
     gap: Tokens.spacing.sm,
+    justifyContent: 'space-between',
   },
   clubTitleRow: {
     flexDirection: 'row',
@@ -860,14 +930,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: Tokens.spacing.sm,
     paddingTop: Tokens.spacing.sm,
     borderTopWidth: 1,
     borderTopColor: Tokens.colors.border,
+    marginTop: Tokens.spacing.xs,
   },
   rateCol: {
     flexDirection: 'row',
     alignItems: 'baseline',
     gap: Tokens.spacing.xs,
+    flexShrink: 1,
+    flexWrap: 'wrap',
   },
   rateAmount: {
     ...Typography.labelMd,
@@ -882,6 +957,13 @@ const styles = StyleSheet.create({
   clubActions: {
     flexDirection: 'row',
     gap: Tokens.spacing.sm,
+    alignItems: 'center',
+    flexShrink: 0,
+  },
+  clubActionBtn: {
+    minHeight: 34,
+    paddingVertical: 6,
+    paddingHorizontal: Tokens.spacing.sm,
   },
   matrixCard: {
     padding: Tokens.spacing.base,
@@ -1243,24 +1325,40 @@ const styles = StyleSheet.create({
     fontWeight: Tokens.fontWeight.semibold,
     color: Tokens.colors.surface,
   },
-  walletLogo: {
-    backgroundColor: Tokens.colors.text,
+  atLogo: {
+    backgroundColor: Tokens.colors.primary,
   },
-  providerLogoTextWallet: {
+  providerLogoTextAt: {
     fontSize: Tokens.fontSize.xs,
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
-    color: Tokens.colors.primary,
+    color: Tokens.colors.textOnPrimary,
+  },
+  cardLogo: {
+    backgroundColor: Tokens.colors.textMuted,
+  },
+  providerLogoTextCard: {
+    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.surface,
+  },
+  clubLogo: {
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+  },
+  providerLogoTextClub: {
+    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    color: Tokens.colors.text,
   },
   paymentMethodName: {
     ...Typography.labelMd,
     color: Tokens.colors.text,
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
-  },
-  walletBalText: {
-    ...Typography.bodySm,
-    color: Tokens.colors.textMuted,
   },
   fastPromptBadge: {
     flexDirection: 'row',
@@ -1393,22 +1491,38 @@ const styles = StyleSheet.create({
     color: Tokens.colors.textMuted,
     lineHeight: Tokens.lineHeight.sm,
   },
-  guaranteeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: Tokens.spacing.xs,
-    borderTopWidth: 1,
-    borderTopColor: Tokens.colors.border,
+  bookingModalCard: {
+    padding: Tokens.spacing.base,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: 1,
+    borderColor: Tokens.colors.primary,
+    borderRadius: Tokens.radii.card,
+    gap: Tokens.spacing.sm,
+    marginTop: Tokens.spacing.xs,
   },
-  guaranteeItem: {
+  modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: Tokens.spacing.xs,
   },
-  guaranteeText: {
-    ...Typography.labelSm,
+  modalTitle: {
+    ...Typography.headlineSm,
+    color: Tokens.colors.text,
+  },
+  modalDesc: {
+    ...Typography.bodySm,
     color: Tokens.colors.textMuted,
+    lineHeight: Tokens.lineHeight.sm,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Tokens.spacing.sm,
+    paddingTop: Tokens.spacing.xs,
+  },
+  modalBtn: {
+    flex: 1,
+    minWidth: 120,
   },
   accessCard: {
     flexDirection: 'row',

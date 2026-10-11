@@ -1,12 +1,13 @@
 import React from 'react';
 import { useRouter } from 'expo-router';
+import { useResponsiveLayout } from '@/constants/theme';
 import {
   LeagueBoxItem,
   LeagueStandingsScreen,
 } from '@/features/leagues/LeagueStandingsScreen';
 import { Screen, PageHeader } from '@/components/ui';
 
-const SAMPLE_BOXES: LeagueBoxItem[] = [
+export const SAMPLE_BOXES: LeagueBoxItem[] = [
   {
     id: 'box-1',
     box_number: 1,
@@ -188,13 +189,14 @@ const SAMPLE_BOXES: LeagueBoxItem[] = [
 
 export default function LeaguesIndexScreen() {
   const router = useRouter();
+  const { isDesktop } = useResponsiveLayout();
 
   return (
     <Screen>
       <PageHeader
         title="Accra Padel Leagues & Ladders"
         subtitle="Season 2 • Accra Metro Premier & Division 1"
-        showBack
+        showBack={!isDesktop}
       />
 
       <LeagueStandingsScreen

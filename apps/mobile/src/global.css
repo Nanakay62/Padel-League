@@ -81,8 +81,8 @@
     min-width: 256px;
     max-width: 256px;
     height: 100vh;
-    background-color: #FFFFFF;
-    border-right: 1px solid #E7E7E3;
+    background-color: #0B0F0E;
+    border-right: 1px solid #1F2426;
     overflow-y: auto;
     z-index: 100;
     box-sizing: border-box;

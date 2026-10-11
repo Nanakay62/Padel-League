@@ -30,6 +30,36 @@ export const Tokens = {
     danger: '#B3261E',
     dangerSurface: '#FDF2F2',
 
+    // Desktop Navigation Sidebar (Stitch Obsidian Mica anchor)
+    sidebarBackground: '#0B0F0E',
+    sidebarBorder: '#1F2426',
+    sidebarText: '#FFFFFF',
+    sidebarTextMuted: '#9BA2A6',
+    sidebarItemActiveBg: 'rgba(0, 200, 83, 0.12)',
+    sidebarQuickActionBg: 'rgba(255, 255, 255, 0.06)',
+    sidebarQuickActionBorder: '#25302C',
+
+    // Hero Banner Media Overlays & Accents
+    heroOverlay: 'rgba(24, 28, 30, 0.45)',
+    heroTagBg: 'rgba(0, 200, 83, 0.2)',
+    heroTagBorder: 'rgba(0, 200, 83, 0.4)',
+    heroPillBg: 'rgba(255, 255, 255, 0.12)',
+    heroPillBorder: 'rgba(255, 255, 255, 0.2)',
+    heroTextMuted: '#CBD5E1',
+
+    // Stitch Surface Containers & Badges
+    surfaceContainerLow: '#F1F4F6',
+    surfaceContainer: '#EBEEF1',
+    surfaceContainerHigh: '#E6E8EB',
+    surfaceContainerHighest: '#E0E3E5',
+    openBadgeBg: '#D1FADF',
+    openBadgeText: '#027A48',
+    needsFourthBg: '#FFEDD5',
+    needsFourthText: '#C2410C',
+    activeRoundBg: '#FEF9E7',
+    activeRoundBorder: '#FCE8A3',
+    activeRoundText: '#8D6B00',
+
     // Courtside Live Scoring Dark Theme (ONLY for /events/[id]/live)
     live: {
       background: '#0B0F0E',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   FlatList,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -76,6 +77,7 @@ export interface AmericanoStanding {
   points: number;
   weeklyDelta: number;
   avatarInitials: string;
+  avatarUrl?: string;
 }
 
 export interface PrizePoolData {
@@ -123,7 +125,7 @@ const DEFAULT_CHALLENGE: ScheduledChallenge = {
   confirmed: true,
 };
 
-const DEFAULT_AMERICANO_STANDINGS: AmericanoStanding[] = [
+export const SAMPLE_AMERICANO_STANDINGS: AmericanoStanding[] = [
   {
     rank: 1,
     name: 'Ama B.',
@@ -131,6 +133,8 @@ const DEFAULT_AMERICANO_STANDINGS: AmericanoStanding[] = [
     points: 342,
     weeklyDelta: 24,
     avatarInitials: 'AB',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuBdJ_AXf-mJcoGNC0md_j8X81pNJ1bsbALj9_TnS0LWHswDOVOtsPw60mtjvNRcWUeWjhBxJn7ebAqBAbzkmgELRiabqId6MzQF7Rlh8PloC2zsLvh2nBqVaUuEAVkqnPRox7Cqs_FFpShZBbUVTV58G0eJYWPXs_grYFUN06m2tBNuue0plrqYamcVD1E7I1grisd6UfnKgnp8JyV5gxm7TbQMgqlZJmBHhMKBaGFZxyaex-blG_x4',
   },
   {
     rank: 2,
@@ -139,6 +143,8 @@ const DEFAULT_AMERICANO_STANDINGS: AmericanoStanding[] = [
     points: 318,
     weeklyDelta: 18,
     avatarInitials: 'KA',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuChdoKLE-f4CmKzK2tMLAw6UrDjgtJwpUm3LhYhXfJ9a5nTQrsTvzvzAkXXIbhltL5P7ofxYR684B3nvS2aQZcqOPXAjbx_A4AwaQH-mwuQpAPczmCXFdBKM9nWm3O2u8BtGLzehqCtsja5iOvncQolymEsDxtMVvDZSIgLBHzIigFvlVKLIilTppRkxpAdnDOdBnf6R5j1fUfIAUM1g1rg1ZoSWalfjDo-zRMGrPeFhDqmCDOM_bjA',
   },
   {
     rank: 3,
@@ -147,8 +153,12 @@ const DEFAULT_AMERICANO_STANDINGS: AmericanoStanding[] = [
     points: 295,
     weeklyDelta: 12,
     avatarInitials: 'KM',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuBxiOQXlV7-G2ByUtL6l3V0RtwXODAZOl1wVj1oWn-LdPFxkNyRenJm-4t7iyccq2_97f58PsUwRDGCex3Ngoz4HOKQDhicvXJFLQS_K6WAsf-Y4qXad_Ddxizs7CSaYK5ziGeHwjPuRoseeH5rpkTtepaP8xIx1a3ETu3S0SoOXHy8c_ei1OfHBqKWPou2DMZi2VauQbP3hFQ04HQ27CdfO2uBL8Wyepu-hnfqbloFbvjFBxrO_57O',
   },
 ];
+
+const DEFAULT_AMERICANO_STANDINGS = SAMPLE_AMERICANO_STANDINGS;
 
 const DEFAULT_PRIZE_POOL: PrizePoolData = {
   total: 'GH₵ 8,500.00',
@@ -665,9 +675,17 @@ export function LeagueStandingsScreen({
                             {p.rank}
                           </Text>
                         </View>
-                        <View style={styles.americanoAvatar}>
-                          <Text style={styles.americanoAvatarText}>{p.avatarInitials}</Text>
-                        </View>
+                        {p.avatarUrl ? (
+                          <Image
+                            source={{ uri: p.avatarUrl }}
+                            style={styles.americanoAvatarImage}
+                            resizeMode="cover"
+                          />
+                        ) : (
+                          <View style={styles.americanoAvatar}>
+                            <Text style={styles.americanoAvatarText}>{p.avatarInitials}</Text>
+                          </View>
+                        )}
                         <View style={styles.americanoPlayerCol}>
                           <Text style={styles.americanoPlayerName}>{p.name}</Text>
                           <Text style={styles.americanoPlayerClub} numberOfLines={1}>
@@ -1440,6 +1458,12 @@ const styles = StyleSheet.create({
     backgroundColor: Tokens.colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  americanoAvatarImage: {
+    width: 32,
+    height: 32,
+    borderRadius: Tokens.radii.pill,
+    backgroundColor: Tokens.colors.surfaceMuted,
   },
   americanoAvatarText: {
     fontFamily: Typography.fontFamily.semibold,

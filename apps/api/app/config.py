@@ -93,5 +93,27 @@ class Settings(BaseSettings):
         ]
     )
 
+    # Venue & Court Pricing / Quotes
+    platform_fee_pesewas: int = 500  # GH₵ 5.00 placeholder, business decision
+    quote_hold_window_minutes: int = 15  # Unexpired quote hold window
+    quote_token_max_age_seconds: int = 86400  # 24h absolute max token age
+    quote_keyring: dict[str, str] = Field(
+        default_factory=lambda: {"v1": "padel-ghana-quote-key-v1-secret-32ch"}
+    )
+    public_quote_rate_limit: int = 60  # 60 requests/minute per client IP
+    trusted_proxies: list[str] = Field(
+        default_factory=lambda: ["127.0.0.1", "::1"]
+    )  # Only trust CF-Connecting-IP / X-Forwarded-For when direct peer is here
+
+    # Taxation (Awaits an accountant; tax stays OFF by default)
+    tax_enabled: bool = False
+    tax_rate_bps: int = 0  # Basis points (100 bps = 1.00%)
+    taxable_lines: list[str] = Field(
+        default_factory=lambda: ["court_fee", "add_on"]
+    )  # Court fee and add-ons; platform fee excluded
+    # Tax mode: "exclusive" (tax added on top) or "inclusive" (tax included in rate).
+    # Default is "exclusive". Rule awaits an accountant verification.
+    tax_mode: str = "exclusive"
+
 
 settings = Settings()
