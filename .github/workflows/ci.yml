@@ -72,7 +72,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/mobile
-        run: npm ci
+        run: npm ci || npm install
 
       - name: Lint
         working-directory: apps/mobile

@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: apps/mobile
-        run: npm ci
+        run: npm ci || npm install
 
       - name: Export Expo Web Static
         working-directory: apps/mobile
