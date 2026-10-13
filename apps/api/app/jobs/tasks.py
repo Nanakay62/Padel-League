@@ -156,6 +156,9 @@ async def send_event_reminders_task(
         if check_res.scalar_one_or_none():
             continue  # Already sent, skip
 
+        if not user.phone_e164:
+            continue  # User has email-only auth and no phone registered
+
         # Build message with Ghana digital address and Google Maps link
         message = format_reminder_message(
             event_title=event.title,

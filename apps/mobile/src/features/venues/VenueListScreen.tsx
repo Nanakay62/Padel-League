@@ -76,7 +76,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
   const [includeRackets, setIncludeRackets] = useState<boolean>(false);
   const [matchType, setMatchType] = useState<'private' | 'public'>('private');
   const [paymentMethod, setPaymentMethod] = useState<'mtn' | 'telecel' | 'at' | 'card' | 'club'>('mtn');
-  const [momoPhone, setMomoPhone] = useState<string>('024 412 3456');
+  const [momoPhone, setMomoPhone] = useState<string>('');
   const [showBookingOpensModal, setShowBookingOpensModal] = useState<boolean>(false);
 
   const selectedVenue = venues.find((v) => v.id === selectedVenueId) || venues[0];

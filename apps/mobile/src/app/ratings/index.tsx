@@ -8,17 +8,17 @@ import { Screen, PageHeader, Button } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 
 const SAMPLE_RATING_DATA: RatingHistoryData = {
-  user_id: 'usr-kwadwo',
-  current_rating: 3.42,
+  user_id: 'player-circuit-demo',
+  current_rating: 3.40,
   level_band: 'Intermediate',
-  is_provisional: false,
+  is_provisional: true,
   history: [
     {
       id: 'rh-1',
       match_id: 'm-101',
-      rating_before: 3.34,
-      rating_after: 3.42,
-      delta: 0.08,
+      rating_before: 3.30,
+      rating_after: 3.40,
+      delta: 0.10,
       k_factor: 0.12,
       explanation: 'Won Friday Americano final (16-8 vs team avg 3.50)',
       created_at: '2026-10-02T19:30:00Z',
@@ -26,9 +26,9 @@ const SAMPLE_RATING_DATA: RatingHistoryData = {
     {
       id: 'rh-2',
       match_id: 'm-100',
-      rating_before: 3.38,
-      rating_after: 3.34,
-      delta: -0.04,
+      rating_before: 3.35,
+      rating_after: 3.30,
+      delta: -0.05,
       k_factor: 0.12,
       explanation: 'Lost box league match 1-2 (tight margin)',
       created_at: '2026-09-28T17:00:00Z',

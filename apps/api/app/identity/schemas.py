@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class OtpRequest(BaseModel):
@@ -35,15 +35,68 @@ class LogoutRequest(BaseModel):
     refresh_token: str | None = None
 
 
+class EmailRegisterRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=8, max_length=128)
+    name: str | None = Field(default=None, max_length=120)
+    phone: str | None = Field(default=None, max_length=20)
+
+
+class EmailLoginRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(..., min_length=1, max_length=128)
+
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+
+class PasswordResetConfirmRequest(BaseModel):
+    token: str = Field(..., min_length=1, max_length=128)
+    new_password: str = Field(..., min_length=8, max_length=128)
+
+
+class RegisterResponse(BaseModel):
+    message: str
+    status: str = "pending_verification"
+
+
+class EmailVerificationRequest(BaseModel):
+    token: str = Field(..., min_length=1, max_length=128)
+
+
+class ResendEmailVerificationRequest(BaseModel):
+    email: EmailStr
+
+
+class AddPhoneRequest(BaseModel):
+    phone: str = Field(..., min_length=9, max_length=20)
+
+
+class VerifyPhoneRequest(BaseModel):
+    phone: str = Field(..., min_length=9, max_length=20)
+    otp: str = Field(..., min_length=6, max_length=6)
+
+
+class AddEmailRequest(BaseModel):
+    email: EmailStr
+
+
+class ClaimGuestRequest(BaseModel):
+    claim_token: str = Field(..., min_length=1, max_length=64)
+
+
 class UserProfileResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: str
-    phone_e164: str
+    phone_e164: str | None = None
     name: str
     email: str | None = None
     role: str
     is_guest: bool
+    email_verified: bool = False
+    phone_verified: bool = False
     level: float
     level_band: str
     reliability: float

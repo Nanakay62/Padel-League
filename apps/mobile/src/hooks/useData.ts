@@ -179,7 +179,7 @@ const SEED_EVENTS: EventItemData[] = [
 ];
 
 const SEED_RATING: PlayerRatingData = {
-  rating: 3.42,
+  rating: 3.40,
   min_range: 3.0,
   max_range: 3.5,
   reliability: 0.82, // < 0.85 -> triggers Provisional display

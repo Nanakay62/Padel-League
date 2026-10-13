@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ShieldCheck, Smartphone } from 'lucide-react-native';
+import { Mail, ShieldCheck, Smartphone } from 'lucide-react-native';
 import { Tokens, Typography } from '@/constants/theme';
 import { useAuth } from '@/context/AuthContext';
 import { getApiBaseUrl } from '@/lib/config';
@@ -25,11 +25,15 @@ interface PhoneLoginScreenProps {
 export function PhoneLoginScreen({
   onSuccess,
   apiBaseUrl,
-  redirectTo,
+  redirectTo: _redirectTo,
 }: PhoneLoginScreenProps) {
   const baseUrl = apiBaseUrl || getApiBaseUrl();
   const { login } = useAuth();
 
+  // Top level auth method
+  const [authMethod, setAuthMethod] = useState<'PHONE' | 'EMAIL'>('PHONE');
+
+  // Phone OTP state
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [step, setStep] = useState<'PHONE' | 'OTP'>('PHONE');
@@ -37,7 +41,14 @@ export function PhoneLoginScreen({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Expiry timestamp and countdown
+  // Email state
+  const [emailMode, setEmailMode] = useState<'SIGN_IN' | 'REGISTER' | 'RESET'>('SIGN_IN');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const [registerSuccessMsg, setRegisterSuccessMsg] = useState<string | null>(null);
+
+  // Expiry timestamp and countdown for Phone OTP
   const [expiresAtMs, setExpiresAtMs] = useState<number | null>(null);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
   const [resendCooldown, setResendCooldown] = useState<number>(0);
@@ -67,6 +78,7 @@ export function PhoneLoginScreen({
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }, [secondsRemaining]);
 
+  // Phone OTP handlers
   const handleRequestOtp = async () => {
     const cleanedPhone = phone.trim();
     if (!cleanedPhone || cleanedPhone.replace(/\D/g, '').length < 9) {
@@ -92,14 +104,13 @@ export function PhoneLoginScreen({
         throw new Error(data.detail || 'Failed to request verification code');
       }
 
-      // Calculate expiry from server timestamp or fallback to duration
       const expiryTime = data.expires_at
         ? new Date(data.expires_at).getTime()
         : Date.now() + (data.expires_in_seconds || 300) * 1000;
 
       setExpiresAtMs(expiryTime);
       setSecondsRemaining(Math.max(0, Math.floor((expiryTime - Date.now()) / 1000)));
-      setResendCooldown(60); // 60s cooldown before allowing resend
+      setResendCooldown(60);
       setOtp('');
       setStep('OTP');
     } catch (err: unknown) {
@@ -154,13 +165,90 @@ export function PhoneLoginScreen({
   };
 
   const handleOtpChange = (val: string) => {
-    // Only allow numeric digits and trim paste to 6 chars
     const numericVal = val.replace(/\D/g, '').slice(0, 6);
     setOtp(numericVal);
     if (numericVal.length === 6) {
-      // Auto-dismiss or auto-focus ready
       otpInputRef.current?.blur();
     }
+  };
+
+  // Email & Password handler
+  const handleEmailSubmit = () => {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      setError(t('authInvalidEmailError'));
+      return;
+    }
+
+    if (emailMode === 'RESET') {
+      setLoading(true);
+      setError(null);
+      void (async () => {
+        try {
+          const res = await fetch(`${baseUrl}/auth/password-reset/request`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: cleanEmail }),
+          });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data.detail || 'Password reset request failed');
+          }
+          setResetSent(true);
+        } catch (err: unknown) {
+          setError(err instanceof Error ? err.message : 'Error requesting password reset');
+        } finally {
+          setLoading(false);
+        }
+      })();
+      return;
+    }
+
+    if (!password || password.length < 8) {
+      setError(t('authInvalidPasswordError'));
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    void (async () => {
+      try {
+        const endpoint = emailMode === 'REGISTER' ? '/auth/register' : '/auth/login';
+        const bodyPayload =
+          emailMode === 'REGISTER'
+            ? { email: cleanEmail, password, name: name.trim() || undefined }
+            : { email: cleanEmail, password };
+
+        const res = await fetch(`${baseUrl}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(bodyPayload),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || 'Authentication failed');
+        }
+
+        if (emailMode === 'REGISTER') {
+          setRegisterSuccessMsg(
+            data.message ||
+              'Verification link sent! Please check your email to activate event registrations.'
+          );
+        } else {
+          await login(data.access_token, data.refresh_token);
+          if (onSuccess) {
+            onSuccess();
+          }
+        }
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Authentication failed');
+      } finally {
+        setLoading(false);
+      }
+    })();
   };
 
   return (
@@ -172,10 +260,14 @@ export function PhoneLoginScreen({
         <View style={styles.card}>
           <View style={styles.headerRow}>
             <View style={styles.iconCircle}>
-              {step === 'PHONE' ? (
-                <Smartphone size={24} color={Tokens.colors.primaryText} strokeWidth={1.75} />
+              {authMethod === 'PHONE' ? (
+                step === 'PHONE' ? (
+                  <Smartphone size={24} color={Tokens.colors.primaryText} strokeWidth={1.75} />
+                ) : (
+                  <ShieldCheck size={24} color={Tokens.colors.primaryText} strokeWidth={1.75} />
+                )
               ) : (
-                <ShieldCheck size={24} color={Tokens.colors.primaryText} strokeWidth={1.75} />
+                <Mail size={24} color={Tokens.colors.primaryText} strokeWidth={1.75} />
               )}
             </View>
             <View style={styles.headerTextCol}>
@@ -184,149 +276,357 @@ export function PhoneLoginScreen({
             </View>
           </View>
 
+          {/* Dual Method Tabs */}
+          <View style={styles.tabContainer}>
+            <TouchableOpacity
+              style={[styles.tabBtn, authMethod === 'PHONE' && styles.activeTabBtn]}
+              onPress={() => {
+                setAuthMethod('PHONE');
+                setError(null);
+              }}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: authMethod === 'PHONE' }}
+              testID="tab-phone"
+            >
+              <Smartphone
+                size={16}
+                color={authMethod === 'PHONE' ? Tokens.colors.primaryText : Tokens.colors.textMuted}
+                strokeWidth={2}
+              />
+              <Text
+                style={[
+                  styles.tabBtnText,
+                  authMethod === 'PHONE' && styles.activeTabBtnText,
+                ]}
+              >
+                {t('authTabPhone')}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.tabBtn, authMethod === 'EMAIL' && styles.activeTabBtn]}
+              onPress={() => {
+                setAuthMethod('EMAIL');
+                setError(null);
+                setResetSent(false);
+              }}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: authMethod === 'EMAIL' }}
+              testID="tab-email"
+            >
+              <Mail
+                size={16}
+                color={authMethod === 'EMAIL' ? Tokens.colors.primaryText : Tokens.colors.textMuted}
+                strokeWidth={2}
+              />
+              <Text
+                style={[
+                  styles.tabBtnText,
+                  authMethod === 'EMAIL' && styles.activeTabBtnText,
+                ]}
+              >
+                {t('authTabEmail')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           {error && (
             <View style={styles.errorBox} testID="auth-error-box">
               <Text style={styles.errorText}>{error}</Text>
             </View>
           )}
 
-          {step === 'PHONE' ? (
-            <View style={styles.formSection}>
-              <Text style={styles.label}>{t('authPhoneLabel')}</Text>
-              <View style={styles.phoneInputContainer}>
-                <View style={styles.prefixBadge}>
-                  <Text style={styles.prefixText}>+233</Text>
+          {authMethod === 'PHONE' ? (
+            step === 'PHONE' ? (
+              <View style={styles.formSection}>
+                <Text style={styles.label}>{t('authPhoneLabel')}</Text>
+                <View style={styles.phoneInputContainer}>
+                  <View style={styles.prefixBadge}>
+                    <Text style={styles.prefixText}>+233</Text>
+                  </View>
+                  <TextInput
+                    style={styles.phoneInput}
+                    placeholder={t('authPhonePlaceholder')}
+                    placeholderTextColor={Tokens.colors.textMuted}
+                    keyboardType="phone-pad"
+                    autoComplete="tel"
+                    textContentType="telephoneNumber"
+                    value={phone}
+                    onChangeText={setPhone}
+                    testID="phone-input"
+                    autoFocus
+                  />
                 </View>
+
+                <Text style={[styles.label, { marginTop: Tokens.spacing.md }]}>
+                  {t('authNameLabel')}
+                </Text>
                 <TextInput
-                  style={styles.phoneInput}
-                  placeholder={t('authPhonePlaceholder')}
+                  style={styles.textInput}
+                  placeholder={t('authNamePlaceholder')}
                   placeholderTextColor={Tokens.colors.textMuted}
-                  keyboardType="phone-pad"
-                  autoComplete="tel"
-                  textContentType="telephoneNumber"
-                  value={phone}
-                  onChangeText={setPhone}
-                  testID="phone-input"
-                  autoFocus
+                  autoComplete="name"
+                  textContentType="name"
+                  value={name}
+                  onChangeText={setName}
+                  testID="name-input"
                 />
-              </View>
 
-              <Text style={[styles.label, { marginTop: Tokens.spacing.md }]}>
-                {t('authNameLabel')}
-              </Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder={t('authNamePlaceholder')}
-                placeholderTextColor={Tokens.colors.textMuted}
-                autoComplete="name"
-                textContentType="name"
-                value={name}
-                onChangeText={setName}
-                testID="name-input"
-              />
-
-              <TouchableOpacity
-                style={styles.primaryBtn}
-                onPress={handleRequestOtp}
-                disabled={loading}
-                accessibilityRole="button"
-                accessibilityLabel={t('authSendCodeBtn')}
-                testID="send-code-button"
-              >
-                {loading ? (
-                  <ActivityIndicator color={Tokens.colors.primaryForeground} />
-                ) : (
-                  <Text style={styles.primaryBtnText}>{t('authSendCodeBtn')}</Text>
-                )}
-              </TouchableOpacity>
-              <Text style={styles.disclaimerText}>{t('authDisclaimer')}</Text>
-            </View>
-          ) : (
-            <View style={styles.formSection}>
-              <Text style={styles.label}>{t('authEnterCodeLabel')}</Text>
-              <Text style={styles.subtext}>
-                {t('authCodeSentTo', { phone })}
-              </Text>
-
-              <TextInput
-                ref={otpInputRef}
-                style={styles.otpInput}
-                placeholder="000000"
-                placeholderTextColor={Tokens.colors.textMuted}
-                keyboardType="number-pad"
-                autoComplete="sms-otp"
-                textContentType="oneTimeCode"
-                maxLength={6}
-                value={otp}
-                onChangeText={handleOtpChange}
-                testID="otp-input"
-                autoFocus
-              />
-
-              <View style={styles.timerRow}>
-                {secondsRemaining > 0 ? (
-                  <Text style={styles.timerText}>
-                    Code expires in{' '}
-                    <Text style={styles.timerBold}>{formattedCountdown}</Text>
-                  </Text>
-                ) : (
-                  <Text style={styles.expiredText}>{t('authCodeExpired')}</Text>
-                )}
-              </View>
-
-              <TouchableOpacity
-                style={[
-                  styles.primaryBtn,
-                  secondsRemaining <= 0 && styles.disabledBtn,
-                ]}
-                onPress={handleVerifyOtp}
-                disabled={loading || secondsRemaining <= 0}
-                accessibilityRole="button"
-                accessibilityLabel={t('authVerifyBtn')}
-                testID="verify-code-button"
-              >
-                {loading ? (
-                  <ActivityIndicator color={Tokens.colors.primaryForeground} />
-                ) : (
-                  <Text style={styles.primaryBtnText}>{t('authVerifyBtn')}</Text>
-                )}
-              </TouchableOpacity>
-
-              <View style={styles.actionRow}>
                 <TouchableOpacity
-                  style={styles.linkBtn}
+                  style={styles.primaryBtn}
                   onPress={handleRequestOtp}
-                  disabled={loading || resendCooldown > 0}
-                  accessibilityRole="button"
-                  accessibilityLabel={t('authResendCodeBtn')}
-                  testID="resend-code-button"
-                >
-                  <Text
-                    style={[
-                      styles.linkBtnText,
-                      resendCooldown > 0 && styles.linkBtnDisabled,
-                    ]}
-                  >
-                    {resendCooldown > 0
-                      ? t('authResendCooldown', { seconds: resendCooldown })
-                      : t('authResendCodeBtn')}
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.linkBtn}
-                  onPress={() => {
-                    setError(null);
-                    setStep('PHONE');
-                  }}
                   disabled={loading}
                   accessibilityRole="button"
-                  accessibilityLabel={t('authChangePhoneBtn')}
-                  testID="change-phone-button"
+                  accessibilityLabel={t('authSendCodeBtn')}
+                  testID="send-code-button"
                 >
-                  <Text style={styles.linkBtnText}>{t('authChangePhoneBtn')}</Text>
+                  {loading ? (
+                    <ActivityIndicator color={Tokens.colors.primaryForeground} />
+                  ) : (
+                    <Text style={styles.primaryBtnText}>{t('authSendCodeBtn')}</Text>
+                  )}
                 </TouchableOpacity>
+                <Text style={styles.disclaimerText}>{t('authDisclaimer')}</Text>
               </View>
+            ) : (
+              <View style={styles.formSection}>
+                <Text style={styles.label}>{t('authEnterCodeLabel')}</Text>
+                <Text style={styles.subtext}>
+                  {t('authCodeSentTo', { phone })}
+                </Text>
+
+                <TextInput
+                  ref={otpInputRef}
+                  style={styles.otpInput}
+                  placeholder="000000"
+                  placeholderTextColor={Tokens.colors.textMuted}
+                  keyboardType="number-pad"
+                  autoComplete="sms-otp"
+                  textContentType="oneTimeCode"
+                  maxLength={6}
+                  value={otp}
+                  onChangeText={handleOtpChange}
+                  testID="otp-input"
+                  autoFocus
+                />
+
+                <View style={styles.timerRow}>
+                  {secondsRemaining > 0 ? (
+                    <Text style={styles.timerText}>
+                      Code expires in{' '}
+                      <Text style={styles.timerBold}>{formattedCountdown}</Text>
+                    </Text>
+                  ) : (
+                    <Text style={styles.expiredText}>{t('authCodeExpired')}</Text>
+                  )}
+                </View>
+
+                <TouchableOpacity
+                  style={[
+                    styles.primaryBtn,
+                    (otp.length !== 6 || secondsRemaining <= 0 || loading) && styles.disabledBtn,
+                  ]}
+                  onPress={handleVerifyOtp}
+                  disabled={otp.length !== 6 || secondsRemaining <= 0 || loading}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('authVerifyBtn')}
+                  testID="verify-code-button"
+                >
+                  {loading ? (
+                    <ActivityIndicator color={Tokens.colors.primaryForeground} />
+                  ) : (
+                    <Text style={styles.primaryBtnText}>{t('authVerifyBtn')}</Text>
+                  )}
+                </TouchableOpacity>
+
+                <View style={styles.actionRow}>
+                  <TouchableOpacity
+                    style={styles.linkBtn}
+                    onPress={handleRequestOtp}
+                    disabled={resendCooldown > 0 || loading}
+                    testID="resend-code-button"
+                  >
+                    <Text
+                      style={[
+                        styles.linkBtnText,
+                        resendCooldown > 0 && styles.linkBtnDisabled,
+                      ]}
+                    >
+                      {resendCooldown > 0
+                        ? t('authResendCooldown', { seconds: resendCooldown })
+                        : t('authResendCodeBtn')}
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.linkBtn}
+                    onPress={() => {
+                      setStep('PHONE');
+                      setOtp('');
+                      setError(null);
+                    }}
+                    testID="change-phone-button"
+                  >
+                    <Text style={styles.linkBtnText}>{t('authChangePhoneBtn')}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )
+          ) : (
+            /* Email & Password Flow */
+            <View style={styles.formSection}>
+              {emailMode === 'RESET' ? (
+                <View>
+                  <Text style={styles.resetHeaderTitle}>{t('authResetPasswordTitle')}</Text>
+                  <Text style={styles.subtext}>{t('authResetPasswordDesc')}</Text>
+
+                  {resetSent ? (
+                    <View style={styles.successBox}>
+                      <Text style={styles.successText}>{t('authResetSentSuccess')}</Text>
+                    </View>
+                  ) : (
+                    <>
+                      <Text style={styles.label}>{t('authEmailLabel')}</Text>
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder={t('authEmailPlaceholder')}
+                        placeholderTextColor={Tokens.colors.textMuted}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoComplete="email"
+                        textContentType="emailAddress"
+                        value={email}
+                        onChangeText={setEmail}
+                        testID="email-reset-input"
+                        autoFocus
+                      />
+
+                      <TouchableOpacity
+                        style={styles.primaryBtn}
+                        onPress={handleEmailSubmit}
+                        disabled={loading}
+                        testID="send-reset-button"
+                      >
+                        {loading ? (
+                          <ActivityIndicator color={Tokens.colors.primaryForeground} />
+                        ) : (
+                          <Text style={styles.primaryBtnText}>{t('authSendResetBtn')}</Text>
+                        )}
+                      </TouchableOpacity>
+                    </>
+                  )}
+
+                  <TouchableOpacity
+                    style={[styles.linkBtn, { marginTop: Tokens.spacing.md, alignSelf: 'center' }]}
+                    onPress={() => {
+                      setEmailMode('SIGN_IN');
+                      setError(null);
+                      setResetSent(false);
+                    }}
+                    testID="back-to-signin-button"
+                  >
+                    <Text style={styles.linkBtnText}>{t('authBackToLogin')}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View>
+                  {emailMode === 'REGISTER' && (
+                    <>
+                      <Text style={styles.label}>{t('authNameLabel')}</Text>
+                      <TextInput
+                        style={[styles.textInput, { marginBottom: Tokens.spacing.sm }]}
+                        placeholder={t('authNamePlaceholder')}
+                        placeholderTextColor={Tokens.colors.textMuted}
+                        autoComplete="name"
+                        textContentType="name"
+                        value={name}
+                        onChangeText={setName}
+                        testID="email-name-input"
+                      />
+                    </>
+                  )}
+
+                  <Text style={styles.label}>{t('authEmailLabel')}</Text>
+                  <TextInput
+                    style={[styles.textInput, { marginBottom: Tokens.spacing.sm }]}
+                    placeholder={t('authEmailPlaceholder')}
+                    placeholderTextColor={Tokens.colors.textMuted}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoComplete="email"
+                    textContentType="emailAddress"
+                    value={email}
+                    onChangeText={setEmail}
+                    testID="email-input"
+                    autoFocus={emailMode === 'SIGN_IN'}
+                  />
+
+                  <Text style={styles.label}>{t('authPasswordLabel')}</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder={t('authPasswordPlaceholder')}
+                    placeholderTextColor={Tokens.colors.textMuted}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    autoComplete={emailMode === 'REGISTER' ? 'new-password' : 'current-password'}
+                    textContentType={emailMode === 'REGISTER' ? 'newPassword' : 'password'}
+                    value={password}
+                    onChangeText={setPassword}
+                    testID="password-input"
+                  />
+
+                  {registerSuccessMsg && (
+                    <View style={styles.successBox} testID="register-success-box">
+                      <Text style={styles.successText}>{registerSuccessMsg}</Text>
+                    </View>
+                  )}
+
+                  {emailMode === 'SIGN_IN' && (
+                    <TouchableOpacity
+                      style={[styles.linkBtn, { alignSelf: 'flex-end', marginTop: Tokens.spacing.xs }]}
+                      onPress={() => {
+                        setEmailMode('RESET');
+                        setError(null);
+                      }}
+                      testID="forgot-password-button"
+                    >
+                      <Text style={styles.linkBtnText}>{t('authForgotPasswordBtn')}</Text>
+                    </TouchableOpacity>
+                  )}
+
+                  <TouchableOpacity
+                    style={styles.primaryBtn}
+                    onPress={handleEmailSubmit}
+                    disabled={loading}
+                    testID="email-submit-button"
+                  >
+                    {loading ? (
+                      <ActivityIndicator color={Tokens.colors.primaryForeground} />
+                    ) : (
+                      <Text style={styles.primaryBtnText}>
+                        {emailMode === 'REGISTER' ? t('authCreateAccountBtn') : t('authSignInBtn')}
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+
+                  <View style={[styles.actionRow, { justifyContent: 'center' }]}>
+                    <TouchableOpacity
+                      style={styles.linkBtn}
+                      onPress={() => {
+                        setEmailMode(emailMode === 'SIGN_IN' ? 'REGISTER' : 'SIGN_IN');
+                        setError(null);
+                      }}
+                      testID={emailMode === 'SIGN_IN' ? 'switch-to-register' : 'switch-to-signin'}
+                    >
+                      <Text style={styles.linkBtnText}>
+                        {emailMode === 'SIGN_IN'
+                          ? t('authSwitchToCreateAccount')
+                          : t('authSwitchToSignIn')}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
             </View>
           )}
         </View>
@@ -344,22 +644,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: Tokens.spacing.lg,
+    paddingHorizontal: Tokens.spacing.md,
   },
   card: {
     width: '100%',
-    maxWidth: 440,
+    maxWidth: 420,
     backgroundColor: Tokens.colors.surface,
     borderRadius: Tokens.radii.card,
-    padding: Tokens.spacing.xl,
     borderWidth: Tokens.borders.width,
     borderColor: Tokens.colors.border,
+    padding: Tokens.spacing.lg,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Tokens.spacing.md,
-    marginBottom: Tokens.spacing.lg,
+    marginBottom: Tokens.spacing.md,
   },
   iconCircle: {
     width: 48,
@@ -368,28 +667,66 @@ const styles = StyleSheet.create({
     backgroundColor: Tokens.colors.surfaceMuted,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: Tokens.spacing.md,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
   },
   headerTextCol: {
     flex: 1,
   },
   brandTitle: {
     fontFamily: Typography.fontFamily.semibold,
-    color: Tokens.colors.text,
-    fontSize: Tokens.fontSize.xl,
+    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.lg,
     fontWeight: Tokens.fontWeight.semibold,
-    letterSpacing: -0.3,
+    letterSpacing: -0.2,
   },
   tagline: {
-    fontFamily: Typography.fontFamily.medium,
-    color: Tokens.colors.primaryText,
-    fontSize: Tokens.fontSize.sm,
-    fontWeight: Tokens.fontWeight.medium,
+    fontFamily: Typography.fontFamily.regular,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.xs,
     marginTop: 2,
   },
-  errorBox: {
-    backgroundColor: Tokens.colors.errorLight,
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.sm,
+    padding: 3,
+    marginBottom: Tokens.spacing.md,
     borderWidth: Tokens.borders.width,
-    borderColor: Tokens.colors.errorBorder,
+    borderColor: Tokens.colors.border,
+  },
+  tabBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: Tokens.spacing.xs,
+    paddingHorizontal: Tokens.spacing.xs,
+    borderRadius: Tokens.radii.sm,
+    gap: Tokens.spacing.xs,
+    minHeight: Tokens.dimensions.minTouchTarget,
+  },
+  activeTabBtn: {
+    backgroundColor: Tokens.colors.surface,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+  },
+  tabBtnText: {
+    fontFamily: Typography.fontFamily.medium,
+    color: Tokens.colors.textMuted,
+    fontSize: Tokens.fontSize.xs,
+    fontWeight: Tokens.fontWeight.medium,
+  },
+  activeTabBtnText: {
+    fontFamily: Typography.fontFamily.semibold,
+    color: Tokens.colors.primaryText,
+    fontWeight: Tokens.fontWeight.semibold,
+  },
+  errorBox: {
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.errorText,
     borderRadius: Tokens.radii.sm,
     padding: Tokens.spacing.sm,
     marginBottom: Tokens.spacing.md,
@@ -399,6 +736,27 @@ const styles = StyleSheet.create({
     color: Tokens.colors.errorText,
     fontSize: Tokens.fontSize.sm,
     fontWeight: Tokens.fontWeight.medium,
+  },
+  successBox: {
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.primary,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    marginBottom: Tokens.spacing.md,
+  },
+  successText: {
+    fontFamily: Typography.fontFamily.medium,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
+  },
+  resetHeaderTitle: {
+    fontFamily: Typography.fontFamily.semibold,
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.semibold,
+    marginBottom: Tokens.spacing.xs,
   },
   formSection: {
     width: '100%',

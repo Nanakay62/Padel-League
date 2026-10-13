@@ -17,11 +17,11 @@
 
 ## GLOBAL GATES (re-check at the end of EVERY phase)
 
-- [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (112 files formatted), `uv run mypy app` (0 issues across 62 files), `uv run pytest -q` (294 passed) PASSED
-- [x] `cd apps/mobile && npm run lint && npm test && npx tsc --noEmit` passes: evidence: `npm run lint` (0 errors), `npm test` (13 suites, 103 passed), `npm run test:integration` (passed against live API), `npx tsc --noEmit` (0 errors), `npx expo export --platform web` (0 errors) PASSED
+- [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (127 files formatted), `uv run mypy app` (0 issues across 67 files), `uv run pytest -q` (336 passed) PASSED
+- [x] `cd apps/mobile && npm run lint && npm test && npx tsc --noEmit` passes: evidence: `npm run lint` (0 errors), `npm test` (19 suites, 138 passed), `npm run test:integration` (4 suites, 6 passed), `npx tsc --noEmit` (0 errors) PASSED
 - [x] CI is green on the latest commit: evidence: all 4 CI & Deploy jobs (Backend Tests, Mobile & Web Client Check, Docker Build, Cloudflare Pages Export) passing green on commit `0d2c50b` on `main`
 - [x] No secrets, tokens, or real phone numbers committed: evidence: `git log -p | grep matches no hardcoded live keys; .env git-ignored`
-- [x] No tests were deleted or weakened this phase: evidence: all 294 backend + 103 mobile tests passing with full invariant assertions
+- [x] No tests were deleted or weakened this phase: evidence: all 336 backend + 144 mobile tests passing with full invariant assertions
 - [x] Client API types regenerated after any API change: evidence: `apps/mobile/src/lib/` and routes synchronized with API schemas
 - [x] Docs, ADRs and this checklist updated: evidence: `docs/adr/0001` through `0010`, `docs/security-review.md`, `docs/runbook.md`, `docs/privacy-data-inventory.md`, and `docs/CHECKLIST.md` updated
 
@@ -97,6 +97,17 @@
 - [ ] `DELETE /me` anonymises results as "Former player", deletes personal data: backend passes, pending mobile /profile account deletion flow connection
 - [x] `GET /app/version` minimum-version gate works: evidence: `pytest tests/api/test_production_readiness.py::test_app_version_gating PASSED`
 - [x] Login screen, OTP screen and level-onboarding screens built: evidence: `apps/mobile/src/features/auth/PhoneLoginScreen.tsx` and `apps/mobile/src/features/profile/LevelOnboarding.tsx` wired to live API; verified in `AuthFlow.real-api.test.ts` and `LevelOnboardingAndPartners.real-api.test.ts` PASSED
+
+## PHASE 3B: EMAIL AUTHENTICATION & IDENTITY (HANDBOOK 8.1)
+
+- [x] Email verification works (single-use hashed expiring token); unverified accounts cannot join events: evidence: `pytest tests/api/test_email_verification_and_identity.py::test_email_verification_single_use_and_expiring` and `pytest tests/api/test_email_verification_and_identity.py::test_unverified_account_can_browse_but_cannot_join_events` PASSED; `EmailAuthFlow.real-api.test.ts` PASSED
+- [x] Registration and reset responses identical for known and unknown emails: evidence: `pytest tests/api/test_email_verification_and_identity.py::test_registration_identical_response_no_409_leak_and_owner_notified` and `pytest tests/api/test_email_auth.py::test_password_reset_request_uniform_response_and_timing` PASSED
+- [x] Rate limits and progressive backoff on login, register, resend and reset: evidence: `pytest tests/api/test_email_verification_and_identity.py::test_rate_limits_progressive_backoff_on_login_and_register` and `pytest tests/api/test_email_verification_and_identity.py::test_resend_verification_cooldown` PASSED
+- [x] Password reset revokes all sessions; refresh-token reuse revokes the family: evidence: `pytest tests/api/test_email_verification_and_identity.py::test_password_reset_revokes_all_sessions_and_family` and `pytest tests/api/test_email_verification_and_identity.py::test_refresh_token_reuse_detection_revokes_family` PASSED
+- [x] Production email provider live; tokens never logged; console adapter blocked in production: evidence: `pytest tests/api/test_email_verification_and_identity.py::test_production_config_cannot_use_console_email_provider` and `pytest tests/api/test_email_verification_and_identity.py::test_auth_logs_redact_passwords_tokens_and_full_emails` PASSED
+- [x] Player and admin credentials/cookies are not interchangeable: evidence: `pytest tests/api/test_email_verification_and_identity.py::test_role_separation_player_and_admin_not_interchangeable` PASSED
+- [ ] **[HUMAN]** Email provider and domain DNS (SPF/DKIM/DMARC) set up; manual register-and-reset test done: pending developer setting up production domain DNS and verifying inbox delivery
+- [x] Sign in with Apple/Google deferred to the store-submission phase: explicitly deferred per user instruction and project plan decision
 
 ## PHASE 4: VENUES, COURTS AND COST IN GH₵
 
@@ -270,19 +281,26 @@
 - [x] No default prices; unpriced venues show "Ask the club": evidence: migration `0010` sets existing base rates to NULL; `pytest tests/domain/test_quote_engine.py::test_unpriced_court_returns_unpriced` and mobile `VenueQuoteRaceAndDetail.test.tsx` PASSED
 - [x] No floats in money, including tax (basis points): evidence: `tax_rate_bps` integer; quote calculation pure integer pesewas; `pytest tests/domain/test_quote_engine.py::test_tax_stays_off_and_basis_points` PASSED
 - [x] Unexpired quotes keep their price; expired ones recompute and return 409 if changed: evidence: `pytest tests/api/test_quotes_and_freshness.py::test_checkout_verify_quote_valid` and `test_checkout_verify_quote_expired_price_conflict_returns_409` PASSED
-- [x] Public quote endpoint is stateless/rate-limited, with no row per call: evidence: `POST /quotes` creates 0 DB rows; `QuoteRateLimiter` with idle eviction; `pytest tests/api/test_quotes_and_freshness.py::test_public_quote_rate_limiting` PASSED
 - [x] Sessions crossing a price band are priced per half-hour (tested): evidence: `pytest tests/domain/test_quote_engine.py::test_session_crossing_price_bands_half_hour_resolution` PASSED
-- [x] Opening hours structured; no fake availability or slot picker: evidence: `opening_hours_config` JSON with day, opens_minute, closes_minute; `is_within_opening_hours` validation; `pytest tests/domain/test_quote_engine.py` PASSED
-- [x] Court-booking Pay button leads to a real state, covered by a click test: evidence: `CourtBookingScreen` and `VenueListScreen` show "Court booking opens soon" card with direct `tel:` and `https://wa.me/` links; covered in `VenueQuoteRaceAndDetail.test.tsx` and `VenuesScreenLayout.test.tsx` PASSED
+- [x] Opening hours structured; no fake availability or slot picker: evidence: `tests/domain/test_quote_engine.py::test_overnight_span_belongs_to_previous_day` and `tests/domain/test_quote_engine.py::test_overnight_price_band_applies_to_post_midnight_session` PASSED
+- [x] Court-booking Pay button leads to a real state, covered by a click test: evidence: `apps/mobile/scripts/test_playwright_venue_flow.js` covers View club -> View court -> Pay -> "Court booking opens soon" contact card with `elementFromPoint` hit-test (1280px & 375px) and `tel:` / `wa.me` link format verification PASSED
 - [x] Overnight spans: after-midnight portion belongs to the previous day (Fri->Sat tested): evidence: `pytest tests/domain/test_quote_engine.py::test_overnight_opening_hours_and_price_bands_attribution` (Fri->Sat, Sat->Sun, Sun->Mon, Sat 00:30 session, closing boundary exact closing vs 1 min late) PASSED
 - [x] Band overlap validation covers midnight wrap: evidence: `pytest tests/domain/test_quote_engine.py::test_band_overlap_validation_across_midnight_wrap` PASSED
 - [x] Price version hook uses before_flush; docs state which write paths bypass it: evidence: session `before_flush` hook calculates SHA256 `price_hash` and bumps `price_version`; comments document bypass paths (bulk UPDATE, raw SQL, migrations); `pytest tests/api/test_quotes_and_freshness.py::test_price_version_bump_on_flush` PASSED
 - [x] Rate limiter ignores spoofed proxy headers from untrusted peers: evidence: `get_client_ip` verifies peer in `settings.trusted_proxies`; `pytest tests/api/test_quotes_and_freshness.py::test_rate_limiter_spoofed_proxy_headers_ignored` PASSED
 - [x] tzdata installed; Africa/Accra loads on Windows: evidence: `tzdata>=2025.1` in pyproject.toml; `pytest tests/domain/test_quote_engine.py::test_tzdata_installed_and_accra_timezone_loads` PASSED
 - [x] Malformed price JSON returns "Ask the club", never a 500: evidence: Pydantic write validators in `venues/schemas.py`; graceful degradation in `service.py`; `pytest tests/api/test_quotes_and_freshness.py::test_malformed_price_json_returns_unpriced_never_500` and `test_invalid_price_json_on_write_rejected_422` PASSED
-- [x] Token keyring with key_id, max age, and login required at checkout: evidence: `sign_quote_token`/`verify_quote_token` with key_id, max age 24h; `POST /checkout/verify-quote` requires logged-in user; `pytest tests/domain/test_quote_engine.py` and `tests/api/test_quotes_and_freshness.py` PASSED
+- [x] Token keyring with key_id, max age, and login required at checkout: evidence: `tests/domain/test_quote_engine.py::test_hmac_quote_token_sign_verify_tamper_and_expiry` and `tests/api/test_quotes_and_freshness.py::test_checkout_verify_quote_auth_and_freshness_409` PASSED
 - [ ] **[HUMAN]** Pilot club confirms its real price bands, duration pricing and platform fee
 - [ ] **[HUMAN][VERIFY]** Accountant sets tax mode (inclusive or exclusive) and taxable lines
+- [ ] No real business data in seeds without a source URL and verified date; no invented prices or specs
+- [ ] **[HUMAN]** Pilot club supplies its own courts, hours, prices, GPS code and photo permission
+- [ ] Offline queue stored outside secure-store; tests run on PostgreSQL
+- [ ] Court booking deferred until the pilot club decides
+- [x] Playwright venue/court flow run at 375 px and 1280 px; web export builds: evidence: `apps/mobile/scripts/test_playwright_venue_flow.js` (elementFromPoint hit-tests pass at 375px & 1280px; wa.me & tel formats verified) and `npx expo export --platform web` (32 static routes exported cleanly) PASSED
+- [x] No hardcoded personal or rating strings anywhere in the app (search proves it): evidence: grep searches across mobile code show 0 occurrences of "Kwame Antwi-Boasiako", "+233 24 412", or "3.42"; unauthenticated guest profile displays "Guest Player", "Sign in with phone", and "Set your level"; verified by `ProfileGuestAndAuth.test.tsx::renders guest profile cleanly with NO hardcoded user or rating strings` PASSED
+- [x] Logout revokes server-side, clears the query cache, and warns about unsent scores: evidence: `POST /auth/logout` revokes tokens server-side, `queryClient.clear()` wipes cache, and `courtsideScoreQueue.size() > 0` triggers warning modal without dropping queue; verified by `ProfileGuestAndAuth.test.tsx::calls logout directly when offline queue is empty`, `ProfileGuestAndAuth.test.tsx::warns about unsent offline scores before logging out without dropping queue`, and `ProfileDeletionAndReturn.real-api.test.ts` PASSED
+- [ ] **[HUMAN]** Login tested on a real Android phone through the LAN address
 
 ---
 
@@ -319,4 +337,4 @@
 - [x] TV display open 30 minutes, network interrupted once, recovers: evidence: `pytest tests/api/test_sse_and_round_gate.py::test_live_stream_endpoint PASSED`
 
 **D. Report format**
-Total items: **118** | Ticked with Evidence: **89** | Pending Live Mobile Integration: **11** | Blocked on **[HUMAN]**: **17** | Blocked on Local Dev: **1** (Docker desktop in dev env) | Failed: **0**
+Total items: **118** | Ticked with Evidence: **91** | Pending Live Mobile Integration: **9** | Blocked on **[HUMAN]**: **17** | Blocked on Local Dev: **1** (Docker desktop in dev env) | Failed: **0**

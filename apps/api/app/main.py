@@ -1,15 +1,16 @@
-"""Main FastAPI application factory."""
-
+import logging
 from collections.abc import AsyncGenerator, Callable
 from contextlib import asynccontextmanager
 from typing import Any
 
+import jwt
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.admin import setup_admin
 from app.config import settings
 from app.db import engine
+from app.identity.logging_utils import SensitiveDataFilter
 
 
 @asynccontextmanager
@@ -21,6 +22,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 
 def create_app() -> FastAPI:
+    # Ensure sensitive data redaction filter is attached to logging
+    logging.getLogger().addFilter(SensitiveDataFilter())
+    logging.getLogger("uvicorn").addFilter(SensitiveDataFilter())
+    logging.getLogger("app").addFilter(SensitiveDataFilter())
+
     app = FastAPI(
         title=settings.app_name,
         lifespan=lifespan,
@@ -40,6 +46,52 @@ def create_app() -> FastAPI:
                 "max-age=31536000; includeSubDomains"
             )
         return response
+
+    @app.middleware("http")
+    async def admin_role_separation_middleware(
+        request: Request, call_next: Callable[[Request], Any]
+    ) -> Response:
+        if (
+            request.url.path.startswith("/admin")
+            and request.url.path != "/admin/verify-access"
+        ):
+            player_cookie = request.cookies.get("padel_refresh_token")
+            auth_header = request.headers.get("Authorization")
+            bearer_token = (
+                auth_header.split(" ")[1]
+                if auth_header and auth_header.startswith("Bearer ")
+                else None
+            )
+
+            # Player cookie or player bearer token rejected on admin paths
+            token_to_check = request.cookies.get("padel_admin_token") or bearer_token
+            if player_cookie and not request.cookies.get("padel_admin_token"):
+                return Response(
+                    content='{"detail":"Admin privileges required. Player credentials are not permitted."}',
+                    status_code=403,
+                    media_type="application/json",
+                )
+
+            if token_to_check:
+                try:
+                    payload = jwt.decode(
+                        token_to_check,
+                        settings.secret_key,
+                        algorithms=[settings.jwt_algorithm],
+                    )
+                    if payload.get("role") != "ADMIN":
+                        return Response(
+                            content='{"detail":"Admin privileges required. Player credentials are not permitted."}',
+                            status_code=403,
+                            media_type="application/json",
+                        )
+                except (jwt.PyJWTError, ValueError):
+                    return Response(
+                        content='{"detail":"Invalid admin credentials."}',
+                        status_code=401,
+                        media_type="application/json",
+                    )
+        return await call_next(request)
 
     app.add_middleware(
         CORSMiddleware,

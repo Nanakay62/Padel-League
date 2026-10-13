@@ -1,8 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
-  Shield,
-  CreditCard,
   Settings,
   ChevronRight,
   Trophy,
@@ -14,15 +12,61 @@ import { t } from '@/lib/i18n';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { Screen, PageHeader, Card, StatusPill, Button } from '@/components/ui';
+import { courtsideScoreQueue } from '@/lib/offlineQueue';
 
 export default function ProfileTabScreen() {
   const router = useRouter();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, deleteAccount } = useAuth();
   const { isDesktop, isTablet } = useResponsiveLayout();
 
-  const playerName = user?.name || 'Kwame Antwi-Boasiako';
-  const playerPhone = user?.phone_e164 || '+233 24 412 3456';
-  const playerRating = user?.level ? user.level.toFixed(2) : '3.42';
+  const playerName = isAuthenticated && user?.name ? user.name : t('guestPlayer');
+  const playerPhone =
+    isAuthenticated && user?.phone_e164 ? user.phone_e164 : t('guestNoPhone');
+  const hasRating = isAuthenticated && user?.level !== undefined && user?.level !== null;
+  const playerRating = hasRating ? user.level!.toFixed(2) : null;
+  const avatarInitials = isAuthenticated && user?.name
+    ? user.name
+        .split(' ')
+        .map((n) => n[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase() || 'P'
+    : 'GP';
+
+  const handleLogoutPress = () => {
+    const pendingScoreCount = courtsideScoreQueue.size();
+    if (pendingScoreCount > 0) {
+      Alert.alert(
+        t('profileLogoutOfflineWarningTitle'),
+        t('profileLogoutOfflineWarningMessage', { count: pendingScoreCount }),
+        [
+          { text: t('profileDeleteAccountCancelAction'), style: 'cancel' },
+          {
+            text: t('profileLogoutAnyway'),
+            style: 'destructive',
+            onPress: () => logout(),
+          },
+        ]
+      );
+      return;
+    }
+    logout();
+  };
+
+  const handleDeleteAccountPress = () => {
+    Alert.alert(
+      t('profileDeleteAccountConfirmTitle'),
+      t('profileDeleteAccountConfirmMessage'),
+      [
+        { text: t('profileDeleteAccountCancelAction'), style: 'cancel' },
+        {
+          text: t('profileDeleteAccountConfirmAction'),
+          style: 'destructive',
+          onPress: () => deleteAccount(),
+        },
+      ]
+    );
+  };
 
   return (
     <Screen>
@@ -36,22 +80,12 @@ export default function ProfileTabScreen() {
         <Card style={styles.profileCard}>
           <View style={styles.profileHeaderRow}>
             <View style={styles.avatarBox}>
-              <Text style={styles.avatarInitials}>
-                {playerName
-                  .split(' ')
-                  .map((n) => n[0])
-                  .slice(0, 2)
-                  .join('')
-                  .toUpperCase()}
-              </Text>
+              <Text style={styles.avatarInitials}>{avatarInitials}</Text>
             </View>
 
             <View style={styles.profileDetailsCol}>
               <View style={styles.nameRow}>
                 <Text style={styles.playerNameText}>{playerName}</Text>
-                <View style={styles.proBadge}>
-                  <Text style={styles.proBadgeText}>PRO</Text>
-                </View>
               </View>
               <Text style={styles.playerPhoneText}>{playerPhone}</Text>
               <View style={styles.statusPillsRow}>
@@ -59,77 +93,65 @@ export default function ProfileTabScreen() {
                   label={isAuthenticated ? 'SIGNED IN' : 'GUEST'}
                   variant={isAuthenticated ? 'success' : 'neutral'}
                 />
-                {user?.is_provisional && (
+                {isAuthenticated && user?.is_provisional && (
                   <StatusPill label={t('ratingProvisionalTag')} variant="neutral" />
                 )}
               </View>
             </View>
           </View>
 
-          {/* Quick Metrics Strip */}
-          <View style={styles.metricsStrip}>
-            <TouchableOpacity
-              style={styles.metricItem}
-              onPress={() => router.push('/ratings')}
-            >
-              <Text style={styles.metricLabel}>PG Rating</Text>
-              <Text style={[styles.metricValue, Typography.tabularNums]}>
-                Level {playerRating}
-              </Text>
-              <Text style={styles.metricSub}>View History</Text>
-            </TouchableOpacity>
-
-            <View style={[styles.metricItem, styles.metricBorder]}>
-              <Text style={styles.metricLabel}>Matches</Text>
-              <Text style={[styles.metricValue, Typography.tabularNums]}>24 Played</Text>
-              <Text style={styles.metricSub}>16 Wins (67%)</Text>
-            </View>
-
-            <TouchableOpacity
-              style={[styles.metricItem, styles.metricBorder]}
-              onPress={() => router.push('/leagues')}
-            >
-              <Text style={styles.metricLabel}>Accra Ladder</Text>
-              <Text style={[styles.metricValue, Typography.tabularNums]}>Rung 4</Text>
-              <Text style={styles.metricSub}>Premier Box</Text>
-            </TouchableOpacity>
-          </View>
-        </Card>
-
-        {/* MoMo Balance & Billing Card */}
-        <Card style={styles.walletCard}>
-          <View style={styles.walletHeader}>
-            <View style={styles.walletTitleRow}>
-              <View style={styles.walletIconBox}>
-                <CreditCard size={18} color={Tokens.colors.text} />
+          {/* Guest Onboarding Prompt */}
+          {!isAuthenticated ? (
+            <View style={styles.guestActionBanner}>
+              <Text style={styles.guestBannerText}>{t('guestSignInPrompt')}</Text>
+              <View style={styles.guestBtnRow}>
+                <Button
+                  title={t('guestSignInBtn')}
+                  variant="primary"
+                  size="sm"
+                  onPress={() =>
+                    router.push({
+                      pathname: '/login',
+                      params: { redirect: '/profile' },
+                    })
+                  }
+                  testID="profile-guest-signin-button"
+                />
+                <Button
+                  title={t('guestSetLevelBtn')}
+                  variant="secondary"
+                  size="sm"
+                  onPress={() => router.push('/onboarding' as any)}
+                  testID="profile-guest-set-level-button"
+                />
               </View>
-              <View>
-                <Text style={styles.walletTitle}>Padel Ghana MoMo Wallet</Text>
-                <Text style={styles.walletSubtitle}>
-                  Instant match fee & court split payments
+            </View>
+          ) : (
+            /* Authenticated Quick Metrics Strip */
+            <View style={styles.metricsStrip}>
+              <TouchableOpacity
+                style={styles.metricItem}
+                onPress={() => router.push('/ratings')}
+              >
+                <Text style={styles.metricLabel}>PG Rating</Text>
+                <Text style={[styles.metricValue, Typography.tabularNums]}>
+                  {playerRating ? `Level ${playerRating}` : 'Not Calibrated'}
                 </Text>
-              </View>
-            </View>
-            <Button
-              title="Top Up"
-              variant="secondary"
-              size="sm"
-              onPress={() => router.push('/credits')}
-            />
-          </View>
+                <Text style={styles.metricSub}>
+                  {user?.level_band || 'Calibrate Level'}
+                </Text>
+              </TouchableOpacity>
 
-          <View style={styles.balanceRow}>
-            <View>
-              <Text style={styles.balanceLabel}>Current Balance</Text>
-              <Text style={[styles.balanceValue, Typography.tabularNums]}>
-                GH₵ 340.00
-              </Text>
+              <TouchableOpacity
+                style={[styles.metricItem, styles.metricBorder]}
+                onPress={() => router.push('/leagues')}
+              >
+                <Text style={styles.metricLabel}>Accra Circuit</Text>
+                <Text style={styles.metricValue}>Active</Text>
+                <Text style={styles.metricSub}>Box Leagues</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.verifiedMomoBadge}>
-              <Shield size={14} color={Tokens.colors.greenText} />
-              <Text style={styles.verifiedMomoText}>MTN MoMo Active</Text>
-            </View>
-          </View>
+          )}
         </Card>
 
         {/* Quick Links Menu */}
@@ -179,20 +201,36 @@ export default function ProfileTabScreen() {
           </TouchableOpacity>
         </Card>
 
-        {/* Auth Actions (Logout / Login) */}
+        {/* Auth Actions (Logout / Login / Account Deletion) */}
         <View style={styles.authActionSection}>
           {isAuthenticated ? (
-            <Button
-              title={t('authLogoutBtn')}
-              variant="secondary"
-              onPress={logout}
-              testID="profile-logout-button"
-            />
+            <View style={styles.authenticatedActionsCol}>
+              <Button
+                title={t('authLogoutBtn')}
+                variant="secondary"
+                onPress={handleLogoutPress}
+                testID="profile-logout-button"
+              />
+              <Button
+                title={t('profileDeleteAccountBtn')}
+                variant="danger"
+                onPress={handleDeleteAccountPress}
+                testID="profile-delete-account-button"
+              />
+              <Text style={styles.gdprNoticeText}>
+                Data Protection Act 843: Personal information is permanently removed upon account deletion. Match results are preserved as anonymised historic records.
+              </Text>
+            </View>
           ) : (
             <Button
               title={t('authSignInBtn')}
               variant="primary"
-              onPress={() => router.push('/login' as any)}
+              onPress={() =>
+                router.push({
+                  pathname: '/login',
+                  params: { redirect: '/profile' },
+                })
+              }
               testID="profile-login-button"
             />
           )}
@@ -225,18 +263,18 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: Tokens.radii.card,
-    backgroundColor: Tokens.colors.primaryLight,
+    backgroundColor: Tokens.colors.surfaceContainer,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: Tokens.colors.primaryBorder,
+    borderColor: Tokens.colors.border,
   },
   avatarInitials: {
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
     fontSize: Tokens.fontSize.lg,
     lineHeight: Tokens.lineHeight.lg,
-    color: Tokens.colors.primaryText,
+    color: Tokens.colors.text,
   },
   profileDetailsCol: {
     flex: 1,
@@ -248,26 +286,15 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.sm,
   },
   playerNameText: {
-    ...Typography.headlineSm,
-    color: Tokens.colors.text,
-  },
-  proBadge: {
-    paddingHorizontal: Tokens.spacing.xs,
-    paddingVertical: 2,
-    borderRadius: Tokens.radii.chip,
-    backgroundColor: Tokens.colors.primaryLight,
-    borderWidth: 1,
-    borderColor: Tokens.colors.primaryBorder,
-  },
-  proBadgeText: {
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.primaryText,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
+    color: Tokens.colors.text,
   },
   playerPhoneText: {
-    ...Typography.bodySm,
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Tokens.fontSize.sm,
     color: Tokens.colors.textMuted,
   },
   statusPillsRow: {
@@ -275,102 +302,59 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.xs,
     marginTop: 2,
   },
+  guestActionBanner: {
+    backgroundColor: Tokens.colors.surfaceContainerLow,
+    borderRadius: Tokens.radii.card,
+    padding: Tokens.spacing.base,
+    gap: Tokens.spacing.md,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+  },
+  guestBannerText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Tokens.fontSize.sm,
+    lineHeight: Tokens.lineHeight.sm,
+    color: Tokens.colors.textMuted,
+  },
+  guestBtnRow: {
+    flexDirection: 'row',
+    gap: Tokens.spacing.sm,
+  },
   metricsStrip: {
     flexDirection: 'row',
-    backgroundColor: Tokens.colors.surfaceMuted,
+    backgroundColor: Tokens.colors.surfaceContainerLow,
     borderRadius: Tokens.radii.card,
     borderWidth: 1,
     borderColor: Tokens.colors.border,
-    padding: Tokens.spacing.sm,
+    overflow: 'hidden',
   },
   metricItem: {
     flex: 1,
+    padding: Tokens.spacing.md,
     alignItems: 'center',
-    gap: 2,
   },
   metricBorder: {
     borderLeftWidth: 1,
     borderLeftColor: Tokens.colors.border,
   },
   metricLabel: {
-    ...Typography.labelSm,
+    fontFamily: Typography.fontFamily.medium,
+    fontSize: Tokens.fontSize.xs,
     color: Tokens.colors.textMuted,
     textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   metricValue: {
-    ...Typography.labelMd,
-    color: Tokens.colors.text,
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.lg,
+    color: Tokens.colors.text,
+    marginVertical: 2,
   },
   metricSub: {
-    ...Typography.bodySm,
-    color: Tokens.colors.greenText,
-  },
-  walletCard: {
-    padding: Tokens.spacing.base,
-    gap: Tokens.spacing.base,
-  },
-  walletHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: Tokens.spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: Tokens.colors.border,
-  },
-  walletTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.sm,
-  },
-  walletIconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: Tokens.radii.sm,
-    backgroundColor: Tokens.colors.surfaceMuted,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: Tokens.colors.border,
-  },
-  walletTitle: {
-    ...Typography.labelMd,
-    color: Tokens.colors.text,
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
-  },
-  walletSubtitle: {
-    ...Typography.bodySm,
-    color: Tokens.colors.textMuted,
-  },
-  balanceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  balanceLabel: {
-    ...Typography.labelSm,
-    color: Tokens.colors.textMuted,
-    textTransform: 'uppercase',
-  },
-  balanceValue: {
-    ...Typography.headlineLg,
-    color: Tokens.colors.text,
-    marginTop: 2,
-  },
-  verifiedMomoBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.xs,
-    paddingHorizontal: Tokens.spacing.sm,
-    paddingVertical: Tokens.spacing.xs,
-    borderRadius: Tokens.radii.pill,
-    backgroundColor: Tokens.colors.primaryLight,
-  },
-  verifiedMomoText: {
-    ...Typography.labelSm,
-    color: Tokens.colors.greenText,
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.primaryText,
   },
   menuCard: {
     padding: 0,
@@ -378,8 +362,8 @@ const styles = StyleSheet.create({
   },
   menuRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
     padding: Tokens.spacing.base,
   },
   menuRowBorder: {
@@ -389,13 +373,25 @@ const styles = StyleSheet.create({
   menuRowLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Tokens.spacing.sm,
+    gap: Tokens.spacing.md,
   },
   menuRowLabel: {
-    ...Typography.bodyMd,
+    fontFamily: Typography.fontFamily.medium,
+    fontSize: Tokens.fontSize.base,
     color: Tokens.colors.text,
   },
   authActionSection: {
-    paddingTop: Tokens.spacing.sm,
+    marginTop: Tokens.spacing.sm,
+  },
+  authenticatedActionsCol: {
+    gap: Tokens.spacing.md,
+  },
+  gdprNoticeText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+    textAlign: 'center',
+    paddingHorizontal: Tokens.spacing.md,
   },
 });

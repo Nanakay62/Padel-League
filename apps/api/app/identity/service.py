@@ -9,21 +9,53 @@ from typing import Any
 
 import jwt
 from fastapi import HTTPException
+from pwdlib import PasswordHash
+from pwdlib.hashers.argon2 import Argon2Hasher
 from sqlalchemy import func, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.config import settings
-from app.identity.models import PhoneOtp, PlayerProfile, RefreshToken, User
+from app.identity.models import (
+    EmailVerificationToken,
+    PasswordResetToken,
+    PhoneOtp,
+    PlayerProfile,
+    RefreshToken,
+    User,
+)
+from app.identity.password_policy import validate_password_policy
 from app.identity.phone import normalize_ghana_phone
+from app.identity.rate_limiter import auth_rate_limiter
 from app.identity.schemas import (
     LevelOnboardingQuestions,
     LevelOnboardingResponse,
+    RegisterResponse,
     TokenResponse,
     UserProfileResponse,
     UserProfileUpdate,
 )
+from app.notify.email import (
+    EmailMessage,
+    get_email_provider,
+    render_duplicate_registration_alert_template,
+    render_email_verification_template,
+    render_password_changed_template,
+    render_password_reset_template,
+)
 from app.notify.sms import get_sms_provider
+
+pwd_context = PasswordHash(
+    (
+        Argon2Hasher(
+            time_cost=settings.argon2_time_cost,
+            memory_cost=settings.argon2_memory_cost,
+            parallelism=settings.argon2_parallelism,
+            hash_len=settings.argon2_hash_len,
+        ),
+    )
+)
 
 
 def _utc_now() -> datetime:
@@ -212,6 +244,8 @@ class IdentityService:
                 role="PLAYER",
                 is_active=True,
                 is_guest=False,
+                phone_verified=True,
+                email_verified=False,
             )
             self.db.add(user)
             await self.db.flush()
@@ -226,17 +260,28 @@ class IdentityService:
             )
             self.db.add(profile)
         else:
+            user.phone_verified = True
             if name and name.strip() and user.name == "Padel Player":
                 user.name = name.strip()
 
-        # Generate tokens
+        return await self._issue_tokens_for_user(user, is_new_user=is_new_user)
+
+    async def _issue_tokens_for_user(
+        self,
+        user: User,
+        is_new_user: bool = False,
+        family_id: str | None = None,
+    ) -> TokenResponse:
+        now = _utc_now()
         access_token = self._create_access_token(user.id, user.role)
         raw_refresh_token = secrets.token_urlsafe(32)
         refresh_hash = _hash_token(raw_refresh_token)
 
+        active_family = family_id or str(uuid.uuid4())
         refresh_record = RefreshToken(
             id=str(uuid.uuid4()),
             user_id=user.id,
+            family_id=active_family,
             token_hash=refresh_hash,
             expires_at=now + timedelta(days=settings.refresh_token_expire_days),
             revoked=False,
@@ -248,6 +293,548 @@ class IdentityService:
             access_token=access_token,
             refresh_token=raw_refresh_token,
             is_new_user=is_new_user,
+        )
+
+    async def register_with_email(
+        self,
+        email: str,
+        password: str,
+        name: str | None = None,
+        phone: str | None = None,
+        client_ip: str | None = None,
+    ) -> RegisterResponse:
+        """Register a new player with email, hashed Argon2 password, and send verification link."""
+        await auth_rate_limiter.check_and_record(
+            "register", client_ip=client_ip, account_identifier=email
+        )
+        validate_password_policy(password)
+        clean_email = email.strip().lower()
+
+        # Check existing email - DO NOT leak existence via 409!
+        stmt = select(User).where(func.lower(User.email) == clean_email)
+        existing = (await self.db.execute(stmt)).scalar_one_or_none()
+        if existing:
+            email_provider = get_email_provider()
+            login_url = "https://app.padelghana.com/login"
+            text_body, html_body = render_duplicate_registration_alert_template(
+                login_url=login_url, app_name=settings.app_name
+            )
+            await email_provider.send_email(
+                EmailMessage(
+                    to=clean_email,
+                    subject=f"Account Notice - {settings.app_name}",
+                    body_text=text_body,
+                    body_html=html_body,
+                )
+            )
+            return RegisterResponse(
+                message="If this email is not registered, an activation link has been sent. Please check your inbox.",
+                status="pending_verification",
+            )
+
+        hashed_password = pwd_context.hash(password)
+        display_name = name.strip() if name and name.strip() else "Padel Player"
+
+        user = User(
+            id=str(uuid.uuid4()),
+            email=clean_email,
+            hashed_password=hashed_password,
+            phone_e164=None,
+            name=display_name,
+            role="PLAYER",
+            is_active=True,
+            is_guest=False,
+            email_verified=False,
+            phone_verified=False,
+        )
+        self.db.add(user)
+        try:
+            await self.db.flush()
+        except IntegrityError:
+            # Handle concurrent registration race gracefully
+            await self.db.rollback()
+            return RegisterResponse(
+                message="If this email is not registered, an activation link has been sent. Please check your inbox.",
+                status="pending_verification",
+            )
+
+        profile = PlayerProfile(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            level=2.5,
+            reliability=0.5,
+            is_provisional=True,
+            preferred_side="EITHER",
+            competitiveness="BOTH",
+        )
+        self.db.add(profile)
+
+        # Issue single-use email verification token
+        raw_verify_token = secrets.token_urlsafe(32)
+        verify_record = EmailVerificationToken(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            token_hash=_hash_token(raw_verify_token),
+            expires_at=_utc_now()
+            + timedelta(hours=settings.email_verification_expire_hours),
+            used=False,
+            created_at=_utc_now(),
+        )
+        self.db.add(verify_record)
+        await self.db.commit()
+
+        # Send verification email
+        email_provider = get_email_provider()
+        verify_url = (
+            f"https://app.padelghana.com/auth/verify-email?token={raw_verify_token}"
+        )
+        text_body, html_body = render_email_verification_template(
+            verify_url=verify_url, app_name=settings.app_name
+        )
+        await email_provider.send_email(
+            EmailMessage(
+                to=clean_email,
+                subject=f"Verify your email address - {settings.app_name}",
+                body_text=text_body,
+                body_html=html_body,
+            )
+        )
+
+        return RegisterResponse(
+            message="If this email is not registered, an activation link has been sent. Please check your inbox.",
+            status="pending_verification",
+        )
+
+    async def verify_email(self, raw_token: str) -> User:
+        """Verify single-use email token, mark token used, and activate email_verified."""
+        now = _utc_now()
+        token_hash = _hash_token(raw_token)
+
+        stmt = (
+            select(EmailVerificationToken)
+            .where(
+                EmailVerificationToken.token_hash == token_hash,
+                EmailVerificationToken.used.is_(False),
+            )
+            .options(selectinload(EmailVerificationToken.user))
+        )
+        record = (await self.db.execute(stmt)).scalars().first()
+
+        if not record or _as_utc(record.expires_at) < now:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid or expired verification token.",
+            )
+
+        user = record.user
+        if not user or not user.is_active:
+            raise HTTPException(
+                status_code=400,
+                detail="User account is inactive or not found.",
+            )
+
+        # Collision detection: only VERIFIED emails identify an account.
+        # An unverified email must never block or take over a verified one.
+        if user.email:
+            clean_email = user.email.lower()
+            other_stmt = select(User).where(
+                func.lower(User.email) == clean_email,
+                User.id != user.id,
+            )
+            other_users = (await self.db.execute(other_stmt)).scalars().all()
+            for other in other_users:
+                if other.email_verified:
+                    raise HTTPException(
+                        status_code=409,
+                        detail="Collision detected: This email is already verified on another account. Would you like to request an account merge?",
+                    )
+                else:
+                    # Unverified email on other account cannot block or take over
+                    other.email = None
+                    other.email_verified = False
+
+        record.used = True
+        user.email_verified = True
+        await self.db.commit()
+        return user
+
+    async def resend_email_verification(
+        self, email: str, client_ip: str | None = None
+    ) -> None:
+        """Resend email verification link with rate limit and cooldown."""
+        await auth_rate_limiter.check_and_record(
+            "resend_verification", client_ip=client_ip, account_identifier=email
+        )
+        clean_email = email.strip().lower()
+        stmt = (
+            select(User)
+            .where(func.lower(User.email) == clean_email)
+            .options(selectinload(User.verification_tokens))
+        )
+        user = (await self.db.execute(stmt)).scalar_one_or_none()
+        if not user or not user.is_active or user.email_verified:
+            return  # Prevent leaking registration state
+
+        now = _utc_now()
+        # Cooldown check
+        recent_cutoff = now - timedelta(
+            seconds=settings.email_verification_cooldown_seconds
+        )
+        for tok in user.verification_tokens:
+            if _as_utc(tok.created_at) >= recent_cutoff:
+                raise HTTPException(
+                    status_code=429,
+                    detail=f"Please wait {settings.email_verification_cooldown_seconds} seconds before requesting another verification email.",
+                    headers={
+                        "Retry-After": str(settings.email_verification_cooldown_seconds)
+                    },
+                )
+
+        raw_verify_token = secrets.token_urlsafe(32)
+        verify_record = EmailVerificationToken(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            token_hash=_hash_token(raw_verify_token),
+            expires_at=now + timedelta(hours=settings.email_verification_expire_hours),
+            used=False,
+            created_at=now,
+        )
+        self.db.add(verify_record)
+        await self.db.commit()
+
+        email_provider = get_email_provider()
+        verify_url = (
+            f"https://app.padelghana.com/auth/verify-email?token={raw_verify_token}"
+        )
+        text_body, html_body = render_email_verification_template(
+            verify_url=verify_url, app_name=settings.app_name
+        )
+        await email_provider.send_email(
+            EmailMessage(
+                to=clean_email,
+                subject=f"Verify your email address - {settings.app_name}",
+                body_text=text_body,
+                body_html=html_body,
+            )
+        )
+
+    async def authenticate_with_email(
+        self, email: str, password: str, client_ip: str | None = None
+    ) -> TokenResponse:
+        """Authenticate user with email and password via Argon2 with progressive delay."""
+        await auth_rate_limiter.check_and_record(
+            "login", client_ip=client_ip, account_identifier=email
+        )
+        clean_email = email.strip().lower()
+
+        stmt = (
+            select(User)
+            .where(func.lower(User.email) == clean_email)
+            .options(selectinload(User.profile))
+        )
+        user = (await self.db.execute(stmt)).scalar_one_or_none()
+
+        dummy_hash = "$argon2id$v=19$m=65536,t=3,p=1$c29tZXNhbHQ$dGVzdGhhc2hkdW1teQ"
+        if not user or not user.is_active or not user.hashed_password:
+            pwd_context.verify(password, dummy_hash)
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid email or password.",
+            )
+
+        if not pwd_context.verify(password, user.hashed_password):
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid email or password.",
+            )
+
+        return await self._issue_tokens_for_user(user, is_new_user=False)
+
+    async def refresh_tokens(self, raw_refresh_token: str) -> TokenResponse:
+        """Rotate refresh token with reuse detection across token families."""
+        token_hash = _hash_token(raw_refresh_token)
+        now = _utc_now()
+
+        stmt = (
+            select(RefreshToken)
+            .where(RefreshToken.token_hash == token_hash)
+            .options(selectinload(RefreshToken.user))
+        )
+        record = (await self.db.execute(stmt)).scalar_one_or_none()
+
+        if not record:
+            raise HTTPException(
+                status_code=401, detail="Invalid or expired refresh token"
+            )
+
+        # REUSE DETECTION: if token is already revoked, revoke its entire family!
+        if record.revoked:
+            fam_stmt = select(RefreshToken).where(
+                RefreshToken.family_id == record.family_id,
+                RefreshToken.revoked.is_(False),
+            )
+            family_tokens = (await self.db.execute(fam_stmt)).scalars().all()
+            for tok in family_tokens:
+                tok.revoked = True
+            await self.db.commit()
+            raise HTTPException(
+                status_code=401,
+                detail="Refresh token reuse detected. All sessions in this family revoked.",
+            )
+
+        if _as_utc(record.expires_at) < now:
+            raise HTTPException(
+                status_code=401, detail="Invalid or expired refresh token"
+            )
+
+        # Rotate token within the same family
+        record.revoked = True
+
+        access_token = self._create_access_token(record.user.id, record.user.role)
+        new_raw_refresh = secrets.token_urlsafe(32)
+        new_record = RefreshToken(
+            id=str(uuid.uuid4()),
+            user_id=record.user.id,
+            family_id=record.family_id,
+            token_hash=_hash_token(new_raw_refresh),
+            expires_at=now + timedelta(days=settings.refresh_token_expire_days),
+            revoked=False,
+        )
+        self.db.add(new_record)
+        await self.db.commit()
+
+        return TokenResponse(
+            access_token=access_token,
+            refresh_token=new_raw_refresh,
+            is_new_user=False,
+        )
+
+    async def request_password_reset(
+        self, email: str, client_ip: str | None = None
+    ) -> None:
+        """Issue single-use password reset token; identical timing/response for unknown emails."""
+        await auth_rate_limiter.check_and_record(
+            "password_reset", client_ip=client_ip, account_identifier=email
+        )
+        clean_email = email.strip().lower()
+        stmt = select(User).where(func.lower(User.email) == clean_email)
+        user = (await self.db.execute(stmt)).scalar_one_or_none()
+
+        dummy_hash = "$argon2id$v=19$m=65536,t=3,p=1$c29tZXNhbHQ$dGVzdGhhc2hkdW1teQ"
+        if not user or not user.is_active:
+            pwd_context.verify("dummy_password", dummy_hash)
+            return
+
+        raw_token = secrets.token_urlsafe(32)
+        token_hash = _hash_token(raw_token)
+        now = _utc_now()
+        expires_at = now + timedelta(minutes=settings.password_reset_expire_minutes)
+
+        reset_record = PasswordResetToken(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            token_hash=token_hash,
+            expires_at=expires_at,
+            used=False,
+            created_at=now,
+        )
+        self.db.add(reset_record)
+        await self.db.commit()
+
+        email_provider = get_email_provider()
+        reset_url = f"https://app.padelghana.com/auth/password-reset?token={raw_token}"
+        text_body, html_body = render_password_reset_template(
+            reset_url=reset_url, app_name=settings.app_name
+        )
+        await email_provider.send_email(
+            EmailMessage(
+                to=clean_email,
+                subject=f"Reset your password - {settings.app_name}",
+                body_text=text_body,
+                body_html=html_body,
+            )
+        )
+
+    async def confirm_password_reset(self, raw_token: str, new_password: str) -> None:
+        """Verify token hash and expiry, update password, revoke all sessions, and send alert email."""
+        validate_password_policy(new_password)
+        now = _utc_now()
+        token_hash = _hash_token(raw_token)
+
+        stmt = (
+            select(PasswordResetToken)
+            .where(
+                PasswordResetToken.token_hash == token_hash,
+                PasswordResetToken.used.is_(False),
+            )
+            .options(selectinload(PasswordResetToken.user))
+        )
+        reset_record = (await self.db.execute(stmt)).scalars().first()
+
+        if not reset_record or _as_utc(reset_record.expires_at) < now:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid or expired password reset token.",
+            )
+
+        user = reset_record.user
+        if not user or not user.is_active:
+            raise HTTPException(
+                status_code=400,
+                detail="User account is inactive or not found.",
+            )
+
+        reset_record.used = True
+        user.hashed_password = pwd_context.hash(new_password)
+
+        # REVOKE ALL REFRESH TOKENS / SESSIONS FOR THIS USER
+        refresh_stmt = select(RefreshToken).where(
+            RefreshToken.user_id == user.id, RefreshToken.revoked.is_(False)
+        )
+        active_tokens = (await self.db.execute(refresh_stmt)).scalars().all()
+        for tok in active_tokens:
+            tok.revoked = True
+
+        await self.db.commit()
+
+        # Send security notification email
+        if user.email:
+            email_provider = get_email_provider()
+            text_body, html_body = render_password_changed_template(
+                app_name=settings.app_name
+            )
+            await email_provider.send_email(
+                EmailMessage(
+                    to=user.email,
+                    subject=f"Security Alert: Password Changed - {settings.app_name}",
+                    body_text=text_body,
+                    body_html=html_body,
+                )
+            )
+
+    async def request_add_phone(
+        self, user_id: str, phone: str
+    ) -> tuple[str, str, datetime]:
+        """Request adding a phone number to an account; verify collision first."""
+        normalized_phone = normalize_ghana_phone(phone)
+        stmt = select(User).where(
+            User.phone_e164 == normalized_phone,
+            User.phone_verified.is_(True),
+            User.id != user_id,
+        )
+        existing = (await self.db.execute(stmt)).scalar_one_or_none()
+        if existing:
+            raise HTTPException(
+                status_code=409,
+                detail="This phone number is already verified on another account. Please sign in with that account or request an account merge.",
+            )
+        return await self.request_otp(raw_phone=phone)
+
+    async def verify_add_phone(self, user_id: str, phone: str, otp_code: str) -> User:
+        """Verify OTP and link phone to user account."""
+        normalized_phone = normalize_ghana_phone(phone)
+        stmt = select(User).where(
+            User.phone_e164 == normalized_phone,
+            User.phone_verified.is_(True),
+            User.id != user_id,
+        )
+        existing = (await self.db.execute(stmt)).scalar_one_or_none()
+        if existing:
+            raise HTTPException(
+                status_code=409,
+                detail="This phone number is already verified on another account.",
+            )
+
+        otp_hash = _hash_token(otp_code)
+        now = _utc_now()
+        otp_stmt = (
+            select(PhoneOtp)
+            .where(
+                PhoneOtp.phone_e164 == normalized_phone,
+                PhoneOtp.is_verified.is_(False),
+                PhoneOtp.expires_at >= now,
+            )
+            .order_by(PhoneOtp.created_at.desc())
+        )
+        otp_record = (await self.db.execute(otp_stmt)).scalars().first()
+        if not otp_record or otp_record.otp_hash != otp_hash:
+            raise HTTPException(status_code=400, detail="Invalid or expired OTP.")
+
+        otp_record.is_verified = True
+        user = await self.db.get(User, user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found.")
+
+        # Clean up unverified instances of this phone on any other account
+        other_stmt = select(User).where(
+            User.phone_e164 == normalized_phone,
+            User.id != user_id,
+        )
+        other_users = (await self.db.execute(other_stmt)).scalars().all()
+        for other in other_users:
+            if other.phone_verified:
+                raise HTTPException(
+                    status_code=409,
+                    detail="Collision detected: This phone number is already verified on another account. Would you like to request an account merge?",
+                )
+            else:
+                other.phone_e164 = None
+                other.phone_verified = False
+
+        user.phone_e164 = normalized_phone
+        user.phone_verified = True
+        await self.db.commit()
+        return user
+
+    async def request_add_email(self, user_id: str, email: str) -> None:
+        """Request adding an email to an account; verify collision first."""
+        clean_email = email.strip().lower()
+        stmt = select(User).where(
+            func.lower(User.email) == clean_email,
+            User.email_verified.is_(True),
+            User.id != user_id,
+        )
+        existing = (await self.db.execute(stmt)).scalar_one_or_none()
+        if existing:
+            raise HTTPException(
+                status_code=409,
+                detail="This email address is already verified on another account. Please sign in with that account or request an account merge.",
+            )
+
+        user = await self.db.get(User, user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found.")
+
+        user.email = clean_email
+        user.email_verified = False
+
+        raw_verify_token = secrets.token_urlsafe(32)
+        verify_record = EmailVerificationToken(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            token_hash=_hash_token(raw_verify_token),
+            expires_at=_utc_now()
+            + timedelta(hours=settings.email_verification_expire_hours),
+            used=False,
+            created_at=_utc_now(),
+        )
+        self.db.add(verify_record)
+        await self.db.commit()
+
+        email_provider = get_email_provider()
+        verify_url = (
+            f"https://app.padelghana.com/auth/verify-email?token={raw_verify_token}"
+        )
+        text_body, html_body = render_email_verification_template(
+            verify_url=verify_url, app_name=settings.app_name
+        )
+        await email_provider.send_email(
+            EmailMessage(
+                to=clean_email,
+                subject=f"Verify your email address - {settings.app_name}",
+                body_text=text_body,
+                body_html=html_body,
+            )
         )
 
     def create_access_token(
@@ -269,7 +856,12 @@ class IdentityService:
         )
 
     async def create_user(
-        self, phone_e164: str, name: str, role: str = "PLAYER"
+        self,
+        phone_e164: str,
+        name: str,
+        role: str = "PLAYER",
+        phone_verified: bool = True,
+        email_verified: bool = False,
     ) -> User:
         """Create a user and default profile directly (for testing and administrative setup)."""
         normalized_phone = normalize_ghana_phone(phone_e164)
@@ -280,6 +872,8 @@ class IdentityService:
             role=role,
             is_active=True,
             is_guest=False,
+            phone_verified=phone_verified,
+            email_verified=email_verified,
         )
         self.db.add(user)
         await self.db.flush()
@@ -297,49 +891,6 @@ class IdentityService:
         await self.db.commit()
         await self.db.refresh(user)
         return user
-
-    async def refresh_tokens(self, raw_refresh_token: str) -> TokenResponse:
-        """Rotate refresh token and issue new access token."""
-        token_hash = _hash_token(raw_refresh_token)
-        now = _utc_now()
-
-        stmt = (
-            select(RefreshToken)
-            .where(
-                RefreshToken.token_hash == token_hash,
-                RefreshToken.revoked == False,
-            )
-            .options(selectinload(RefreshToken.user))
-        )
-        res = await self.db.execute(stmt)
-        record = res.scalar_one_or_none()
-
-        if not record or _as_utc(record.expires_at) < now:
-            raise HTTPException(
-                status_code=401, detail="Invalid or expired refresh token"
-            )
-
-        # Revoke old refresh token
-        record.revoked = True
-
-        # Generate new pair
-        access_token = self._create_access_token(record.user.id, record.user.role)
-        new_raw_refresh = secrets.token_urlsafe(32)
-        new_record = RefreshToken(
-            id=str(uuid.uuid4()),
-            user_id=record.user.id,
-            token_hash=_hash_token(new_raw_refresh),
-            expires_at=now + timedelta(days=settings.refresh_token_expire_days),
-            revoked=False,
-        )
-        self.db.add(new_record)
-        await self.db.commit()
-
-        return TokenResponse(
-            access_token=access_token,
-            refresh_token=new_raw_refresh,
-            is_new_user=False,
-        )
 
     async def revoke_refresh_token(self, raw_refresh_token: str) -> None:
         """Revoke a refresh token on logout."""
@@ -371,6 +922,8 @@ class IdentityService:
             email=user.email,
             role=user.role,
             is_guest=user.is_guest,
+            email_verified=user.email_verified,
+            phone_verified=user.phone_verified,
             level=user.profile.level,
             level_band=level_band,
             reliability=user.profile.reliability,
@@ -476,6 +1029,89 @@ class IdentityService:
 
         claim_link = f"https://padelghana.com/claim/{claim_token}"
         return user.id, phone_e164, claim_link
+
+    async def claim_guest_profile(
+        self, user_id: str, claim_token: str
+    ) -> dict[str, str]:
+        """Claim a guest profile created by an organizer.
+
+        Detects collisions and offers merge; NEVER auto-merges conflicting accounts.
+        """
+        user = await self.db.get(User, user_id)
+        if not user or not user.is_active:
+            raise HTTPException(status_code=404, detail="User account not found.")
+
+        stmt = (
+            select(User)
+            .where(User.claim_token == claim_token, User.is_guest.is_(True))
+            .options(selectinload(User.profile))
+        )
+        guest_user = (await self.db.execute(stmt)).scalar_one_or_none()
+        if not guest_user:
+            raise HTTPException(
+                status_code=404, detail="Guest profile not found or already claimed."
+            )
+
+        # Collision detection:
+        # 1. Does the guest have a phone number?
+        if guest_user.phone_e164:
+            # Check if this phone number is already verified on another distinct user
+            phone_stmt = select(User).where(
+                User.phone_e164 == guest_user.phone_e164,
+                User.phone_verified.is_(True),
+                User.id != user.id,
+            )
+            existing_phone_user = (
+                await self.db.execute(phone_stmt)
+            ).scalar_one_or_none()
+            if existing_phone_user:
+                raise HTTPException(
+                    status_code=409,
+                    detail="Collision detected: The phone number on this guest profile is already verified by another account. Would you like to request an account merge?",
+                )
+
+            # Check if the claiming user already has a DIFFERENT verified phone number
+            if (
+                user.phone_verified
+                and user.phone_e164
+                and user.phone_e164 != guest_user.phone_e164
+            ):
+                raise HTTPException(
+                    status_code=409,
+                    detail="Collision detected: You already have a verified phone number that differs from this guest profile. Would you like to request an account merge?",
+                )
+
+        # Transfer event registrations from guest user to claiming user
+        from app.billing.models import Credit
+        from app.events.models import Registration
+
+        reg_stmt = select(Registration).where(Registration.user_id == guest_user.id)
+        guest_registrations = (await self.db.execute(reg_stmt)).scalars().all()
+        for reg in guest_registrations:
+            reg.user_id = user.id
+
+        credit_stmt = select(Credit).where(Credit.user_id == guest_user.id)
+        guest_credits = (await self.db.execute(credit_stmt)).scalars().all()
+        for cr in guest_credits:
+            cr.user_id = user.id
+
+        # If claiming user does not have a phone, link guest's phone as unverified (needs OTP)
+        if not user.phone_e164 and guest_user.phone_e164:
+            guest_phone = guest_user.phone_e164
+            guest_user.phone_e164 = None
+            await self.db.flush()
+            user.phone_e164 = guest_phone
+            user.phone_verified = False
+
+        # Mark guest user claimed and deactivate
+        guest_user.claim_token = None
+        guest_user.is_guest = False
+        guest_user.is_active = False
+
+        await self.db.commit()
+        return {
+            "message": "Guest profile successfully claimed and linked to your account."
+        }
 
     async def delete_user_account(self, user_id: str) -> None:
         """GDPR/Act 843 compliant account deletion: anonymise name, wipe PII, cancel pending registrations, keep matches intact."""

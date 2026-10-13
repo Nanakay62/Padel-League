@@ -1,5 +1,3 @@
-"""SQLAdmin back office integration for venues, events, orders, and immutable audit logs."""
-
 from typing import Any, ClassVar
 
 from fastapi import FastAPI

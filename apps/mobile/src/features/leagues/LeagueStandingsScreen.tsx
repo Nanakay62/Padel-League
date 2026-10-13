@@ -200,12 +200,6 @@ export function LeagueStandingsScreen({
       {/* Top Circuit Header Strip */}
       <View style={styles.headerRow}>
         <View style={styles.headerInfo}>
-          <View style={styles.circuitBadgeRow}>
-            <View style={styles.circuitBadge}>
-              <Text style={styles.circuitBadgeText}>Official Circuit</Text>
-            </View>
-            <Text style={styles.circuitSubtitle}>Accra Metro Series</Text>
-          </View>
           <Text style={styles.leagueTitle}>{leagueTitle}</Text>
           <Text style={styles.seasonSubtitle}>
             {seasonName} • Challenge pairs within 3 rungs to climb the national leaderboard.
@@ -746,32 +740,6 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 280,
     gap: Tokens.spacing.xs,
-  },
-  circuitBadgeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.sm,
-  },
-  circuitBadge: {
-    paddingHorizontal: Tokens.spacing.sm,
-    paddingVertical: 2,
-    borderRadius: Tokens.radii.pill,
-    backgroundColor: Tokens.colors.primaryLight,
-  },
-  circuitBadgeText: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.primaryText,
-    textTransform: 'uppercase',
-  },
-  circuitSubtitle: {
-    fontFamily: Typography.fontFamily.regular,
-    fontWeight: Tokens.fontWeight.regular,
-    fontSize: Tokens.fontSize.sm,
-    lineHeight: Tokens.lineHeight.sm,
-    color: Tokens.colors.textMuted,
   },
   leagueTitle: {
     ...Typography.headlineLg,

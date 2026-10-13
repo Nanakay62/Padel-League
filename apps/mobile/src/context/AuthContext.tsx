@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { apiFetch, logout as apiLogout, subscribeAuth } from '@/lib/api-client';
 import { clearAuthTokens, getAuthTokens, saveAuthTokens } from '@/lib/auth-storage';
+import { queryClient } from '@/lib/query-client';
 
 export interface AuthUser {
   id: string;
@@ -28,6 +29,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (accessToken: string, refreshToken?: string | null) => Promise<void>;
   logout: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
 
@@ -37,6 +39,7 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: true,
   login: async () => {},
   logout: async () => {},
+  deleteAccount: async () => {},
   refreshProfile: async () => {},
 });
 
@@ -138,6 +141,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await apiLogout();
     } finally {
       await clearAuthTokens();
+      queryClient.clear();
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  const handleDeleteAccount = useCallback(async () => {
+    try {
+      await apiFetch('/me', { method: 'DELETE' });
+    } finally {
+      await clearAuthTokens();
+      queryClient.clear();
       setUser(null);
       setIsAuthenticated(false);
     }
@@ -150,9 +165,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       isLoading,
       login,
       logout: handleLogout,
+      deleteAccount: handleDeleteAccount,
       refreshProfile,
     }),
-    [user, isAuthenticated, isLoading, login, handleLogout, refreshProfile]
+    [user, isAuthenticated, isLoading, login, handleLogout, handleDeleteAccount, refreshProfile]
   );
 
   return (

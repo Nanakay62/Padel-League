@@ -9,9 +9,15 @@ from sqlalchemy.orm import selectinload
 
 from app.config import settings
 from app.db import get_db
-from app.identity.deps import get_current_user_id
+from app.identity.deps import get_current_admin_user_id, get_current_user_id
 from app.identity.models import PlayerProfile, User
 from app.identity.schemas import (
+    AddEmailRequest,
+    AddPhoneRequest,
+    ClaimGuestRequest,
+    EmailLoginRequest,
+    EmailRegisterRequest,
+    EmailVerificationRequest,
     GuestCreateRequest,
     GuestCreateResponse,
     LevelOnboardingQuestions,
@@ -21,16 +27,22 @@ from app.identity.schemas import (
     OtpResponse,
     OtpVerifyRequest,
     PartnerItemResponse,
+    PasswordResetConfirmRequest,
+    PasswordResetRequest,
     RefreshTokenRequest,
+    RegisterResponse,
+    ResendEmailVerificationRequest,
     TokenResponse,
     UserProfileResponse,
     UserProfileUpdate,
+    VerifyPhoneRequest,
 )
 from app.identity.service import (
     IdentityService,
     compute_level_band,
     format_display_name,
 )
+from app.notify.email import get_email_provider
 from app.notify.sms import get_sms_provider
 
 router = APIRouter(tags=["Authentication & Players"])
@@ -96,6 +108,111 @@ async def verify_phone_otp(
     return token_resp
 
 
+@router.post("/auth/register", response_model=RegisterResponse)
+async def register_with_email(
+    payload: EmailRegisterRequest,
+    request: Request,
+    db: DatabaseSession,
+) -> RegisterResponse:
+    service = IdentityService(db)
+    client_ip = request.client.host if request.client else None
+    return await service.register_with_email(
+        email=str(payload.email),
+        password=payload.password,
+        name=payload.name,
+        phone=payload.phone,
+        client_ip=client_ip,
+    )
+
+
+@router.get("/auth/verify-email")
+async def verify_email_link(
+    token: str,
+    db: DatabaseSession,
+) -> Response:
+    service = IdentityService(db)
+    await service.verify_email(token)
+    html_content = """<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Email Verified - Padel Ghana</title></head>
+<body style="font-family: system-ui; text-align: center; padding: 48px; background: #0B0F0E; color: #FFFFFF;">
+  <h1 style="color: #00C853;">Email Verified!</h1>
+  <p>Your email address has been successfully verified.</p>
+  <a href="/login" style="display: inline-block; margin-top: 16px; padding: 12px 24px; background: #00C853; color: #0B0F0E; text-decoration: none; font-weight: bold; border-radius: 6px;">Sign In to Padel Ghana</a>
+</body>
+</html>"""
+    return Response(content=html_content, media_type="text/html")
+
+
+@router.post("/auth/verify-email")
+async def verify_email_api(
+    payload: EmailVerificationRequest,
+    db: DatabaseSession,
+) -> dict[str, str]:
+    service = IdentityService(db)
+    await service.verify_email(payload.token)
+    return {"message": "Email verified successfully."}
+
+
+@router.post("/auth/verify-email/resend")
+async def resend_email_verification(
+    payload: ResendEmailVerificationRequest,
+    request: Request,
+    db: DatabaseSession,
+) -> dict[str, str]:
+    service = IdentityService(db)
+    client_ip = request.client.host if request.client else None
+    await service.resend_email_verification(str(payload.email), client_ip=client_ip)
+    return {
+        "message": "If an unverified account matches, verification instructions have been dispatched."
+    }
+
+
+@router.post("/auth/login", response_model=TokenResponse)
+async def login_with_email(
+    payload: EmailLoginRequest,
+    response: Response,
+    request: Request,
+    db: DatabaseSession,
+) -> TokenResponse:
+    service = IdentityService(db)
+    client_ip = request.client.host if request.client else None
+    token_resp = await service.authenticate_with_email(
+        email=str(payload.email),
+        password=payload.password,
+        client_ip=client_ip,
+    )
+    _set_refresh_cookie(response, token_resp.refresh_token, request)
+    return token_resp
+
+
+@router.post("/auth/password-reset/request")
+async def request_password_reset(
+    payload: PasswordResetRequest,
+    request: Request,
+    db: DatabaseSession,
+) -> dict[str, str]:
+    service = IdentityService(db)
+    client_ip = request.client.host if request.client else None
+    await service.request_password_reset(str(payload.email), client_ip=client_ip)
+    return {
+        "message": "If that email is registered, password reset instructions have been generated."
+    }
+
+
+@router.post("/auth/password-reset/confirm")
+async def confirm_password_reset(
+    payload: PasswordResetConfirmRequest,
+    db: DatabaseSession,
+) -> dict[str, str]:
+    service = IdentityService(db)
+    await service.confirm_password_reset(
+        raw_token=payload.token,
+        new_password=payload.new_password,
+    )
+    return {"message": "Password has been successfully updated. You may now sign in."}
+
+
 @router.post("/auth/refresh", response_model=TokenResponse)
 async def refresh_tokens(
     response: Response,
@@ -146,6 +263,26 @@ async def get_test_last_otp() -> dict[str, str | None]:
     if hasattr(sms, "get_last_code"):
         return {"code": sms.get_last_code()}
     return {"code": None}
+
+
+@router.get("/auth/test/last-email")
+async def get_test_last_email() -> dict[str, Any]:
+    """Test-only endpoint: returns last dispatched email strictly when ENVIRONMENT == 'test'."""
+    if settings.environment != "test":
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Test endpoint only available in test environment",
+        )
+    provider = get_email_provider()
+    if hasattr(provider, "sent_messages") and provider.sent_messages:
+        last = provider.sent_messages[-1]
+        return {
+            "to": last.to,
+            "subject": last.subject,
+            "body_text": last.body_text,
+            "body_html": last.body_html,
+        }
+    return {"to": None, "subject": None, "body_text": None, "body_html": None}
 
 
 @router.get("/me", response_model=UserProfileResponse)
@@ -201,6 +338,62 @@ async def delete_my_account(
 ) -> None:
     service = IdentityService(db)
     await service.delete_user_account(user_id)
+
+
+@router.post("/me/phone/request", response_model=OtpResponse)
+async def request_add_phone(
+    payload: AddPhoneRequest,
+    user_id: Annotated[str, Depends(get_current_user_id)],
+    db: DatabaseSession,
+) -> OtpResponse:
+    service = IdentityService(db)
+    phone_e164, _, expires_at = await service.request_add_phone(
+        user_id=user_id, phone=payload.phone
+    )
+    return OtpResponse(
+        message="Verification code sent via SMS",
+        phone_e164=phone_e164,
+        expires_in_seconds=settings.otp_expire_minutes * 60,
+        expires_at=expires_at,
+    )
+
+
+@router.post("/me/phone/verify", response_model=UserProfileResponse)
+async def verify_add_phone(
+    payload: VerifyPhoneRequest,
+    user_id: Annotated[str, Depends(get_current_user_id)],
+    db: DatabaseSession,
+) -> UserProfileResponse:
+    service = IdentityService(db)
+    await service.verify_add_phone(
+        user_id=user_id, phone=payload.phone, otp_code=payload.otp
+    )
+    return await service.get_user_profile(user_id)
+
+
+@router.post("/me/email/request")
+async def request_add_email(
+    payload: AddEmailRequest,
+    user_id: Annotated[str, Depends(get_current_user_id)],
+    db: DatabaseSession,
+) -> dict[str, str]:
+    service = IdentityService(db)
+    await service.request_add_email(user_id=user_id, email=str(payload.email))
+    return {
+        "message": "Verification link dispatched. Please check your inbox to confirm."
+    }
+
+
+@router.post("/me/claim-guest")
+async def claim_guest_profile(
+    payload: ClaimGuestRequest,
+    user_id: Annotated[str, Depends(get_current_user_id)],
+    db: DatabaseSession,
+) -> dict[str, str]:
+    service = IdentityService(db)
+    return await service.claim_guest_profile(
+        user_id=user_id, claim_token=payload.claim_token
+    )
 
 
 @router.post("/players/guest", response_model=GuestCreateResponse)
@@ -262,3 +455,11 @@ async def find_partners(
             )
 
     return partners
+
+
+@router.get("/admin/verify-access")
+async def verify_admin_access(
+    admin_user_id: Annotated[str, Depends(get_current_admin_user_id)],
+) -> dict[str, str]:
+    """Admin-only endpoint for verifying administrative credentials."""
+    return {"message": "Admin access granted", "admin_id": admin_user_id}

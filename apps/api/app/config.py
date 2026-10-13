@@ -70,6 +70,22 @@ class Settings(BaseSettings):
     otp_max_attempts: int = 5
     otp_rate_limit_per_phone_per_hour: int = 3
     otp_rate_limit_per_ip_per_hour: int = 10
+    password_reset_expire_minutes: int = 20
+    email_verification_expire_hours: int = 24
+    email_verification_cooldown_seconds: int = 60
+
+    # Argon2id Tuning (Tuned for VPS: 3 iterations, 64 MB memory, 1 lane)
+    argon2_time_cost: int = 3
+    argon2_memory_cost: int = 65536
+    argon2_parallelism: int = 1
+    argon2_hash_len: int = 32
+
+    # Email & Notifications
+    email_provider: str = "console"
+    email_from_address: str = "noreply@padelghana.com"
+    email_from_name: str = "Padel Ghana"
+    resend_api_key: str = ""
+    aws_ses_region: str = "eu-west-1"
 
     # Payments & Integrations
     paystack_secret_key: str = ""

@@ -53,6 +53,15 @@ class BillingService:
         """
         now = _utc_now()
 
+        user = await self.db.get(User, user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        if not (user.email_verified or user.phone_verified):
+            raise HTTPException(
+                status_code=403,
+                detail="Please verify your email address or phone number before joining events.",
+            )
+
         event_stmt = select(Event).where(Event.id == event_id)
         res = await self.db.execute(event_stmt)
         event = res.scalar_one_or_none()
