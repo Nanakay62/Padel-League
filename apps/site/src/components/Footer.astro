@@ -1,0 +1,188 @@
+---
+import { siteConfig } from '../config/site';
+---
+
+<footer class="site-footer" id="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <!-- Brand & Contact Details -->
+      <div class="footer-brand">
+        <a href="/" class="footer-logo-link" aria-label="Padel Ghana Home">
+          <img src="/images/logo-dark.svg" alt="Padel Ghana" width="180" height="32" class="footer-logo" />
+        </a>
+        <p class="footer-tagline">Play. Connect. Compete.</p>
+        <div class="footer-contacts">
+          <p class="contact-line">{siteConfig.address}</p>
+          <p class="contact-line">Phone: <span class="tnum">{siteConfig.phoneDisplay}</span></p>
+          <p class="contact-line">Email: <a href={`mailto:${siteConfig.email}`} class="footer-inline-link">{siteConfig.email}</a></p>
+        </div>
+      </div>
+
+      <!-- Platform Links -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Platform</h3>
+        <ul class="footer-links">
+          <li><a href="/about" class="footer-link">About</a></li>
+          <li><a href="/#how-it-works" class="footer-link">How it works</a></li>
+          <li><a href="/#formats" class="footer-link">Formats</a></li>
+          <li><a href="/for-clubs" class="footer-link">For clubs</a></li>
+          <li><a href="/faq" class="footer-link">FAQ</a></li>
+          <li><a href="/contact" class="footer-link">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal & Policy Links -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Legal &amp; Policy</h3>
+        <ul class="footer-links">
+          <li><a href="/terms" class="footer-link">Terms of Service</a></li>
+          <li><a href="/privacy" class="footer-link">Privacy Policy</a></li>
+          <li><a href="/refund-policy" class="footer-link">Refund &amp; Cancellation Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Regulatory Disclosures & Copyright -->
+    <div class="footer-bottom">
+      <p class="disclaimer-text">
+        &copy; 2026 Padel Ghana. All rights reserved. {siteConfig.legalName} &bull; Reg: <span class="tnum">{siteConfig.registrationNumber}</span> &bull; Data Protection Commission registration: <span class="tnum">{siteConfig.dpcNumber}</span>
+      </p>
+      <p class="location-badge">Accra, Ghana</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-card);
+    border-top: 1px solid var(--color-border);
+    padding: 4rem 0 2.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-logo-link {
+    display: inline-block;
+    min-height: var(--touch-target-min);
+  }
+
+  .footer-logo {
+    display: block;
+    height: 32px;
+    width: auto;
+  }
+
+  .footer-tagline {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .footer-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer-inline-link {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .footer-inline-link:hover {
+    text-decoration: underline;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-heading {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 150ms ease;
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+  }
+
+  .footer-link:hover,
+  .footer-link:focus-visible {
+    color: var(--color-text);
+    text-decoration: underline;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    gap: 1rem;
+  }
+
+  .disclaimer-text {
+    line-height: 1.6;
+  }
+
+  .location-badge {
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+</style>

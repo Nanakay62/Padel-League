@@ -1,0 +1,361 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="FAQ — Frequently Asked Questions — Padel Ghana"
+  description="Answers to common questions about Americano tournaments, mobile money payments, court venues, and scoring in Accra."
+>
+  <!-- Hero Section (Solid primary blue per Rule 4: FAQ sits on solid surface) -->
+  <section class="page-hero-solid" id="faq-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-pill badge-hero-pill">HELP &amp; FAQ</div>
+        <h1 class="hero-title">Everything you need to know about Padel Ghana.</h1>
+        <p class="hero-subtitle">
+          Find answers about how Americano sessions work, mobile money payments, court locations in Accra, and scoring rules.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Canvas (Solid surface) -->
+  <section class="section-padded surface-base" id="faq-content">
+    <div class="container max-w-narrow space-y-xl">
+      <!-- Category 1: Playing & Formats -->
+      <div class="faq-group">
+        <div class="group-header">
+          <div class="group-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            </svg>
+          </div>
+          <div>
+            <h2 class="group-title">Playing &amp; Formats</h2>
+            <p class="group-desc">Rules, round rotations, skill tiers, and single registrations.</p>
+          </div>
+        </div>
+
+        <div class="faq-list">
+          <details class="card-solid faq-item" open>
+            <summary class="faq-summary">
+              <span class="faq-question">How do I find and join an event?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              Open the platform, browse events at Accra clubs, select your level, and reserve your spot. You will receive an immediate confirmation with court details, schedule overview, and direct WhatsApp contact for your event host.
+            </p>
+          </details>
+
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">What is the Americano format?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              A social match play format where you enter as a solo player, rotate partners each round, and play with and against everyone. Individual points accumulate into a single leaderboard over approximately 90 to 120 minutes of fast-paced padel.
+            </p>
+          </details>
+
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">What is the Mexicano format?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              A competitive format where round 1 is random, and subsequent pairings are dynamically re-seeded from the live leaderboard so top players face each other, ensuring closely contested, exciting sets every round.
+            </p>
+          </details>
+
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">What skill level should I select?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              Events are classified from Level 1 (beginners familiarizing with wall rebounds) up to Level 5 (advanced tournament players). Organisers outline the intended rating bracket so all matches stay competitive.
+            </p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Category 2: Payments & Mobile Money -->
+      <div class="faq-group">
+        <div class="group-header">
+          <div class="group-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+          </div>
+          <div>
+            <h2 class="group-title">Payments &amp; Mobile Money</h2>
+            <p class="group-desc">Ghana Cedis, MTN MoMo, Telecel Cash, and cancellations.</p>
+          </div>
+        </div>
+
+        <div class="faq-list">
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">How do payments work in Ghana Cedis?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              All event fees are priced in Ghana Cedis (GH&cent;). You can complete payment using MTN MoMo, Telecel Cash, or cash directly at the club reception desk. Your organiser marks your spot confirmed as soon as payment is verified.
+            </p>
+          </details>
+
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">What is the cancellation and refund policy?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              If an event is cancelled by the organiser or due to heavy rain, confirmed players receive platform credit or a direct refund. If you withdraw before the registration deadline, your fee is credited to your next match.
+            </p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Category 3: Clubs & Venues -->
+      <div class="faq-group">
+        <div class="group-header">
+          <div class="group-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div>
+            <h2 class="group-title">Clubs &amp; Venues</h2>
+            <p class="group-desc">Court locations, equipment hire, and parking in Accra.</p>
+          </div>
+        </div>
+
+        <div class="faq-list">
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">Where are the padel courts located in Accra?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              Clubs and private venues are situated across Cantonments, Airport Residential Area, Labone, and East Legon. Each venue page includes verified GhanaPostGPS digital addresses, Google Maps links, and parking availability notes.
+            </p>
+          </details>
+
+          <details class="card-solid faq-item">
+            <summary class="faq-summary">
+              <span class="faq-question">Can I rent rackets and balls at the courts?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+            <p class="faq-answer">
+              Yes, participating venues provide racket hire and quality padel balls at their front desk. Check the individual club page for rental rates and equipment specifications.
+            </p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Still have questions banner -->
+  <section class="section-padded band-white-surface" id="faq-contact">
+    <div class="container text-center max-w-narrow space-y-md">
+      <h3 class="section-title">Still have questions?</h3>
+      <p class="section-subtitle">
+        Our team in Accra is available to help with match bookings, venue partnerships, or rule explanations.
+      </p>
+      <div class="cta-actions">
+        <a href={siteConfig.whatsappUrl} class="btn btn-primary" id="faq-whatsapp-btn">
+          Message on WhatsApp
+        </a>
+        <a href={`mailto:${siteConfig.email}`} class="btn btn-secondary" id="faq-email-btn">
+          Email support
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Solid Primary Blue Hero Band per Rule 4 */
+  .page-hero-solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    padding: 5rem 0 5.5rem;
+  }
+
+  .hero-container {
+    max-width: 800px;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .badge-hero-pill {
+    background-color: var(--btn-on-blue-glass-bg);
+    color: var(--color-border-light);
+    border: 1px solid var(--btn-on-blue-glass-border);
+    align-self: flex-start;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  .space-y-xl {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .faq-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .group-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .group-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .group-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .group-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    padding: 1.5rem;
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .faq-chevron {
+    color: var(--color-primary);
+    transition: transform 200ms ease;
+    flex-shrink: 0;
+  }
+
+  details[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .space-y-md {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

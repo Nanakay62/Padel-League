@@ -1,0 +1,671 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="Refund & Cancellation Policy — Padel Ghana"
+  description="Clear, transparent refund and cancellation rules for Americano and Mexicano padel events, rainouts, and mobile money reversals in Accra."
+>
+  <!-- Hero Section (Solid primary blue per Rule 4: legal pages sit on solid surfaces) -->
+  <section class="page-hero-solid" id="refund-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-row">
+          <span class="badge-pill badge-hero-pill">LEGAL &amp; POLICIES</span>
+          {!siteConfig.flags.LEGAL_REVIEWED && (
+            <span class="badge-pill badge-draft-pill">
+              <span class="draft-dot"></span>
+              Draft &bull; Pending legal counsel review (Act 772 &amp; Act 843)
+            </span>
+          )}
+        </div>
+        <h1 class="hero-title">Refund &amp; Cancellation Policy.</h1>
+        <p class="hero-subtitle">
+          Fair, transparent rules designed to support player flexibility while protecting balanced 4-player court sets and managing tropical weather in Accra.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section (Solid surface) -->
+  <section class="section-padded surface-base" id="refund-content">
+    <div class="container">
+      <div class="legal-layout">
+        <!-- Sticky Sidebar Navigation -->
+        <aside class="legal-sidebar" aria-label="Legal Document Index">
+          <div class="card-solid sidebar-card">
+            <div class="sidebar-header">
+              <span class="sidebar-category">Document Index</span>
+              <span class="sidebar-active-tag">Active</span>
+            </div>
+            <nav class="sidebar-nav">
+              <a href="/terms" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">01</span>
+                  <span>Terms of Service</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/privacy" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">02</span>
+                  <span>Privacy &amp; Data (DPC)</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/refund-policy" class="sidebar-link active">
+                <span class="link-label">
+                  <span class="link-num">03</span>
+                  <span>Refund &amp; Cancellations</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/contact" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">04</span>
+                  <span>Legal Enquiries</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </nav>
+
+            <div class="sidebar-notice">
+              <div class="notice-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="notice-text">
+                <p class="notice-title">12-Hour Cancellation Rule</p>
+                <p class="notice-desc">
+                  Cancel up to 12 hours before event start for an automatic 100% refund or platform credit.
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Document Article Body -->
+        <article class="card-solid legal-article">
+          {!siteConfig.flags.LEGAL_REVIEWED && (
+            <div class="draft-callout">
+              <div class="draft-callout-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <div class="draft-callout-text">
+                <strong>Notice:</strong> Draft for Ghanaian legal counsel review (Data Protection Act 843, Electronic Transactions Act 772). Final terms will be published prior to pilot launch.
+              </div>
+            </div>
+          )}
+
+          <div class="doc-meta">
+            <span>Last revised: February 2026</span>
+            <span>Policy: Padel Ghana Event Cancellation &amp; Refund Governance</span>
+          </div>
+
+          <!-- Section 1 -->
+          <section class="doc-section" id="objective">
+            <div class="section-tag">SECTION 01</div>
+            <h2 class="doc-heading">1. Purpose &amp; The 4-Player Court Dynamic</h2>
+            <p class="doc-text">
+              Padel is fundamentally a doubles sport. Americano and Mexicano tournament brackets strictly require complete multiples of 4 players per court (4, 8, 12, 16, or 24 participants). A single unannounced no-show leaves three other players without an opponent and disrupts the rotation mathematics of the entire venue.
+            </p>
+            <p class="doc-text">
+              Our cancellation and refund policies are structured to give players genuine flexibility when schedules change, while protecting fellow participants and partner clubs in Accra from empty courts and disrupted sessions.
+            </p>
+          </section>
+
+          <!-- Section 2 -->
+          <section class="doc-section" id="standard-cancellation">
+            <div class="section-tag">SECTION 02</div>
+            <h2 class="doc-heading">2. Cancellations Before the 12-Hour Grace Period</h2>
+            <p class="doc-text">
+              Any player who withdraws from a confirmed event reservation at least <strong>12 hours prior</strong> to the published match start time is entitled to:
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>100% Platform Session Credit:</strong> Applied instantly to your account, valid indefinitely for any future Americano, Mexicano, or social session in Accra.
+              </li>
+              <li>
+                <strong>OR Direct Mobile Money Reversal:</strong> Remitted back to the originating MTN MoMo, Telecel Cash, or AT Money wallet upon written request.
+              </li>
+            </ul>
+            <p class="doc-text">
+              Self-service cancellations can be performed directly through the Padel Ghana web app by navigating to your booked event and selecting &ldquo;Leave Event&rdquo;. The system immediately notifies the standby queue to fill the vacancy.
+            </p>
+          </section>
+
+          <!-- Section 3 -->
+          <section class="doc-section" id="late-cancellation">
+            <div class="section-tag">SECTION 03</div>
+            <h2 class="doc-heading">3. Late Cancellations (&lt; 12 Hours) and No-Shows</h2>
+            <div class="policy-alert-card">
+              <h3 class="alert-card-title">Under 12 Hours: Non-Refundable</h3>
+              <p class="alert-card-desc">
+                Cancellations made within 12 hours of the event start time, or failures to report to the court by match time, are strictly non-refundable.
+              </p>
+            </div>
+            <p class="doc-text">
+              <strong>Rationale:</strong> Within 12 hours, the host club has reserved the court, turned down other bookings, and our tournament director must immediately recruit a standby player (often offering emergency complimentary entry) to ensure the 3 remaining players on that court are not left waiting. Forfeited fees compensate court reservation costs and protect the match experience.
+            </p>
+            <p class="doc-text">
+              If an emergency occurs, contact the event organiser or WhatsApp support immediately. While monetary refunds cannot be guaranteed under 12 hours, organisers may grant discretionary exception credits for verified medical emergencies.
+            </p>
+          </section>
+
+          <!-- Section 4 -->
+          <section class="doc-section" id="weather-disruptions">
+            <div class="section-tag">SECTION 04</div>
+            <h2 class="doc-heading">4. Weather Cancellations (Tropical Rainouts) &amp; Venue Disruptions</h2>
+            <p class="doc-text">
+              Accra experiences seasonal tropical rainfall that can temporarily render outdoor glass padel courts and artificial turf slippery and unplayable. Player safety is our paramount priority.
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>Weather Protocol:</strong> If heavy rainfall, electrical storms, or prolonged power outages force play suspension before completion of 50% of the scheduled rounds, the tournament director will declare an official rainout.
+              </li>
+              <li>
+                <strong>Automatic 100% Session Credit:</strong> Every confirmed participant automatically receives a full 100% session credit voucher credited directly to their profile.
+              </li>
+              <li>
+                <strong>Reschedule Priority:</strong> Affected players receive 24-hour priority booking access to the rescheduled session or the following week's draw.
+              </li>
+              <li>
+                <strong>No Weather Penalty:</strong> Players never forfeit money or credits due to adverse weather or force majeure events.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 5 -->
+          <section class="doc-section" id="club-cancellations">
+            <div class="section-tag">SECTION 05</div>
+            <h2 class="doc-heading">5. Club or Organiser Cancellations</h2>
+            <p class="doc-text">
+              If a scheduled tournament is cancelled by Padel Ghana or the host facility due to court maintenance, private tournament buyouts, or failure to meet the minimum required player quorum (e.g., fewer than 4 confirmed players):
+            </p>
+            <ul class="doc-list">
+              <li>All registered participants are notified immediately via SMS and WhatsApp.</li>
+              <li>A 100% unconditional refund or platform credit is processed immediately without any administrative deduction.</li>
+            </ul>
+          </section>
+
+          <!-- Section 6 -->
+          <section class="doc-section" id="processing-timelines">
+            <div class="section-tag">SECTION 06</div>
+            <h2 class="doc-heading">6. Refund Processing Timelines &amp; Methods</h2>
+            <div class="timeline-grid">
+              <div class="timeline-card">
+                <span class="timeline-badge">Immediate</span>
+                <h3 class="timeline-title">Platform Credit Voucher</h3>
+                <p class="timeline-desc">
+                  Applied immediately to your profile upon cancellation. Ready to use on any future booking with zero transaction fees.
+                </p>
+              </div>
+
+              <div class="timeline-card">
+                <span class="timeline-badge">24 &ndash; 48 Hours</span>
+                <h3 class="timeline-title">Mobile Money Reversals</h3>
+                <p class="timeline-desc">
+                  Remitted directly back to the original MTN MoMo, Telecel Cash, or AT Money wallet within 1 to 2 business days.
+                </p>
+              </div>
+
+              <div class="timeline-card">
+                <span class="timeline-badge">3 &ndash; 5 Days</span>
+                <h3 class="timeline-title">Debit / Credit Card</h3>
+                <p class="timeline-desc">
+                  Processed via Paystack back to the issuing Ghanaian or international bank account. Subject to banking clearing cycles.
+                </p>
+              </div>
+            </div>
+            <p class="doc-text">
+              Every refund, credit voucher, and payment reversal triggers an immutable <span class="font-mono">AuditLog</span> entry recording the timestamp, approving officer ID, and transaction reference.
+            </p>
+          </section>
+
+          <!-- Section 7 -->
+          <section class="doc-section" id="refund-support">
+            <div class="section-tag">SECTION 07</div>
+            <h2 class="doc-heading">7. How to Request Support or Contest a Charge</h2>
+            <p class="doc-text">
+              If you experienced a billing discrepancy, duplicate charge, or have questions regarding a cancellation, our Accra support desk is available to assist:
+            </p>
+            <div class="entity-card">
+              <div class="entity-grid">
+                <div>
+                  <span class="entity-label">WhatsApp Fast Support:</span>
+                  <a href={siteConfig.whatsappUrl} class="entity-link">Chat on WhatsApp</a>
+                </div>
+                <div>
+                  <span class="entity-label">Support Email:</span>
+                  <a href={`mailto:${siteConfig.email}`} class="entity-link">{siteConfig.email}</a>
+                </div>
+                <div>
+                  <span class="entity-label">Direct Phone:</span>
+                  <span class="entity-val tnum">{siteConfig.phoneDisplay}</span>
+                </div>
+                <div>
+                  <span class="entity-label">Business Hours:</span>
+                  <span class="entity-val">Mon &ndash; Sun: 7:00 AM &ndash; 9:00 PM GMT</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Styles (Solid primary blue) */
+  .page-hero-solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: 1px solid var(--color-primary-hover);
+  }
+
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 800px;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .badge-hero-pill {
+    background-color: var(--btn-on-blue-glass-bg);
+    color: var(--color-border-light);
+    border: 1px solid var(--btn-on-blue-glass-border);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-draft-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-badge-gold-bg);
+    color: var(--color-badge-gold-text);
+    border: 1px solid var(--color-badge-gold-border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+  }
+
+  .draft-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-badge-gold-text);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  /* Legal Layout */
+  .legal-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .legal-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .sidebar-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-active-tag {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--touch-target-min);
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .sidebar-link:hover {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+  }
+
+  .sidebar-link.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .link-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .link-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-notice {
+    display: flex;
+    gap: 0.875rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .notice-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .notice-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .notice-desc {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  /* Document Article */
+  .legal-article {
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .draft-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--color-badge-gold-bg);
+    border: 1px solid var(--color-badge-gold-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-badge-gold-text);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .draft-callout-icon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .doc-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  .doc-heading {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .doc-text {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-left: 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list strong {
+    color: var(--color-text);
+  }
+
+  .policy-alert-card {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--color-danger-surface);
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .alert-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-danger);
+  }
+
+  .alert-card-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  /* Timeline Grid */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .timeline-card {
+    padding: 1.25rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .timeline-badge {
+    align-self: flex-start;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .timeline-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .timeline-desc {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* Entity Card */
+  .entity-card {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .entity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .entity-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .entity-val {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .entity-link {
+    display: inline-block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .entity-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .legal-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-sidebar {
+      position: static;
+    }
+
+    .legal-article {
+      padding: 1.75rem;
+    }
+
+    .timeline-grid,
+    .entity-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+    }
+  }
+</style>

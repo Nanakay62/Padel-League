@@ -1,0 +1,544 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="For Clubs & Organisers — Padel Ghana"
+  description="Run effortless Americano sessions, verify mobile money and cash payments, and display live clubhouse scoreboards at your Accra padel venue."
+>
+  <!-- 1. Hero Band (Gradient allowed on For Clubs per Rule 4) -->
+  <section class="band-gradient-hero page-hero" id="for-clubs-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-pill badge-glass-hero">
+          FOR CLUBS &amp; ORGANISERS IN ACCRA
+        </div>
+        <h1 class="hero-title">
+          Run effortless Americano sessions and fill your courts.
+        </h1>
+        <p class="hero-subtitle">
+          Padel Ghana helps Accra venue owners and independent organisers organize social sessions, verify mobile money and cash payments, and display live clubhouse scoreboards without paper chaos.
+        </p>
+        <div class="hero-actions">
+          <a href={siteConfig.whatsappUrl} class="btn btn-lime" id="clubs-hero-whatsapp-btn">
+            Talk to us on WhatsApp
+          </a>
+          <a href="/contact" class="btn btn-glass-on-blue" id="clubs-hero-contact-btn">
+            Request club setup
+          </a>
+        </div>
+        <div class="hero-highlights">
+          <div class="highlight-item">
+            <span class="highlight-label">LOCATIONS</span>
+            <span class="highlight-val">Cantonments &bull; Airport &bull; Labone</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-label">PAYMENTS</span>
+            <span class="highlight-val">MTN MoMo, Telecel &bull; Cash</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-label">LIVE VIEW</span>
+            <span class="highlight-val">Clubhouse TV Scoreboards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Four Operational Pillars (Solid surface) -->
+  <section class="section-padded surface-base" id="pillars">
+    <div class="container space-y-lg">
+      <div class="section-header">
+        <span class="section-eyebrow">BUILT FOR ACCRA PADEL VENUES</span>
+        <h2 class="section-title">Four operational pillars engineered for your reception and courtside.</h2>
+        <p class="section-subtitle">
+          Replace WhatsApp message confusion, manual paper scorecards, and cash reconciliation delays with streamlined venue software that runs directly in your browser.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        <!-- Pillar 1 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-top">
+            <div class="pillar-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Frictionless Mobile Money &amp; Cash</h3>
+            <p class="pillar-desc">
+              Verify MTN MoMo, Telecel Cash, and AT Money transaction reference IDs directly from your organiser roster alongside cash paid at reception.
+            </p>
+          </div>
+          <div class="pillar-footer">
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Zero payment mismatch</span>
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-top">
+            <div class="pillar-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"></polyline>
+                <line x1="4" y1="20" x2="21" y2="3"></line>
+                <polyline points="21 16 21 21 16 21"></polyline>
+                <line x1="15" y1="15" x2="21" y2="21"></line>
+                <line x1="4" y1="4" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Instant Americano Pairings</h3>
+            <p class="pillar-desc">
+              No complex spreadsheets or handwritten matrices. The system computes fair partner rotations, balanced court allocations, and individual standings automatically.
+            </p>
+          </div>
+          <div class="pillar-footer">
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Automated rounds &amp; bye-weeks</span>
+          </div>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-top">
+            <div class="pillar-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                <polyline points="17 2 12 7 7 2"></polyline>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Clubhouse TV Scoreboard</h3>
+            <p class="pillar-desc">
+              Full-screen projector and TV view showing court rotations, live points, and session standings in real time so players always know where to head next.
+            </p>
+          </div>
+          <div class="pillar-footer">
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Optimized for 55"+ displays</span>
+          </div>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-top">
+            <div class="pillar-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+                <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+                <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+                <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+                <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Reliable Offline Operation</h3>
+            <p class="pillar-desc">
+              Keep entering points courtside even when cellular networks dip. Session scores cache locally on your tablet or smartphone and auto-sync immediately upon reconnecting.
+            </p>
+          </div>
+          <div class="pillar-footer">
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Local caching resilience</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. How Club Onboarding Works (Solid surface) -->
+  <section class="section-padded band-ice-surface" id="onboarding">
+    <div class="container space-y-lg">
+      <div class="section-header">
+        <span class="section-eyebrow eyebrow-primary">GETTING STARTED</span>
+        <h2 class="section-title">How club onboarding works</h2>
+        <p class="section-subtitle">
+          Three clear steps from your initial WhatsApp inquiry to hosting full 16-player Americano events.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card-solid step-card">
+          <div class="step-card-top">
+            <div class="step-number tnum">01</div>
+            <h3 class="step-title">Tell us about your venue</h3>
+            <p class="step-desc">
+              Specify court capacity, floodlight setup, standard peak hours, and location in Cantonments, Airport Residential, Labone, or East Legon.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-solid step-card">
+          <div class="step-card-top">
+            <div class="step-number tnum">02</div>
+            <h3 class="step-title">Configure social events</h3>
+            <p class="step-desc">
+              Set up your first social Americano night, weekly club ladder, or corporate mix-in with custom point thresholds (21, 24, or 32 points).
+            </p>
+          </div>
+        </div>
+
+        <div class="card-solid step-card">
+          <div class="step-card-top">
+            <div class="step-number tnum">03</div>
+            <h3 class="step-title">Share your booking link</h3>
+            <p class="step-desc">
+              Send the private or public join link to your player WhatsApp groups. Players register their spot, select level, and clear payment in advance.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Walkthrough Assistance Banner -->
+      <div class="card-solid walkthrough-box">
+        <div class="walkthrough-left">
+          <div class="walkthrough-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="walkthrough-title">Need a venue walkthrough?</h4>
+            <p class="walkthrough-desc">Our team visits your court in Accra to test screens, configure tablets, and train court managers.</p>
+          </div>
+        </div>
+        <a href="/contact" class="btn btn-secondary" id="schedule-visit-btn">
+          Schedule courtside visit
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Quick FAQ for Club Managers (Solid surface per Rule 4) -->
+  <section class="section-padded surface-base" id="club-faq">
+    <div class="container max-w-narrow space-y-lg">
+      <div class="section-header">
+        <span class="section-eyebrow">COMMON QUESTIONS</span>
+        <h2 class="section-title">Quick FAQ for club managers</h2>
+        <p class="section-subtitle">
+          Answers to technical, payment, and operational questions from venue hosts across Accra.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <details class="card-solid faq-item" open>
+          <summary class="faq-summary">
+            <span class="faq-question">Do we need special hardware or dedicated tablets?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            No. Padel Ghana is a web-based application engineered to run smoothly on any existing smartphone, iPad, Android tablet, laptop, or smart TV web browser. There are no app store downloads or proprietary terminals required.
+          </p>
+        </details>
+
+        <details class="card-solid faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How do player payments work?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            Players pay directly to your club's own MTN MoMo merchant paycode, Telecel Cash, or hand cash to your desk receptionist. When players RSVP, they enter their transaction reference, allowing your court manager to check it off with a single click.
+          </p>
+        </details>
+
+        <details class="card-solid faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">Can we run private member sessions or only public mixers?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            You have full control. You can generate unlisted, link-only private sessions strictly for your existing club members, or list public Americanos on the Padel Ghana directory to welcome new players into your venue.
+          </p>
+        </details>
+
+        <details class="card-solid faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">What happens if the internet connection cuts out during a tournament?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            Our courtside scoring tool caches all entries locally on the browser device. The session continues without interruption; as soon as data returns or you reconnect to Wi-Fi, rankings and rounds auto-sync immediately.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Bottom Direct Setup CTA -->
+  <section class="band-gradient-hero section-padded" id="clubs-cta">
+    <div class="container text-center max-w-narrow space-y-md">
+      <div class="badge-pill badge-glass-hero mx-auto">DIRECT VENUE SETUP</div>
+      <h2 class="cta-title">Ready to run smoother padel nights at your Accra venue?</h2>
+      <p class="cta-subtitle">
+        Connect directly with our Accra team. We will set up your club dashboard, test your TV scoreboard, and assist with your inaugural Americano.
+      </p>
+      <div class="cta-actions">
+        <a href={siteConfig.whatsappUrl} class="btn btn-lime" id="clubs-cta-whatsapp-btn">
+          Talk to us on WhatsApp
+        </a>
+        <a href={`mailto:${siteConfig.email}`} class="btn btn-glass-on-blue" id="clubs-cta-email-btn">
+          {siteConfig.email}
+        </a>
+      </div>
+      <p class="cta-footnote">
+        Serving venues across Cantonments &bull; Airport Residential &bull; Labone &bull; East Legon
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding: 5rem 0 6rem;
+  }
+
+  .hero-container {
+    max-width: 860px;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .hero-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border-light);
+  }
+
+  .highlight-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .highlight-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--color-border-light);
+  }
+
+  .highlight-val {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-white);
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .pillar-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .pillar-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pillar-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-light);
+    background-color: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+  }
+
+  .pillar-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .pillar-desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+
+  .pillar-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .step-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .walkthrough-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .walkthrough-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .walkthrough-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .walkthrough-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .walkthrough-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .cta-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-text-white);
+  }
+
+  .cta-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .cta-footnote {
+    font-size: 0.8125rem;
+    color: var(--color-border-light);
+  }
+
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .space-y-md {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  @media (max-width: 1024px) {
+    .grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.25rem;
+    }
+
+    .hero-highlights {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .grid-4 {
+      grid-template-columns: 1fr;
+    }
+
+    .walkthrough-box {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

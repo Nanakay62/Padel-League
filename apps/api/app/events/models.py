@@ -27,6 +27,18 @@ class Event(Base):
     )
     title: Mapped[str] = mapped_column(String(120), nullable=False)
     venue_name: Mapped[str] = mapped_column(String(120), nullable=False, default="")
+    venue_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("venues.id", ondelete="RESTRICT"),
+        nullable=True,
+        index=True,
+    )
+    owner_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     format: Mapped[str] = mapped_column(String(32), nullable=False, default="AMERICANO")
     courts: Mapped[int] = mapped_column(Integer, nullable=False, default=2)
     point_target: Mapped[int] = mapped_column(Integer, nullable=False, default=24)

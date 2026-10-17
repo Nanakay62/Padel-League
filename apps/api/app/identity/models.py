@@ -45,6 +45,15 @@ class User(Base):
     claim_token: Mapped[str | None] = mapped_column(
         String(64), unique=True, index=True, nullable=True
     )
+    totp_secret_enc: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    totp_enabled_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    totp_last_step: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    failed_mfa_attempts: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    mfa_locked_until: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=utc_now, nullable=False
     )
@@ -63,6 +72,12 @@ class User(Base):
     )
     verification_tokens: Mapped[list["EmailVerificationToken"]] = relationship(
         "EmailVerificationToken", back_populates="user", cascade="all, delete-orphan"
+    )
+    recovery_codes: Mapped[list["RecoveryCode"]] = relationship(
+        "RecoveryCode", back_populates="user", cascade="all, delete-orphan"
+    )
+    sessions: Mapped[list["UserSession"]] = relationship(
+        "UserSession", back_populates="user", cascade="all, delete-orphan"
     )
 
 
@@ -188,3 +203,82 @@ class EmailVerificationToken(Base):
     )
 
     user: Mapped["User"] = relationship("User", back_populates="verification_tokens")
+
+
+class RecoveryCode(Base):
+    __tablename__ = "recovery_codes"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    code_hash: Mapped[str] = mapped_column(String(128), index=True, nullable=False)
+    used_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+
+    user: Mapped["User"] = relationship("User", back_populates="recovery_codes")
+
+
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    session_token_hash: Mapped[str] = mapped_column(
+        String(128), unique=True, index=True, nullable=False
+    )
+    venue_id: Mapped[str | None] = mapped_column(String(36), index=True, nullable=True)
+    role: Mapped[str] = mapped_column(String(32), nullable=False)
+    host_type: Mapped[str] = mapped_column(
+        String(32), nullable=False
+    )  # "CLUB" | "ADMIN"
+    ip_address: Mapped[str | None] = mapped_column(String(45), nullable=True)
+    user_agent: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    revoked_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+    last_seen_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+
+    user: Mapped["User"] = relationship("User", back_populates="sessions")
+
+
+class PlatformSetting(Base):
+    __tablename__ = "platform_settings"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default="default")
+    allow_multi_venue_per_user: Mapped[bool] = mapped_column(
+        Boolean, default=False, nullable=False
+    )
+    platform_announcement: Mapped[str | None] = mapped_column(
+        String(500), nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False
+    )

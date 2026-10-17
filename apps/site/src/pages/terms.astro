@@ -1,0 +1,677 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="Terms of Service — Padel Ghana"
+  description="Terms and conditions governing the Padel Ghana platform, event reservations, mobile money transactions, and user conduct in Accra, Ghana."
+>
+  <!-- Hero Section (Solid primary blue per Rule 4: legal pages sit on solid surfaces) -->
+  <section class="page-hero-solid" id="terms-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-row">
+          <span class="badge-pill badge-hero-pill">LEGAL &amp; POLICIES</span>
+          {!siteConfig.flags.LEGAL_REVIEWED && (
+            <span class="badge-pill badge-draft-pill">
+              <span class="draft-dot"></span>
+              Draft &bull; Pending legal counsel review (Act 772 &amp; Act 843)
+            </span>
+          )}
+        </div>
+        <h1 class="hero-title">Terms of Service.</h1>
+        <p class="hero-subtitle">
+          Clear, transparent rules governing event registrations, mobile money payments, courtside rotations, and participant conduct across Greater Accra.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Legal Content Section (Solid surface) -->
+  <section class="section-padded surface-base" id="terms-content">
+    <div class="container">
+      <div class="legal-layout">
+        <!-- Sticky Sidebar Navigation -->
+        <aside class="legal-sidebar" aria-label="Legal Document Index">
+          <div class="card-solid sidebar-card">
+            <div class="sidebar-header">
+              <span class="sidebar-category">Document Index</span>
+              <span class="sidebar-active-tag">Active</span>
+            </div>
+            <nav class="sidebar-nav">
+              <a href="/terms" class="sidebar-link active">
+                <span class="link-label">
+                  <span class="link-num">01</span>
+                  <span>Terms of Service</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/privacy" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">02</span>
+                  <span>Privacy &amp; Data (DPC)</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/refund-policy" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">03</span>
+                  <span>Refund &amp; Cancellations</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/contact" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">04</span>
+                  <span>Legal Enquiries</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </nav>
+
+            <div class="sidebar-notice">
+              <div class="notice-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="notice-text">
+                <p class="notice-title">DPC Registered Entity</p>
+                <p class="notice-desc">
+                  Operated under Ghana Data Protection Act, 2012 (Act 843) and Electronic Transactions Act, 2008 (Act 772).
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Document Article Body -->
+        <article class="card-solid legal-article">
+          {!siteConfig.flags.LEGAL_REVIEWED && (
+            <div class="draft-callout">
+              <div class="draft-callout-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <div class="draft-callout-text">
+                <strong>Notice:</strong> Draft for Ghanaian legal counsel review (Data Protection Act 843, Electronic Transactions Act 772). Final terms will be published prior to pilot launch.
+              </div>
+            </div>
+          )}
+
+          <div class="doc-meta">
+            <span>Last revised: February 2026</span>
+            <span>Applicable Jurisdiction: Republic of Ghana</span>
+          </div>
+
+          <!-- Section 1 -->
+          <section class="doc-section" id="acceptance">
+            <div class="section-tag">SECTION 01</div>
+            <h2 class="doc-heading">1. Acceptance of Terms &amp; Eligibility</h2>
+            <p class="doc-text">
+              These Terms of Service constitute a legally binding electronic contract between you (&ldquo;User&rdquo; or &ldquo;Player&rdquo;) and <strong>{siteConfig.name}</strong> (operated by {siteConfig.legalName}, registered in Ghana under registration number <span class="tnum">{siteConfig.registrationNumber}</span>).
+            </p>
+            <p class="doc-text">
+              By accessing our web platform, creating an account, or registering for any Americano, Mexicano, or social tournament hosted via Padel Ghana, you express full assent to these terms under the Electronic Transactions Act, 2008 (Act 772).
+            </p>
+            <p class="doc-text">
+              To create an account, you must possess a valid Ghanaian mobile telephone number (MTN, Telecel, or AT) capable of receiving SMS one-time authentication passcodes (OTP). Participants under 18 years of age must participate only with direct parent or legal guardian consent.
+            </p>
+          </section>
+
+          <!-- Section 2 -->
+          <section class="doc-section" id="platform-scope">
+            <div class="section-tag">SECTION 02</div>
+            <h2 class="doc-heading">2. Platform Scope &amp; Club Coordination</h2>
+            <p class="doc-text">
+              Padel Ghana operates an athletic reservation and live tournament coordination software platform. We partner with accredited padel clubs across Greater Accra (including Cantonments, Airport Residential, Labone, and East Legon) to organize social match formats, calculate balanced rotation rounds, compute live leaderboards, and process participation fees.
+            </p>
+            <p class="doc-text">
+              Padel Ghana does not own host padel courts. We record the reserved court slot directly with the partner club. We never scrape or invoke unauthorized private club booking APIs. All club facilities, maintenance, and physical premises remain under the direct management of each respective venue operator.
+            </p>
+          </section>
+
+          <!-- Section 3 -->
+          <section class="doc-section" id="formats-rotations">
+            <div class="section-tag">SECTION 03</div>
+            <h2 class="doc-heading">3. Event Formats, Court Rotations &amp; Seeding</h2>
+            <p class="doc-text">
+              Participation in Padel Ghana events is subject to format-specific mathematical pairing rules executed by our domain engine:
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>Americano Format:</strong> Solo registration where players partner with and compete against different participants each round. Exact point targets (e.g., 32 points per court) must be entered, and cumulative scores reflect on a unified leaderboard.
+              </li>
+              <li>
+                <strong>Mexicano Format:</strong> Dynamic re-seeding where round 1 is randomized, and subsequent pairings are generated from live standings so closely rated players compete together.
+              </li>
+              <li>
+                <strong>Fair Rotation Guarantee:</strong> A player is never assigned to two courts in the same round, and the games-played gap between any two participants never exceeds 1.
+              </li>
+              <li>
+                <strong>Organiser Authority:</strong> Accredited on-ground organizers retain full discretion to adjust round timings, resolve scoring disputes, and assign standby players to protect four-player court sets.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 4 -->
+          <section class="doc-section" id="payments-credits">
+            <div class="section-tag">SECTION 04</div>
+            <h2 class="doc-heading">4. Fees, Mobile Money &amp; Platform Credits</h2>
+            <p class="doc-text">
+              All event participation fees are denominated exclusively in Ghana Cedis (GHS). Internally, fees are tracked as exact integer pesewas (1 GH₵ = 100 pesewas) to eliminate rounding discrepancies.
+            </p>
+            <div class="doc-highlight-card">
+              <h3 class="highlight-title">Strict Platform Credit Policy</h3>
+              <p class="highlight-desc">
+                In compliance with Ghanaian financial regulations:
+              </p>
+              <ul class="doc-list-compact">
+                <li>Padel Ghana is not a bank, deposit-taking institution, or general electronic money issuer.</li>
+                <li>Platform credits are issued solely for refunds, rainouts, or event cancellations.</li>
+                <li>Credits are strictly non-withdrawable to cash or mobile money wallets and cannot be transferred between player accounts.</li>
+                <li>Credits never expire and may be redeemed against any future tournament reservation.</li>
+                <li>We do not offer pre-funded wallet top-ups. Each event is paid directly at registration via Mobile Money (MTN MoMo, Telecel Cash, AT Money) or Card through our licensed payment processor.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Section 5 -->
+          <section class="doc-section" id="cancellations-refunds">
+            <div class="section-tag">SECTION 05</div>
+            <h2 class="doc-heading">5. Cancellations, Drop-outs &amp; Weather Disruptions</h2>
+            <p class="doc-text">
+              Because Americano and Mexicano formats require exact sets of 4 players per court, participant punctuality and attendance are critical.
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>12-Hour Cancellation Window:</strong> Cancellations completed at least 12 hours prior to scheduled start time receive a 100% platform credit or MoMo reversal.
+              </li>
+              <li>
+                <strong>Late Drop-outs (&lt; 12 Hours):</strong> Non-refundable. Forfeited fees compensate court reservation costs and standby reserve players.
+              </li>
+              <li>
+                <strong>Rainouts &amp; Weather Disruptions:</strong> In the event of heavy tropical rain, power failure, or unsafe playing surfaces, the venue director will suspend the match. All affected players automatically receive a 100% session credit voucher or immediate reschedule slot.
+              </li>
+            </ul>
+            <p class="doc-text">
+              For complete details, please inspect our dedicated <a href="/refund-policy" class="doc-inline-link">Refund &amp; Cancellation Policy</a>.
+            </p>
+          </section>
+
+          <!-- Section 6 -->
+          <section class="doc-section" id="conduct-safety">
+            <div class="section-tag">SECTION 06</div>
+            <h2 class="doc-heading">6. Player Conduct, Court Safety &amp; Fair Play</h2>
+            <p class="doc-text">
+              All players must observe the International Padel Federation (FIP) safety and sportsmanship standards:
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>Equipment &amp; Safety Tether:</strong> The safety wrist strap attached to padel racquets must be secured around the wrist at all times during match play.
+              </li>
+              <li>
+                <strong>Footwear:</strong> Only non-marking padel, tennis, or turf shoes are permitted on artificial grass courts. Running shoes with aggressive treads that damage sand infill are prohibited.
+              </li>
+              <li>
+                <strong>Court Decorum:</strong> Verbal abuse toward partners, opponents, or club staff, and intentional strikes against 10mm/12mm tempered glass walls will result in immediate match forfeit and account suspension.
+              </li>
+              <li>
+                <strong>Score Integrity:</strong> Deliberate falsification of game scores or round entries is strictly prohibited. Every manual score correction is permanently logged in an immutable system audit trail.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 7 -->
+          <section class="doc-section" id="liability-disclaimer">
+            <div class="section-tag">SECTION 07</div>
+            <h2 class="doc-heading">7. Health, Physical Activity &amp; Limitation of Liability</h2>
+            <p class="doc-text">
+              Padel is an intense physical sport involving rapid directional shifts, wall rebounds, and ball impacts. By participating, you acknowledge and agree that:
+            </p>
+            <ul class="doc-list">
+              <li>You participate at your own athletic discretion and confirm that you are physically fit to undertake competitive racquet play.</li>
+              <li>{siteConfig.legalName} and Padel Ghana assume no liability for personal athletic injury, muscular strain, dehydration, or accidental collision sustained on club premises.</li>
+              <li>Players are strongly encouraged to carry personal health insurance. Participating clubs provide on-site first-aid kits and emergency assistance contacts.</li>
+            </ul>
+          </section>
+
+          <!-- Section 8 -->
+          <section class="doc-section" id="governing-law">
+            <div class="section-tag">SECTION 08</div>
+            <h2 class="doc-heading">8. Governing Law &amp; Dispute Resolution</h2>
+            <p class="doc-text">
+              These Terms of Service are governed by and construed in accordance with the laws of the Republic of Ghana, including the Electronic Transactions Act, 2008 (Act 772) and the Alternative Dispute Resolution Act, 2010 (Act 798).
+            </p>
+            <p class="doc-text">
+              Any dispute arising from or related to platform usage that cannot be resolved amicably within 30 days shall be submitted to mediation under the Ghana Arbitration Centre in Accra, Ghana.
+            </p>
+          </section>
+
+          <!-- Section 9 -->
+          <section class="doc-section" id="legal-entity">
+            <div class="section-tag">SECTION 09</div>
+            <h2 class="doc-heading">9. Legal Entity &amp; Official Communications</h2>
+            <div class="entity-card">
+              <div class="entity-grid">
+                <div>
+                  <span class="entity-label">Operating Entity:</span>
+                  <span class="entity-val">{siteConfig.legalName}</span>
+                </div>
+                <div>
+                  <span class="entity-label">Company Registration No:</span>
+                  <span class="entity-val tnum">{siteConfig.registrationNumber}</span>
+                </div>
+                <div>
+                  <span class="entity-label">DPC Registration No:</span>
+                  <span class="entity-val tnum">{siteConfig.dpcNumber}</span>
+                </div>
+                <div>
+                  <span class="entity-label">Physical Address:</span>
+                  <span class="entity-val">{siteConfig.address}</span>
+                </div>
+                <div>
+                  <span class="entity-label">Official Legal Email:</span>
+                  <a href={`mailto:${siteConfig.email}`} class="entity-link">{siteConfig.email}</a>
+                </div>
+                <div>
+                  <span class="entity-label">Telephone:</span>
+                  <span class="entity-val tnum">{siteConfig.phoneDisplay}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Styles (Solid primary blue) */
+  .page-hero-solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: 1px solid var(--color-primary-hover);
+  }
+
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 800px;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .badge-hero-pill {
+    background-color: var(--btn-on-blue-glass-bg);
+    color: var(--color-border-light);
+    border: 1px solid var(--btn-on-blue-glass-border);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-draft-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-badge-gold-bg);
+    color: var(--color-badge-gold-text);
+    border: 1px solid var(--color-badge-gold-border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+  }
+
+  .draft-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-badge-gold-text);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  /* Legal Layout */
+  .legal-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .legal-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .sidebar-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-active-tag {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--touch-target-min);
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .sidebar-link:hover {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+  }
+
+  .sidebar-link.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .link-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .link-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-notice {
+    display: flex;
+    gap: 0.875rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .notice-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .notice-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .notice-desc {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  /* Document Article */
+  .legal-article {
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .draft-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--color-badge-gold-bg);
+    border: 1px solid var(--color-badge-gold-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-badge-gold-text);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .draft-callout-icon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .doc-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  .doc-heading {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .doc-text {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-left: 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list strong {
+    color: var(--color-text);
+  }
+
+  .doc-inline-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .doc-inline-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  .doc-highlight-card {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .highlight-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .highlight-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* Entity Card */
+  .entity-card {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .entity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .entity-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .entity-val {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .entity-link {
+    display: inline-block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .entity-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .legal-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-sidebar {
+      position: static;
+    }
+
+    .legal-article {
+      padding: 1.75rem;
+    }
+
+    .entity-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+    }
+  }
+</style>

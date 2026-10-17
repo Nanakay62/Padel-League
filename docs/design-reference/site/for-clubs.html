@@ -1,0 +1,739 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Padel Ghana — For Clubs &amp; Organisers</title>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#006e2a",
+            "surface-bright": "#f9f9f7",
+            "on-primary-fixed-variant": "#00531e",
+            "on-secondary-container": "#5f6365",
+            "on-surface-variant": "#3c4a3c",
+            "surface-container-high": "#e8e8e6",
+            "inverse-surface": "#2f3130",
+            "surface-tint": "#006e2a",
+            "surface-container-low": "#f4f4f2",
+            "on-primary-container": "#004c1b",
+            "on-primary-fixed": "#002108",
+            "on-error": "#ffffff",
+            "on-background": "#1a1c1b",
+            "surface": "#f9f9f7",
+            "surface-variant": "#e2e3e1",
+            "primary-fixed-dim": "#3ce36a",
+            "secondary": "#5b5f61",
+            "surface-container-highest": "#e2e3e1",
+            "tertiary-fixed-dim": "#f0c12c",
+            "on-secondary-fixed": "#181c1e",
+            "error-container": "#ffdad6",
+            "outline-variant": "#bbcbb8",
+            "secondary-fixed": "#e0e3e5",
+            "outline": "#6c7b6a",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed": "#241a00",
+            "background": "#f9f9f7",
+            "surface-dim": "#dadad8",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1a1c1b",
+            "on-secondary-fixed-variant": "#43474a",
+            "secondary-fixed-dim": "#c4c7c9",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#3ce36a",
+            "surface-container": "#eeeeec",
+            "inverse-on-surface": "#f1f1ef",
+            "on-tertiary-container": "#523f00",
+            "secondary-container": "#dde0e3",
+            "primary-fixed": "#69ff87",
+            "on-tertiary-fixed-variant": "#584400",
+            "error": "#ba1a1a",
+            "tertiary-container": "#d5a807",
+            "on-primary": "#ffffff",
+            "primary-container": "#00c853",
+            "tertiary": "#755b00",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed": "#ffdf90"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "display": ["Inter", "sans-serif"],
+            "headline-lg": ["Inter", "sans-serif"],
+            "headline-md": ["Inter", "sans-serif"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "price-display": ["Inter", "sans-serif"]
+          },
+          "fontSize": {
+            "display": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.015em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "price-display": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TOP APP BAR / HEADER -->
+<header class="sticky top-0 z-50 w-full bg-surface/90 backdrop-blur-md border-b border-outline-variant/30">
+<div class="max-w-7xl mx-auto h-20 px-6 md:px-12 flex justify-between items-center">
+<!-- Brand Logo -->
+<a class="text-headline-sm font-headline-sm font-semibold tracking-tight text-on-surface flex items-center gap-2" href="#">
+<span class="w-3 h-3 rounded-full bg-primary-container inline-block"></span>
+<span class="">Padel Ghana</span>
+</a>
+<!-- Desktop Nav Links -->
+<nav class="hidden md:flex items-center gap-8 text-label-lg font-label-lg">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-150" href="#how-it-works">How it works</a>
+<!-- "For clubs" active state per JSON & prompt lock -->
+<a class="text-primary font-semibold border-b-2 border-primary pb-1" href="#for-clubs">For clubs</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-150" href="#faq">FAQ</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-150" href="#contact">Contact</a>
+</nav>
+<!-- Trailing Action Buttons -->
+<div class="hidden md:flex items-center gap-4">
+<a class="text-label-lg font-label-lg text-on-surface hover:text-primary transition-colors px-3 py-2 rounded-lg" href="#">Log in</a>
+<a class="bg-primary-container hover:bg-[#00B34A] text-on-primary-container font-label-lg text-label-lg font-semibold px-5 py-2.5 rounded-lg transition-all active:scale-[0.98]" href="#contact">Request club setup</a>
+</div>
+<!-- Mobile Menu Trigger -->
+<button aria-label="Open navigation menu" class="md:hidden p-2 rounded-lg text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<!-- HERO SECTION (Blue Hero Band with Frosted Floating Card) -->
+<section class="relative bg-[#0F2847] text-white pt-12 pb-20 md:py-20 overflow-hidden border-b border-[#1E3A5F]">
+<!-- Ambient Court Line Geometry -->
+<div class="absolute inset-0 pointer-events-none opacity-10">
+<div class="absolute inset-x-0 top-1/2 h-px bg-white"></div>
+<div class="absolute inset-y-0 left-1/3 w-px bg-white"></div>
+<div class="absolute inset-y-0 right-1/3 w-px bg-white"></div>
+<div class="absolute -top-32 -right-32 w-96 h-96 rounded-full border border-white"></div>
+</div>
+<div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Hero Text Content -->
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A3860] border border-[#2D5184] text-[#D9F99D] font-label-sm text-label-sm uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-[#D9F99D]"></span>
+<span class="">FOR CLUBS &amp; ORGANISERS IN ACCRA</span>
+</div>
+<h1 class="text-headline-lg md:text-display font-display text-white tracking-tight">
+            Run effortless Americano sessions and fill your courts.
+          </h1>
+<p class="text-body-lg text-[#CBD5E1] max-w-2xl font-body-lg">
+            Padel Ghana helps Accra venue owners and independent organisers organize social sessions, verify mobile money and cash payments, and display live clubhouse scoreboards without paper chaos.
+          </p>
+<!-- Action Buttons -->
+<div class="pt-2 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+<a class="h-12 px-6 rounded-lg bg-[#D9F99D] hover:bg-[#bef264] text-[#0F2847] font-label-lg font-semibold flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" href="https://wa.me/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="">Talk to us on WhatsApp</span>
+</a>
+<a class="h-12 px-6 rounded-lg bg-transparent hover:bg-white/10 text-white border border-white/40 font-label-lg font-semibold flex items-center justify-center gap-2 transition-colors" href="#contact">
+<span class="material-symbols-outlined" data-icon="sports_tennis">sports_tennis</span>
+<span class="">Request club setup</span>
+</a>
+</div>
+<!-- Micro Highlights -->
+<div class="pt-4 border-t border-white/15 grid grid-cols-3 gap-4 text-left">
+<div>
+<div class="text-label-sm font-label-sm text-[#94A3B8]">LOCATIONS</div>
+<div class="text-body-sm font-medium text-white">Airport, Cantonments, Labone</div>
+</div>
+<div>
+<div class="text-label-sm font-label-sm text-[#94A3B8]">PAYMENTS</div>
+<div class="text-body-sm font-medium text-white">MTN MoMo, Telecel &amp; Cash</div>
+</div>
+<div>
+<div class="text-label-sm font-label-sm text-[#94A3B8]">LIVE VIEW</div>
+<div class="text-body-sm font-medium text-white">Clubhouse TV Scoreboards</div>
+</div>
+</div>
+</div>
+<!-- Hero Image + Glass Card Overlay -->
+<div class="lg:col-span-5 relative">
+<div class="relative rounded-xl overflow-hidden border border-white/20 shadow-none bg-[#09182C]">
+<img alt="Padel players at an outdoor Accra court reviewing match schedule on a phone" class="w-full h-[460px] object-cover object-center brightness-95" src="https://lh3.googleusercontent.com/aida/AEtjO1WyT7dKfqClmUaNa7ubwJ5DsubRtJm47FvgOSxktoSqRPu7Kct42nRDwA5urAFogoz6eKz-ibsGD9BT8Dy7vH10dHhzaOQBDp7msllsGZccf0-u1ZBnp2CK7ej_D8pUQYJOV3i8nzgqRdaQIBjEIQ54kFZTYl_DwzRsCSTGsVzaJ79AfmyehaBv7h_cXctpA1QvB0lG2Ne5GGT8AaLpBNjaa2oO7XPoqrtn2xb5AuDqKUuatIa1nxzkI6w">
+<!-- Floating Frosted Glass UI Card (Permitted as overlay over image per specs) -->
+<div class="absolute bottom-4 left-4 right-4 bg-[#0F2847]/85 backdrop-blur-md rounded-lg p-4 border border-white/25 text-white">
+<div class="flex items-center justify-between pb-2 border-b border-white/15">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00C853] animate-pulse"></span>
+<span class="text-label-sm font-label-sm font-semibold tracking-wide">LIVE AMERICANO • COURT 1-4</span>
+</div>
+<span class="text-label-sm font-label-sm text-[#D9F99D]">Round 3 of 6</span>
+</div>
+<div class="mt-3 flex justify-between items-center">
+<div>
+<div class="text-body-sm font-medium">Court 2: Kwame &amp; Akua vs Yaw &amp; Efia</div>
+<div class="text-label-sm text-[#94A3B8]">Session: Wednesday Sunset Mixer</div>
+</div>
+<div class="px-2.5 py-1 rounded bg-[#1A3860] border border-[#2D5184] text-label-sm font-semibold text-[#D9F99D]">
+                  16 - 12
+                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CLUB PROBLEM & SOLUTION SECTION -->
+<section class="py-20 bg-surface border-b border-outline-variant/30">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="max-w-3xl mb-16">
+<span class="text-label-sm font-label-sm text-primary tracking-widest uppercase">BUILT FOR ACCRA PADEL VENUES</span>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mt-2 tracking-tight">
+          Four operational pillars engineered for your venue reception and courtside.
+        </h2>
+<p class="text-body-lg text-on-surface-variant mt-4 font-body-lg">
+          Replace WhatsApp message confusion, manual paper scorecards, and cash reconciliation delays with streamlined venue software that runs directly in your browser.
+        </p>
+</div>
+<!-- 4 Key Operational Pillars (Crisp White Cards, 1px Hairline Border, Thin SVG Icons) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Pillar 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-[#EBF3FF] border border-[#D0E2FF] flex items-center justify-center text-[#0F2847] mb-5">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Frictionless Mobile Money &amp; Cash</h3>
+<p class="text-body-md text-on-surface-variant">
+              Verify MTN MoMo, Telecel Cash, and AT Money transaction reference IDs directly from your organiser roster alongside cash paid at reception.
+            </p>
+</div>
+<div class="pt-6 mt-6 border-t border-outline-variant/20 flex items-center gap-2 text-label-sm text-[#0F2847] font-semibold">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span class="">Zero payment mismatch</span>
+</div>
+</div>
+<!-- Pillar 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-[#EBF3FF] border border-[#D0E2FF] flex items-center justify-center text-[#0F2847] mb-5">
+<span class="material-symbols-outlined" data-icon="shuffle">shuffle</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Instant Americano Pairings</h3>
+<p class="text-body-md text-on-surface-variant">
+              No complex spreadsheets or handwritten matrices. The system computes fair partner rotations, balanced court allocations, and individual standings automatically.
+            </p>
+</div>
+<div class="pt-6 mt-6 border-t border-outline-variant/20 flex items-center gap-2 text-label-sm text-[#0F2847] font-semibold">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span class="">Automated rounds &amp; bye-weeks</span>
+</div>
+</div>
+<!-- Pillar 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-[#EBF3FF] border border-[#D0E2FF] flex items-center justify-center text-[#0F2847] mb-5">
+<span class="material-symbols-outlined" data-icon="tv">tv</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Clubhouse TV Scoreboard</h3>
+<p class="text-body-md text-on-surface-variant">
+              Full-screen projector and TV view showing court rotations, live points, and session standings in real time so players always know where to head next.
+            </p>
+</div>
+<div class="pt-6 mt-6 border-t border-outline-variant/20 flex items-center gap-2 text-label-sm text-[#0F2847] font-semibold">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span class="">Optimized for 55"+ displays</span>
+</div>
+</div>
+<!-- Pillar 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-lg bg-[#EBF3FF] border border-[#D0E2FF] flex items-center justify-center text-[#0F2847] mb-5">
+<span class="material-symbols-outlined" data-icon="wifi_off">wifi_off</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Reliable Offline Operation</h3>
+<p class="text-body-md text-on-surface-variant">
+              Keep entering points courtside even when cellular networks dip. Session scores cache locally on your tablet or smartphone and auto-sync immediately upon reconnecting.
+            </p>
+</div>
+<div class="pt-6 mt-6 border-t border-outline-variant/20 flex items-center gap-2 text-label-sm text-[#0F2847] font-semibold">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span class="">Local caching resilience</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- HOW CLUB ONBOARDING WORKS (3 Steps) -->
+<section class="py-20 bg-surface-container-low border-b border-outline-variant/30" id="how-it-works">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="text-center max-w-2xl mx-auto mb-16">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-widest">GETTING STARTED</span>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mt-2 tracking-tight">
+          How club onboarding works
+        </h2>
+<p class="text-body-lg text-on-surface-variant mt-3 font-body-lg">
+          Three clear steps from your initial WhatsApp inquiry to hosting full 16-player Americano events.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/40 relative">
+<div class="text-price-display font-price-display text-[#0F2847] mb-4 flex items-center justify-between">
+<span class="">01</span>
+<span class="text-label-sm px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm">Venue Profile</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-3">Tell us about your venue</h3>
+<p class="text-body-md text-on-surface-variant">
+            Specify court capacity, floodlight setup, standard peak hours, and location in Cantonments, Airport Residential, Labone, or East Legon.
+          </p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/40 relative">
+<div class="text-price-display font-price-display text-[#0F2847] mb-4 flex items-center justify-between">
+<span class="">02</span>
+<span class="text-label-sm px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm">Format Config</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-3">Configure social events</h3>
+<p class="text-body-md text-on-surface-variant">
+            Set up your first social Americano night, weekly club ladder, or corporate mix-in with custom point thresholds (21, 24, or 32 points).
+          </p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/40 relative">
+<div class="text-price-display font-price-display text-[#0F2847] mb-4 flex items-center justify-between">
+<span class="">03</span>
+<span class="text-label-sm px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm">Launch Link</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-3">Share your booking link</h3>
+<p class="text-body-md text-on-surface-variant">
+            Send the private or public join link to your player WhatsApp groups. Players register their spot, select level, and clear payment in advance.
+          </p>
+</div>
+</div>
+<div class="mt-12 p-6 rounded-xl bg-surface-container-lowest border border-outline-variant/40 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#EBF3FF] text-[#0F2847] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+</div>
+<div>
+<div class="text-headline-sm font-headline-sm text-on-surface">Need a venue walkthrough?</div>
+<div class="text-body-sm text-on-surface-variant">Our team visits your court in Accra to test screens, configure tablets, and train court managers.</div>
+</div>
+</div>
+<a class="px-5 py-2.5 rounded-lg border border-outline-variant/60 hover:bg-surface-container text-on-surface font-label-lg text-label-lg shrink-0 transition-colors" href="#contact">
+          Schedule courtside visit
+        </a>
+</div>
+</div>
+</section>
+<!-- VENUE TOOLS FEATURE DEEP DIVE (Side-by-Side Showcase) -->
+<section class="py-20 bg-surface border-b border-outline-variant/30">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="max-w-3xl mb-14">
+
+<h2 class="text-headline-lg font-headline-lg text-on-surface mt-2 tracking-tight">
+          Engineered for two screens: The Organiser Tablet and The Clubhouse TV
+        </h2>
+<p class="text-body-lg text-on-surface-variant mt-3 font-body-lg">
+          No complicated app store downloads. Access the organiser control hub on any smartphone or tablet, and beam the live standings to any television screen in your bar or lounge.
+        </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+<!-- CARD A: Organiser Roster View Preview -->
+<div class="bg-[#0F2847] rounded-xl border border-[#2D5184] overflow-hidden text-white">
+<div class="px-6 py-4 bg-[#09182C] border-b border-[#1E3A5F] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-3 h-3 rounded-full bg-error inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary-container inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-primary-container inline-block"></span>
+<span class="text-label-md font-label-md text-white font-semibold ml-2">Organiser Control Roster</span>
+</div>
+<span class="text-label-sm font-label-sm bg-[#1A3860] border border-[#2D5184] text-[#D9F99D] px-2.5 py-0.5 rounded-full font-semibold">16 / 16 Confirmed</span>
+</div>
+<div class="p-6">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h4 class="text-headline-sm font-headline-sm text-white">Thursday Social Americano</h4>
+<p class="text-body-sm text-[#94A3B8]">4 Courts • Cantonments Venue • 18:30 GMT</p>
+</div>
+<button class="px-3.5 py-1.5 text-label-sm font-label-sm bg-[#D9F99D] text-[#0F2847] font-semibold rounded-lg hover:bg-[#bef264] transition-colors">
+                Generate Round 1
+              </button>
+</div>
+<!-- Table Preview -->
+<div class="overflow-x-auto border border-[#1E3A5F] rounded-lg">
+<table class="w-full text-left border-collapse text-body-sm">
+<thead>
+<tr class="bg-[#09182C] border-b border-[#1E3A5F] text-label-sm font-label-sm text-[#94A3B8]">
+<th class="py-2.5 px-3">Player</th>
+<th class="py-2.5 px-3">Skill Level</th>
+<th class="py-2.5 px-3">Payment Status</th>
+<th class="py-2.5 px-3 text-right">Court Assign</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#1E3A5F]">
+<tr class="hover:bg-[#1A3860]/40 transition-colors">
+<td class="py-3 px-3 font-medium text-white">Kofi Mensah</td>
+<td class="py-3 px-3 text-[#CBD5E1]">Level 3.5 (Adv)</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#1A3860] border border-[#2D5184] text-[#D9F99D]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00C853]"></span> MTN MoMo • ID #9482
+                      </span>
+</td>
+<td class="py-3 px-3 text-right font-medium text-white">Court 1</td>
+</tr>
+<tr class="hover:bg-[#1A3860]/40 transition-colors">
+<td class="py-3 px-3 font-medium text-white">Ama Osei-Bonsu</td>
+<td class="py-3 px-3 text-[#CBD5E1]">Level 3.0 (Int)</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#1A3860] border border-[#2D5184] text-[#D9F99D]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00C853]"></span> Telecel • ID #1049
+                      </span>
+</td>
+<td class="py-3 px-3 text-right font-medium text-white">Court 1</td>
+</tr>
+<tr class="hover:bg-[#1A3860]/40 transition-colors">
+<td class="py-3 px-3 font-medium text-white">Nii Tackie</td>
+<td class="py-3 px-3 text-[#CBD5E1]">Level 2.5 (Rec)</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#FEF9E7]/10 border border-[#F4C430]/30 text-[#F4C430]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F4C430]"></span> Cash at Reception
+                      </span>
+</td>
+<td class="py-3 px-3 text-right font-medium text-white">Court 2</td>
+</tr>
+<tr class="hover:bg-[#1A3860]/40 transition-colors">
+<td class="py-3 px-3 font-medium text-white">Eunice Addo</td>
+<td class="py-3 px-3 text-[#CBD5E1]">Level 3.0 (Int)</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#1A3860] border border-[#2D5184] text-[#D9F99D]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#00C853]"></span> MTN MoMo • ID #6620
+                      </span>
+</td>
+<td class="py-3 px-3 text-right font-medium text-white">Court 2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 flex items-center justify-between text-body-sm text-[#94A3B8]">
+<span class="">Roster verified by club reception</span>
+<span class="text-label-sm font-label-sm text-[#D9F99D] font-semibold">12 MoMo • 4 Cash</span>
+</div>
+</div>
+</div>
+<!-- CARD B: TV Presentation Mode Preview -->
+<div class="bg-[#0B0F0E] rounded-xl border border-[#1E2523] overflow-hidden text-white">
+<div class="px-6 py-4 bg-[#14181A] border-b border-[#2A3330] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#00C853] text-[18px]" data-icon="tv">tv</span>
+<span class="text-label-md font-label-md font-semibold text-white tracking-wide">Clubhouse TV Screen Mode (16:9 Fullscreen)</span>
+</div>
+<span class="text-label-sm font-label-sm px-2.5 py-0.5 rounded bg-[#1E2523] text-[#D9F99D] font-mono">STANDINGS • R4</span>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-end mb-6 pb-4 border-b border-[#1E2523]">
+<div>
+<div class="text-label-sm text-[#94A3B8] uppercase">PADEL GHANA LEADERBOARD</div>
+<div class="text-headline-md font-headline-md text-white font-semibold tracking-tight">Accra Premier Americano</div>
+</div>
+<div class="text-right">
+<div class="text-label-sm text-[#00C853] font-semibold">COURTS 1, 2, 3 &amp; 4</div>
+<div class="text-body-sm text-[#94A3B8]">Round 4 of 6 in progress</div>
+</div>
+</div>
+<!-- TV Leaderboard Table Rows -->
+<div class="space-y-2">
+<div class="p-3 rounded-lg bg-[#14181A] border border-[#1E2523] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded bg-[#00C853] text-[#14181A] text-label-sm font-bold flex items-center justify-center">1</span>
+<span class="text-body-md font-medium text-white">Kwame Owusu</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-body-sm text-[#94A3B8]">Courts: 1, 2, 1, 3</span>
+<span class="text-price-display font-semibold text-[#D9F99D]">68 pts</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-[#14181A] border border-[#1E2523] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded bg-[#2A3330] text-white text-label-sm font-bold flex items-center justify-center">2</span>
+<span class="text-body-md font-medium text-white">Akua Poku</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-body-sm text-[#94A3B8]">Courts: 2, 1, 3, 1</span>
+<span class="text-price-display font-semibold text-[#D9F99D]">64 pts</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-[#14181A] border border-[#1E2523] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded bg-[#2A3330] text-white text-label-sm font-bold flex items-center justify-center">3</span>
+<span class="text-body-md font-medium text-white">Sena Boateng</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-body-sm text-[#94A3B8]">Courts: 3, 3, 2, 2</span>
+<span class="text-price-display font-semibold text-[#D9F99D]">61 pts</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-[#14181A] border border-[#1E2523] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded bg-[#2A3330] text-white text-label-sm font-bold flex items-center justify-center">4</span>
+<span class="text-body-md font-medium text-white">David Quarshie</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-body-sm text-[#94A3B8]">Courts: 4, 2, 4, 4</span>
+<span class="text-price-display font-semibold text-[#D9F99D]">59 pts</span>
+</div>
+</div>
+</div>
+<div class="mt-5 pt-3 border-t border-[#1E2523] flex justify-between text-label-sm text-[#94A3B8]">
+<span class="">Next Rotation in: 04:15 min</span>
+<span class="text-white">Next Match Court 1: Kwame &amp; Sena vs Akua &amp; David</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CLUB PRICING / TRANSPARENT MODEL -->
+<section class="py-20 bg-surface border-b border-outline-variant/30" id="for-clubs">
+<div class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="max-w-3xl mx-auto text-center mb-14">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-widest">TRANSPARENT PARTNERSHIP</span>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mt-2 tracking-tight">
+          Simple club setup without lock-in contracts
+        </h2>
+<p class="text-body-lg text-on-surface-variant mt-3 font-body-lg">
+          We work directly with Accra court owners, private residential facilities, and community organizers. No hidden fees or rigid enterprise tiers.
+        </p>
+</div>
+<div class="max-w-4xl mx-auto bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-8 md:p-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+<div>
+<span class="inline-block px-3 py-1 rounded-full bg-[#EBF3FF] text-[#0F2847] text-label-sm font-semibold mb-4">Accra Venue Partnership</span>
+<h3 class="text-headline-md font-headline-md text-on-surface tracking-tight">Direct venue onboarding</h3>
+<p class="text-body-md text-on-surface-variant mt-3">
+              Every partnership includes on-site system testing, manager training, custom MoMo merchant integration, and automated weekly social night templates.
+            </p>
+<ul class="mt-6 space-y-3 text-body-sm text-on-surface">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check">check</span>
+<span class="">Unlimited social Americanos and open ladders</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check">check</span>
+<span class="">Direct MoMo / Cash verification at reception</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check">check</span>
+<span class="">Live TV scoreboard presentation browser links</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check">check</span>
+<span class="">Courtside technical assistance in Accra</span>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/30 flex flex-col justify-between text-center">
+<div>
+<div class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">ONBOARDING STATUS</div>
+<div class="text-price-display font-price-display text-[#0F2847] mt-2 mb-1">Tailored for Your Courts</div>
+<p class="text-body-sm text-on-surface-variant">
+                Whether you operate 1 court in Labone or 4 courts in Airport Residential, we configure the software to your court count and opening hours.
+              </p>
+</div>
+<div class="mt-8 space-y-3">
+<a class="w-full h-12 bg-[#0F2847] hover:bg-[#1A3860] text-white font-label-lg font-semibold rounded-lg flex items-center justify-center gap-2 transition-colors" href="https://wa.me/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="">Talk to us on WhatsApp</span>
+</a>
+<div class="text-label-sm text-on-surface-variant">No subscription commitment before trial</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- QUICK FAQ FOR CLUB MANAGERS -->
+<section class="py-20 bg-surface-container-low border-b border-outline-variant/30" id="faq">
+<div class="max-w-4xl mx-auto px-6 md:px-12">
+<div class="text-center mb-14">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-widest">COMMON QUESTIONS</span>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mt-2 tracking-tight">
+          Quick FAQ for club managers
+        </h2>
+<p class="text-body-lg text-on-surface-variant mt-2 font-body-lg">
+          Answers to technical, payment, and operational questions from venue hosts across Accra.
+        </p>
+</div>
+<div class="space-y-4">
+<!-- FAQ 1 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface flex items-center justify-between">
+<span class="">Do we need special hardware or dedicated tablets?</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="devices">devices</span>
+</h3>
+<p class="text-body-md text-on-surface-variant mt-3">
+            No. Padel Ghana is a web-based application engineered to run smoothly on any existing smartphone, iPad, Android tablet, laptop, or smart TV web browser. There are no app store downloads or proprietary terminals required.
+          </p>
+</div>
+<!-- FAQ 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface flex items-center justify-between">
+<span class="">How do player payments work?</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+</h3>
+<p class="text-body-md text-on-surface-variant mt-3">
+            Players pay directly to your club's own MTN MoMo merchant paycode, Telecel Cash, or hand cash to your desk receptionist. When players RSVP, they enter their transaction reference, allowing your court manager to check it off with a single click.
+          </p>
+</div>
+<!-- FAQ 3 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface flex items-center justify-between">
+<span class="">Can we run private member sessions or only public mixers?</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="lock">lock</span>
+</h3>
+<p class="text-body-md text-on-surface-variant mt-3">
+            You have full control. You can generate unlisted, link-only private sessions strictly for your existing club members, or list public Americanos on the Padel Ghana directory to welcome new players into your venue.
+          </p>
+</div>
+<!-- FAQ 4 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface flex items-center justify-between">
+<span class="">What happens if the internet connection cuts out during a tournament?</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="cloud_off">cloud_off</span>
+</h3>
+<p class="text-body-md text-on-surface-variant mt-3">
+            Our courtside scoring tool caches all entries locally on the browser device. The session continues without interruption; as soon as data returns or you reconnect to Wi-Fi, rankings and rounds auto-sync immediately.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- BOTTOM CLUB CTA BANNER -->
+<section class="py-20 bg-[#0F2847] text-white relative overflow-hidden border-b border-[#1E3A5F]" id="contact">
+<div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+<div class="max-w-3xl mx-auto text-center space-y-6">
+<span class="inline-block px-3.5 py-1 rounded-full bg-[#1A3860] border border-[#2D5184] text-[#D9F99D] text-label-sm font-label-sm tracking-wide">
+          DIRECT VENUE SETUP
+        </span>
+<h2 class="text-headline-lg md:text-display font-display tracking-tight text-white">
+          Ready to run smoother padel nights at your Accra venue?
+        </h2>
+<p class="text-body-lg text-[#CBD5E1] max-w-xl mx-auto font-body-lg">
+          Connect directly with our Accra team. We will set up your club dashboard, test your TV scoreboard, and assist with your inaugural Americano.
+        </p>
+<div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+<a class="h-12 px-8 rounded-lg bg-[#D9F99D] hover:bg-[#bef264] text-[#0F2847] font-label-lg font-semibold flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" href="https://wa.me/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="">Talk to us on WhatsApp</span>
+</a>
+<a class="h-12 px-8 rounded-lg bg-transparent hover:bg-white/10 text-white border border-white/40 font-label-lg font-semibold flex items-center justify-center gap-2 transition-colors" href="mailto:[Email]">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="">[Email]</span>
+</a>
+</div>
+<div class="pt-6 text-label-sm text-[#94A3B8]">
+          Serving venues across Cantonments • Airport Residential • Labone • East Legon
+        </div>
+</div>
+</div>
+</section>
+<!-- INSTITUTIONAL FOOTER -->
+<footer class="bg-inverse-surface text-inverse-on-surface border-t border-outline/20">
+<div class="max-w-7xl mx-auto py-16 px-6 md:px-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+<!-- Brand & Details -->
+<div class="md:col-span-2 space-y-4">
+<div class="text-headline-sm font-headline-sm font-semibold text-inverse-on-surface tracking-tight flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary-container inline-block"></span>
+<span class="">Padel Ghana</span>
+</div>
+<p class="text-body-sm text-secondary-fixed-dim max-w-sm">
+            The sporting management platform powering Americano sessions, court rankings, and clubhouse scoreboards for premier padel venues in Accra.
+          </p>
+<div class="text-body-sm text-secondary-fixed-dim space-y-1">
+<div class="">Clubhouse &amp; Office: [Address, Accra]</div>
+<div class="">Direct Phone: [Phone]</div>
+<div class="">Inquiries: [Email]</div>
+</div>
+</div>
+<!-- Links Column 1 -->
+<div>
+<div class="text-label-lg font-label-lg text-primary-fixed mb-4">Platform</div>
+<ul class="space-y-2.5 text-body-sm">
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#">About</a></li>
+<li class=""><a class="text-inverse-on-surface underline" href="#for-clubs">For clubs</a></li>
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#how-it-works">How it works</a></li>
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#faq">FAQ</a></li>
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#contact">Contact</a></li>
+</ul>
+</div>
+<!-- Links Column 2 -->
+<div>
+<div class="text-label-lg font-label-lg text-primary-fixed mb-4">Legal &amp; Policy</div>
+<ul class="space-y-2.5 text-body-sm">
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#">Terms of Service</a></li>
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#">Privacy Policy</a></li>
+<li class=""><a class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors" href="#">Refund &amp; Cancellation Policy</a></li>
+</ul>
+</div>
+</div>
+<!-- Copyright & Regulatory Meta -->
+<div class="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-label-sm font-label-sm text-secondary-fixed-dim">
+<div class="">
+          © 2026 Padel Ghana. All rights reserved. [Business name] • Reg: [Registration number] • Data Protection Commission registration: [number]
+        </div>
+<div class="flex items-center gap-6">
+<a class="hover:text-primary-fixed transition-colors flex items-center gap-1" href="#top">
+<span class="">Back to top</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_upward">arrow_upward</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+
+
+</body></html>

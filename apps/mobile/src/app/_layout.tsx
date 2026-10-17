@@ -6,7 +6,7 @@ import { AnimatedSplashOverlay } from '@/components/animated-icon';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/lib/query-client';
+import { queryClient, setupQueryClientListeners } from '@/lib/query-client';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,6 +22,11 @@ export default function RootLayout() {
       SplashScreen.hideAsync().catch(() => {});
     }
   }, [fontsLoaded, fontError]);
+
+  useEffect(() => {
+    const cleanup = setupQueryClientListeners();
+    return cleanup;
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

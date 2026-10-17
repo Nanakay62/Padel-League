@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   FlatList,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -14,7 +15,6 @@ import { useEvents } from '@/hooks/useData';
 import { t } from '@/lib/i18n';
 import {
   Screen,
-  PageHeader,
   Card,
   Button,
   Chip,
@@ -39,20 +39,6 @@ export default function FindEventsScreen() {
 
   return (
     <Screen scrollable={false}>
-      <PageHeader
-        title="Find Events"
-        subtitle="Discover and join matches"
-        rightAction={
-          <Button
-            title="+ Host Event"
-            variant="primary"
-            size="sm"
-            onPress={() => router.push('/events/create')}
-            testID="find-events-host-btn"
-          />
-        }
-      />
-
       <View
         style={[
           styles.content,
@@ -63,16 +49,29 @@ export default function FindEventsScreen() {
           },
         ]}
       >
-        {/* Top Circuit Banner */}
-        <Card style={styles.circuitBannerCard}>
-          <View style={styles.bannerHeaderRow}>
-            <View style={styles.liveCircuitBadge}>
-              <View style={styles.livePulseDot} />
-              <Text style={styles.liveCircuitText}>Live Circuit</Text>
-            </View>
-            <Text style={styles.circuitSubtitle}>Accra Metro Series • Season 02</Text>
+        {/* Top Search Bar & Host Action */}
+        <View style={styles.topBar}>
+          <View style={styles.searchBarContainer}>
+            <Search size={18} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search by title, format or club..."
+              placeholderTextColor={Tokens.colors.textMuted}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
           </View>
+          <Button
+            title="+ Host Event"
+            variant="primary"
+            size="md"
+            onPress={() => router.push('/events/create')}
+            testID="find-events-host-btn"
+          />
+        </View>
 
+        {/* Blue Hero Banner Card */}
+        <Card style={styles.circuitBannerCard}>
           <Text style={[styles.bannerTitle, isDesktop && styles.bannerTitleDesktop]}>
             Find Events
           </Text>
@@ -82,14 +81,14 @@ export default function FindEventsScreen() {
 
           <View style={styles.bannerStatsRow}>
             <View style={styles.bannerStatItem}>
-              <Zap size={14} color={Tokens.colors.greenText} strokeWidth={1.75} />
+              <Zap size={14} color={Tokens.colors.gold} strokeWidth={1.75} />
               <Text style={styles.bannerStatText}>
                 {events.length} active sessions
               </Text>
             </View>
             <Text style={styles.bannerStatDot}>•</Text>
             <View style={styles.bannerStatItem}>
-              <Shield size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+              <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />
               <Text style={styles.bannerStatText}>
                 Official GPR synced
               </Text>
@@ -97,20 +96,8 @@ export default function FindEventsScreen() {
           </View>
         </Card>
 
-        {/* Search & Filter Section */}
-        <View style={styles.searchSection}>
-          <View style={styles.searchBarContainer}>
-            <Search size={18} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search by title or venue..."
-              placeholderTextColor={Tokens.colors.textMuted}
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
-          </View>
-
-          {/* Format Filter Chips */}
+        {/* Filter Chips & Counter Section */}
+        <View style={styles.filterSection}>
           <View style={styles.filterRow}>
             {['ALL', 'AMERICANO', 'MEXICANO', 'TEAM_AMERICANO'].map((fmt) => (
               <Chip
@@ -122,7 +109,6 @@ export default function FindEventsScreen() {
             ))}
           </View>
 
-          {/* Showing Counter */}
           <View style={styles.counterRow}>
             <Text style={styles.counterText}>
               Showing{' '}
@@ -151,9 +137,15 @@ export default function FindEventsScreen() {
                 onPress={() => router.push(`/events/${item.id}` as any)}
               >
                 <View style={styles.cardHeader}>
-                  <StatusPill label={item.format} variant="neutral" />
+                  <View style={styles.headerBadgesRow}>
+                    <StatusPill label={item.format} variant="primary" />
+                    <StatusPill
+                      label={`Level ${item.level_min.toFixed(1)} - ${item.level_max.toFixed(1)}`}
+                      variant="neutral"
+                    />
+                  </View>
                   <StatusPill
-                    label={item.status === 'FULL' ? t('statusFull') : t('statusOpen')}
+                    label={item.status === 'FULL' ? t('statusFull') : `${item.max_players - confirmedCount} spots left`}
                     variant={item.status === 'FULL' ? 'danger' : 'success'}
                   />
                 </View>
@@ -162,43 +154,31 @@ export default function FindEventsScreen() {
 
                 <View style={styles.metaRow}>
                   <MapPin size={14} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-                  <Text style={styles.metaText}>{item.venue_name}</Text>
+                  <Text style={styles.metaText}>{item.venue_name} • Padel Court</Text>
                 </View>
 
-                {/* Specifics Box */}
-                <View style={styles.specificsBox}>
-                  <View style={styles.specificRow}>
-                    <View style={styles.specificLabelRow}>
-                      <Clock size={12} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-                      <Text style={styles.specificLabel}>Date & Time</Text>
-                    </View>
-                    <Text style={[styles.specificValue, Typography.tabularNums]}>
-                      {formatAccraDateTime(item.start_time)}
+                <View style={styles.timeRow}>
+                  <Clock size={13} color={Tokens.colors.textMuted} strokeWidth={1.75} />
+                  <Text style={[styles.timeText, Typography.tabularNums]}>
+                    {formatAccraDateTime(item.start_time)}
+                  </Text>
+                </View>
+
+                {/* Capacity Progress Section */}
+                <View style={styles.capacitySection}>
+                  <View style={styles.capacityLabelsRow}>
+                    <Text style={styles.capacityLabel}>Players Registered</Text>
+                    <Text style={[styles.capacityRatioText, Typography.tabularNums]}>
+                      {confirmedCount} / {item.max_players}
                     </Text>
                   </View>
-
-                  <View style={styles.specificRow}>
-                    <Text style={styles.specificLabel}>Level Band</Text>
-                    <Text style={[styles.specificValue, Typography.tabularNums]}>
-                      {item.level_min.toFixed(1)} - {item.level_max.toFixed(1)}
-                    </Text>
-                  </View>
-
-                  <View style={styles.specificRow}>
-                    <Text style={styles.specificLabel}>Capacity</Text>
-                    <View style={styles.capacityProgressRow}>
-                      <View style={styles.capacityBar}>
-                        <View
-                          style={[
-                            styles.capacityBarFill,
-                            { width: `${Math.round(capacityRatio * 100)}%` as any },
-                          ]}
-                        />
-                      </View>
-                      <Text style={[styles.capacityText, Typography.tabularNums]}>
-                        {confirmedCount} / {item.max_players}
-                      </Text>
-                    </View>
+                  <View style={styles.capacityBar}>
+                    <View
+                      style={[
+                        styles.capacityBarFill,
+                        { width: `${Math.round(capacityRatio * 100)}%` as any },
+                      ]}
+                    />
                   </View>
                 </View>
 
@@ -231,60 +211,45 @@ export default function FindEventsScreen() {
 }
 
 const styles = StyleSheet.create({
+  topBar: {
+    width: '100%',
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+  },
   content: {
     flex: 1,
     width: '100%',
     alignSelf: 'center',
   },
   circuitBannerCard: {
-    backgroundColor: Tokens.colors.card,
+    backgroundColor: Tokens.colors.bannerBlueDark,
     borderRadius: Tokens.radii.card,
     borderWidth: 1,
-    borderColor: Tokens.colors.border,
+    borderColor: Tokens.colors.bannerBlueBorder,
     padding: Tokens.spacing.lg,
     gap: Tokens.spacing.xs,
-  },
-  bannerHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.sm,
-    marginBottom: Tokens.spacing.xs,
-  },
-  liveCircuitBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.xs,
-    backgroundColor: Tokens.colors.primaryLight,
-    paddingHorizontal: Tokens.spacing.sm,
-    paddingVertical: 2,
-    borderRadius: Tokens.radii.chip,
-  },
-  livePulseDot: {
-    width: 6,
-    height: 6,
-    borderRadius: Tokens.radii.pill,
-    backgroundColor: Tokens.colors.primary,
-  },
-  liveCircuitText: {
-    fontFamily: Typography.fontFamily.medium,
-    fontWeight: Tokens.fontWeight.medium,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.greenText,
-  },
-  circuitSubtitle: {
-    fontFamily: Typography.fontFamily.regular,
-    fontWeight: Tokens.fontWeight.regular,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.textMuted,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+      },
+      default: {
+        elevation: 2,
+        shadowColor: Tokens.colors.primary,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+    }),
   },
   bannerTitle: {
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
     fontSize: Tokens.fontSize.xl,
     lineHeight: Tokens.lineHeight.xl,
-    color: Tokens.colors.text,
+    color: Tokens.colors.bannerBlueText,
   },
   bannerTitleDesktop: {
     fontSize: Tokens.fontSize.xxl,
@@ -295,7 +260,7 @@ const styles = StyleSheet.create({
     fontWeight: Tokens.fontWeight.regular,
     fontSize: Tokens.fontSize.sm,
     lineHeight: Tokens.lineHeight.sm,
-    color: Tokens.colors.textMuted,
+    color: Tokens.colors.bannerBlueTextMuted,
   },
   bannerStatsRow: {
     flexDirection: 'row',
@@ -313,16 +278,18 @@ const styles = StyleSheet.create({
     fontWeight: Tokens.fontWeight.regular,
     fontSize: Tokens.fontSize.xs,
     lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.textMuted,
+    color: Tokens.colors.bannerBlueText,
   },
   bannerStatDot: {
-    color: Tokens.colors.textMuted,
+    color: Tokens.colors.bannerBlueTag,
     fontSize: Tokens.fontSize.xs,
   },
-  searchSection: {
+  filterSection: {
     gap: Tokens.spacing.sm,
   },
   searchBarContainer: {
+    flex: 1,
+    minWidth: 0,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Tokens.colors.card,
@@ -335,6 +302,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    width: '100%',
     color: Tokens.colors.text,
     fontFamily: Typography.fontFamily.regular,
     fontSize: Tokens.fontSize.sm,
@@ -380,11 +348,30 @@ const styles = StyleSheet.create({
     borderRadius: Tokens.radii.card,
     borderWidth: 1,
     borderColor: Tokens.colors.border,
+    backgroundColor: Tokens.colors.card,
+    padding: Tokens.spacing.base,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
+      },
+      default: {
+        elevation: 2,
+        shadowColor: Tokens.colors.text,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.06,
+        shadowRadius: 4,
+      },
+    }),
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerBadgesRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
   },
   eventTitle: {
     fontFamily: Typography.fontFamily.semibold,
@@ -405,45 +392,45 @@ const styles = StyleSheet.create({
     lineHeight: Tokens.lineHeight.sm,
     color: Tokens.colors.textMuted,
   },
-  specificsBox: {
+  timeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+  },
+  timeText: {
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+  },
+  capacitySection: {
     backgroundColor: Tokens.colors.background,
-    borderRadius: Tokens.radii.card,
+    borderRadius: Tokens.radii.sm,
     padding: Tokens.spacing.sm,
     gap: Tokens.spacing.xs,
     borderWidth: 1,
     borderColor: Tokens.colors.border,
   },
-  specificRow: {
+  capacityLabelsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  specificLabelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.xs,
-  },
-  specificLabel: {
-    fontFamily: Typography.fontFamily.regular,
-    fontWeight: Tokens.fontWeight.regular,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.textMuted,
-  },
-  specificValue: {
+  capacityLabel: {
     fontFamily: Typography.fontFamily.medium,
     fontWeight: Tokens.fontWeight.medium,
     fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
+    color: Tokens.colors.textMuted,
+  },
+  capacityRatioText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
     color: Tokens.colors.text,
   },
-  capacityProgressRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.sm,
-  },
   capacityBar: {
-    width: 60,
+    width: '100%',
     height: 6,
     borderRadius: Tokens.radii.pill,
     backgroundColor: Tokens.colors.card,
@@ -454,13 +441,7 @@ const styles = StyleSheet.create({
   capacityBarFill: {
     height: '100%',
     backgroundColor: Tokens.colors.primary,
-  },
-  capacityText: {
-    fontFamily: Typography.fontFamily.medium,
-    fontWeight: Tokens.fontWeight.medium,
-    fontSize: Tokens.fontSize.xs,
-    lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.text,
+    borderRadius: Tokens.radii.pill,
   },
   cardFooter: {
     flexDirection: 'row',

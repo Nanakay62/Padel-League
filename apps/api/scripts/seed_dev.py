@@ -7,6 +7,14 @@ from pathlib import Path
 root_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(root_dir))
 
+import app.audit.models
+import app.billing.models
+import app.events.models
+import app.identity.models
+import app.leagues.models
+import app.notify.models
+import app.ratings.models
+import app.venues.models  # noqa: F401
 from app.db import Base, async_session_maker, engine
 from app.venues.models import Court, Venue
 
@@ -110,8 +118,51 @@ async def seed():
             )
             session.add_all([v1, c1, c2])
 
+        # Seed Super Admin and Club Owner users for manual portal testing
+        from app.identity.models import User
+        from app.identity.password_policy import hash_password
+        from app.venues.models import VenueMembership
+
+        # 1. Super Admin
+        sa = await session.get(User, "sa-dev")
+        if not sa:
+            sa = User(
+                id="sa-dev",
+                name="Super Administrator",
+                email="admin@padelghana.com",
+                role="SUPER_ADMIN",
+                hashed_password=hash_password("PadelGhana2026!"),
+                is_active=True,
+            )
+            session.add(sa)
+
+        # 2. Club Owner
+        owner = await session.get(User, "owner-dev")
+        if not owner:
+            owner = User(
+                id="owner-dev",
+                name="Kwame Mensah",
+                email="owner@accrapadel.com",
+                role="PLAYER",
+                hashed_password=hash_password("PadelGhana2026!"),
+                is_active=True,
+            )
+            session.add(owner)
+
+            owner_mem = VenueMembership(
+                id="mem-owner-dev",
+                user_id="owner-dev",
+                venue_id="v1",
+                role="CLUB_OWNER",
+                status="ACTIVE",
+            )
+            session.add(owner_mem)
+
         await session.commit()
         print("Dev DB seeded successfully!")
+        print("Demo Credentials:")
+        print("  Super Admin Portal: admin@padelghana.com / PadelGhana2026!")
+        print("  Club Back Office:   owner@accrapadel.com / PadelGhana2026!")
 
 
 if __name__ == "__main__":

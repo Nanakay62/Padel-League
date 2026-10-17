@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Screen E: Events Management | Padel Ghana Club Portal</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-fixed-variant": "#364e03",
+            "secondary": "#3755c3",
+            "inverse-surface": "#283044",
+            "on-primary-container": "#cad3ff",
+            "on-background": "#131b2e",
+            "on-tertiary-fixed": "#131f00",
+            "surface-container-lowest": "#ffffff",
+            "surface-bright": "#faf8ff",
+            "on-secondary-fixed": "#001453",
+            "on-primary-fixed": "#001551",
+            "outline": "#747686",
+            "surface": "#faf8ff",
+            "secondary-container": "#708cfd",
+            "surface-container-high": "#e2e7ff",
+            "tertiary": "#344c01",
+            "primary-fixed-dim": "#b7c4ff",
+            "on-secondary-fixed-variant": "#173bab",
+            "on-secondary-container": "#00217a",
+            "inverse-on-surface": "#eef0ff",
+            "tertiary-container": "#4b641a",
+            "secondary-fixed-dim": "#b8c4ff",
+            "error": "#ba1a1a",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#0039b5",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "on-tertiary-container": "#c1e087",
+            "surface-container-highest": "#dae2fd",
+            "surface-tint": "#2151da",
+            "error-container": "#ffdad6",
+            "background": "#faf8ff",
+            "primary-fixed": "#dce1ff",
+            "on-tertiary": "#ffffff",
+            "secondary-fixed": "#dde1ff",
+            "surface-container": "#eaedff",
+            "outline-variant": "#c4c5d7",
+            "tertiary-fixed": "#ceee93",
+            "on-surface-variant": "#434655",
+            "surface-variant": "#dae2fd",
+            "primary-container": "#1d4ed8",
+            "surface-dim": "#d2d9f4",
+            "inverse-primary": "#b7c4ff",
+            "primary": "#0037b0",
+            "on-surface": "#131b2e",
+            "tertiary-fixed-dim": "#b3d17a",
+            "on-secondary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "space-md": "1rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "margin": "2rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "data-metric": ["Inter"],
+            "body-sm": ["Inter"],
+            "label-sm": ["Inter"],
+            "data-currency": ["Inter"],
+            "label-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-md": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-900 font-body-md text-body-md antialiased overflow-x-hidden selection:bg-blue-100 selection:text-blue-900">
+<!-- ==================== LEFT FIXED SIDEBAR (SHARED COMPONENT) ==================== -->
+<aside class="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between p-4 z-50 overflow-y-auto bg-surface-container-lowest/70 backdrop-blur-xl border-r border-slate-200 shadow-sm">
+<div class="flex flex-col gap-6">
+<!-- Brand & Club Crest Header -->
+<div class="flex items-center gap-3 px-2 py-1">
+<div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          GH
+        </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-slate-900 font-bold leading-tight tracking-tight">Accra Central Club</span>
+<span class="font-body-sm text-slate-500 text-body-sm">Facility Operator ID #GH-042</span>
+</div>
+</div>
+<!-- Quick Action CTA -->
+<button class="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-blue-700 hover:bg-blue-800 active:scale-[0.99] text-white font-label-md text-label-md shadow-sm transition-all duration-150" onclick="toggleCreateModal(true)">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>New Court Booking</span>
+</button>
+<!-- Primary Navigation Links -->
+<nav class="flex flex-col gap-1">
+<!-- Tab 1: Active according to primary intent (Courts & Schedules / Events) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-700 text-white font-label-md text-label-md shadow-sm" href="#schedules">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Courts &amp; Schedules</span>
+</a>
+<!-- Tab 2: Bookings Ledger -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-label-md text-label-md transition-all" href="#ledger">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span>Bookings Ledger</span>
+</a>
+<!-- Tab 3: Members & Players -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-label-md text-label-md transition-all" href="#members">
+<span class="material-symbols-outlined">group</span>
+<span>Members &amp; Players</span>
+</a>
+<!-- Tab 4: Financials -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-label-md text-label-md transition-all" href="#financials">
+<span class="material-symbols-outlined">payments</span>
+<span>Financials</span>
+</a>
+<!-- Tab 5: Audit Log -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-label-md text-label-md transition-all" href="#audit">
+<span class="material-symbols-outlined">history</span>
+<span>Audit Log</span>
+</a>
+<!-- Tab 6: Facility Settings -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-label-md text-label-md transition-all" href="#settings">
+<span class="material-symbols-outlined">tune</span>
+<span>Facility Settings</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom Utilities -->
+<div class="border-t border-slate-200 pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 font-label-md text-label-md transition-all" href="#docs">
+<span class="material-symbols-outlined text-slate-400">menu_book</span>
+<span>Documentation</span>
+</a>
+<div class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-500 font-label-md text-label-md">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>System Status</span>
+</div>
+<span class="text-xs bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-mono font-medium">99.98%</span>
+</div>
+</div>
+</aside>
+<!-- ==================== MAIN CONTENT CANVAS WRAPPER ==================== -->
+<div class="pl-64 flex flex-col min-h-screen">
+<!-- ==================== GLOBAL TOP BAR (SHARED COMPONENT) ==================== -->
+<header class="w-full px-6 py-3 flex items-center justify-between sticky top-0 z-40 bg-surface-container-lowest/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-blue-700 font-bold tracking-tight">Padel Ghana Admin</span>
+<span class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 text-[11px] font-semibold tracking-wide border border-blue-200">Demo Padel Club</span>
+</div>
+<!-- Global Horizontal Navigation Links -->
+<nav class="hidden md:flex items-center gap-5">
+<a class="text-slate-600 hover:text-slate-900 font-label-md text-label-md transition-colors" href="#facility">Facility Overview</a>
+<a class="text-blue-700 font-label-md text-label-md border-b-2 border-blue-700 pb-1 font-semibold" href="#schedules">Schedules</a>
+<a class="text-slate-600 hover:text-slate-900 font-label-md text-label-md transition-colors" href="#bookings">Bookings</a>
+<a class="text-slate-600 hover:text-slate-900 font-label-md text-label-md transition-colors" href="#finance">Finance</a>
+<a class="text-slate-600 hover:text-slate-900 font-label-md text-label-md transition-colors" href="#support">Support</a>
+</nav>
+</div>
+<!-- Right Trailing Cluster -->
+<div class="flex items-center gap-3">
+<!-- Search Bar On Right -->
+<div class="relative w-64 hidden lg:block">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all placeholder:text-slate-400" placeholder="Search events, players..." type="text"/>
+</div>
+<button class="px-2.5 py-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors font-label-md text-label-md flex items-center gap-1.5 border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+<span>Help Desk</span>
+</button>
+<button class="px-2.5 py-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors font-label-md text-label-md border border-slate-200">
+          Exit Preview
+        </button>
+<div class="h-5 w-[1px] bg-slate-200 mx-1"></div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-1 text-slate-500">
+<button class="p-1.5 rounded-lg hover:bg-slate-100 hover:text-slate-800 transition-colors relative" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-blue-600 rounded-full"></span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-slate-100 hover:text-slate-800 transition-colors" title="Settings">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<!-- Operator User Avatar -->
+<div class="flex items-center gap-2 pl-2">
+<div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-semibold text-xs border border-white shadow-sm ring-1 ring-slate-200" title="Kwame Mensah Operations Lead Avatar">
+            KM
+          </div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-900 leading-tight">Kwame Mensah</span>
+<span class="text-[10px] text-slate-500">Club Owner / Lead</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ==================== AUDIT / STAFF NOTICE BANNER ==================== -->
+<div class="bg-blue-50/90 border-b border-blue-100 px-8 py-2 flex items-center justify-between text-xs text-blue-900">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-600 text-[18px]">verified_user</span>
+<span class="font-medium">Updated by Padel Ghana staff on 12 Oct • Audit Verified</span>
+<span class="text-slate-400">•</span>
+<span class="text-blue-700">Facility ID #GH-042 (Airport Residential Area, Accra)</span>
+</div>
+<a class="font-semibold text-blue-700 hover:text-blue-800 underline decoration-blue-300 underline-offset-2" href="#changes">See changes</a>
+</div>
+<!-- ==================== MAIN PAGE CONTAINER ==================== -->
+<main class="flex-1 p-8 space-y-6 max-w-7xl w-full mx-auto">
+<!-- Breadcrumbs & Title Section -->
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-2 border-b border-slate-200">
+<div>
+<div class="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+<span>Demo Padel Club</span>
+<span class="text-slate-300">/</span>
+<span class="text-blue-700">Events &amp; Americanos</span>
+</div>
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-bold text-slate-900 tracking-tight font-headline-lg">Events Management</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
+              Active Session
+            </span>
+<span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono font-medium">Example data</span>
+</div>
+</div>
+<!-- Header Action CTAs -->
+<div class="flex items-center gap-2.5">
+<button class="px-3.5 py-2 text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 hover:border-slate-400 rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px] text-slate-500">file_download</span>
+<span>Export CSV</span>
+</button>
+<button class="px-3.5 py-2 text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 hover:border-slate-400 rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px] text-slate-500">content_copy</span>
+<span>Duplicate last week's event</span>
+</button>
+<button class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5 active:scale-[0.98]" onclick="toggleCreateModal(true)">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Create Event</span>
+</button>
+</div>
+</div>
+<!-- VIEW 1: DIRECTORY & FILTER CARDS -->
+<section class="space-y-4">
+<!-- Filter Pills & Search Line -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+<button class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 font-semibold text-xs border border-blue-200">All Events (6)</button>
+<button class="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium text-xs">Upcoming (3)</button>
+<button class="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium text-xs">Past Matches (3)</button>
+<button class="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 font-medium text-xs">Drafts (1)</button>
+</div>
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">filter_list</span>
+<input class="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600 focus:bg-white text-slate-800 placeholder:text-slate-400" placeholder="Filter by event title, format or date..." type="text"/>
+</div>
+</div>
+<!-- Featured Event Cards (Grid of 3) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+<!-- Card 1: Saturday Sunrise Americano (Selected / Highlighted) -->
+<div class="bg-white rounded-xl border-2 border-blue-600 p-5 shadow-sm relative flex flex-col justify-between transition-all hover:shadow-md">
+<div class="absolute top-3 right-3 flex items-center gap-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                Needs a 4th
+              </span>
+<span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono">Example data</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold tracking-wide uppercase bg-blue-100 text-blue-800">Americano</span>
+<span class="text-xs text-slate-400">• 24 pts format</span>
+</div>
+<h3 class="font-bold text-slate-900 text-base leading-snug">Saturday Sunrise Americano (Open 24pts)</h3>
+<p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">schedule</span>
+                Sat, 19 Oct • 07:00 AM – 09:30 AM
+              </p>
+<p class="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">stadium</span>
+                Courts 1, 2 &amp; 3 reserved
+              </p>
+<!-- Capacity Bar -->
+<div class="mt-4 pt-3 border-t border-slate-100">
+<div class="flex items-center justify-between text-xs mb-1.5">
+<span class="text-slate-600 font-medium">Capacity</span>
+<span class="font-semibold text-slate-900 tabular-nums">8 / 12 players</span>
+</div>
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-blue-600 rounded-full" style="width: 66.6%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+<div>
+<span class="text-[11px] text-slate-400 block">Entry Fee</span>
+<span class="font-bold text-slate-900 text-sm tabular-nums">GH₵ 110.00</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50" title="Share Link">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-blue-700 text-white text-xs font-semibold hover:bg-blue-800 transition-colors shadow-sm">
+                  Manage Event
+                </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Thursday Evening Social -->
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold tracking-wide uppercase bg-slate-100 text-slate-700">Americano</span>
+<span class="text-xs text-slate-400">• 32 pts format</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                Open
+              </span>
+</div>
+<div class="mt-2">
+<h3 class="font-bold text-slate-900 text-base leading-snug">Thursday Evening Social 32pts</h3>
+<p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">schedule</span>
+                Thu, 24 Oct • 06:30 PM – 09:00 PM
+              </p>
+<p class="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">stadium</span>
+                Courts 1 &amp; 2 reserved
+              </p>
+<div class="mt-4 pt-3 border-t border-slate-100">
+<div class="flex items-center justify-between text-xs mb-1.5">
+<span class="text-slate-600 font-medium">Capacity</span>
+<span class="font-semibold text-slate-900 tabular-nums">5 / 8 players</span>
+</div>
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-blue-600 rounded-full" style="width: 62.5%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+<div>
+<span class="text-[11px] text-slate-400 block">Entry Fee</span>
+<span class="font-bold text-slate-900 text-sm tabular-nums">GH₵ 95.00</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50" title="Duplicate">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold hover:bg-slate-200 transition-colors">
+                  Manage Event
+                </button>
+</div>
+</div>
+</div>
+<!-- Card 3: Sunday King of the Court -->
+<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold tracking-wide uppercase bg-slate-100 text-slate-700">Mexicano</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-bold uppercase bg-amber-100 text-amber-900">Soon</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                Draft
+              </span>
+</div>
+<div class="mt-2">
+<h3 class="font-bold text-slate-900 text-base leading-snug">Sunday King of the Court (Competitive)</h3>
+<p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">schedule</span>
+                Sun, 27 Oct • 04:00 PM – 07:00 PM
+              </p>
+<p class="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">stadium</span>
+                Court 1 reserved
+              </p>
+<div class="mt-4 pt-3 border-t border-slate-100">
+<div class="flex items-center justify-between text-xs mb-1.5">
+<span class="text-slate-600 font-medium">Capacity</span>
+<span class="font-semibold text-slate-900 tabular-nums">0 / 8 players</span>
+</div>
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-slate-300 rounded-full" style="width: 0%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+<div>
+<span class="text-[11px] text-slate-400 block">Entry Fee</span>
+<span class="font-bold text-slate-900 text-sm tabular-nums">GH₵ 120.00</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold hover:bg-slate-200 transition-colors">
+                  Edit Draft
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- VIEW 2: EVENT MANAGER DETAILED PANEL (ACTIVE EVENT WORKSPACE) -->
+<section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+<!-- Event Header Banner with Live Stats -->
+<div class="bg-slate-900 text-white p-6 relative overflow-hidden">
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-500/30 text-blue-200 border border-blue-400/30 uppercase tracking-wide">Active Workspace</span>
+<span class="text-xs text-slate-300">• Facility ID #GH-042</span>
+<span class="text-[11px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Example data</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Saturday Sunrise Americano - 12 Player Tier</h2>
+<div class="flex flex-wrap items-center gap-y-1 gap-x-4 mt-2 text-xs text-slate-300">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-blue-400">calendar_today</span>
+                  Sat, 19 Oct 2024
+                </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-blue-400">timer</span>
+                  07:00 AM – 09:30 AM (2.5 hrs)
+                </span>
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-blue-400">sports_tennis</span>
+                  Courts 1, 2 &amp; 3
+                </span>
+<span class="flex items-center gap-1.5 text-amber-300 font-medium">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                  Status: Open - Needs 4 players
+                </span>
+</div>
+</div>
+<!-- Quick Stats Pills (Frosted Over Blue Canvas) -->
+<div class="flex items-center gap-3">
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3 text-center min-w-[90px]">
+<span class="text-[11px] text-slate-300 block uppercase font-medium">Capacity</span>
+<span class="text-lg font-bold text-white tabular-nums">8 / 12</span>
+</div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3 text-center min-w-[90px]">
+<span class="text-[11px] text-slate-300 block uppercase font-medium">Waitlist</span>
+<span class="text-lg font-bold text-amber-300 tabular-nums">2 Queued</span>
+</div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-3 text-center min-w-[100px]">
+<span class="text-[11px] text-slate-300 block uppercase font-medium">Total Paid</span>
+<span class="text-lg font-bold text-emerald-300 tabular-nums">GH₵ 660.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Tabbed Interface Navigation -->
+<div class="border-b border-slate-200 bg-slate-50/70 px-6 flex items-center gap-6 overflow-x-auto">
+<button class="py-3 text-xs font-semibold text-blue-700 border-b-2 border-blue-700 flex items-center gap-2" id="tab-btn-players" onclick="switchTab('players')">
+<span>Players</span>
+<span class="px-1.5 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-800 tabular-nums font-bold">8 / 12</span>
+</button>
+<button class="py-3 text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-2" id="tab-btn-waitlist" onclick="switchTab('waitlist')">
+<span>Waitlist</span>
+<span class="px-1.5 py-0.5 rounded-full text-[10px] bg-slate-200 text-slate-700 tabular-nums font-bold">2</span>
+</button>
+<button class="py-3 text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-2" id="tab-btn-payments" onclick="switchTab('payments')">
+<span>Payments Ledger</span>
+<span class="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 tabular-nums font-bold">2 Unpaid</span>
+</button>
+<button class="py-3 text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-2" id="tab-btn-scores" onclick="switchTab('scores')">
+<span>Scores &amp; Standings</span>
+</button>
+<button class="py-3 text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-2" id="tab-btn-settings" onclick="switchTab('settings')">
+<span>Event Settings &amp; Cancellation</span>
+</button>
+</div>
+<!-- TAB CONTENT 1: PLAYERS TABLE (ACTIVE) -->
+<div class="p-6" id="tab-content-players">
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-3">
+<span class="text-xs text-slate-500 font-medium">Showing 8 registered players (4 spots open)</span>
+<span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">Example data</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+<span>Add Player Manually</span>
+</button>
+</div>
+</div>
+<div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left text-xs">
+<thead class="bg-blue-50/70 border-b border-slate-200 text-slate-600 uppercase font-semibold text-[11px] tracking-wider">
+<tr>
+<th class="py-3 px-4">#</th>
+<th class="py-3 px-4">Player</th>
+<th class="py-3 px-4">Registered At</th>
+<th class="py-3 px-4">Skill Band</th>
+<th class="py-3 px-4">Payment Status</th>
+<th class="py-3 px-4 text-right">Fee</th>
+<th class="py-3 px-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 bg-white">
+<!-- Player 1 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">01</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">KA</div>
+<span class="font-semibold text-slate-900">Kwame A.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">14 Oct, 09:12 AM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.0 - 3.5</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Paid
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-slate-500 hover:text-slate-800 p-1" title="Mark Out">Mark Out</button>
+<button class="text-red-600 hover:text-red-800 p-1" title="Remove">Remove</button>
+</td>
+</tr>
+<!-- Player 2 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">02</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs">ES</div>
+<span class="font-semibold text-slate-900">Esi S.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">14 Oct, 11:45 AM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.0</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Paid
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-slate-500 hover:text-slate-800 p-1">Mark Out</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+<!-- Player 3 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">03</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs">KB</div>
+<span class="font-semibold text-slate-900">Kofi B.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">15 Oct, 08:20 AM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.5</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                      Awaiting payment
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-blue-600 hover:text-blue-800 font-semibold p-1">Mark Paid</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+<!-- Player 4 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">04</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs">AT</div>
+<span class="font-semibold text-slate-900">Ama T.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">15 Oct, 02:10 PM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.0</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Paid
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-slate-500 hover:text-slate-800 p-1">Mark Out</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+<!-- Player 5 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">05</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-xs">YM</div>
+<span class="font-semibold text-slate-900">Yaw M.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">16 Oct, 09:05 AM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.5</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Paid
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-slate-500 hover:text-slate-800 p-1">Mark Out</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+<!-- Player 6 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">06</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">AK</div>
+<span class="font-semibold text-slate-900">Akosua K.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">16 Oct, 10:30 AM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.0</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Paid
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-slate-500 hover:text-slate-800 p-1">Mark Out</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+<!-- Player 7 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">07</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-xs">NA</div>
+<span class="font-semibold text-slate-900">Nii A.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">16 Oct, 04:15 PM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.5</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Paid
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-slate-500 hover:text-slate-800 p-1">Mark Out</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+<!-- Player 8 -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3 px-4 font-mono text-slate-400">08</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-orange-100 text-orange-700 font-bold flex items-center justify-center text-xs">DO</div>
+<span class="font-semibold text-slate-900">Dzifa O.</span>
+</div>
+</td>
+<td class="py-3 px-4 text-slate-500">17 Oct, 08:00 AM</td>
+<td class="py-3 px-4 text-slate-700">Intermediate 3.0</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                      Awaiting payment
+                    </span>
+</td>
+<td class="py-3 px-4 text-right font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4 text-right space-x-1">
+<button class="text-blue-600 hover:text-blue-800 font-semibold p-1">Mark Paid</button>
+<button class="text-red-600 hover:text-red-800 p-1">Remove</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Open Slots Notice -->
+<div class="mt-4 p-3 bg-amber-50/70 border border-amber-200 rounded-lg flex items-center justify-between text-xs text-amber-900">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-600 text-[18px]">group_add</span>
+<span><strong>4 open spots remaining:</strong> To maintain format balance, Americano requires exactly 12 players across Courts 1, 2, and 3.</span>
+</div>
+<button class="px-2.5 py-1 bg-amber-700 hover:bg-amber-800 text-white rounded text-xs font-semibold">
+              Send SMS Broadcast
+            </button>
+</div>
+</div>
+<!-- TAB CONTENT 2: WAITLIST -->
+<div class="p-6 hidden" id="tab-content-waitlist">
+<div class="flex items-center justify-between pb-4">
+<div>
+<h4 class="text-sm font-bold text-slate-900">Queued Reserves</h4>
+<p class="text-xs text-slate-500">Waitlisted players are automatically notified in FIFO sequence if any registered player drops out.</p>
+</div>
+<span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">Example data</span>
+</div>
+<div class="space-y-2">
+<!-- Waitlist 1 -->
+<div class="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center font-mono">#1</span>
+<div>
+<span class="font-semibold text-slate-900 text-xs">Kweku D.</span>
+<span class="text-xs text-slate-500 ml-2">(Level 3.2 • Joined 16 Oct 05:20 PM)</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold rounded-lg shadow-sm">
+                  Promote to Player
+                </button>
+<button class="p-1.5 text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+</div>
+</div>
+<!-- Waitlist 2 -->
+<div class="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center font-mono">#2</span>
+<div>
+<span class="font-semibold text-slate-900 text-xs">Abena F.</span>
+<span class="text-xs text-slate-500 ml-2">(Level 3.0 • Joined 17 Oct 09:14 AM)</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold rounded-lg shadow-sm">
+                  Promote to Player
+                </button>
+<button class="p-1.5 text-slate-400 hover:text-slate-600">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB CONTENT 3: PAYMENTS LEDGER -->
+<div class="p-6 hidden" id="tab-content-payments">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+<div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+<span class="text-xs text-slate-500 font-medium">Total Expected Revenue</span>
+<div class="text-xl font-bold text-slate-900 mt-1 tabular-nums">GH₵ 1,320.00</div>
+<span class="text-[11px] text-slate-400">12 players × GH₵ 110.00</span>
+</div>
+<div class="p-4 bg-emerald-50/60 border border-emerald-200 rounded-lg">
+<span class="text-xs text-emerald-800 font-medium">Collected / Confirmed</span>
+<div class="text-xl font-bold text-emerald-700 mt-1 tabular-nums">GH₵ 660.00</div>
+<span class="text-[11px] text-emerald-600">6 MoMo verified settlements</span>
+</div>
+<div class="p-4 bg-amber-50/60 border border-amber-200 rounded-lg">
+<span class="text-xs text-amber-800 font-medium">Awaiting Desk Settlement</span>
+<div class="text-xl font-bold text-amber-700 mt-1 tabular-nums">GH₵ 220.00</div>
+<span class="text-[11px] text-amber-600">2 registered players unpaid</span>
+</div>
+</div>
+<div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left text-xs">
+<thead class="bg-blue-50/70 border-b border-slate-200 text-slate-600 uppercase font-semibold text-[11px] tracking-wider">
+<tr>
+<th class="py-3 px-4">Player</th>
+<th class="py-3 px-4">Method &amp; Reference</th>
+<th class="py-3 px-4">Amount</th>
+<th class="py-3 px-4">Status</th>
+<th class="py-3 px-4 text-right">Settlement Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 bg-white">
+<tr>
+<td class="py-3 px-4 font-semibold text-slate-900">Kwame A.</td>
+<td class="py-3 px-4 text-slate-600 font-mono text-[11px]">MTN Mobile Money (Ref #CW-9921)</td>
+<td class="py-3 px-4 font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Paid</span>
+</td>
+<td class="py-3 px-4 text-right text-slate-400">Auto-reconciled</td>
+</tr>
+<tr>
+<td class="py-3 px-4 font-semibold text-slate-900">Kofi B.</td>
+<td class="py-3 px-4 text-slate-600">Pending Cash at desk</td>
+<td class="py-3 px-4 font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">Awaiting payment</span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 bg-blue-700 text-white rounded text-xs font-semibold hover:bg-blue-800 shadow-sm">Mark Paid</button>
+</td>
+</tr>
+<tr>
+<td class="py-3 px-4 font-semibold text-slate-900">Dzifa O.</td>
+<td class="py-3 px-4 text-slate-600">Prompt sent (Telecel Cash)</td>
+<td class="py-3 px-4 font-medium tabular-nums text-slate-900">GH₵ 110.00</td>
+<td class="py-3 px-4">
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">Awaiting payment</span>
+</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2.5 py-1 bg-blue-700 text-white rounded text-xs font-semibold hover:bg-blue-800 shadow-sm">Mark Paid</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- TAB CONTENT 4: SCORES & STANDINGS -->
+<div class="p-6 hidden" id="tab-content-scores">
+<div class="flex items-center justify-between pb-4">
+<div>
+<h4 class="text-sm font-bold text-slate-900">Match Rounds Matrix (5 Rounds Planned)</h4>
+<p class="text-xs text-slate-500">Americano individual accumulated score tracker. Live points table refreshes after court referee input.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">Example data</span>
+<button class="px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 flex items-center gap-1.5" onclick="toggleScoreModal(true)">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span>Score Correction</span>
+</button>
+</div>
+</div>
+<div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left text-xs">
+<thead class="bg-blue-50/70 border-b border-slate-200 text-slate-600 uppercase font-semibold text-[11px] tracking-wider">
+<tr>
+<th class="py-3 px-4">Rank</th>
+<th class="py-3 px-4">Player</th>
+<th class="py-3 px-3 text-center">R1 (Court 1)</th>
+<th class="py-3 px-3 text-center">R2 (Court 2)</th>
+<th class="py-3 px-3 text-center">R3 (Court 3)</th>
+<th class="py-3 px-3 text-center">R4</th>
+<th class="py-3 px-3 text-center">R5</th>
+<th class="py-3 px-4 text-right">Total Points</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 bg-white tabular-nums">
+<tr class="hover:bg-slate-50">
+<td class="py-3 px-4 font-bold text-blue-700">#1</td>
+<td class="py-3 px-4 font-semibold text-slate-900">Kwame A.</td>
+<td class="py-3 px-3 text-center text-slate-700">16</td>
+<td class="py-3 px-3 text-center text-slate-700">14</td>
+<td class="py-3 px-3 text-center text-slate-700">18</td>
+<td class="py-3 px-3 text-center text-slate-400">-</td>
+<td class="py-3 px-3 text-center text-slate-400">-</td>
+<td class="py-3 px-4 text-right font-bold text-slate-900">48 pts</td>
+</tr>
+<tr class="hover:bg-slate-50">
+<td class="py-3 px-4 font-bold text-slate-700">#2</td>
+<td class="py-3 px-4 font-semibold text-slate-900">Yaw M.</td>
+<td class="py-3 px-3 text-center text-slate-700">14</td>
+<td class="py-3 px-3 text-center text-slate-700">16</td>
+<td class="py-3 px-3 text-center text-slate-700">15</td>
+<td class="py-3 px-3 text-center text-slate-400">-</td>
+<td class="py-3 px-3 text-center text-slate-400">-</td>
+<td class="py-3 px-4 text-right font-bold text-slate-900">45 pts</td>
+</tr>
+<tr class="hover:bg-slate-50">
+<td class="py-3 px-4 font-bold text-slate-700">#3</td>
+<td class="py-3 px-4 font-semibold text-slate-900">Esi S.</td>
+<td class="py-3 px-3 text-center text-slate-700">12</td>
+<td class="py-3 px-3 text-center text-slate-700">15</td>
+<td class="py-3 px-3 text-center text-slate-700">16</td>
+<td class="py-3 px-3 text-center text-slate-400">-</td>
+<td class="py-3 px-3 text-center text-slate-400">-</td>
+<td class="py-3 px-4 text-right font-bold text-slate-900">43 pts</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- TAB CONTENT 5: SETTINGS & CANCELLATION (DANGER ZONE) -->
+<div class="p-6 hidden" id="tab-content-settings">
+<div class="space-y-6">
+<!-- Event Configurations Summary -->
+<div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+<h4 class="text-sm font-bold text-slate-900 mb-2">Event Configuration Snapshot</h4>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+<div>
+<span class="text-slate-500 block">Format</span>
+<span class="font-semibold text-slate-800">Americano (24 points)</span>
+</div>
+<div>
+<span class="text-slate-500 block">Max Capacity</span>
+<span class="font-semibold text-slate-800 tabular-nums">12 Players (3 courts)</span>
+</div>
+<div>
+<span class="text-slate-500 block">Cancellation Policy</span>
+<span class="font-semibold text-slate-800">12h buffer prior to tee-off</span>
+</div>
+<div>
+<span class="text-slate-500 block">Host Referee</span>
+<span class="font-semibold text-slate-800">Kwame Mensah (Lead)</span>
+</div>
+</div>
+</div>
+<!-- Danger Zone Card -->
+<div class="border border-red-200 bg-red-50/40 rounded-xl p-5">
+<div class="flex items-start justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-red-600 text-[20px]">warning</span>
+<h4 class="font-bold text-red-900 text-sm">Danger Zone: Cancel Event</h4>
+</div>
+<p class="text-xs text-red-800 mt-1 max-w-2xl leading-relaxed">
+                    Cancelling will instantly notify 8 registered players and refund GH₵ 880.00 via original payment methods (6 MoMo, 2 Cash credits). Courts 1, 2, and 3 will automatically be unlocked for regular club bookings.
+                  </p>
+</div>
+<button class="px-4 py-2 bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white rounded-lg text-xs font-semibold shadow-sm whitespace-nowrap transition-all" onclick="confirmCancelEvent()">
+                  Cancel Event
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- ==================== MODAL / SLIDE-OVER: CREATE NEW EVENT FORM ==================== -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm hidden" id="create-event-modal">
+<div class="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-2xl max-h-[942px] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+<!-- Modal Header -->
+<div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-slate-900 text-base font-headline-sm">Create New Event</h3>
+<span class="text-[10px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded">Demo Padel Club</span>
+</div>
+<p class="text-xs text-slate-500">Configure tournament format, court assignments, and entry requirements.</p>
+</div>
+<button class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors" onclick="toggleCreateModal(false)">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable Form) -->
+<div class="p-6 overflow-y-auto space-y-5 text-xs">
+<!-- Format Selector -->
+<div>
+<label class="block font-semibold text-slate-800 mb-1.5 text-xs font-label-md">Event Format *</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="flex items-center justify-between p-3 border-2 border-blue-600 bg-blue-50/40 rounded-xl cursor-pointer">
+<div class="flex items-center gap-2.5">
+<input checked="" class="text-blue-600 focus:ring-blue-500" name="event-format" type="radio"/>
+<div>
+<span class="font-bold text-slate-900 block text-xs">Americano</span>
+<span class="text-[11px] text-slate-500">Dynamic partner rotations</span>
+</div>
+</div>
+<span class="text-blue-700 font-semibold text-[11px]">Selected</span>
+</label>
+<label class="flex items-center justify-between p-3 border border-slate-200 bg-slate-50 rounded-xl cursor-not-allowed opacity-75">
+<div class="flex items-center gap-2.5">
+<input class="text-slate-400" disabled="" name="event-format" type="radio"/>
+<div>
+<span class="font-bold text-slate-700 block text-xs">Mexicano</span>
+<span class="text-[11px] text-slate-400">Score-based pairing logic</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">Soon</span>
+</label>
+</div>
+</div>
+<!-- Venue Courts Selector -->
+<div>
+<label class="block font-semibold text-slate-800 mb-1.5 text-xs font-label-md">Assigned Courts (Facility #GH-042) *</label>
+<div class="grid grid-cols-3 gap-2.5">
+<label class="flex items-center gap-2 p-2.5 border border-slate-300 rounded-lg bg-white hover:bg-slate-50 cursor-pointer">
+<input checked="" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4" type="checkbox"/>
+<span class="font-semibold text-slate-800 text-xs">Court 1 (Panoramic)</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 border border-slate-300 rounded-lg bg-white hover:bg-slate-50 cursor-pointer">
+<input checked="" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4" type="checkbox"/>
+<span class="font-semibold text-slate-800 text-xs">Court 2 (Club Standard)</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 border border-slate-300 rounded-lg bg-white hover:bg-slate-50 cursor-pointer">
+<input checked="" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4" type="checkbox"/>
+<span class="font-semibold text-slate-800 text-xs">Court 3 (Club Standard)</span>
+</label>
+</div>
+<span class="text-[11px] text-slate-500 mt-1 block">3 courts selected • Optimal for exactly 12 players</span>
+</div>
+<!-- Date & Times Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Event Date *</label>
+<input class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600" type="date" value="2024-10-26"/>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Start Time *</label>
+<input class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600" placeholder="e.g. 07:00 AM" type="text" value="07:00 AM"/>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">End Time *</label>
+<input class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600" placeholder="e.g. 09:30 AM" type="text" value="09:30 AM"/>
+</div>
+</div>
+<!-- Points, Rounds & Capacity Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Points Per Match</label>
+<select class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 focus:outline-none focus:border-blue-600 bg-white">
+<option selected="">24 points</option>
+<option>32 points</option>
+<option>16 points (Sprint)</option>
+</select>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Total Rounds</label>
+<input class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 focus:outline-none focus:border-blue-600 bg-white" type="text" value="5 rounds"/>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Total Capacity</label>
+<input class="w-full text-xs h-11 border border-slate-200 bg-slate-100 rounded-lg px-3 text-slate-700 font-medium" readonly="" type="text" value="12 players (3 courts)"/>
+</div>
+</div>
+<!-- Pricing & Level Selection -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Price Per Player (GH₵) *</label>
+<input class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 font-semibold tabular-nums focus:outline-none focus:border-blue-600" placeholder="e.g., GH₵ 110.00" type="text" value="GH₵ 110.00"/>
+<span class="text-[11px] text-slate-400 mt-1 block">Includes court reservation, balls &amp; referee</span>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Skill Level Band</label>
+<select class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 focus:outline-none focus:border-blue-600 bg-white">
+<option selected="">Intermediate (Level 2.5 - 4.0)</option>
+<option>Beginner Friendly (Level 1.0 - 2.5)</option>
+<option>Advanced Competition (Level 4.0+)</option>
+<option>Open Tier (All Ranks)</option>
+</select>
+</div>
+</div>
+<!-- Competitiveness & Cancellation Window -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Tone &amp; Atmosphere</label>
+<div class="flex items-center gap-2">
+<button class="flex-1 py-2 px-3 rounded-lg border-2 border-blue-600 bg-blue-50 text-blue-700 font-semibold text-xs text-center" type="button">Social &amp; Fun</button>
+<button class="flex-1 py-2 px-3 rounded-lg border border-slate-300 bg-white text-slate-600 font-medium text-xs text-center hover:bg-slate-50" type="button">Competitive</button>
+</div>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1 text-xs font-label-md">Cancellation &amp; Refund Cutoff</label>
+<input class="w-full text-xs h-11 border border-slate-300 rounded-lg px-3 bg-white" type="text" value="Up to 12 hours before start"/>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+<button class="px-4 py-2 text-xs font-medium text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors" onclick="toggleCreateModal(false)">
+          Cancel
+        </button>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors shadow-sm" onclick="saveDraft()">
+            Save as Draft
+          </button>
+<button class="px-5 py-2 text-xs font-semibold text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors shadow-sm active:scale-[0.98]" onclick="publishEvent()">
+            Publish Event
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- ==================== MODAL: SCORE CORRECTION ==================== -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm hidden" id="score-correction-modal">
+<div class="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in duration-150">
+<div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-700 text-[20px]">edit_note</span>
+<h3 class="font-bold text-slate-900 text-sm">Submit Score Correction</h3>
+</div>
+<button class="text-slate-400 hover:text-slate-700" onclick="toggleScoreModal(false)">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-5 space-y-3.5 text-xs">
+<div>
+<label class="block font-semibold text-slate-800 mb-1">Target Match Round</label>
+<select class="w-full text-xs h-10 border border-slate-300 rounded-lg px-3 bg-white">
+<option>Round 2 • Court 2 (Kwame A. / Kofi B. vs Yaw M. / Esi S.)</option>
+<option>Round 1 • Court 1</option>
+<option>Round 3 • Court 3</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-semibold text-slate-800 mb-1">Pair 1 Corrected Score</label>
+<input class="w-full text-xs h-10 border border-slate-300 rounded-lg px-3 font-mono font-bold" type="number" value="10"/>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1">Pair 2 Corrected Score</label>
+<input class="w-full text-xs h-10 border border-slate-300 rounded-lg px-3 font-mono font-bold" type="number" value="14"/>
+</div>
+</div>
+<div>
+<label class="block font-semibold text-slate-800 mb-1">Mandatory Reason for Audit Log *</label>
+<textarea class="w-full text-xs border border-slate-300 rounded-lg p-2.5 focus:border-blue-600 focus:outline-none" placeholder="Reason (e.g., Court 2 match entered swapped scores by mistake)" rows="3"></textarea>
+<span class="text-[11px] text-slate-400 mt-1 block">Corrections will be logged under Kwame Mensah's operator ID.</span>
+</div>
+</div>
+<div class="px-5 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-end gap-2 text-xs">
+<button class="px-3 py-1.5 font-medium text-slate-600 hover:bg-slate-100 rounded-lg" onclick="toggleScoreModal(false)">Cancel</button>
+<button class="px-4 py-1.5 font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-lg shadow-sm" onclick="applyScoreCorrection()">Save &amp; Recalculate</button>
+</div>
+</div>
+</div>
+<!-- ==================== JAVASCRIPT MICRO-INTERACTIONS ==================== -->
+<script>
+    // Tab Switching for Event Manager Panel
+    function switchTab(tabId) {
+      const tabs = ['players', 'waitlist', 'payments', 'scores', 'settings'];
+      tabs.forEach(id => {
+        const content = document.getElementById(`tab-content-${id}`);
+        const btn = document.getElementById(`tab-btn-${id}`);
+        if (content && btn) {
+          if (id === tabId) {
+            content.classList.remove('hidden');
+            btn.classList.add('text-blue-700', 'border-b-2', 'border-blue-700', 'font-semibold');
+            btn.classList.remove('text-slate-600', 'font-medium');
+          } else {
+            content.classList.add('hidden');
+            btn.classList.remove('text-blue-700', 'border-b-2', 'border-blue-700', 'font-semibold');
+            btn.classList.add('text-slate-600', 'font-medium');
+          }
+        }
+      });
+    }
+
+    // Modal Toggles
+    function toggleCreateModal(show) {
+      const modal = document.getElementById('create-event-modal');
+      if (modal) {
+        if (show) modal.classList.remove('hidden');
+        else modal.classList.add('hidden');
+      }
+    }
+
+    function toggleScoreModal(show) {
+      const modal = document.getElementById('score-correction-modal');
+      if (modal) {
+        if (show) modal.classList.remove('hidden');
+        else modal.classList.add('hidden');
+      }
+    }
+
+    function saveDraft() {
+      toggleCreateModal(false);
+      showToast('Draft event saved successfully.');
+    }
+
+    function publishEvent() {
+      toggleCreateModal(false);
+      showToast('New Americano event published to Padel Ghana mobile app.');
+    }
+
+    function applyScoreCorrection() {
+      toggleScoreModal(false);
+      showToast('Scores amended and leaderboards updated with audit entry.');
+    }
+
+    function confirmCancelEvent() {
+      if (confirm("Are you sure you want to cancel 'Saturday Sunrise Americano'? This will trigger GH₵ 880.00 in refunds and notify all 8 players.")) {
+        showToast('Event canceled. Refunds queued and SMS dispatched.');
+      }
+    }
+
+    // Simple Toast Notification
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 border border-slate-800 transition-all duration-300';
+      toast.innerHTML = `<span class="material-symbols-outlined text-emerald-400 text-[18px]">check_circle</span><span>${message}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body></html>

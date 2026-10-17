@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Club Profile &amp; Facilities | Padel Ghana Admin</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#131b2e",
+            "primary-fixed-dim": "#b7c4ff",
+            "tertiary": "#344c01",
+            "tertiary-container": "#4b641a",
+            "on-surface-variant": "#434655",
+            "surface-container-highest": "#dae2fd",
+            "on-secondary-fixed": "#001453",
+            "on-primary-container": "#cad3ff",
+            "surface-container-lowest": "#ffffff",
+            "on-error": "#ffffff",
+            "inverse-on-surface": "#eef0ff",
+            "surface-variant": "#dae2fd",
+            "on-error-container": "#93000a",
+            "surface-dim": "#d2d9f4",
+            "error-container": "#ffdad6",
+            "inverse-surface": "#283044",
+            "surface-container-high": "#e2e7ff",
+            "on-secondary-container": "#00217a",
+            "on-primary-fixed-variant": "#0039b5",
+            "inverse-primary": "#b7c4ff",
+            "primary": "#0037b0",
+            "outline-variant": "#c4c5d7",
+            "on-tertiary-container": "#c1e087",
+            "primary-fixed": "#dce1ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed-variant": "#173bab",
+            "on-tertiary-fixed-variant": "#364e03",
+            "outline": "#747686",
+            "on-primary-fixed": "#001551",
+            "primary-container": "#1d4ed8",
+            "surface": "#faf8ff",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-container-low": "#f2f3ff",
+            "secondary-container": "#708cfd",
+            "secondary": "#3755c3",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#b3d17a",
+            "on-primary": "#ffffff",
+            "surface-bright": "#faf8ff",
+            "on-tertiary-fixed": "#131f00",
+            "surface-container": "#eaedff",
+            "surface-tint": "#2151da",
+            "background": "#faf8ff",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ceee93",
+            "on-background": "#131b2e"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Inter"],
+            "body-sm": ["Inter"],
+            "data-currency": ["Inter"],
+            "headline-sm": ["Inter"],
+            "label-sm": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "data-metric": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Tabular figures for operational data */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+</head>
+<body class="h-full text-on-surface bg-background flex flex-col font-body-md text-body-md antialiased overflow-x-hidden">
+<!-- ========================================================================= -->
+<!-- TOP AUDIT NOTICE BANNER                                                   -->
+<!-- ========================================================================= -->
+<div class="w-full bg-[#EFF6FF] border-b border-[#CBD5E1]/60 px-6 py-2 flex items-center justify-between z-30">
+<div class="flex items-center gap-2.5">
+<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#1D4ED8]/10 text-[#1D4ED8]">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+</span>
+<span class="font-label-md text-label-md text-on-surface">
+        Updated by Padel Ghana staff on 12 Oct • <span class="font-semibold text-primary">Audit Verified</span>
+</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider bg-surface-container-highest text-primary">Example data</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline inline-flex items-center gap-1" type="button">
+        See changes
+        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- TOP APP BAR (From Shared Components JSON)                                 -->
+<!-- ========================================================================= -->
+<header class="w-full px-6 py-3 flex items-center justify-between sticky top-0 z-40 bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant/40 shadow-sm">
+<!-- Brand / Product Identity -->
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold shadow-sm">
+<span class="material-symbols-outlined text-[20px]">sports_tennis</span>
+</div>
+<div>
+<span class="text-headline-md font-headline-md text-primary font-bold tracking-tight">Padel Ghana Admin</span>
+<span class="block text-[10px] uppercase font-semibold text-outline tracking-wider">Club Portal • club.padelghana.com</span>
+</div>
+</div>
+<!-- Desktop Nav Links -->
+<nav class="hidden lg:flex items-center gap-6 pl-4 border-l border-outline-variant/50">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#facility-overview">Facility Overview</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#schedules">Schedules</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#bookings">Bookings</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#finance">Finance</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#support">Support</a>
+</nav>
+</div>
+<!-- Actions & User Profile -->
+<div class="flex items-center gap-3">
+<!-- Search Bar -->
+<div class="relative hidden sm:block w-56 xl:w-64">
+<span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-base">search</span>
+</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface border border-outline-variant/60 font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Search facilities, courts..." type="text"/>
+</div>
+<div class="flex items-center gap-1 border-r border-outline-variant/60 pr-2">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all" title="Notifications" type="button">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all" title="Help Desk" type="button">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all" title="Settings" type="button">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<button class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant/70 text-on-surface font-label-md text-label-md hover:bg-surface-container-high/60 transition-all" type="button">
+<span class="material-symbols-outlined text-base">support_agent</span>
+        Help Desk
+      </button>
+<button class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-all" type="button">
+        Exit Preview
+      </button>
+<!-- User avatar badge -->
+<div class="flex items-center gap-2 pl-1">
+<img alt="Kwame Mensah Operations Lead Avatar" class="w-9 h-9 rounded-full object-cover border border-primary/20" data-alt="Professional portrait of Kwame Mensah, Ghanaian sports venue owner and operator, dressed in modern corporate athletic attire inside a padel club facility with warm interior natural lighting and subtle blue architectural branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQx5nhshgTCB1daQKgS-XFuji5ACBxcYGO19oXhI8-3eB7USLbM8J9Td9H8CgseKea4ly9Dgz9KewdizH9rLPjMPkgD2R2_ocg-wvW3DT8yxi-kEP3eLU5ATcGKH5ChUvsi4nNBX_MzQumswAyazysxq2LtSGuuKKBL9r00mduQzGRoype1vtAcrmmutttYUrMZPF4JFW-USq8gPKuHDi6YaISSy04QbPeKx2x3AtZfncaWdVleGrV"/>
+<div class="hidden xl:block text-left">
+<div class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Kwame Mensah</div>
+<div class="font-body-sm text-body-sm text-outline">Owner &amp; Operator</div>
+</div>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE LAYOUT (SideNav + Content)                                  -->
+<!-- ========================================================================= -->
+<div class="flex flex-1 relative min-h-screen">
+<!-- SIDE NAVIGATION BAR (From Shared Components JSON) -->
+<aside class="w-64 flex-shrink-0 bg-surface-container-lowest/70 backdrop-blur-xl border-r border-outline-variant/40 hidden md:flex flex-col justify-between p-4 z-20">
+<div>
+<!-- Facility Identity Header -->
+<div class="p-3 mb-4 rounded-xl bg-surface-container-low border border-outline-variant/40 flex items-center gap-3">
+<img alt="Accra Central Padel Club Crest" class="w-10 h-10 rounded-lg object-cover border border-outline-variant/60" data-alt="Official round emblem and crest for Accra Central Padel Club showcasing vibrant gold and deep stadium blue heraldry with tennis racket motifs in modern clean flat vector style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF5_sbEPcZsS2ubYyYMrWSXZEXbnPTiQWgwaSnYbyjpe9NRAQPNhJhOxd065T1Ay6INFF9qa5zWGRI8iaEtLl6R07MGSUC4jUDhMSK3Z0XYtjp9J6C3gKO1FOcP8RZvy7jn-g5vSn5DGBZAItCeuZv-wXDEhTDw9_5ntjYXMtDtq54RLf9FZ7ADLLqaTBcD-HhSwN44xG-ciZ1_Rv9g6RIJtBRe82z1Ua7UTiuQp1W38dyM9e8ezqL"/>
+<div class="overflow-hidden">
+<h2 class="text-headline-sm font-headline-sm font-bold text-on-surface truncate leading-tight">Accra Central Club</h2>
+<p class="font-body-sm text-body-sm text-outline truncate">Facility ID #GH-042</p>
+</div>
+</div>
+<!-- Quick Primary CTA -->
+<button class="w-full mb-5 flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm hover:bg-blue-700 active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined text-base">add</span>
+          New Court Booking
+        </button>
+<!-- Main Navigation Tab Group -->
+<div class="text-[10px] uppercase font-bold tracking-wider text-outline px-3 mb-2">Management Console</div>
+<nav class="space-y-1">
+<!-- 1. Courts & Schedules -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Courts &amp; Schedules</span>
+</a>
+<!-- 2. Bookings Ledger -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span>Bookings Ledger</span>
+</a>
+<!-- 3. Members & Players -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Members &amp; Players</span>
+</a>
+<!-- 4. Financials -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Financials</span>
+</a>
+<!-- 5. Audit Log -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Audit Log</span>
+</a>
+<!-- 6. Facility Settings (ACTIVE STATE) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm" href="#">
+<span class="material-symbols-outlined">tune</span>
+<span>Facility Settings</span>
+</a>
+</nav>
+</div>
+<!-- Footer Navigation Items -->
+<div class="pt-4 border-t border-outline-variant/40 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Documentation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">signal_cellular_alt</span>
+<span class="flex-1">System Status</span>
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+</a>
+<div class="px-3 pt-2 text-[11px] text-outline font-body-sm">
+          Ghana Padel Fed v2.4.0
+        </div>
+</div>
+</aside>
+<!-- MAIN SCROLLABLE CONTENT CANVAS -->
+<main class="flex-1 min-w-0 pb-36 px-4 sm:px-8 pt-6 max-w-7xl mx-auto">
+<!-- Context Breadcrumb & Quick Info Header -->
+<div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-outline font-label-sm text-label-sm uppercase tracking-wider mb-1">
+<span>Demo Padel Club</span>
+<span>/</span>
+<span>Facility ID #GH-042</span>
+<span>/</span>
+<span class="text-primary font-semibold">Airport Residential Area, Accra</span>
+</div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface tracking-tight">Club Profile &amp; Facilities</h1>
+<p class="text-on-surface-variant font-body-md text-body-md mt-0.5">Manage public profile presence, geo-location credentials, media gallery, and court specifications.</p>
+</div>
+<!-- External Quick Actions -->
+<div class="flex items-center gap-2">
+<a class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-surface-container-lowest border border-[#CBD5E1] text-on-surface font-label-md text-label-md hover:bg-surface hover:border-outline transition-all shadow-sm" href="#preview">
+<span class="material-symbols-outlined text-base">visibility</span>
+            Live Player View
+          </a>
+<button class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-blue-700 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-base">share</span>
+            Share Club Link
+          </button>
+</div>
+</div>
+<!-- NAVIGATION TABS -->
+<div class="border-b border-[#E2E8F0] mb-8 flex items-center gap-6 overflow-x-auto">
+<button class="flex items-center gap-2 pb-3 border-b-2 border-primary text-primary font-label-lg text-label-lg font-semibold whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-lg">badge</span>
+          Details &amp; Photos
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+</button>
+<button class="flex items-center gap-2 pb-3 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg font-medium transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-lg">sports_tennis</span>
+          Courts &amp; Amenities
+          <span class="px-2 py-0.2 rounded-full bg-surface-container font-semibold text-xs text-primary">4 Courts</span>
+</button>
+<button class="flex items-center gap-2 pb-3 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg font-medium transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-lg">schedule</span>
+          Hours &amp; Prices
+        </button>
+<button class="flex items-center gap-2 pb-3 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg font-medium transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-lg">preview</span>
+          Public Preview
+        </button>
+</div>
+<!-- ===================================================================== -->
+<!-- SECTION C1: DETAILS & PHOTOS                                          -->
+<!-- ===================================================================== -->
+<div class="space-y-8 mb-12">
+<!-- C1.1: Club Details Form Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
+<div class="flex items-start justify-between border-b border-[#F1F5F9] pb-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">storefront</span>
+<h2 class="text-headline-md font-headline-md text-on-surface">Club Primary Details</h2>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Essential venue identification used on Padel Ghana player booking directory.</p>
+</div>
+<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+              Verified Venue
+            </span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Club Name -->
+<div class="lg:col-span-6 space-y-1.5">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="club-name">
+                Club Name <span class="text-error">*</span>
+</label>
+<input class="w-full h-11 px-3.5 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="club-name" type="text" value="Demo Padel Club"/>
+<p class="font-body-sm text-body-sm text-outline">Registered facility identity in Greater Accra sports directory.</p>
+</div>
+<!-- Public Booking Email -->
+<div class="lg:col-span-6 space-y-1.5">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="booking-email">
+                Public Booking Email <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline pointer-events-none">
+<span class="material-symbols-outlined text-base">mail</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3.5 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="booking-email" type="email" value="kwame.m@demopadel.gh"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Player booking inquiries and digital invoices route here.</p>
+</div>
+<!-- Short Description with Character Counter -->
+<div class="lg:col-span-12 space-y-1.5">
+<div class="flex justify-between items-center">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="description">
+                  Venue Overview Description <span class="text-error">*</span>
+</label>
+<span class="font-body-sm text-body-sm text-outline tabular-nums">106 / 240 chars</span>
+</div>
+<textarea class="w-full p-3 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10 leading-relaxed" id="description" rows="3">Accra's premier padel destination featuring panoramic indoor courts, pro lighting, and vibrant social tournaments.</textarea>
+<p class="font-body-sm text-body-sm text-outline">Appears on mobile search previews and tournament banners.</p>
+</div>
+<!-- Street Address -->
+<div class="lg:col-span-6 space-y-1.5">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="street-address">
+                Physical Street Address <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline pointer-events-none">
+<span class="material-symbols-outlined text-base">location_on</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3.5 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="street-address" type="text" value="14 Senchi Street, Airport Residential Area, Accra"/>
+</div>
+</div>
+<!-- GhanaPostGPS Digital Address -->
+<div class="lg:col-span-6 space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="ghanapost">
+                  GhanaPostGPS Digital Address <span class="text-error">*</span>
+</label>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#007A33]/10 text-[#007A33] border border-[#007A33]/20 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Verified GPS
+                </span>
+</div>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline pointer-events-none">
+<span class="material-symbols-outlined text-base">pin_drop</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3 rounded-lg border border-[#64748B] bg-white font-mono text-on-surface font-bold text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="ghanapost" type="text" value="GA-112-9082"/>
+</div>
+<button class="h-11 px-3.5 rounded-lg border border-[#CBD5E1] bg-white text-on-surface hover:bg-surface-container flex items-center justify-center transition-all" title="Copy Digital Address" type="button">
+<span class="material-symbols-outlined text-base">content_copy</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-outline">National location system standard for emergency response &amp; courier logistics.</p>
+</div>
+<!-- Google Maps link input with Test Link button -->
+<div class="lg:col-span-12 space-y-1.5">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="maps-link">
+                Google Maps Venue Link <span class="text-error">*</span>
+</label>
+<div class="flex flex-col sm:flex-row gap-2">
+<div class="relative flex-1">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline pointer-events-none">
+<span class="material-symbols-outlined text-base">map</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3.5 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="maps-link" type="url" value="https://maps.google.com/?q=5.6037,-0.1870"/>
+</div>
+<button class="h-11 px-4 rounded-lg border border-[#CBD5E1] bg-[#EFF6FF] text-primary font-label-md text-label-md font-semibold hover:bg-blue-100 flex items-center justify-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-base">launch</span>
+                  Test link
+                </button>
+</div>
+</div>
+<!-- Contact Numbers -->
+<div class="lg:col-span-6 space-y-1.5">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="phone">
+                Primary Phone Line <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline pointer-events-none">
+<span class="material-symbols-outlined text-base">call</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3.5 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="phone" type="tel" value="+233 24 412 3456"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Placeholder convention: e.g., 024 123 4567</p>
+</div>
+<div class="lg:col-span-6 space-y-1.5">
+<label class="block font-label-md text-label-md font-medium text-on-surface" for="whatsapp">
+                WhatsApp Booking Line <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-3 flex items-center text-emerald-600 pointer-events-none">
+<span class="material-symbols-outlined text-base">chat</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3.5 rounded-lg border border-[#64748B] bg-white text-on-surface font-body-md text-body-md focus:border-primary focus:ring-4 focus:ring-primary/10" id="whatsapp" type="tel" value="+233 50 987 6543"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Direct line for instant chat confirmations on player app.</p>
+</div>
+</div>
+</section>
+<!-- C1.2: Media Gallery & Photos Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#F1F5F9] pb-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">photo_library</span>
+<h2 class="text-headline-md font-headline-md text-on-surface">Club Media &amp; Gallery</h2>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">High-resolution venue imagery shown to players during court booking journeys.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-outline">4 of 12 uploaded</span>
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline" type="button">Guidelines</button>
+</div>
+</div>
+<!-- Drag and Drop Upload Zone -->
+<div class="border-2 border-dashed border-[#CBD5E1] rounded-xl p-8 bg-surface-container-low/50 hover:bg-surface-container-low transition-all text-center flex flex-col items-center justify-center cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-[#EFF6FF] text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl">cloud_upload</span>
+</div>
+<div class="font-headline-sm font-headline-sm text-on-surface">Drag and drop club photos here, or <span class="text-primary underline">browse</span></div>
+<p class="font-body-sm text-body-sm text-outline mt-1">JPG, PNG or WebP • Max 5MB per photo • Min 1200x800px</p>
+</div>
+<!-- Photo Grid with Status & Alt-Text -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+<!-- Photo 1 (Cover photo) -->
+<div class="border border-[#E2E8F0] rounded-xl p-4 bg-white space-y-3.5 relative">
+<div class="relative h-48 w-full rounded-lg overflow-hidden bg-surface-container">
+<img alt="Panoramic view of Court 1 and spectator lounge" class="w-full h-full object-cover" data-alt="High angle shot of a vibrant indoor blue panoramic padel court with bright arena lighting, clean glass walls, modern tournament spectator lounge with branded seating in Accra, Ghana." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7wXXqH3aVoQf1ZcaU_iGR1DUecrGQhuWUC5xx5VY4nC6UwRic1gm6emOT7rEJpHuddtJDpa3TbbocOS4dRU9m48XEB3ViejlW0Bgu1JTVSM1Kgh-bsyDR2NR84_838yXFv7Firuxk0f7HGRo9YBtTsvAlPRRT-v3tdpGxZ8u_Yivat61Bp4tBVHCPKalAdJIsZ558tmOG5vNfy9pEO0qrYREHNaZ3Ga9eFR6_OBpZMTVvZI--bE5n"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-md bg-primary text-white text-xs font-semibold shadow-sm">
+<span class="material-symbols-outlined text-sm">star</span>
+                  Cover photo
+                </div>
+<div class="absolute top-2.5 right-2.5 flex items-center gap-1">
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-black/80" title="Reorder Handle" type="button">
+<span class="material-symbols-outlined text-sm">drag_indicator</span>
+</button>
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-red-600" title="Delete Photo" type="button">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-[11px] font-mono">1920x1080 • 2.4 MB</div>
+</div>
+<!-- Metadata fields -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md font-medium text-on-surface">
+                  Accessibility Alt Text <span class="text-error">*</span>
+</label>
+<input class="w-full h-10 px-3 rounded-lg border border-[#CBD5E1] text-body-sm font-body-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20" type="text" value="Panoramic view of Court 1 and spectator lounge"/>
+<label class="flex items-center gap-2 cursor-pointer pt-1">
+<input checked="" class="w-4 h-4 rounded border-[#64748B] text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">I have permission to use this photo</span>
+</label>
+</div>
+</div>
+<!-- Photo 2 (Court 2 Night Lighting) -->
+<div class="border border-[#E2E8F0] rounded-xl p-4 bg-white space-y-3.5 relative">
+<div class="relative h-48 w-full rounded-lg overflow-hidden bg-surface-container">
+<img alt="Court 2 illuminated during evening tournament" class="w-full h-full object-cover" data-alt="Evening tournament match scene at an upscale Accra padel club with bright 600 lux LED floodlights illuminating players in action through seamless tempered glass enclosures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgSWRIUndpZud3n0ZbMsFH2_Wn_6ADmf9oLlkGm3_BU8MVAFmkc7KILjufUniNzVJtWsdw84XgnVWPQAy2tGyMY76wtowB8N8jCKjSZL-6LiqWnUr-UW04_VgveyW_BJP2ebcew1Xd9NbdaLi1btYPVyaQuVeYrxPV_tKXLkw393_pkXa14HLEbZMvWuDr3w_Rq2XA-mYW48bmwUMJeJ48EO1KhCx4hFgm3g_9wMuoD1gDce5-8ZTY"/>
+<div class="absolute top-2.5 right-2.5 flex items-center gap-1">
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-black/80" title="Reorder Handle" type="button">
+<span class="material-symbols-outlined text-sm">drag_indicator</span>
+</button>
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-red-600" title="Delete Photo" type="button">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-[11px] font-mono">2048x1365 • 3.1 MB</div>
+</div>
+<!-- Metadata fields -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md font-medium text-on-surface">
+                  Accessibility Alt Text <span class="text-error">*</span>
+</label>
+<input class="w-full h-10 px-3 rounded-lg border border-[#CBD5E1] text-body-sm font-body-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20" type="text" value="Court 2 illuminated during evening tournament"/>
+<label class="flex items-center gap-2 cursor-pointer pt-1">
+<input checked="" class="w-4 h-4 rounded border-[#64748B] text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">I have permission to use this photo</span>
+</label>
+</div>
+</div>
+<!-- Photo 3 (Clubhouse & Pro Shop) -->
+<div class="border border-[#E2E8F0] rounded-xl p-4 bg-white space-y-3.5 relative">
+<div class="relative h-48 w-full rounded-lg overflow-hidden bg-surface-container">
+<img alt="Equipment rental desk and clubhouse seating" class="w-full h-full object-cover" data-alt="Modern padel clubhouse reception area and sports retail pro shop displaying premium rackets, athletic apparel, smoothie cafe bar, and comfortable player lounge." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvvRbweO4NfUotufOx4vM9km6zYw35iNZLTialks-0xdfvWqBEowsQA0gNDexSkfE9NIz0S4CzjuwY_VB7CQtJHGLGcCGbjBWhbKPgqzsVj7EoppZJ1ui_Uj3M1aIHiwd1tWF0uB0Tm6B1_erQ_mMQX8WnczBFrSPxGoKccMpUTUIQyYdtYs0fGkGzf4P3NXltb2jKe8QSSADPQugtx3cFEk7e7UO2N0qp7dBoJgNEjFdIa6yfqFBi"/>
+<div class="absolute top-2.5 right-2.5 flex items-center gap-1">
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-black/80" title="Reorder Handle" type="button">
+<span class="material-symbols-outlined text-sm">drag_indicator</span>
+</button>
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-red-600" title="Delete Photo" type="button">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-[11px] font-mono">1600x1066 • 1.9 MB</div>
+</div>
+<!-- Metadata fields -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md font-medium text-on-surface">
+                  Accessibility Alt Text <span class="text-error">*</span>
+</label>
+<input class="w-full h-10 px-3 rounded-lg border border-[#CBD5E1] text-body-sm font-body-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20" type="text" value="Equipment rental desk and clubhouse seating"/>
+<label class="flex items-center gap-2 cursor-pointer pt-1">
+<input checked="" class="w-4 h-4 rounded border-[#64748B] text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">I have permission to use this photo</span>
+</label>
+</div>
+</div>
+<!-- Photo 4 (Error State Showcase) -->
+<div class="border-2 border-[#B3261E] rounded-xl p-4 bg-[#FFF8F8] space-y-3.5 relative">
+<div class="relative h-48 w-full rounded-lg overflow-hidden bg-surface-container">
+<img alt="Outdoor court 4 ground view" class="w-full h-full object-cover" data-alt="Outdoor padel court under a clear tropical sky surrounded by palm trees with fresh tournament net fixtures in Airport Residential Accra." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjqflcL-SPfBoAZipogcr9ZNUB1esT_Re1tsvC5u7YxzHMlDlq7j8j2zE6GucAGn8FgtpGtxCdLhnLoJmzz0NZCfgnNAYNB9wwL8Ib0AzYlZ3qJbV9LZuatcI-QEt5YjAS3Wwzv6EJgLOA4gK8xA2EefsPwY6eYCjtQQ3hpcoYiQhyvXxaOlAHHadDAw8HGbTDH2UmXMlT1R1aRwNv3R-wu9sYb0mHtdVWSWso_UX41c3UovvfPwj9"/>
+<div class="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#B3261E] text-white text-xs font-semibold shadow-sm">
+<span class="material-symbols-outlined text-sm">error</span>
+                  Needs Attention
+                </div>
+<div class="absolute top-2.5 right-2.5 flex items-center gap-1">
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-black/80" title="Reorder Handle" type="button">
+<span class="material-symbols-outlined text-sm">drag_indicator</span>
+</button>
+<button class="w-7 h-7 rounded bg-black/60 text-white flex items-center justify-center hover:bg-red-600" title="Delete Photo" type="button">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-[11px] font-mono">1800x1200 • 2.2 MB</div>
+</div>
+<!-- Metadata fields with Error Validation Visible -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md font-medium text-[#B3261E]">
+                  Accessibility Alt Text <span class="text-error">*</span>
+</label>
+<input class="w-full h-10 px-3 rounded-lg border-2 border-[#B3261E] text-body-sm font-body-sm bg-white text-on-surface focus:outline-none focus:ring-2 focus:ring-red-200" placeholder="Describe photo contents for screen readers..." type="text"/>
+<p class="font-body-sm text-body-sm text-[#B3261E] flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-sm">warning</span>
+                  Alt text is required for player accessibility
+                </p>
+<label class="flex items-center gap-2 cursor-pointer pt-1">
+<input class="w-4 h-4 rounded border-[#B3261E] text-[#B3261E] focus:ring-red-400" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant">I have permission to use this photo</span>
+</label>
+<p class="text-[11px] text-outline pl-6">Mandatory legal consent for public publication.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- ===================================================================== -->
+<!-- SECTION C2: COURTS & AMENITIES                                        -->
+<!-- ===================================================================== -->
+<div class="space-y-8 mb-12">
+<!-- C2.1: Amenities Checklist -->
+<section class="bg-surface-container-lowest rounded-xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
+<div class="border-b border-[#F1F5F9] pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">room_service</span>
+<h2 class="text-headline-md font-headline-md text-on-surface">Club Amenities &amp; Services</h2>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Select amenities available at your club. These filter badges appear in player search.</p>
+</div>
+<span class="font-body-sm text-body-sm text-outline">9 selected</span>
+</div>
+<!-- Standard Amenities Chip Grid -->
+<div>
+<label class="block font-label-md text-label-md font-medium text-on-surface mb-3">Standard Amenities</label>
+<div class="flex flex-wrap gap-2.5">
+<!-- Parking -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">local_parking</span>
+                Parking
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Showers -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">shower</span>
+                Showers
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Cafe & Smoothie Bar -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">local_cafe</span>
+                Cafe &amp; Smoothie Bar
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Floodlights -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">lightbulb</span>
+                Floodlights
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Racket Rental -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">sports_tennis</span>
+                Racket Rental
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Lockers -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">lock</span>
+                Lockers
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Changing Rooms -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">checkroom</span>
+                Changing Rooms
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- WiFi -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">wifi</span>
+                WiFi
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Accessible Entrance -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#EFF6FF] border border-primary text-primary font-label-md text-label-md font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-base">accessible</span>
+                Accessible Entrance
+                <span class="material-symbols-outlined text-sm">check</span>
+</button>
+<!-- Unselected Amenities to demonstrate interactable states -->
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white border border-[#CBD5E1] text-on-surface-variant font-label-md text-label-md hover:border-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">sauna</span>
+                Sauna &amp; Spa
+              </button>
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white border border-[#CBD5E1] text-on-surface-variant font-label-md text-label-md hover:border-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">fitness_center</span>
+                Gym Facilities
+              </button>
+</div>
+</div>
+<!-- Custom Amenities Tag Input -->
+<div class="pt-2 border-t border-[#F1F5F9] space-y-3">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md font-medium text-on-surface">Custom Club Amenities</label>
+<span class="font-body-sm text-body-sm text-outline">2 of 5 added</span>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<!-- Custom tag 1 -->
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/60 font-body-sm text-body-sm font-medium text-on-surface">
+                Chilled Towels
+                <button class="hover:text-error" title="Remove Chilled Towels" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</span>
+<!-- Custom tag 2 -->
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/60 font-body-sm text-body-sm font-medium text-on-surface">
+                Pro Ball Machine
+                <button class="hover:text-error" title="Remove Ball Machine" type="button">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</span>
+<!-- Add custom amenity input -->
+<div class="inline-flex items-center gap-2">
+<div class="relative w-64">
+<input class="w-full h-9 px-3 rounded-lg border border-[#CBD5E1] text-body-sm font-body-sm bg-white text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="+ Add custom amenity (max 5)" type="text"/>
+</div>
+<button class="h-9 px-3 rounded-lg bg-[#EFF6FF] border border-primary/40 text-primary font-label-md text-label-md font-semibold hover:bg-blue-100 transition-all" type="button">
+                  Add
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- C2.2: Courts Management -->
+<section class="bg-surface-container-lowest rounded-xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F1F5F9] pb-4">
+<div>
+<div class="flex items-center gap-3">
+<h2 class="text-headline-md font-headline-md text-on-surface">Courts Management</h2>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#EFF6FF] text-primary border border-primary/20">
+                  4 Active Courts
+                </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Configure court surfaces, lighting specifications, and operational schedules.</p>
+</div>
+<!-- View Toggle & Add Court Modal Trigger -->
+<div class="flex items-center gap-3">
+<div class="inline-flex rounded-lg border border-[#CBD5E1] p-1 bg-surface-container-low">
+<button class="px-3 py-1 rounded-md bg-white text-primary font-label-md text-label-md font-semibold shadow-xs flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-base">grid_view</span>
+                  Card View
+                </button>
+<button class="px-3 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors" title="Compact Table View (for 14-court clubs)" type="button">
+<span class="material-symbols-outlined text-base">table_rows</span>
+                  Table View
+                </button>
+</div>
+<button class="h-10 px-4 rounded-lg bg-primary text-white font-label-md text-label-md font-semibold hover:bg-blue-800 flex items-center gap-2 shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-base">add_circle</span>
+                + Add Court
+              </button>
+</div>
+</div>
+<!-- Courts Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Court 1 (Indoor) -->
+<div class="border border-[#CBD5E1] rounded-xl p-5 bg-white space-y-4 hover:border-primary transition-all">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Center Court (Indoor)</h3>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Operational
+                    </span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Court ID #CT-001 • Primary Tournament Arena</p>
+</div>
+<div class="p-2 rounded-lg bg-[#EFF6FF] text-primary">
+<span class="material-symbols-outlined">stadium</span>
+</div>
+</div>
+<!-- Specs Grid -->
+<div class="grid grid-cols-2 gap-3 p-3 rounded-lg bg-surface-container-low text-body-sm font-body-sm">
+<div>
+<span class="text-outline block text-xs">Enclosure</span>
+<span class="font-semibold text-on-surface">Panoramic glass</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Turf Spec</span>
+<span class="font-semibold text-on-surface">Supercourt Pro turf</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Lighting</span>
+<span class="font-semibold text-on-surface">LED 800 Lux</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Standard Rate</span>
+<span class="font-semibold text-on-surface tabular-nums">GH₵ 220.00 / hr</span>
+</div>
+</div>
+<!-- Notes -->
+<div class="text-body-sm font-body-sm text-on-surface-variant flex items-start gap-2 bg-[#EFF6FF]/60 p-2.5 rounded-lg border border-[#CBD5E1]/60">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">info</span>
+<span>Tournament ready, streaming cameras active.</span>
+</div>
+<!-- Action buttons -->
+<div class="flex items-center justify-between pt-2 border-t border-[#F1F5F9]">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+                  Edit Court
+                </button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">build</span>
+                  Manage Maintenance
+                </button>
+</div>
+</div>
+<!-- Court 2 (Indoor) -->
+<div class="border border-[#CBD5E1] rounded-xl p-5 bg-white space-y-4 hover:border-primary transition-all">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Court 2 (Indoor)</h3>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Operational
+                    </span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Court ID #CT-002 • Member League Play</p>
+</div>
+<div class="p-2 rounded-lg bg-[#EFF6FF] text-primary">
+<span class="material-symbols-outlined">roofing</span>
+</div>
+</div>
+<!-- Specs Grid -->
+<div class="grid grid-cols-2 gap-3 p-3 rounded-lg bg-surface-container-low text-body-sm font-body-sm">
+<div>
+<span class="text-outline block text-xs">Enclosure</span>
+<span class="font-semibold text-on-surface">Panoramic glass</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Turf Spec</span>
+<span class="font-semibold text-on-surface">Blue turf</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Lighting</span>
+<span class="font-semibold text-on-surface">LED 600 Lux</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Standard Rate</span>
+<span class="font-semibold text-on-surface tabular-nums">GH₵ 180.00 / hr</span>
+</div>
+</div>
+<!-- Notes -->
+<div class="text-body-sm font-body-sm text-on-surface-variant flex items-start gap-2 bg-[#FFFBEB] p-2.5 rounded-lg border border-[#FDE68A]">
+<span class="material-symbols-outlined text-[#B45309] text-base mt-0.5">warning</span>
+<span class="text-[#78350F]">Court 2 has low ceiling beam near north net post.</span>
+</div>
+<!-- Action buttons -->
+<div class="flex items-center justify-between pt-2 border-t border-[#F1F5F9]">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+                  Edit Court
+                </button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">build</span>
+                  Manage Maintenance
+                </button>
+</div>
+</div>
+<!-- Court 3 (Outdoor Canopy) -->
+<div class="border border-[#CBD5E1] rounded-xl p-5 bg-white space-y-4 hover:border-primary transition-all">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Court 3 (Canopy)</h3>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Operational
+                    </span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Court ID #CT-003 • Semi-covered All-Weather</p>
+</div>
+<div class="p-2 rounded-lg bg-[#EFF6FF] text-primary">
+<span class="material-symbols-outlined">umbrella</span>
+</div>
+</div>
+<!-- Specs Grid -->
+<div class="grid grid-cols-2 gap-3 p-3 rounded-lg bg-surface-container-low text-body-sm font-body-sm">
+<div>
+<span class="text-outline block text-xs">Structure</span>
+<span class="font-semibold text-on-surface">Semi-covered canopy</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Wind Protection</span>
+<span class="font-semibold text-on-surface">Windbreak netting</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Lighting</span>
+<span class="font-semibold text-on-surface">LED 500 Lux</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Standard Rate</span>
+<span class="font-semibold text-on-surface tabular-nums">GH₵ 160.00 / hr</span>
+</div>
+</div>
+<!-- Notes -->
+<div class="text-body-sm font-body-sm text-on-surface-variant flex items-start gap-2 bg-[#EFF6FF]/60 p-2.5 rounded-lg border border-[#CBD5E1]/60">
+<span class="material-symbols-outlined text-primary text-base mt-0.5">info</span>
+<span>Slight cross-breeze during afternoon sessions.</span>
+</div>
+<!-- Action buttons -->
+<div class="flex items-center justify-between pt-2 border-t border-[#F1F5F9]">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+                  Edit Court
+                </button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">build</span>
+                  Manage Maintenance
+                </button>
+</div>
+</div>
+<!-- Court 4 (Outdoor) -->
+<div class="border border-[#CBD5E1] rounded-xl p-5 bg-white space-y-4 hover:border-primary transition-all">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Court 4 (Outdoor)</h3>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Operational
+                    </span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Court ID #CT-004 • Open-Air Social Play</p>
+</div>
+<div class="p-2 rounded-lg bg-[#EFF6FF] text-primary">
+<span class="material-symbols-outlined">wb_sunny</span>
+</div>
+</div>
+<!-- Specs Grid -->
+<div class="grid grid-cols-2 gap-3 p-3 rounded-lg bg-surface-container-low text-body-sm font-body-sm">
+<div>
+<span class="text-outline block text-xs">Type</span>
+<span class="font-semibold text-on-surface">Open-air court</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Turf Spec</span>
+<span class="font-semibold text-on-surface">Sand-dressed turf</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Lighting</span>
+<span class="font-semibold text-on-surface">Floodlit evening</span>
+</div>
+<div>
+<span class="text-outline block text-xs">Standard Rate</span>
+<span class="font-semibold text-on-surface tabular-nums">GH₵ 140.00 / hr</span>
+</div>
+</div>
+<!-- Notes -->
+<div class="text-body-sm font-body-sm text-on-surface-variant flex items-start gap-2 bg-[#F0FDF4] p-2.5 rounded-lg border border-[#BBF7D0]">
+<span class="material-symbols-outlined text-[#007A33] text-base mt-0.5">check_circle</span>
+<span class="text-[#14532D]">Resurfaced September 2024.</span>
+</div>
+<!-- Action buttons -->
+<div class="flex items-center justify-between pt-2 border-t border-[#F1F5F9]">
+<button class="font-label-md text-label-md text-primary font-semibold hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">edit</span>
+                  Edit Court
+                </button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">build</span>
+                  Manage Maintenance
+                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- ========================================================================= -->
+<!-- STICKY BOTTOM SAVE & PUBLISH BAR                                          -->
+<!-- ========================================================================= -->
+<aside class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-[#CBD5E1] py-3.5 px-6 z-50 shadow-lg">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+<!-- Auto-save timestamp badge -->
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant border border-outline-variant/60">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Saved as draft (14:22 GMT)
+        </span>
+<span class="text-body-sm font-body-sm text-outline hidden md:inline">All changes logged to Accra Central audit ledger.</span>
+</div>
+<!-- Action Button Group -->
+<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+<button class="px-4 h-10 rounded-lg text-on-surface-variant hover:text-error hover:bg-red-50 font-label-md text-label-md font-medium transition-colors" type="button">
+          Discard Unsaved
+        </button>
+<button class="px-4 h-10 rounded-lg border border-[#CBD5E1] bg-white text-on-surface hover:bg-surface font-label-md text-label-md font-semibold transition-all shadow-sm inline-flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-base">visibility</span>
+          Preview Player View
+        </button>
+<button class="px-5 h-10 rounded-lg bg-primary-container text-white hover:bg-blue-700 active:scale-[0.98] font-label-md text-label-md font-semibold transition-all shadow-sm inline-flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-base">cloud_done</span>
+          Publish Changes
+        </button>
+</div>
+</div>
+</aside>
+</body></html>

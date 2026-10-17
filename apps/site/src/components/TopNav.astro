@@ -1,0 +1,229 @@
+---
+import { siteConfig } from '../config/site';
+---
+
+<header class="navbar-sticky" id="top-navbar">
+  <div class="container nav-container">
+    <a href="/" class="brand-link" aria-label="Padel Ghana Home">
+      <img src="/images/logo-white.svg" alt="Padel Ghana" width="180" height="32" class="brand-logo" />
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav" aria-label="Primary Navigation">
+      <a href="/#how-it-works" class="nav-link">How it works</a>
+      <a href="/#formats" class="nav-link">Formats</a>
+      <a href="/for-clubs" class="nav-link">For clubs</a>
+      <a href="/faq" class="nav-link">FAQ</a>
+      <a href="/contact" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="nav-actions">
+      <a href={`${siteConfig.appUrl}/login`} class="btn btn-glass-on-blue nav-btn-login" id="nav-login-btn">
+        Log in
+      </a>
+      <a href={`${siteConfig.appUrl}/login?mode=register`} class="btn btn-lime nav-btn-cta" id="nav-register-btn">
+        Create account
+      </a>
+      <button
+        type="button"
+        class="mobile-toggle"
+        id="mobile-menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <svg class="icon-menu" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="mobile-nav" id="mobile-nav-menu" hidden>
+    <div class="container mobile-nav-inner">
+      <nav class="mobile-links" aria-label="Mobile Navigation">
+        <a href="/#how-it-works" class="mobile-link">How it works</a>
+        <a href="/#formats" class="mobile-link">Formats</a>
+        <a href="/for-clubs" class="mobile-link">For clubs</a>
+        <a href="/faq" class="mobile-link">FAQ</a>
+        <a href="/contact" class="mobile-link">Contact</a>
+      </nav>
+      <div class="mobile-actions">
+        <a href={`${siteConfig.appUrl}/login`} class="btn btn-glass-on-blue w-full" id="mobile-login-btn">
+          Log in
+        </a>
+        <a href={`${siteConfig.appUrl}/login?mode=register`} class="btn btn-lime w-full" id="mobile-register-btn">
+          Create account
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-nav-menu');
+
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      mobileMenu.hidden = isExpanded;
+    });
+
+    // Close mobile menu when a nav link is clicked
+    const links = mobileMenu.querySelectorAll('a');
+    links.forEach((link) => {
+      link.addEventListener('click', () => {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.hidden = true;
+      });
+    });
+  }
+</script>
+
+<style>
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    min-height: var(--touch-target-min);
+  }
+
+  .brand-logo {
+    display: block;
+    height: 32px;
+    width: auto;
+  }
+
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    color: var(--color-border-light);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: color 150ms ease;
+    padding: 0.5rem 0;
+    min-height: var(--touch-target-min);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--color-text-white);
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .mobile-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    background: transparent;
+    border: 1px solid var(--btn-on-blue-glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-white);
+    cursor: pointer;
+  }
+
+  .mobile-toggle .icon-close {
+    display: none;
+  }
+
+  .mobile-toggle[aria-expanded="true"] .icon-menu {
+    display: none;
+  }
+
+  .mobile-toggle[aria-expanded="true"] .icon-close {
+    display: block;
+  }
+
+  .mobile-nav {
+    border-top: 1px solid var(--glass-nav-border);
+    background-color: var(--glass-fallback-nav);
+    padding: 1.25rem 0 1.5rem;
+  }
+
+  .mobile-nav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mobile-link {
+    color: var(--color-text-white);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--glass-nav-border);
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .desktop-nav {
+      display: none;
+    }
+
+    .nav-btn-login {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: inline-flex;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav-btn-cta {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>

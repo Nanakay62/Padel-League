@@ -11,7 +11,7 @@ describe('Mica Dark Shell & Media Integration Tests', () => {
     expect(colors.sidebarBorder).toBe('#1F2426');
     expect(colors.sidebarText).toBe('#FFFFFF');
     expect(colors.sidebarTextMuted).toBe('#9BA2A6');
-    expect(colors.sidebarItemActiveBg).toBe('rgba(0, 200, 83, 0.12)');
+    expect(colors.sidebarItemActiveBg).toBe('rgba(29, 78, 216, 0.12)');
     expect(colors.sidebarQuickActionBg).toBe('rgba(255, 255, 255, 0.06)');
     expect(colors.sidebarQuickActionBorder).toBe('#25302C');
   });

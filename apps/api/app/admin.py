@@ -2,6 +2,7 @@ from typing import Any, ClassVar
 
 from fastapi import FastAPI
 from sqladmin import Admin, ModelView
+from sqladmin.filters import AllUniqueStringValuesFilter, BooleanFilter
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from app.audit.models import AuditLog
@@ -25,7 +26,7 @@ class VenueAdmin(ModelView, model=Venue):
         Venue.is_active,
     ]
     column_searchable_list: ClassVar[list[Any]] = [Venue.name, Venue.ghanapost_gps]
-    column_filters: ClassVar[list[Any]] = [Venue.is_active]
+    column_filters: ClassVar[list[Any]] = [BooleanFilter(Venue.is_active)]
     name = "Venue"
     name_plural = "Venues"
     icon = "fa-solid fa-map-location-dot"
@@ -55,7 +56,10 @@ class EventAdmin(ModelView, model=Event):
         Event.start_time,
     ]
     column_searchable_list: ClassVar[list[Any]] = [Event.title, Event.venue_name]
-    column_filters: ClassVar[list[Any]] = [Event.status, Event.format]
+    column_filters: ClassVar[list[Any]] = [
+        AllUniqueStringValuesFilter(Event.status),
+        AllUniqueStringValuesFilter(Event.format),
+    ]
     name = "Event"
     name_plural = "Events"
     icon = "fa-solid fa-calendar-days"
@@ -105,7 +109,9 @@ class RegistrationAdmin(ModelView, model=Registration):
         Registration.waitlist_position,
         Registration.created_at,
     ]
-    column_filters: ClassVar[list[Any]] = [Registration.status]
+    column_filters: ClassVar[list[Any]] = [
+        AllUniqueStringValuesFilter(Registration.status)
+    ]
     name = "Registration"
     name_plural = "Registrations"
     icon = "fa-solid fa-clipboard-list"
@@ -124,7 +130,10 @@ class OrderAdmin(ModelView, model=Order):
         Order.created_at,
     ]
     column_searchable_list: ClassVar[list[Any]] = [Order.reference]
-    column_filters: ClassVar[list[Any]] = [Order.status, Order.method]
+    column_filters: ClassVar[list[Any]] = [
+        AllUniqueStringValuesFilter(Order.status),
+        AllUniqueStringValuesFilter(Order.method),
+    ]
     name = "Order"
     name_plural = "Orders"
     icon = "fa-solid fa-receipt"
@@ -159,7 +168,10 @@ class AuditLogAdmin(ModelView, model=AuditLog):
         AuditLog.created_at,
     ]
     column_searchable_list: ClassVar[list[Any]] = [AuditLog.action, AuditLog.target_id]
-    column_filters: ClassVar[list[Any]] = [AuditLog.action, AuditLog.target_type]
+    column_filters: ClassVar[list[Any]] = [
+        AllUniqueStringValuesFilter(AuditLog.action),
+        AllUniqueStringValuesFilter(AuditLog.target_type),
+    ]
     name = "Audit Log"
     name_plural = "Audit Logs"
     icon = "fa-solid fa-shield-halved"
@@ -179,8 +191,8 @@ class NotificationLogAdmin(ModelView, model=NotificationLog):
         NotificationLog.created_at,
     ]
     column_filters: ClassVar[list[Any]] = [
-        NotificationLog.channel,
-        NotificationLog.status,
+        AllUniqueStringValuesFilter(NotificationLog.channel),
+        AllUniqueStringValuesFilter(NotificationLog.status),
     ]
     name = "Notification Log"
     name_plural = "Notification Logs"
@@ -217,7 +229,7 @@ class RatingEventAdmin(ModelView, model=RatingEvent):
         RatingEvent.requires_review,
         RatingEvent.created_at,
     ]
-    column_filters: ClassVar[list[Any]] = [RatingEvent.requires_review]
+    column_filters: ClassVar[list[Any]] = [BooleanFilter(RatingEvent.requires_review)]
     name = "Rating Event"
     name_plural = "Rating Events"
     icon = "fa-solid fa-chart-line"
@@ -235,7 +247,7 @@ class LeagueAdmin(ModelView, model=League):
         League.created_at,
     ]
     column_searchable_list: ClassVar[list[Any]] = [League.title, League.season_name]
-    column_filters: ClassVar[list[Any]] = [League.status]
+    column_filters: ClassVar[list[Any]] = [AllUniqueStringValuesFilter(League.status)]
     name = "League"
     name_plural = "Leagues"
     icon = "fa-solid fa-trophy"
@@ -271,9 +283,55 @@ class LeaguePairAdmin(ModelView, model=LeaguePair):
     icon = "fa-solid fa-user-group"
 
 
+import jwt
+from sqladmin.authentication import AuthenticationBackend
+from starlette.requests import Request
+
+from app.config import settings
+
+
+class SuperAdminAuth(AuthenticationBackend):
+    async def login(self, request: Request) -> bool:
+        return False
+
+    async def logout(self, request: Request) -> bool:
+        request.session.clear()
+        return True
+
+    async def authenticate(self, request: Request) -> bool:
+        auth_header = request.headers.get("Authorization")
+        bearer_token = (
+            auth_header.split(" ")[1]
+            if auth_header and auth_header.startswith("Bearer ")
+            else None
+        )
+        token = (
+            request.cookies.get("padel_admin_token")
+            or request.session.get("token")
+            or bearer_token
+        )
+        if not token:
+            return False
+        try:
+            payload = jwt.decode(
+                token,
+                settings.secret_key,
+                algorithms=[settings.jwt_algorithm],
+            )
+            role = payload.get("role")
+            if role in ("ADMIN", "SUPER_ADMIN"):
+                return True
+        except (jwt.PyJWTError, ValueError):
+            return False
+        return False
+
+
 def setup_admin(app: FastAPI, engine: AsyncEngine) -> Admin:
     """Mount SQLAdmin onto FastAPI application with scoped CRUD and audit views."""
-    admin = Admin(app, engine, title="Padel Ghana Admin")
+    auth_backend = SuperAdminAuth(secret_key=settings.secret_key)
+    admin = Admin(
+        app, engine, title="Padel Ghana Admin", authentication_backend=auth_backend
+    )
     admin.add_view(VenueAdmin)
     admin.add_view(CourtAdmin)
     admin.add_view(EventAdmin)

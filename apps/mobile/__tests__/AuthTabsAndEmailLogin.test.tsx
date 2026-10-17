@@ -211,4 +211,57 @@ describe('AuthTabsAndEmailLogin Component', () => {
       await findByText(/Reset instructions have been sent to your email/i)
     ).toBeTruthy();
   });
+
+  it('toggles password visibility with default hidden state', async () => {
+    const { findByTestId } = await renderRouter('src/app', {
+      initialUrl: '/login',
+    });
+
+    await act(async () => {
+      fireEvent.press(await findByTestId('tab-email'));
+    });
+
+    const passwordInput = await findByTestId('password-input');
+    const toggleBtn = await findByTestId('toggle-password-visibility');
+
+    // 1. Default state is hidden (secureTextEntry = true)
+    expect(passwordInput.props.secureTextEntry).toBe(true);
+
+    // 2. Click toggle button to show password
+    await act(async () => {
+      fireEvent.press(toggleBtn);
+    });
+    expect(passwordInput.props.secureTextEntry).toBe(false);
+
+    // 3. Click toggle button again to hide password
+    await act(async () => {
+      fireEvent.press(toggleBtn);
+    });
+    expect(passwordInput.props.secureTextEntry).toBe(true);
+  });
+
+  it('activates registration mode directly when navigated with ?mode=register', async () => {
+    const { findByTestId } = await renderRouter('src/app', {
+      initialUrl: '/login?mode=register',
+    });
+
+    // Should open email tab and registration mode directly
+    expect(await findByTestId('email-name-input')).toBeTruthy();
+    expect(await findByTestId('email-input')).toBeTruthy();
+    expect(await findByTestId('password-input')).toBeTruthy();
+  });
+
+  it('applies brand blue background matching the landing page to login and registration screen', async () => {
+    const { findByTestId } = await renderRouter('src/app', {
+      initialUrl: '/login',
+    });
+
+    const safeArea = await findByTestId('auth-safe-area');
+    const flatStyle = Array.isArray(safeArea.props.style)
+      ? Object.assign({}, ...safeArea.props.style)
+      : safeArea.props.style;
+
+    expect(flatStyle.backgroundColor).toBe('#1D4ED8');
+  });
 });
+

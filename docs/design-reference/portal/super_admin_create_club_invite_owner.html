@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Admin - Create Club &amp; Invite Owner Wizard | Padel Ghana</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Script -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#e2e7ff",
+            "on-primary-fixed": "#001551",
+            "outline": "#747686",
+            "on-surface-variant": "#434655",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#2151da",
+            "secondary-container": "#708cfd",
+            "background": "#faf8ff",
+            "on-tertiary-container": "#c1e087",
+            "on-primary-container": "#cad3ff",
+            "primary": "#0037b0",
+            "tertiary": "#344c01",
+            "on-surface": "#131b2e",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-variant": "#dae2fd",
+            "on-secondary-fixed": "#001453",
+            "tertiary-fixed": "#ceee93",
+            "on-primary-fixed-variant": "#0039b5",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#b3d17a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "on-secondary-fixed-variant": "#173bab",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#364e03",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "secondary": "#3755c3",
+            "on-tertiary-fixed": "#131f00",
+            "on-secondary-container": "#00217a",
+            "surface-dim": "#d2d9f4",
+            "on-background": "#131b2e",
+            "primary-fixed-dim": "#b7c4ff",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#4b641a",
+            "inverse-primary": "#b7c4ff",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#1d4ed8",
+            "on-error-container": "#93000a",
+            "surface-container": "#eaedff",
+            "outline-variant": "#c4c5d7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "data-metric": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-body-md text-on-surface antialiased bg-surface selection:bg-surface-variant selection:text-primary">
+<!-- Delegation Banner (Super Admin Operational Authority) -->
+<aside aria-label="Super Admin Mode Banner" class="w-full bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm px-6 py-2 flex items-center justify-between border-b border-outline/30 sticky top-0 z-50">
+<div class="flex items-center gap-2 tracking-wide">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed animate-pulse"></span>
+<span class="font-semibold text-inverse-primary">Super Admin Mode</span>
+<span class="text-outline-variant">•</span>
+<span>Central Operations West Africa</span>
+<span class="text-outline-variant">•</span>
+<span>Ghana Regional Hub</span>
+</div>
+<div class="flex items-center gap-4 text-outline-variant">
+<span class="flex items-center gap-1.5 font-label-sm">
+<span class="material-symbols-outlined text-[15px]" data-icon="shield">shield</span>
+        Encrypted Session: GH-REG-094
+      </span>
+<span class="bg-surface-container-high/20 px-2 py-0.5 rounded text-[10px] text-inverse-on-surface font-mono">PROD-HQ-ACC</span>
+</div>
+</aside>
+<!-- Global Header Bar -->
+<header class="sticky top-[33px] z-40 bg-surface/85 backdrop-blur-md shadow-sm border-b border-outline-variant/60">
+<div class="max-w-[1440px] mx-auto px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<!-- Brand Link -->
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary shadow-sm group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="sports_tennis">sports_tennis</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface block tracking-tight">Padel Ghana Super Admin</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block -mt-1">Federation Infrastructure Control</span>
+</div>
+</a>
+<!-- Main Super Admin Tabs -->
+<nav class="hidden md:flex items-center gap-1">
+<a class="px-3 py-2 rounded-lg text-primary font-semibold font-label-md text-label-md bg-surface-container flex items-center gap-1.5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="corporate_fare">corporate_fare</span>
+            Clubs Directory
+          </a>
+<a class="px-3 py-2 rounded-lg text-on-surface-variant font-medium font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="gavel">gavel</span>
+            Moderation &amp; Disputes
+          </a>
+<a class="px-3 py-2 rounded-lg text-on-surface-variant font-medium font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="tune">tune</span>
+            Platform Settings
+          </a>
+<a class="px-3 py-2 rounded-lg text-on-surface-variant font-medium font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-colors flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="receipt_long">receipt_long</span>
+            Audit &amp; Transactions
+          </a>
+</nav>
+</div>
+<!-- Super Admin Profile Actions -->
+<div class="flex items-center gap-3">
+<button aria-label="Regional Notifications" class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors relative" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-surface"></span>
+</button>
+<div class="h-6 w-px bg-outline-variant/60"></div>
+<div class="flex items-center gap-3 pl-1">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary font-semibold text-label-md flex items-center justify-center">
+            KM
+          </div>
+<div class="hidden lg:block text-left">
+<p class="font-label-md text-label-md text-on-surface leading-tight">Kwame Mensah</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Principal Regional Officer</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 max-w-[1280px] w-full mx-auto px-6 py-8">
+<!-- Top Breadcrumbs & Page Action Context -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-outline-variant/50">
+<div>
+<nav class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant mb-1">
+<a class="hover:text-primary transition-colors" href="#">Clubs Directory</a>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-semibold">Add New Club</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Create Club &amp; Invite Owner Wizard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+          Provision Ghanaian club operational tenant, bind regional geolocation infrastructure, and dispatch security-verified cryptographic onboarding invitations.
+        </p>
+</div>
+<!-- Quick Session Indicator -->
+<div class="flex items-center gap-2 self-start md:self-auto bg-surface-container-lowest border border-outline-variant/70 rounded-lg px-3 py-1.5 shadow-sm">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-[#007A33]"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Ghana Postal Grid API: <strong class="text-on-surface font-semibold">Online (Accra West)</strong></span>
+</div>
+</div>
+<!-- Stepper Navigation Indicator -->
+<div class="mt-8 mb-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Step 1 Tab -->
+<div class="bg-surface-container-lowest border-2 border-primary rounded-xl p-4 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-3.5">
+<div class="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-lg">
+              1
+            </div>
+<div>
+<p class="font-label-md text-label-md font-semibold text-primary">Step 1: Club Basics &amp; Regional Infrastructure</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Legal registration, GhanaPostGPS addressing &amp; courts count</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold text-primary bg-surface-container-high">
+            Active Stage
+          </span>
+</div>
+<!-- Step 2 Tab -->
+<div class="bg-surface-container-lowest border border-outline-variant/80 rounded-xl p-4 shadow-sm flex items-center justify-between opacity-85">
+<div class="flex items-center gap-3.5">
+<div class="w-9 h-9 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center font-bold text-label-lg">
+              2
+            </div>
+<div>
+<p class="font-label-md text-label-md font-semibold text-on-surface">Step 2: Assign Initial Owner &amp; Security Enforcement</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Primary credentials, mandatory 2FA TOTP policy &amp; provisioning</p>
+</div>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-medium text-on-surface-variant bg-surface-container">
+            Pending Dispatch
+          </span>
+</div>
+</div>
+</div>
+<!-- Wizard Form Container -->
+<form class="space-y-10" onsubmit="event.preventDefault();">
+<!-- ========================================== -->
+<!-- SECTION 1: Club Basics & Regional Infrastructure -->
+<!-- ========================================== -->
+<section class="bg-surface-container-lowest border border-outline-variant/70 rounded-xl shadow-sm p-6 lg:p-8">
+<div class="flex items-center justify-between pb-6 border-b border-outline-variant/40 mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]" data-icon="domain_add">domain_add</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">1. Club Basics &amp; Regional Infrastructure</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enter verified registrar nomenclature and official Ghana National Digital Address registry coordinates.</p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-[#78350F] bg-[rgba(244,196,48,0.18)] px-2.5 py-0.5 rounded-full font-semibold">
+            Example data loaded
+          </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Club Legal Name -->
+<div class="md:col-span-6 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="legalName">
+<span>Club Legal Registered Name <span class="text-error">*</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">As registered at RGD</span>
+</label>
+<input class="w-full h-11 px-3.5 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="legalName" placeholder="e.g. Airport Hills Padel &amp; Racquet Club" required="" type="text" value="Airport Hills Padel &amp; Racquet Club Ltd."/>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Official corporate title listed on Registrar General Department certificate.</p>
+</div>
+<!-- Trading / Display Name -->
+<div class="md:col-span-6 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="displayName">
+<span>Trading / Display Name <span class="text-error">*</span></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">App &amp; Public Facing</span>
+</label>
+<input class="w-full h-11 px-3.5 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="displayName" placeholder="e.g. Airport Hills Padel Club" required="" type="text" value="Airport Hills Padel Club"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Consumer title visible across court booking schedules and tournament listings.</p>
+</div>
+<!-- GhanaPostGPS & Coordinate Verification -->
+<div class="md:col-span-6 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="gpsAddress">
+<span>Digital Address (GhanaPostGPS) <span class="text-error">*</span></span>
+<span class="text-[11px] font-semibold text-primary">National Address Grid</span>
+</label>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-outline" data-icon="pin_drop">pin_drop</span>
+<input class="w-full h-11 pl-9 pr-3 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md uppercase font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="gpsAddress" placeholder="e.g. GL-045-8821" required="" type="text" value="GL-045-8821"/>
+</div>
+<button class="h-11 px-4 bg-surface-container text-primary hover:bg-surface-container-high border border-outline-variant/80 rounded-lg font-label-md text-label-md font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="satellite_alt">satellite_alt</span>
+                Verify Coordinates
+              </button>
+</div>
+<!-- Instant Geolocation Verification Badge -->
+<div class="mt-2.5 p-3 rounded-lg bg-surface-container-low border border-surface-container-high flex items-start justify-between">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[20px] text-[#007A33] shrink-0 mt-0.5" data-icon="check_circle">check_circle</span>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">GhanaPostGPS Verified:</span>
+<span class="font-label-sm text-label-sm text-[#007A33] bg-[rgba(0,122,51,0.10)] px-2 py-0.2 rounded-full font-semibold">Active Parcel</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                    Lat: <strong class="text-on-surface font-mono">5.6037° N</strong>, Long: <strong class="text-on-surface font-mono">0.1492° W</strong> • District: <strong class="text-on-surface font-medium">La Dade-Kotopon (Airport Residential Hub)</strong>
+</p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-outline-variant font-mono uppercase">ACC-04</span>
+</div>
+</div>
+<!-- Physical Street Address -->
+<div class="md:col-span-6 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="streetAddress">
+              Physical Street &amp; Waypoint Address <span class="text-error">*</span>
+</label>
+<input class="w-full h-11 px-3.5 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="streetAddress" placeholder="e.g. Plot 14, Senchi Link, Airport Residential" required="" type="text" value="Plot 14, Senchi Link, off Liberation Road, Airport Hills"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Primary entrance gate notation for emergency dispatches and tournament spectators.</p>
+</div>
+<!-- Greater Accra Region Selector -->
+<div class="md:col-span-4 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="regionSelect">
+              Administrative Region <span class="text-error">*</span>
+</label>
+<select class="w-full h-11 px-3.5 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="regionSelect">
+<option selected="" value="greater-accra">Greater Accra Region (HQ)</option>
+<option value="ashanti">Ashanti Region (Kumasi)</option>
+<option value="western">Western Region (Takoradi)</option>
+<option value="central">Central Region (Cape Coast)</option>
+<option value="eastern">Eastern Region (Koforidua)</option>
+</select>
+</div>
+<!-- Total Initial Padel Courts Count -->
+<div class="md:col-span-4 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="courtCount">
+              Initial Provisioned Courts <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="courtCount" placeholder="e.g. 4 Panoramic Courts" required="" type="text" value="4 Panoramic Courts"/>
+<span class="absolute right-3 top-3 material-symbols-outlined text-outline text-[18px]" data-icon="sports_tennis">sports_tennis</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Default booking scheduler slots created immediately upon approval.</p>
+</div>
+<!-- Public Club Phone (+233 Format) -->
+<div class="md:col-span-4 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="clubPhone">
+              Official Desk Phone (+233) <span class="text-error">*</span>
+</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="font-label-md text-label-md font-semibold text-on-surface-variant">+233</span>
+</div>
+<input class="w-full h-11 pl-14 pr-3 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline font-mono" id="clubPhone" placeholder="024 123 4567" required="" type="tel" value="024 492 1098"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Local mobile money billing line and reception desk.</p>
+</div>
+<!-- Primary Club Email -->
+<div class="md:col-span-12 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="clubEmail">
+              Primary Club Operating &amp; Finance Email <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-outline" data-icon="mail">mail</span>
+<input class="w-full h-11 pl-9 pr-3 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="clubEmail" placeholder="e.g. operations@airporthillspadel.com" required="" type="email" value="operations@airporthillspadel.com"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Federation invoicing, daily court transaction ledgers, and tournament sanctions will route here.</p>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION 2: Assign Initial Owner & Security Enforcement -->
+<!-- ========================================== -->
+<section class="bg-surface-container-lowest border border-outline-variant/70 rounded-xl shadow-sm p-6 lg:p-8">
+<div class="flex items-center justify-between pb-6 border-b border-outline-variant/40 mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">2. Assign Initial Owner &amp; Security Enforcement</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Delegate primary tenant administrative ownership with mandatory two-factor cryptographic protection.</p>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-[#007A33] bg-[rgba(0,122,51,0.10)] px-2.5 py-0.5 rounded-full font-semibold">
+            Security Tier 3
+          </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Owner Full Name -->
+<div class="md:col-span-4 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="ownerName">
+              Owner Full Legal Name <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-outline" data-icon="person">person</span>
+<input class="w-full h-11 pl-9 pr-3 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="ownerName" placeholder="e.g. Nii Armah Tagoe" required="" type="text" value="Nii Armah Tagoe"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Designated Club Director holding fiduciary authority.</p>
+</div>
+<!-- Official Contact Number (+233) -->
+<div class="md:col-span-4 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="ownerPhone">
+              Official Contact Number (+233) <span class="text-error">*</span>
+</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="font-label-md text-label-md font-semibold text-on-surface-variant">+233</span>
+</div>
+<input class="w-full h-11 pl-14 pr-3 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline font-mono" id="ownerPhone" placeholder="020 811 4452" required="" type="tel" value="020 811 4452"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Direct line for encrypted SMS verification &amp; OTP notifications.</p>
+</div>
+<!-- Direct Owner Email -->
+<div class="md:col-span-4 space-y-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="ownerEmail">
+              Direct Owner Email <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-outline" data-icon="alternate_email">alternate_email</span>
+<input class="w-full h-11 pl-9 pr-3 rounded-lg border border-outline bg-surface-container-lowest text-on-surface text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" id="ownerEmail" placeholder="e.g. nii.tagoe@airporthillspadel.com" required="" type="email" value="nii.tagoe@airporthillspadel.com"/>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Receives the one-time cryptographic provisioning link.</p>
+</div>
+<!-- Security Notice Callout (2FA Policy) -->
+<div class="md:col-span-12">
+<div class="rounded-xl border border-secondary/40 bg-surface-container-low p-4 flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]" data-icon="lock_clock">lock_clock</span>
+</div>
+<div class="space-y-1">
+<h3 class="font-label-lg text-label-lg font-semibold text-on-surface flex items-center gap-2">
+<span>2FA Enrollment Mandatory Policy</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-mono bg-primary text-on-primary font-bold">GH-CYBER-SEC-2024</span>
+</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                  The appointed club owner will receive a secure cryptographic onboarding token. They will be mandated to configure TOTP 2FA (Google Authenticator, Microsoft Authenticator, or YubiKey) before accessing court management tools, court slot pricing, or club financial payouts.
+                </p>
+</div>
+</div>
+</div>
+<!-- Confirmation Review Card with Real-time Checklist -->
+<div class="md:col-span-12">
+<div class="rounded-xl border border-outline-variant/80 bg-surface-bright p-5">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary" data-icon="fact_check">fact_check</span>
+<h4 class="font-label-lg text-label-lg font-semibold text-on-surface">Pre-Provisioning Verification Checklist</h4>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Automatic validation active</span>
+</div>
+<div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+<!-- Checklist Item 1 -->
+<div class="flex items-center gap-2.5 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/60">
+<span class="material-symbols-outlined text-[20px] text-[#007A33]" data-icon="verified">verified</span>
+<div>
+<p class="font-label-sm text-label-sm font-semibold text-on-surface">Address verified via GhanaPostGPS API</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Accra Metropolitan Council DB synched</p>
+</div>
+</div>
+<!-- Checklist Item 2 -->
+<div class="flex items-center gap-2.5 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/60">
+<span class="material-symbols-outlined text-[20px] text-[#007A33]" data-icon="task">task</span>
+<div>
+<p class="font-label-sm text-label-sm font-semibold text-on-surface">Club SLA contract on file</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Signed digital agreement #SLA-2024-88</p>
+</div>
+</div>
+<!-- Checklist Item 3 -->
+<div class="flex items-center gap-2.5 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/60">
+<span class="material-symbols-outlined text-[20px] text-[#007A33]" data-icon="outgoing_mail">outgoing_mail</span>
+<div>
+<p class="font-label-sm text-label-sm font-semibold text-on-surface">Automated invite SMS &amp; Email queued</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">AWS SES &amp; Telecel Gateway standby</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sticky / Bottom Action Bar -->
+<footer class="pt-4 border-t border-outline-variant/60 flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<!-- Save Draft Button -->
+<button class="w-full sm:w-auto h-11 px-5 rounded-lg border border-outline-variant/80 bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md font-medium transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="save">save</span>
+            Save Draft
+          </button>
+<!-- Previous Step Button -->
+<button class="w-full sm:w-auto h-11 px-5 rounded-lg border border-outline-variant/80 bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md font-medium transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_back">arrow_back</span>
+            Previous Step
+          </button>
+</div>
+<!-- Primary Provisioning Trigger -->
+<button class="w-full sm:w-auto h-11 px-6 rounded-lg bg-primary hover:bg-[#1E40AF] active:bg-[#172554] text-on-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-2 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
+<span class="material-symbols-outlined text-[20px]" data-icon="mark_email_read">mark_email_read</span>
+          Create Club &amp; Send Owner Onboarding Link
+        </button>
+</footer>
+</form>
+</main>
+</body></html>

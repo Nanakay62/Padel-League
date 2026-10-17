@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Admin - Players, Orders Ledger &amp; Global Audit Log | Padel Ghana</title>
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#e2e7ff",
+            "on-primary-fixed": "#001551",
+            "outline": "#747686",
+            "on-surface-variant": "#434655",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#2151da",
+            "secondary-container": "#708cfd",
+            "background": "#faf8ff",
+            "on-tertiary-container": "#c1e087",
+            "on-primary-container": "#cad3ff",
+            "primary": "#0037b0",
+            "tertiary": "#344c01",
+            "on-surface": "#131b2e",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-variant": "#dae2fd",
+            "on-secondary-fixed": "#001453",
+            "tertiary-fixed": "#ceee93",
+            "on-primary-fixed-variant": "#0039b5",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#b3d17a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "on-secondary-fixed-variant": "#173bab",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#364e03",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "secondary": "#3755c3",
+            "on-tertiary-fixed": "#131f00",
+            "on-secondary-container": "#00217a",
+            "surface-dim": "#d2d9f4",
+            "on-background": "#131b2e",
+            "primary-fixed-dim": "#b7c4ff",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#4b641a",
+            "inverse-primary": "#b7c4ff",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#1d4ed8",
+            "on-error-container": "#93000a",
+            "surface-container": "#eaedff",
+            "outline-variant": "#c4c5d7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "data-metric": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="h-full bg-surface text-on-surface antialiased flex flex-col font-body-md text-body-md">
+<!-- ========================================================================= -->
+<!-- Shared Component: SideNavBar (Fixed Left Rail) -->
+<!-- ========================================================================= -->
+<aside class="fixed top-0 left-0 h-screen w-64 bg-surface/80 dark:bg-inverse-surface/85 backdrop-blur-md border-r border-outline-variant/60 dark:border-outline/40 shadow-sm z-50 flex flex-col justify-between p-4">
+<div class="flex flex-col gap-6">
+<!-- Brand & Header -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl" data-icon="sports_tennis">sports_tennis</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-inverse-on-surface leading-tight">Padel Ghana</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant font-medium">Club Back-Office</span>
+</div>
+</div>
+<!-- Quick Action CTA -->
+<button class="w-full h-10 px-4 rounded-lg bg-primary-container text-on-primary flex items-center justify-center gap-2 hover:bg-primary transition-colors font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+<span>New Booking</span>
+</button>
+<!-- Main Navigation Tabs -->
+<!-- Semantic Mapping: Audit Log is active -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container dark:hover:bg-inverse-surface hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container dark:hover:bg-inverse-surface hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="sports_tennis">sports_tennis</span>
+<span>Courts &amp; Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container dark:hover:bg-inverse-surface hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="badge">badge</span>
+<span>Memberships</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container dark:hover:bg-inverse-surface hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="trophy">trophy</span>
+<span>Tournaments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container dark:hover:bg-inverse-surface hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Financial Ledger</span>
+</a>
+<!-- ACTIVE ITEM: Audit Log -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-container-high dark:bg-surface-variant text-primary dark:text-on-primary-container font-semibold transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="history_edu">history_edu</span>
+<span>Audit Log</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container dark:hover:bg-inverse-surface hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<!-- Navigation Footer -->
+<div class="flex flex-col gap-1 pt-4 border-t border-outline-variant/50">
+<div class="px-3 py-2 mb-1 bg-surface-container-high/60 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Regional Super Admin</span>
+</div>
+<span class="text-label-sm font-label-sm font-bold text-primary">v2.4</span>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
+<span>Help &amp; Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant dark:text-outline-variant font-medium hover:bg-surface-container transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- Main Application Area (Padded for Left Rail) -->
+<!-- ========================================================================= -->
+<div class="pl-64 flex flex-col min-h-screen">
+<!-- Shared Component: TopNavBar -->
+<header class="sticky top-0 w-full z-40 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md border-b border-outline-variant/60 dark:border-outline/40 shadow-sm flex justify-between items-center px-6 py-3">
+<!-- Search Bar on Left -->
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="search">search</span>
+</span>
+<input class="w-full h-10 pl-9 pr-4 rounded-lg bg-surface-container-lowest border border-outline/50 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-body-sm font-body-sm placeholder:text-outline transition-all outline-none" placeholder="Search system records, logs, MoMo TX..." type="text"/>
+</div>
+</div>
+<!-- Center Super Admin Navigation Anchor -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors font-label-md text-label-md" href="#">National Venues</a>
+<a class="text-primary font-semibold border-b-2 border-primary py-2 -mb-2 font-label-md text-label-md" href="#">Audit &amp; Transactions</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors font-label-md text-label-md" href="#">Disciplinary Council</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors font-label-md text-label-md" href="#">MoMo Gateways</a>
+</nav>
+<!-- Trailing Action Cluster & User Profile -->
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 rounded-lg border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" title="View Invoices">
+<span class="material-symbols-outlined text-xl" data-icon="receipt_long">receipt_long</span>
+</button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors relative" title="Notifications">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button class="h-10 px-3.5 rounded-lg bg-surface-container border border-outline-variant/80 text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+<span>Export Ledger</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-primary-container text-on-primary hover:bg-primary transition-colors font-label-md text-label-md flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-base" data-icon="add_circle">add_circle</span>
+<span>Add Court Slot</span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-1"></div>
+<!-- Super Admin Profile Avatar Kwame Mensah -->
+<div class="flex items-center gap-3 pl-1">
+<img class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/20" data-alt="A distinguished Ghanaian male executive and sports director in his early forties, wearing crisp dark modern sportswear with an athletic club logo badge, captured in a clean light office environment with natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLI8NRHoyQ_q_yjwFWgLim1vVVMNtij_ErhPegyWBy-rUP4yrYXsTzzGC2D95JMS83Z1tUb6wy-t1pq3JU8VlvXHsz_sMiWQs9kHNFUqoo1NPoiBXuU0wAvKeAlQnu1tlbI89qkk-jK1imb21y1rQ-4glQq5BEPopJch-52T77wgvlmvUPPM-w0wZUiPBPtl5Gx-0M1dg04ZLHPY42X7g5HeXa5gI-zF0uE44IfmTIvy-r322HuhTx"/>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-label-md font-label-md font-semibold text-on-surface leading-snug">Kwame Mensah</span>
+<span class="text-label-sm font-label-sm text-outline">Operational Director</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Sub-navigation & Header Bar -->
+<div class="bg-surface-container-lowest border-b border-outline-variant/60 px-8 py-4">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-primary font-bold">National System Control</span>
+<span class="text-outline-variant">•</span>
+<span class="text-label-sm font-label-sm bg-surface-container-high text-on-primary-fixed-variant px-2 py-0.5 rounded font-semibold">Super Admin Privileges</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight mt-0.5">Players, Orders Ledger &amp; Global Audit Log</h1>
+</div>
+<!-- Sub-navigation Pills -->
+<div class="inline-flex p-1 bg-surface-container rounded-lg border border-outline-variant/50 self-start md:self-auto">
+<a class="px-3.5 py-1.5 rounded-md bg-surface-container-lowest text-primary font-label-md text-label-md shadow-xs font-semibold flex items-center gap-2" href="#audit-log">
+<span class="material-symbols-outlined text-base" data-icon="history_edu">history_edu</span>
+<span>Global Audit Log (Active)</span>
+</a>
+<a class="px-3.5 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium flex items-center gap-2 transition-colors" href="#momo-ledger">
+<span class="material-symbols-outlined text-base" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Central Orders &amp; MoMo Ledger</span>
+</a>
+<a class="px-3.5 py-1.5 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium flex items-center gap-2 transition-colors" href="#player-governance">
+<span class="material-symbols-outlined text-base" data-icon="shield_person">shield_person</span>
+<span>Player Directory &amp; Governance</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-8 space-y-8 max-w-7xl">
+<!-- ========================================================================= -->
+<!-- SECTION 1: Global Cross-Club Audit Log -->
+<!-- ========================================================================= -->
+<section class="space-y-4" id="audit-log">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Global Cross-Club Audit Log</h2>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-semibold">Live System Events</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Immutable administrative changelog tracking price revisions, venue verification, and staff events across Ghanaian courts.</p>
+</div>
+<!-- Real-time Status Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-label-sm font-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+<span>All 4 Regional Clusters Synced</span>
+</div>
+</div>
+<!-- Filter & Search Controls Bar -->
+<div class="bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/60 shadow-xs flex flex-col md:flex-row items-center gap-3">
+<!-- Search Input -->
+<div class="relative flex-1 w-full">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="filter_alt">filter_alt</span>
+</span>
+<input class="w-full h-10 pl-9 pr-4 rounded-lg bg-surface border border-outline-variant/80 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-body-sm font-body-sm placeholder:text-outline outline-none" placeholder="Filter by actor, club ID, or transaction hash..." type="text"/>
+</div>
+<!-- Club Dropdown -->
+<div class="w-full md:w-56">
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 rounded-lg bg-surface border border-outline-variant/80 text-body-sm font-body-sm text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 appearance-none outline-none">
+<option selected="">All Clubs (Accra &amp; Kumasi)</option>
+<option>Demo Padel Club (#GH-042)</option>
+<option>Airport Hills Padel (#GH-043)</option>
+<option>Cantonments Court Club (#GH-044)</option>
+<option>Ridge Tennis &amp; Padel (#GH-045)</option>
+</select>
+<span class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-outline">
+<span class="material-symbols-outlined text-base" data-icon="arrow_drop_down">arrow_drop_down</span>
+</span>
+</div>
+</div>
+<!-- Action Types Dropdown -->
+<div class="w-full md:w-60">
+<div class="relative">
+<select class="w-full h-10 pl-3 pr-8 rounded-lg bg-surface border border-outline-variant/80 text-body-sm font-body-sm text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 appearance-none outline-none">
+<option selected="">All Action Types</option>
+<option>Pricing Updates</option>
+<option>Operating Hours</option>
+<option>Cancellations &amp; Refunds</option>
+<option>Staff Invitations</option>
+<option>Venue Verification</option>
+</select>
+<span class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-outline">
+<span class="material-symbols-outlined text-base" data-icon="tune">tune</span>
+</span>
+</div>
+</div>
+<button class="h-10 px-4 rounded-lg bg-surface border border-outline-variant hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-base" data-icon="refresh">refresh</span>
+<span>Refresh</span>
+</button>
+</div>
+<!-- Section 1 Table (Crisp card container, 12px radius, bounded by 1px solid #E2E8F0) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-xs overflow-hidden">
+<div class="px-5 py-3 bg-surface-container-low border-b border-outline-variant/60 flex items-center justify-between">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Ledger Trail Stream (Example data)</span>
+<span class="text-body-sm font-body-sm text-outline">Showing 3 of 1,280 logged administrative actions</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-blue-50/70 border-b border-outline-variant/40 h-10">
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Actor &amp; Venue ID</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Action Description</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Category Badge</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Timestamp</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold text-right">Administrative Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                        KM
+                      </div>
+<div>
+<div class="font-semibold text-on-surface text-label-md font-label-md">Kwame Mensah</div>
+<div class="text-body-sm font-body-sm text-outline">Demo Padel Club <span class="font-mono text-xs font-semibold text-primary">#GH-042</span></div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="max-w-md">
+<p class="text-body-sm font-body-sm font-medium text-on-surface">Updated Prime Evening Rush from <span class="tabular-nums font-semibold text-on-surface">GH₵ 125.00</span> to <span class="tabular-nums font-semibold text-primary">GH₵ 140.00</span></p>
+<span class="text-xs text-outline font-mono">Param: prime_slot_evening_tariffs [Court 1, Court 2]</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                      Pricing Changed
+                    </span>
+</td>
+<td class="py-3 px-4 tabular-nums text-body-sm font-body-sm text-on-surface-variant font-medium">
+                    Today, 14:38 GMT
+                  </td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-2">
+<button class="h-8 px-2.5 rounded-md bg-surface border border-outline-variant/80 hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="difference">difference</span>
+<span>Inspect Diff</span>
+</button>
+<button class="h-8 px-2.5 rounded-md bg-error/10 text-error hover:bg-error/20 border border-error/30 font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="undo">undo</span>
+<span>Revert Change</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
+                        PG
+                      </div>
+<div>
+<div class="font-semibold text-on-surface text-label-md font-label-md">Padel Ghana Staff</div>
+<div class="text-body-sm font-body-sm text-outline">K. Mensah - <span class="text-emerald-700 font-medium">Super Admin</span></div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="max-w-md">
+<p class="text-body-sm font-body-sm font-medium text-on-surface">Verified GhanaPostGPS <span class="font-mono font-semibold bg-slate-100 px-1 py-0.5 rounded text-xs text-on-surface">GA-112-9082</span> for Demo Padel Club</p>
+<span class="text-xs text-outline">Digital Address Certificate attached &amp; KYC cleared</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Verification
+                    </span>
+</td>
+<td class="py-3 px-4 tabular-nums text-body-sm font-body-sm text-on-surface-variant font-medium">
+                    12 Oct, 11:20 GMT
+                  </td>
+<td class="py-3 px-4 text-right">
+<button class="h-8 px-2.5 rounded-md bg-surface border border-outline-variant/80 hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+<span>View Proof</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-100 text-primary flex items-center justify-center font-bold text-xs">
+                        NA
+                      </div>
+<div>
+<div class="font-semibold text-on-surface text-label-md font-label-md">Nii Armah</div>
+<div class="text-body-sm font-body-sm text-outline">Airport Hills <span class="font-mono text-xs font-semibold text-primary">#GH-043</span></div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="max-w-md">
+<p class="text-body-sm font-body-sm font-medium text-on-surface">Created Americano Event <span class="font-semibold">(16 Players)</span></p>
+<span class="text-xs text-outline">Tournament Bracket: Round-robin 4 courts, entry fee GH₵ 200.00</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-primary border border-blue-200">
+                      Event Created
+                    </span>
+</td>
+<td class="py-3 px-4 tabular-nums text-body-sm font-body-sm text-on-surface-variant font-medium">
+                    10 Oct, 09:15 GMT
+                  </td>
+<td class="py-3 px-4 text-right">
+<button class="h-8 px-2.5 rounded-md bg-surface border border-outline-variant/80 hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+<span>View Bracket</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 2: Central Orders & Mobile Money Settlement Ledger -->
+<!-- ========================================================================= -->
+<section class="space-y-4" id="momo-ledger">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Central Orders &amp; Mobile Money Settlement Ledger</h2>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">Bank of Ghana Compliant</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Real-time telemetry of MoMo API webhooks, card processing, and venue commission collection across Greater Accra and Ashanti clusters.</p>
+</div>
+<!-- KPI Summary Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/60 shadow-xs relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-outline">Total Platform Volume</span>
+<span class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-data-metric font-data-metric text-on-surface tabular-nums">GH₵ 84,250.00</span>
+<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">+14.2%</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-1">Aggregated Gross Merchant Volume this cycle</p>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/60 shadow-xs relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-outline">MoMo Payouts Queued</span>
+<span class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="send_money">send_money</span>
+</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-data-metric font-data-metric text-on-surface tabular-nums">GH₵ 12,400.00</span>
+<span class="text-xs font-semibold text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded">6 Batches</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-1">Next automated disbursement at 17:00 GMT</p>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/60 shadow-xs relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-outline">Processing Success Rate</span>
+<span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
+</span>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-data-metric font-data-metric text-emerald-700 tabular-nums">99.4%</span>
+<span class="text-xs font-semibold text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded">Zero Gateway Drops</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-1">MTN &amp; Telecel direct switch response latency: 240ms</p>
+</div>
+</div>
+<!-- Transactions Table Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-xs overflow-hidden">
+<div class="px-5 py-3 bg-surface-container-low border-b border-outline-variant/60 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Consolidated Payment Feed (Example data)</span>
+<span class="text-xs px-2 py-0.5 rounded-full bg-slate-200/70 text-slate-700 font-mono">Live Feeds</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-label-sm font-label-sm text-primary font-semibold hover:underline flex items-center gap-1">
+<span>Configure Payout Rules</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-blue-50/70 border-b border-outline-variant/40 h-10">
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Transaction ID</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Target Club</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Player Name</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold">Payment Channel</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold text-right">Amount (GH₵)</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold text-right">Fee Collected</th>
+<th class="py-2 px-4 text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-semibold text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 font-body-md text-body-md text-on-surface">
+<!-- Tx Row 1 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4 font-mono font-medium text-primary text-xs">
+                    #TX-90412
+                  </td>
+<td class="py-3 px-4">
+<div class="font-medium text-label-md font-label-md text-on-surface">Demo Padel Club</div>
+<div class="text-xs text-outline">Court 2 • 90m Slot</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-semibold text-on-surface">Kofi Darko</span>
+<span class="block text-xs text-outline">024 491 8021</span>
+</td>
+<td class="py-3 px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-50 text-amber-900 border border-amber-200 text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>MTN Mobile Money</span>
+</div>
+</td>
+<td class="py-3 px-4 text-right tabular-nums font-semibold text-on-surface">
+                    GH₵ 140.00
+                  </td>
+<td class="py-3 px-4 text-right tabular-nums text-slate-500 text-body-sm font-body-sm">
+                    GH₵ 4.20 <span class="text-xs text-outline">(3%)</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Settled
+                    </span>
+</td>
+</tr>
+<!-- Tx Row 2 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4 font-mono font-medium text-primary text-xs">
+                    #TX-90413
+                  </td>
+<td class="py-3 px-4">
+<div class="font-medium text-label-md font-label-md text-on-surface">Airport Hills Padel</div>
+<div class="text-xs text-outline">Americano Tournament Entry</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-semibold text-on-surface">Esi Boateng</span>
+<span class="block text-xs text-outline">050 119 4432</span>
+</td>
+<td class="py-3 px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-50 text-red-900 border border-red-200 text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span>Telecel Cash</span>
+</div>
+</td>
+<td class="py-3 px-4 text-right tabular-nums font-semibold text-on-surface">
+                    GH₵ 200.00
+                  </td>
+<td class="py-3 px-4 text-right tabular-nums text-slate-500 text-body-sm font-body-sm">
+                    GH₵ 6.00 <span class="text-xs text-outline">(3%)</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Settled
+                    </span>
+</td>
+</tr>
+<!-- Tx Row 3 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4 font-mono font-medium text-primary text-xs">
+                    #TX-90414
+                  </td>
+<td class="py-3 px-4">
+<div class="font-medium text-label-md font-label-md text-on-surface">Cantonments Court Club</div>
+<div class="text-xs text-outline">Pro Shop Equipment Rental</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-semibold text-on-surface">Kwesi Appiah</span>
+<span class="block text-xs text-outline">020 902 3311</span>
+</td>
+<td class="py-3 px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-50 text-blue-900 border border-blue-200 text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-blue-600"></span>
+<span>Visa/Mastercard</span>
+</div>
+</td>
+<td class="py-3 px-4 text-right tabular-nums font-semibold text-on-surface">
+                    GH₵ 350.00
+                  </td>
+<td class="py-3 px-4 text-right tabular-nums text-slate-500 text-body-sm font-body-sm">
+                    GH₵ 8.75 <span class="text-xs text-outline">(2.5%)</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Settled
+                    </span>
+</td>
+</tr>
+<!-- Tx Row 4 -->
+<tr class="hover:bg-slate-50/75 transition-colors">
+<td class="py-3 px-4 font-mono font-medium text-primary text-xs">
+                    #TX-90415
+                  </td>
+<td class="py-3 px-4">
+<div class="font-medium text-label-md font-label-md text-on-surface">Demo Padel Club</div>
+<div class="text-xs text-outline">Walk-in Ball Canister Purchase</div>
+</td>
+<td class="py-3 px-4">
+<span class="font-semibold text-on-surface">Yaw Osei-Tutu</span>
+<span class="block text-xs text-outline">Guest Player</span>
+</td>
+<td class="py-3 px-4">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 text-slate-800 border border-slate-200 text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-slate-500"></span>
+<span>Cash at Desk</span>
+</div>
+</td>
+<td class="py-3 px-4 text-right tabular-nums font-semibold text-on-surface">
+                    GH₵ 85.00
+                  </td>
+<td class="py-3 px-4 text-right tabular-nums text-slate-500 text-body-sm font-body-sm">
+                    GH₵ 0.00 <span class="text-xs text-outline">(Direct)</span>
+</td>
+<td class="py-3 px-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      Settled
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 3: Player Governance & GDPR Tools -->
+<!-- ========================================================================= -->
+<section class="space-y-4" id="player-governance">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Player Governance &amp; GDPR Tools</h2>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-semibold">Disciplinary Enforcement</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Manage pan-Ghanaian sports integrity protocols, player behavior strikes, right-to-be-forgotten requests, and anonymisation.</p>
+</div>
+<!-- Main Governance Card Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Player Item Row Card (Left 7 Cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/60 shadow-xs space-y-5">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-4">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-slate-600 font-bold">Player Record File (Example data)</span>
+<span class="text-xs font-mono text-outline">Ghana Padel ID: #GH-PL-1082</span>
+</div>
+<!-- Player Profile Detail -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<img class="w-14 h-14 rounded-xl object-cover ring-1 ring-outline-variant" data-alt="A candid profile photo of a focused athletic Ghanaian man in his late twenties wearing a breathable athletic polo, outdoors against a soft-focus padel court fence under overcast coastal Accra lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbFM-uffws_ARWEkttUdQUkmX-Os4m89K-BIyhbL6PFXy2jUx19wlnkwM1NysyCDExa2Yls27YgqjOhEdMG5hsIpSc-CjnQexhAqLjXZyapXj8KFSnEokfkvdsiJgVS4Ly4MQNBNiMEOALh8nuznB-f0_OA47P8HZ6WEfJ8xiSYDue4dVlpgR_HwUur8M6BHFImwbHAPa6EM8zDoGyzLE_4fzIS3q7j3IF2XquGSUsOhIN1ULz4ss4"/>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Kofi Darko</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface text-label-sm font-label-sm font-semibold">Accra</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Member since Jan 2024 • Ranked #14 National Men's Double</p>
+<p class="text-body-sm font-body-sm text-outline font-mono mt-0.5">kofi.darko@padelmail.gh • 024 491 8021</p>
+</div>
+</div>
+<!-- Strike Indicator -->
+<div class="bg-red-50 border border-red-200 p-3 rounded-lg flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-red-100 text-error flex items-center justify-center font-bold text-sm">
+<span class="material-symbols-outlined text-lg" data-icon="gavel">gavel</span>
+</div>
+<div>
+<span class="text-xs font-bold uppercase tracking-wider text-error">Status Notice</span>
+<div class="text-label-md font-label-md font-bold text-red-950">1 Disciplinary Strike</div>
+</div>
+</div>
+</div>
+<!-- Strike details note -->
+<div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 text-body-sm font-body-sm text-slate-700">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base text-amber-700 mt-0.5" data-icon="warning">warning</span>
+<div>
+<span class="font-semibold text-slate-900">Strike Record #ST-0391 (08 Oct 2024):</span>
+<span> Unsportsmanlike match forfeit during Kumasi Open Qualifier. Automatic 14-day booking limit applied.</span>
+</div>
+</div>
+</div>
+<!-- Governance Action Triggers -->
+<div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+<div class="flex items-center gap-2">
+<button class="h-10 px-4 rounded-lg bg-surface border border-outline-variant/90 hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5 shadow-xs">
+<span class="material-symbols-outlined text-base" data-icon="mail">mail</span>
+<span>Issue Warning</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-surface border border-outline-variant/90 hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5 shadow-xs">
+<span class="material-symbols-outlined text-base" data-icon="history">history</span>
+<span>Audit Violations</span>
+</button>
+</div>
+<!-- Anonymise Trigger -->
+<button class="h-10 px-4 rounded-lg bg-error text-on-error hover:bg-red-800 font-label-md text-label-md font-semibold transition-colors flex items-center gap-2 shadow-xs">
+<span class="material-symbols-outlined text-base" data-icon="person_remove">person_remove</span>
+<span>Anonymise Account (GDPR Compliance)</span>
+</button>
+</div>
+</div>
+<!-- Danger Confirmation Modal Preview (Right 5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl border-2 border-error/40 shadow-md p-6 space-y-4 relative overflow-hidden">
+<!-- Modal Header Badge -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-error-container text-on-error-container text-label-sm font-label-sm font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm" data-icon="security">security</span>
+<span>Irreversible Super-Admin Action</span>
+</div>
+<span class="text-xs text-outline font-mono">Modal Preview</span>
+</div>
+<div class="space-y-2">
+<h4 class="text-headline-sm font-headline-sm text-on-surface">Confirm GDPR Anonymisation</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed">
+                You are about to irreversibly scrub personal identifiers for player <strong class="text-on-surface">Kofi Darko</strong> (#GH-PL-1082) under Ghana Data Protection Act 2012 (Act 843) and GDPR mandates.
+              </p>
+</div>
+<!-- Consequences Box -->
+<div class="bg-red-50/70 p-3.5 rounded-lg border border-red-200 space-y-2 text-body-sm font-body-sm text-red-900">
+<div class="flex items-center gap-2 font-semibold">
+<span class="material-symbols-outlined text-base text-error" data-icon="info">info</span>
+<span>Actions taken automatically:</span>
+</div>
+<ul class="list-disc list-inside space-y-1 text-xs text-red-950/80 pl-1">
+<li>Full name, Ghana Card UID, phone &amp; email replaced with cryptographic hashes.</li>
+<li>Past financial payments retained with anonymised payer record for tax audits.</li>
+<li>Player removed from Ghana National Padel Ranking ladders.</li>
+</ul>
+</div>
+<!-- Safeguard Confirmation Input Mock -->
+<div class="space-y-1.5">
+<label class="text-label-md font-label-md text-on-surface font-semibold block">Type "ANONYMISE" to verify consent:</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface border border-error/50 font-mono text-body-sm font-body-sm text-on-surface focus:ring-2 focus:ring-error/20 outline-none" placeholder="ANONYMISE" type="text" value="ANONYMISE"/>
+</div>
+<!-- Modal Action Buttons -->
+<div class="flex items-center justify-end gap-3 pt-2">
+<button class="h-10 px-4 rounded-lg bg-surface border border-outline-variant hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold transition-colors">
+                Cancel
+              </button>
+<button class="h-10 px-4 rounded-lg bg-error text-on-error hover:bg-red-800 font-label-md text-label-md font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-base" data-icon="delete_forever">delete_forever</span>
+<span>Confirm Immediate Anonymisation</span>
+</button>
+</div>
+<div class="pt-2 text-center border-t border-outline-variant/30">
+<span class="text-xs text-outline">A 10-second contextual undo toast will be buffered upon confirmation.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- System Telemetry & Regional Gateway Bar -->
+<footer class="pt-6 border-t border-outline-variant/60 flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-outline gap-4">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+<span>Ghana Interbank Payment &amp; Settlement Systems (GhIPSS) Switch: OK</span>
+</span>
+<span>•</span>
+<span>National Registry sync: Latency 18ms</span>
+</div>
+<div class="text-xs font-mono">
+          admin.padelghana.com • Server Region: Accra (af-south-1)
+        </div>
+</footer>
+</main>
+</div>
+</body></html>

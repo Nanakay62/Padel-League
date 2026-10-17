@@ -3,8 +3,9 @@
 import hashlib
 import json
 import uuid
+from collections.abc import Sequence
 from datetime import UTC, datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import (
     JSON,
@@ -13,12 +14,16 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     String,
+    UniqueConstraint,
     event,
     inspect,
 )
 from sqlalchemy.orm import Mapped, Session, mapped_column, relationship
 
 from app.db import Base
+
+if TYPE_CHECKING:
+    from app.identity.models import User
 
 
 def utc_now() -> datetime:
@@ -90,6 +95,18 @@ class Venue(Base):
     open_matches: Mapped[list["OpenMatch"]] = relationship(
         "OpenMatch", back_populates="venue", cascade="all, delete-orphan"
     )
+    memberships: Mapped[list["VenueMembership"]] = relationship(
+        "VenueMembership", back_populates="venue", cascade="all, delete-orphan"
+    )
+    invites: Mapped[list["VenueInvite"]] = relationship(
+        "VenueInvite", back_populates="venue", cascade="all, delete-orphan"
+    )
+    drafts: Mapped[list["VenueDraft"]] = relationship(
+        "VenueDraft", back_populates="venue", cascade="all, delete-orphan"
+    )
+    photo_records: Mapped[list["VenuePhoto"]] = relationship(
+        "VenuePhoto", back_populates="venue", cascade="all, delete-orphan"
+    )
 
 
 class Court(Base):
@@ -128,15 +145,21 @@ class Court(Base):
     venue: Mapped["Venue"] = relationship("Venue", back_populates="courts")
 
 
-def compute_venue_price_hash(venue: Venue) -> str:
+def compute_venue_price_hash(
+    venue: Venue, courts: Sequence[Court] | None = None
+) -> str:
     """Computes a deterministic SHA256 hash of all price-affecting configuration.
 
     Includes venue base rate, venue price bands, duration multipliers, add-ons config,
     and all associated courts' pricing overrides (base rate, bands, multipliers).
     """
     courts_data: list[dict[str, Any]] = []
-    if hasattr(venue, "courts") and venue.courts:
-        for c in sorted(venue.courts, key=lambda x: str(x.id)):
+    court_list = courts
+    if court_list is None and hasattr(venue, "courts") and venue.courts:
+        court_list = venue.courts
+
+    if court_list:
+        for c in sorted(court_list, key=lambda x: str(x.id or x.court_number)):
             courts_data.append(
                 {
                     "court_id": c.id,
@@ -231,7 +254,24 @@ def on_session_before_flush_bump_price_version(
     for venue in venues_to_bump:
         venue.price_version = (venue.price_version or 1) + 1
         venue.updated_at = utc_now()
-        venue.price_hash = compute_venue_price_hash(venue)
+        with session.no_autoflush:
+            db_courts = session.query(Court).filter(Court.venue_id == venue.id).all()
+        effective: dict[Any, Court] = {
+            c.id: c for c in db_courts if c not in session.deleted
+        }
+        for obj in session.new:
+            if isinstance(obj, Court) and (
+                obj.venue is venue or obj.venue_id == venue.id
+            ):
+                if obj.id is None:
+                    obj.id = str(uuid.uuid4())
+                effective[obj.id] = obj
+        for obj in session.deleted:
+            if isinstance(obj, Court) and (
+                obj.venue is venue or obj.venue_id == venue.id
+            ):
+                effective.pop(obj.id, None)
+        venue.price_hash = compute_venue_price_hash(venue, list(effective.values()))
 
 
 class OpenMatch(Base):
@@ -292,3 +332,126 @@ class OpenMatchParticipant(Base):
     open_match: Mapped["OpenMatch"] = relationship(
         "OpenMatch", back_populates="participants"
     )
+
+
+class VenueMembership(Base):
+    __tablename__ = "venue_memberships"
+    __table_args__ = (
+        UniqueConstraint("venue_id", "user_id", name="uq_venue_membership_venue_user"),
+    )
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    venue_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("venues.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    role: Mapped[str] = mapped_column(String(32), default="CLUB_ADMIN", nullable=False)
+    status: Mapped[str] = mapped_column(String(32), default="ACTIVE", nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False
+    )
+
+    venue: Mapped["Venue"] = relationship("Venue", back_populates="memberships")
+    user: Mapped["User"] = relationship("app.identity.models.User")
+
+
+class VenueInvite(Base):
+    __tablename__ = "venue_invites"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    venue_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("venues.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    email: Mapped[str] = mapped_column(String(120), nullable=False, index=True)
+    role: Mapped[str] = mapped_column(String(32), default="CLUB_ADMIN", nullable=False)
+    token_hash: Mapped[str] = mapped_column(
+        String(128), unique=True, index=True, nullable=False
+    )
+    invited_by_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    accepted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+
+    venue: Mapped["Venue"] = relationship("Venue", back_populates="invites")
+    invited_by: Mapped["User | None"] = relationship("app.identity.models.User")
+
+
+class VenueDraft(Base):
+    __tablename__ = "venue_drafts"
+    __table_args__ = (
+        UniqueConstraint("venue_id", "section", name="uq_venue_draft_venue_section"),
+    )
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    venue_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("venues.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    section: Mapped[str] = mapped_column(String(64), nullable=False)
+    draft_payload: Mapped[dict[str, Any]] = mapped_column(
+        JSON, default=dict, nullable=False
+    )
+    updated_by_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False
+    )
+
+    venue: Mapped["Venue"] = relationship("Venue", back_populates="drafts")
+
+
+class VenuePhoto(Base):
+    __tablename__ = "venue_photos"
+
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    venue_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("venues.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    url: Mapped[str] = mapped_column(String(255), nullable=False)
+    thumbnail_url: Mapped[str] = mapped_column(String(255), default="", nullable=False)
+    caption: Mapped[str] = mapped_column(String(255), default="", nullable=False)
+    display_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    uploaded_by_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+
+    venue: Mapped["Venue"] = relationship("Venue", back_populates="photo_records")

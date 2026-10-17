@@ -1,0 +1,91 @@
+/* Padel Ghana Marketing Site — Design Tokens
+ * Generated automatically by apps/site/scripts/test-and-generate-tokens.mjs
+ * DO NOT EDIT MANUALLY.
+ */
+
+:root {
+  /* Brand Blues */
+  --color-primary: #1D4ED8;
+  --color-primary-hover: #1E40AF;
+  --color-primary-pressed: #172554;
+  --color-primary-light: #EFF6FF;
+  --color-border-light: #DBEAFE;
+  --color-focus-ring: #2563EB;
+
+  /* Surfaces & Text */
+  --color-bg: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-text: #0F172A;
+  --color-text-muted: #475569;
+  --color-text-disabled: #94A3B8;
+  --color-text-white: #FFFFFF;
+  --color-white: #FFFFFF;
+
+  /* Forms & Inputs */
+  --color-input-border: #64748B;
+  --color-input-placeholder: #64748B;
+  --color-input-bg: #FFFFFF;
+
+  /* Buttons on Blue */
+  --btn-on-blue-lime-bg: #D9F99D;
+  --btn-on-blue-lime-text: #0F172A;
+  --btn-on-blue-lime-hover: #BEF264;
+  --btn-on-blue-white-bg: #FFFFFF;
+  --btn-on-blue-white-text: #0F172A;
+  --btn-on-blue-white-hover: rgba(255, 255, 255, 0.90);
+  --btn-on-blue-glass-bg: rgba(255, 255, 255, 0.12);
+  --btn-on-blue-glass-border: rgba(255, 255, 255, 0.25);
+  --btn-on-blue-glass-text: #FFFFFF;
+  --btn-on-blue-glass-hover: rgba(255, 255, 255, 0.20);
+
+  /* Buttons on Light */
+  --btn-on-light-primary-bg: #1D4ED8;
+  --btn-on-light-primary-text: #FFFFFF;
+  --btn-on-light-primary-hover: #1E40AF;
+  --btn-on-light-primary-pressed: #172554;
+  --btn-on-light-disabled-bg: #E2E8F0;
+  --btn-on-light-disabled-text: #94A3B8;
+
+  /* Accents & Status */
+  --color-success-text: #007A33;
+  --color-success-bg: #DCFCE7;
+  --color-success-badge-text: #166534;
+  --color-badge-success-border: rgba(22, 101, 52, 0.20);
+  --color-gold: #F4C430;
+  --color-gold-text: #14181A;
+  --color-badge-gold-bg: #FEF9E7;
+  --color-badge-gold-text: #7A5E00;
+  --color-badge-gold-border: rgba(244, 196, 48, 0.40);
+  --color-badge-soon-bg: #F1F5F9;
+  --color-danger: #B3261E;
+  --color-danger-surface: #FDF2F2;
+
+  /* Gradients (Background bands ONLY) */
+  --gradient-hero: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 55%, #172554 100%);
+
+  /* Glass Tokens */
+  --glass-hero-tint: rgba(255, 255, 255, 0.10);
+  --glass-hero-card-bg: rgba(255, 255, 255, 0.12);
+  --glass-badge-hero-bg: rgba(255, 255, 255, 0.12);
+  --glass-badge-hero-border: rgba(255, 255, 255, 0.25);
+  --glass-badge-hero-text: #DBEAFE;
+  --glass-nav-tint: rgba(29, 78, 216, 0.88);
+  --glass-nav-border: rgba(255, 255, 255, 0.15);
+  --glass-card-photo-tint: rgba(255, 255, 255, 0.88);
+  --glass-border-light: rgba(255, 255, 255, 0.20);
+  --glass-border-dark: rgba(226, 232, 240, 0.80);
+  --glass-blur-radius: 12px;
+  --glass-blur: blur(12px);
+  --glass-fallback-nav: #1D4ED8;
+  --glass-fallback-card: #FFFFFF;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-card: 12px;
+  --radius-button: 12px;
+  --radius-pill: 9999px;
+
+  /* Spacing & Touch */
+  --touch-target-min: 44px;
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" width="210" height="36" fill="none">
+  <g transform="translate(4, 4)">
+    <rect x="0" y="0" width="30" height="38" rx="14" stroke="#FFFFFF" stroke-width="2.5" fill="none"/>
+    <circle cx="10" cy="14" r="1.5" fill="#D9F99D"/>
+    <circle cx="15" cy="14" r="1.5" fill="#FFFFFF"/>
+    <circle cx="20" cy="14" r="1.5" fill="#FFFFFF"/>
+    <circle cx="10" cy="19" r="1.5" fill="#FFFFFF"/>
+    <circle cx="15" cy="19" r="1.5" fill="#D9F99D"/>
+    <circle cx="20" cy="19" r="1.5" fill="#FFFFFF"/>
+    <circle cx="15" cy="24" r="1.5" fill="#FFFFFF"/>
+    <line x1="15" y1="38" x2="15" y2="44" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="48" y="27" font-family="Inter, sans-serif" font-weight="700" font-size="18" letter-spacing="0.08em" fill="#FFFFFF">PADEL GHANA</text>
+  <text x="49" y="38" font-family="Inter, sans-serif" font-weight="500" font-size="9" letter-spacing="0.22em" fill="#DBEAFE">ACCRA</text>
+</svg>

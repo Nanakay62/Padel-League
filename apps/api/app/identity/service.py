@@ -9,8 +9,6 @@ from typing import Any
 
 import jwt
 from fastapi import HTTPException
-from pwdlib import PasswordHash
-from pwdlib.hashers.argon2 import Argon2Hasher
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -25,7 +23,7 @@ from app.identity.models import (
     RefreshToken,
     User,
 )
-from app.identity.password_policy import validate_password_policy
+from app.identity.password_policy import pwd_context, validate_password_policy
 from app.identity.phone import normalize_ghana_phone
 from app.identity.rate_limiter import auth_rate_limiter
 from app.identity.schemas import (
@@ -45,17 +43,6 @@ from app.notify.email import (
     render_password_reset_template,
 )
 from app.notify.sms import get_sms_provider
-
-pwd_context = PasswordHash(
-    (
-        Argon2Hasher(
-            time_cost=settings.argon2_time_cost,
-            memory_cost=settings.argon2_memory_cost,
-            parallelism=settings.argon2_parallelism,
-            hash_len=settings.argon2_hash_len,
-        ),
-    )
-)
 
 
 def _utc_now() -> datetime:
@@ -847,6 +834,7 @@ class IdentityService:
         payload = {
             "sub": user_id,
             "role": role,
+            "type": "access",
             "iat": now,
             "exp": now + timedelta(minutes=settings.access_token_expire_minutes),
             "jti": secrets.token_hex(8),

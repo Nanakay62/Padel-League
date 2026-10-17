@@ -4,7 +4,7 @@ import { PhoneLoginScreen } from '@/features/auth/PhoneLoginScreen';
 
 export default function LoginRoute() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ redirect?: string }>();
+  const params = useLocalSearchParams<{ redirect?: string; mode?: string }>();
 
   const handleSuccess = () => {
     if (params.redirect) {
@@ -16,5 +16,13 @@ export default function LoginRoute() {
     }
   };
 
-  return <PhoneLoginScreen onSuccess={handleSuccess} />;
+  const isRegister = params.mode === 'register';
+
+  return (
+    <PhoneLoginScreen
+      onSuccess={handleSuccess}
+      initialAuthMethod={isRegister ? 'EMAIL' : 'PHONE'}
+      initialEmailMode={isRegister ? 'REGISTER' : 'SIGN_IN'}
+    />
+  );
 }

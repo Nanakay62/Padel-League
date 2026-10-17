@@ -1,0 +1,17 @@
+{
+  "name": "padel-ghana-site",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4321",
+    "build": "astro build",
+    "build:prod": "astro build && node ./scripts/validate-production-build.mjs",
+    "preview": "astro preview --port 4321",
+    "check-tokens": "node ./scripts/check-site-tokens.mjs",
+    "test:gate": "node ./tests/validate-production-build.test.mjs",
+    "test:e2e-links": "node ./scripts/test-e2e-cta-links.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.4.2"
+  }
+}

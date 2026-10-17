@@ -4,7 +4,7 @@ import { Tokens, Typography } from '@/constants/theme';
 
 export interface BadgeProps {
   label: string;
-  variant?: 'neutral' | 'success' | 'gold' | 'danger';
+  variant?: 'neutral' | 'success' | 'gold' | 'danger' | 'primary';
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   icon?: React.ReactNode;
@@ -25,6 +25,7 @@ export function Badge({
         variant === 'success' && styles.successBadge,
         variant === 'gold' && styles.goldBadge,
         variant === 'danger' && styles.dangerBadge,
+        variant === 'primary' && styles.primaryBadge,
         style,
       ]}
     >
@@ -36,6 +37,7 @@ export function Badge({
           variant === 'success' && styles.successText,
           variant === 'gold' && styles.goldText,
           variant === 'danger' && styles.dangerText,
+          variant === 'primary' && styles.primaryText,
           textStyle,
         ]}
       >
@@ -75,6 +77,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Tokens.colors.border,
   },
+  primaryBadge: {
+    backgroundColor: Tokens.colors.primaryLight,
+    borderWidth: 1,
+    borderColor: Tokens.colors.primaryBorder,
+  },
   text: {
     fontFamily: Typography.fontFamily.medium,
     fontWeight: Tokens.fontWeight.medium,
@@ -92,5 +99,8 @@ const styles = StyleSheet.create({
   },
   dangerText: {
     color: Tokens.colors.danger,
+  },
+  primaryText: {
+    color: Tokens.colors.primary,
   },
 });

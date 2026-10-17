@@ -1,0 +1,494 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="About Us — Padel Ghana"
+  description="Our mission to grow padel in Ghana: social Americano match play, automated club management, transparent GHS pricing, and fair player ratings across Accra."
+>
+  <!-- Hero Section (Solid primary blue per Rule 4: solid surfaces) -->
+  <section class="page-hero-solid" id="about-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-pill badge-hero-pill">ABOUT PADEL GHANA</div>
+        <h1 class="hero-title">Growing the game of padel across Accra.</h1>
+        <p class="hero-subtitle">
+          We are building the social and competitive foundation for padel in Ghana &mdash; connecting players, automating tournament brackets, and making courtside match play seamless.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Story Canvas (Solid surface) -->
+  <section class="section-padded surface-base" id="about-story">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-col">
+          <div class="section-kicker">OUR MISSION</div>
+          <h2 class="section-heading">From informal WhatsApp chats to a unified athletic platform.</h2>
+          <p class="section-paragraph">
+            Padel is the fastest-growing racquet sport in the world, combining the best tactical elements of tennis and squash within an enclosed glass court. Over the past few years, the sport has arrived in Accra, with state-of-the-art courts opening across Cantonments, Airport Residential, Labone, and East Legon.
+          </p>
+          <p class="section-paragraph">
+            However, coordinating match sessions was frustrating. Organizers spent hours juggling messy WhatsApp polls, manually tracking who paid through Mobile Money, and calculating round-robin partners on scraps of paper. When someone dropped out 20 minutes before a match, the entire afternoon fell apart.
+          </p>
+          <p class="section-paragraph">
+            We built <strong>Padel Ghana</strong> to solve that permanently. Our platform automates tournament formats like Americano and Mexicano, splits court costs across confirmed players in Ghana Cedis, tracks ratings objectively, and gives club managers a professional back office to run their venues.
+          </p>
+        </div>
+
+        <div class="stats-col">
+          <div class="card-solid stat-box">
+            <span class="stat-number">4</span>
+            <span class="stat-title">Accra Padel Zones</span>
+            <p class="stat-desc">Connecting active courts in Cantonments, Airport Residential, Labone, and East Legon.</p>
+          </div>
+
+          <div class="card-solid stat-box">
+            <span class="stat-number">100%</span>
+            <span class="stat-title">Ghanaian Ownership &amp; Focus</span>
+            <p class="stat-desc">Built in Accra for local connectivity, MoMo payments, and Ghana Data Protection Act 843 compliance.</p>
+          </div>
+
+          <div class="card-solid stat-box">
+            <span class="stat-number">0</span>
+            <span class="stat-title">Hidden Booking Commissions</span>
+            <p class="stat-desc">Fair, transparent club fees denominated in GHS pesewas. No speculative markups or hidden fees.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Four Core Pillars -->
+  <section class="section-padded surface-card" id="about-pillars">
+    <div class="container">
+      <div class="section-header-center">
+        <div class="badge-pill badge-primary-pill">OUR FOUNDATIONS</div>
+        <h2 class="section-title">The four principles guiding our engineering.</h2>
+        <p class="section-desc">
+          Every algorithm, screen, and workflow in Padel Ghana is designed around fair competition, local resilience, and respect for club operators.
+        </p>
+      </div>
+
+      <div class="pillars-grid">
+        <!-- Pillar 1 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-num">01</div>
+          <h3 class="pillar-title">Mathematical Rotation Equity</h3>
+          <p class="pillar-desc">
+            Our match generation algorithms are built as pure mathematical functions. A player is never assigned to two courts in the same round, partner variety is maximized, and the games-played gap between participants never exceeds 1.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-num">02</div>
+          <h3 class="pillar-title">Offline Courtside Resilience</h3>
+          <p class="pillar-desc">
+            Accra connectivity can fluctuate courtside. Our score entry engine is idempotent and functions completely offline. Scores sync automatically when connectivity resumes without ever duplicating match entries or corrupting ratings.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-num">03</div>
+          <h3 class="pillar-title">Transparent Pesewas Accounting</h3>
+          <p class="pillar-desc">
+            All monetary amounts are stored internally as exact integer pesewas (1 GH₵ = 100 pesewas) &mdash; never rounding floats. Court costs are split transparently across confirmed players, and refunds remit directly back to mobile wallets.
+          </p>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="card-solid pillar-card">
+          <div class="pillar-num">04</div>
+          <h3 class="pillar-title">Club Autonomy &amp; Partnership</h3>
+          <p class="pillar-desc">
+            We partner with Accra clubs &mdash; we never scrape private reservation APIs or compete against venue owners. We give clubs the digital tools to maximize court utilization while leaving physical venue authority in their hands.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where We Play (Accra Padel Zones) -->
+  <section class="section-padded surface-base" id="about-venues">
+    <div class="container">
+      <div class="section-header-center">
+        <div class="badge-pill badge-primary-pill">LOCATIONS</div>
+        <h2 class="section-title">Where the community plays.</h2>
+        <p class="section-desc">
+          From social after-work Americanos to weekend tournaments, discover padel sessions hosted across Accra.
+        </p>
+      </div>
+
+      <div class="zones-grid">
+        <div class="card-solid zone-card">
+          <div class="zone-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3 class="zone-title">Cantonments</h3>
+          <p class="zone-desc">Prime panoramic glass courts with high-intensity lighting, clubhouse amenities, and weekend social mixers.</p>
+          <span class="zone-tag">Social Americano &bull; Mixed Levels</span>
+        </div>
+
+        <div class="card-solid zone-card">
+          <div class="zone-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3 class="zone-title">Airport Residential Area</h3>
+          <p class="zone-desc">Central luxury courts ideal for early morning cardio matches and competitive evening Mexicanos.</p>
+          <span class="zone-tag">Competitive Mexicano &bull; Rated 3.0+</span>
+        </div>
+
+        <div class="card-solid zone-card">
+          <div class="zone-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3 class="zone-title">Labone</h3>
+          <p class="zone-desc">Vibrant social scene with on-site café and dedicated beginner clinics for newcomers to racquet sports.</p>
+          <span class="zone-tag">Beginner Clinics &bull; Social Sets</span>
+        </div>
+
+        <div class="card-solid zone-card">
+          <div class="zone-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3 class="zone-title">East Legon</h3>
+          <p class="zone-desc">Multi-court facility hosting league nights, inter-club tournaments, and corporate challenge matches.</p>
+          <span class="zone-tag">Box Leagues &bull; Open Play</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Band (Solid surface) -->
+  <section class="section-padded surface-card cta-section" id="about-cta">
+    <div class="container text-center max-w-narrow">
+      <h2 class="cta-title">Ready to step on court?</h2>
+      <p class="cta-desc">
+        Create your free player account in 60 seconds with your phone number, discover upcoming sessions across Accra, and join your first Americano.
+      </p>
+      <div class="cta-actions">
+        <a href={`${siteConfig.appUrl}/login?mode=register`} class="btn btn-primary btn-lg" id="about-cta-register">
+          Create player account
+        </a>
+        <a href="/for-clubs" class="btn btn-outline btn-lg" id="about-cta-clubs">
+          Register your club
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Styles (Solid primary blue) */
+  .page-hero-solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: 1px solid var(--color-primary-hover);
+  }
+
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 800px;
+  }
+
+  .badge-hero-pill {
+    background-color: var(--btn-on-blue-glass-bg);
+    color: var(--color-border-light);
+    border: 1px solid var(--btn-on-blue-glass-border);
+    align-self: flex-start;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  /* Story Grid */
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .story-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .section-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  .section-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .section-paragraph {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .section-paragraph strong {
+    color: var(--color-text);
+  }
+
+  .stats-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .stat-box {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .stat-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* Pillars Section */
+  .section-header-center {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .badge-primary-pill {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1px solid var(--color-border-light);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.25;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .pillar-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .pillar-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+  }
+
+  .pillar-title {
+    font-size: 1.1875rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .pillar-desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* Zones Section */
+  .zones-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .zone-card {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .zone-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zone-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .zone-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    flex-grow: 1;
+  }
+
+  .zone-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* CTA Band */
+  .cta-section {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cta-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-desc {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--color-input-border);
+    color: var(--color-text);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--color-bg);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .story-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .zones-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .zones-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

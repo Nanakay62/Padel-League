@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Admin - Moderation &amp; Support Desk | Padel Ghana</title>
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#e2e7ff",
+            "on-primary-fixed": "#001551",
+            "outline": "#747686",
+            "on-surface-variant": "#434655",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#2151da",
+            "secondary-container": "#708cfd",
+            "background": "#faf8ff",
+            "on-tertiary-container": "#c1e087",
+            "on-primary-container": "#cad3ff",
+            "primary": "#0037b0",
+            "tertiary": "#344c01",
+            "on-surface": "#131b2e",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-variant": "#dae2fd",
+            "on-secondary-fixed": "#001453",
+            "tertiary-fixed": "#ceee93",
+            "on-primary-fixed-variant": "#0039b5",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#b3d17a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "on-secondary-fixed-variant": "#173bab",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#364e03",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "secondary": "#3755c3",
+            "on-tertiary-fixed": "#131f00",
+            "on-secondary-container": "#00217a",
+            "surface-dim": "#d2d9f4",
+            "on-background": "#131b2e",
+            "primary-fixed-dim": "#b7c4ff",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#4b641a",
+            "inverse-primary": "#b7c4ff",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#1d4ed8",
+            "on-error-container": "#93000a",
+            "surface-container": "#eaedff",
+            "outline-variant": "#c4c5d7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "data-metric": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="h-full text-on-surface bg-surface flex flex-col antialiased selection:bg-primary selection:text-on-primary">
+<!-- Shared Component: SideNavBar (Fixed Glass Navigation Rail) -->
+<aside class="fixed top-0 left-0 h-screen w-64 bg-surface/80 backdrop-blur-md border-r border-outline-variant/60 shadow-sm z-50 flex flex-col justify-between p-4">
+<div class="flex flex-col gap-6">
+<!-- Header Brand Cluster -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm ring-1 ring-primary-container">
+<span class="material-symbols-outlined text-[22px]">sports_tennis</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight tracking-tight">Padel Ghana</span>
+<span class="text-body-sm font-body-sm text-outline font-medium">Club Back-Office</span>
+</div>
+</div>
+<!-- Quick Action CTA -->
+<button class="w-full h-10 flex items-center justify-center gap-2 rounded-lg bg-primary-container hover:bg-primary text-white text-label-md font-label-md shadow-sm transition-colors duration-150">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>New Booking</span>
+</button>
+<!-- Primary Nav Tabs from Shared Components JSON + Admin Context -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">sports_tennis</span>
+<span class="text-label-md font-label-md">Courts &amp; Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="text-label-md font-label-md">Memberships</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">trophy</span>
+<span class="text-label-md font-label-md">Tournaments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-label-md font-label-md">Financial Ledger</span>
+</a>
+<!-- Active Tab for Moderation / Audit Governance Context -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-container-high text-primary font-semibold transition-colors duration-150 ring-1 ring-primary/10" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="text-label-md font-label-md flex-1">Moderation &amp; Disputes</span>
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="text-label-md font-label-md">Audit Log</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant font-medium hover:bg-surface-container hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<!-- SideNav Footer -->
+<div class="pt-4 border-t border-outline-variant/60 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Help &amp; Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-error hover:bg-error-container/40 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-label-md font-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main View Area offset by SideNav -->
+<div class="pl-64 flex flex-col min-h-screen">
+<!-- Shared Component: TopNavBar (Sticky Frosted Header) -->
+<header class="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant/60 shadow-sm flex justify-between items-center px-6 py-3">
+<!-- Search on Left -->
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-lg border border-outline/50 bg-white text-body-sm font-body-sm text-on-surface placeholder-outline focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search incident ID, player name, Ghana Card..." type="text"/>
+</div>
+</div>
+<!-- Super Admin Trailing cluster actions -->
+<div class="flex items-center gap-3">
+<!-- Environmental status indicator -->
+<div class="hidden lg:flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full border border-outline-variant/50">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-600"></span>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-mono">NODE: ACCRA-CENTRAL-01</span>
+</div>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors relative" title="Notifications">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="Receipts / Ledger">
+<span class="material-symbols-outlined">receipt_long</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/70 mx-1"></div>
+<button class="h-9 px-3.5 rounded-lg border border-outline/40 bg-white hover:bg-surface-container text-on-surface text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Export Ledger</span>
+</button>
+<button class="h-9 px-3.5 rounded-lg bg-primary hover:bg-primary-container text-white text-label-md font-label-md flex items-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Court Slot</span>
+</button>
+<div class="flex items-center gap-2 pl-2">
+<div class="w-9 h-9 rounded-full bg-primary-container text-white font-label-lg font-bold flex items-center justify-center ring-2 ring-white">
+            KM
+          </div>
+<div class="hidden xl:flex flex-col">
+<span class="text-label-md font-label-md text-on-surface leading-tight font-semibold">Kwame Mensah</span>
+<span class="text-[10px] text-outline uppercase tracking-wider font-semibold">Super Admin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas Container -->
+<main class="flex-1 p-8 space-y-8 max-w-[1600px] w-full mx-auto">
+<!-- Breadcrumbs & Super Admin Desk Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-outline mb-1.5">
+<span>SUPER ADMIN</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">MODERATION &amp; SUPPORT DESK</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-mono">admin.padelghana.com</span>
+</div>
+<div class="flex items-center gap-3">
+<h1 class="text-headline-xl font-headline-xl text-on-surface tracking-tight">Moderation &amp; Support Desk</h1>
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-primary/10 text-primary border border-primary/20">Active Session</span>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container-high text-on-surface-variant font-mono">Example data</span>
+</div>
+</div>
+<!-- Desk KPI badges -->
+<div class="flex items-center gap-2">
+<div class="px-3 py-1.5 bg-white border border-outline-variant/70 rounded-lg shadow-sm flex items-center gap-3">
+<span class="text-label-sm font-label-sm text-outline">Open SLA Threshold:</span>
+<span class="text-label-md font-label-md text-error font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">timer</span> 4 hrs 12m
+            </span>
+</div>
+<div class="px-3 py-1.5 bg-white border border-outline-variant/70 rounded-lg shadow-sm flex items-center gap-3">
+<span class="text-label-sm font-label-sm text-outline">Compliance Score:</span>
+<span class="text-label-md font-label-md text-tertiary-container font-semibold">99.2%</span>
+</div>
+</div>
+</div>
+<!-- Sub-Navigation Navigation Tabs -->
+<div class="border-b border-outline-variant/60">
+<div aria-label="Tabs" class="flex space-x-8">
+<!-- Active Tab: Photo Moderation Queue -->
+<button class="relative pb-3 flex items-center gap-2.5 border-b-2 border-primary text-primary font-semibold text-label-lg font-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">photo_library</span>
+<span>Photo Moderation Queue</span>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-primary text-white">4 pending</span>
+</button>
+<!-- Tab 2: Player Dispute Flags -->
+<button class="pb-3 flex items-center gap-2.5 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-medium text-label-lg font-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">flag</span>
+<span>Player Dispute Flags</span>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-on-surface-variant">2</span>
+</button>
+<!-- Tab 3: GDPR & Right-to-be-Forgotten -->
+<button class="pb-3 flex items-center gap-2.5 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-medium text-label-lg font-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span>GDPR &amp; Right-to-be-Forgotten</span>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-on-surface-variant">1</span>
+</button>
+</div>
+</div>
+<!-- SECTION 1: PHOTO MODERATION QUEUE -->
+<section class="space-y-6">
+<!-- Overview Alert Notice -->
+<div class="bg-surface-container-low border border-primary/20 rounded-xl p-4 flex items-start justify-between gap-4 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-label-lg font-label-lg text-on-surface font-semibold">Moderation Protocol &amp; Privacy Filter Active</h2>
+<span class="px-2 py-0.5 text-[10px] rounded bg-white text-outline border border-outline-variant/60 font-mono">Ghana DPA 2012 Compliance</span>
+<span class="px-2 py-0.5 text-[10px] rounded bg-surface-container-highest text-on-surface-variant font-mono">Example data</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-0.5">
+                Reviewing court photos, player avatars, and club gallery uploads for consent compliance and community standards.
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="text-label-sm font-label-sm text-outline">Auto-scan engine:</span>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-emerald-100 text-emerald-800 font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Operational
+            </span>
+</div>
+</div>
+<!-- Grid of Submitted Photos -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Demo Padel Club - Court 2 Night Floodlights -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<!-- Photo Header & Badges -->
+<div class="p-4 border-b border-outline-variant/40 flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-primary/10 text-primary">Court Lighting</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-surface-container text-outline font-mono">Example data</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mt-1.5 font-semibold">Demo Padel Club - Court 2 Night Floodlights</h3>
+<p class="text-body-sm font-body-sm text-outline mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Submitted 2 hrs ago by Kwame Mensah
+                  </p>
+</div>
+</div>
+<!-- Media Preview Area -->
+<div class="relative w-full h-52 bg-slate-950 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional night-time photograph of an outdoor panoramic padel court located in Accra Ghana with glowing 5000K LED floodlights reflecting off blue synthetic turf. The architectural glass walls gleam in the dark navy night sky, creating a pristine, high-end athletic atmosphere with subtle metallic textures and crisp court boundary lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5BI7rMrHcZRVt4ZPSkjaCKvOBdNhvGrVBCvvjjYMl_bgZhbsTgEqgqgiiNbWb9u0d-G5MsS5LrlLi__yh-9ebDLQZ1g-uvcVhDn6ywIqpp-hQDCOfexZLCljtnNd1MAspDLP689xXiZQKRPddpMemcwVUS9yFu5Yuv3ge-dDUNuL7YLZphDaRd4C5K3PQNfR195tyi6w_zbayjOQXyi5_YLpt-cVsYQP4e1VJx4pQPvvHfzWxuNY9"/>
+<div class="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md text-white text-[11px] flex items-center gap-1.5 border border-white/20">
+<span class="material-symbols-outlined text-emerald-400 text-[14px]">check_circle</span>
+<span>Consent flag checked: <strong>Yes - Players consented</strong></span>
+</div>
+<div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-black/60 text-white text-[10px] font-mono">
+                  1920x1080 • 2.4 MB
+                </div>
+</div>
+<!-- Card Body / Meta -->
+<div class="p-4 space-y-3">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Club Location:</span>
+<span class="font-medium text-on-surface">Airport Residential Area, Accra</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Consent Signature:</span>
+<span class="font-mono text-label-sm font-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">VERIFIED-DIGITAL-GH</span>
+</div>
+</div>
+</div>
+<!-- Moderation Action Strip -->
+<div class="p-4 bg-surface-container-low/60 border-t border-outline-variant/50 space-y-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="h-10 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-label-md font-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Approve</span>
+</button>
+<div class="relative">
+<button class="w-full h-10 rounded-lg bg-error hover:bg-red-800 text-white text-label-md font-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">block</span>
+<span>Reject / Take Down</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-[11px] text-outline font-medium shrink-0" for="reject-reason-1">Rejection Reason:</label>
+<select class="h-8 py-0 px-2.5 w-full rounded border border-outline-variant text-[12px] bg-white text-on-surface focus:border-primary focus:ring-1 focus:ring-primary" id="reject-reason-1">
+<option disabled="" selected="">Select reason if rejecting...</option>
+<option value="blurry">Blurry / Low Resolution</option>
+<option value="missing_consent">Missing Consent</option>
+<option value="copyright">Copyright Infringement</option>
+<option value="unrelated">Unrelated Subject Matter</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Card 2: Labone Padel Club - Lounge & Bar Area -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<!-- Photo Header & Badges -->
+<div class="p-4 border-b border-outline-variant/40 flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-on-surface-variant">Hospitality Gallery</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-surface-container text-outline font-mono">Example data</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mt-1.5 font-semibold">Labone Padel Club - Lounge &amp; Bar Area</h3>
+<p class="text-body-sm font-body-sm text-outline mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Submitted 5 hrs ago by Club Manager
+                  </p>
+</div>
+</div>
+<!-- Media Preview Area -->
+<div class="relative w-full h-52 bg-slate-950 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An expansive modern open-air clubhouse lounge and smoothie bar at an upscale Ghanaian padel tennis venue in Labone. Polished concrete floors, warm wooden counter details, hanging tropical indoor greenery, and comfortable designer armchairs overlooking court 1 in the background under warm afternoon sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvs1gyabDKc1g28Wehpt_bND6D62kryG3UfbgvtcIHVAQCP3p6VBEQslRIKfSmHusQOiDhvff2s4RH2xT9BbcH-hr1CJzzW_Lh4u7Thy6kPTVm-YssLlEVcDEuEddX7xTga-3XF0vMEvij72GGEPw6zUNnvixGkxDwy10dXi_LtWcFTaQBUaBdKcOXVEBI7rHyUfPTsfxPTVxwsgHFX74raGwQqca5EqD0wscj67CJYeo8LD9IdKD6"/>
+<div class="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md text-white text-[11px] flex items-center gap-1.5 border border-white/20">
+<span class="material-symbols-outlined text-outline-variant text-[14px]">no_accounts</span>
+<span>No identifiable faces detected</span>
+</div>
+<div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-black/60 text-white text-[10px] font-mono">
+                  2400x1600 • 3.8 MB
+                </div>
+</div>
+<!-- Card Body / Meta -->
+<div class="p-4 space-y-3">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Club Location:</span>
+<span class="font-medium text-on-surface">Labone Crescent, Accra</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Target Display:</span>
+<span class="font-medium text-on-surface">Clubhouse Booking Page</span>
+</div>
+</div>
+</div>
+<!-- Moderation Action Strip -->
+<div class="p-4 bg-surface-container-low/60 border-t border-outline-variant/50 space-y-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="h-10 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-label-md font-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Approve</span>
+</button>
+<button class="h-10 rounded-lg bg-error hover:bg-red-800 text-white text-label-md font-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">close</span>
+<span>Reject</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-[11px] text-outline font-medium shrink-0" for="reject-reason-2">Rejection Reason:</label>
+<select class="h-8 py-0 px-2.5 w-full rounded border border-outline-variant text-[12px] bg-white text-on-surface focus:border-primary focus:ring-1 focus:ring-primary" id="reject-reason-2">
+<option disabled="" selected="">Select reason if rejecting...</option>
+<option value="blurry">Blurry / Low Resolution</option>
+<option value="missing_consent">Missing Consent</option>
+<option value="copyright">Copyright Infringement</option>
+<option value="unrelated">Unrelated Subject Matter</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Card 3: Cantonments Padel Club - Tournament Winner Podium -->
+<div class="bg-surface-container-lowest rounded-xl border border-amber-300 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow ring-1 ring-amber-300/60">
+<div>
+<!-- Photo Header & Badges -->
+<div class="p-4 border-b border-outline-variant/40 flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-900 border border-amber-200">Requires Staff Verification</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-surface-container text-outline font-mono">Example data</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mt-1.5 font-semibold">Cantonments Padel Club - Tournament Winner Podium</h3>
+<p class="text-body-sm font-body-sm text-outline mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Submitted 7 hrs ago by Tournament Official
+                  </p>
+</div>
+</div>
+<!-- Media Preview Area -->
+<div class="relative w-full h-52 bg-slate-950 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An energetic award ceremony at Cantonments Padel Club in Accra showing four smiling adult amateur players holding a glass padel championship trophy on a branded podium with gold and navy sponsor backdrops. Warm sports event flash lighting highlights their athletic jerseys and celebration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD71aScCwMW63sYuBHqhJET_BE71jjfjfRXcKBJDy1oYZcKTK8OLqLWQOcou3fD8UY8C1JUVLAWbsfj2VFayAmlJ2ZyGFZ6gKYqUdYGpgY_F_TgXeKiy_j3Mz8l2ubBEI0fywp7KFJrNCl78gZy11gdvLfhQyTd-I3a_5ObGjgk7_sIfL0sLtjY0-pNADY-5HUkEsF4BvN6EYyA1Cu0puc0TX5enbgqwaojaV-B1WbGkBhbaJ1otMsI"/>
+<div class="absolute bottom-2 left-2 px-2.5 py-1 rounded-md bg-amber-950/85 backdrop-blur-md text-amber-200 text-[11px] flex items-center gap-1.5 border border-amber-400/30">
+<span class="material-symbols-outlined text-amber-300 text-[14px]">warning</span>
+<span>Consent warning: <strong>Multiple player faces detected</strong></span>
+</div>
+<div class="absolute top-2 right-2 px-2 py-0.5 rounded bg-black/60 text-white text-[10px] font-mono">
+                  3200x2000 • 5.1 MB
+                </div>
+</div>
+<!-- Card Body / Meta -->
+<div class="p-4 space-y-3">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Detected Faces:</span>
+<span class="font-semibold text-amber-900 bg-amber-50 px-2 py-0.5 rounded">4 Unverified Players</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-outline">Signed Waivers on File:</span>
+<span class="font-medium text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cancel</span> 2 of 4 missing
+                  </span>
+</div>
+</div>
+</div>
+<!-- Moderation Action Strip -->
+<div class="p-4 bg-surface-container-low/60 border-t border-outline-variant/50 space-y-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="h-10 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-label-md font-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Approve</span>
+</button>
+<button class="h-10 rounded-lg bg-primary hover:bg-primary-container text-white text-label-md font-label-md font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span class="truncate">Request Player Consent Release</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-[11px] text-outline font-medium shrink-0" for="reject-reason-3">Rejection Reason:</label>
+<select class="h-8 py-0 px-2.5 w-full rounded border border-outline-variant text-[12px] bg-white text-on-surface focus:border-primary focus:ring-1 focus:ring-primary" id="reject-reason-3">
+<option disabled="" selected="">Select reason if rejecting...</option>
+<option value="blurry">Blurry / Low Resolution</option>
+<option value="missing_consent">Missing Consent</option>
+<option value="copyright">Copyright Infringement</option>
+<option value="unrelated">Unrelated Subject Matter</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: PLAYER DISPUTES & GDPR TAKEDOWN SUMMARY -->
+<section class="space-y-4 pt-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Player Disputes &amp; GDPR Takedown Summary</h2>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-outline font-mono">Example data</span>
+</div>
+<p class="text-body-sm font-body-sm text-outline">Active escalations requiring super admin intervention, score reconciliation, or legal compliance execution.</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-9 px-3 rounded-lg border border-outline-variant/80 bg-white hover:bg-surface-container text-on-surface text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span>Filter Registry</span>
+</button>
+<button class="h-9 px-3 rounded-lg border border-outline-variant/80 bg-white hover:bg-surface-container text-on-surface text-label-md font-label-md flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Sync Ledgers</span>
+</button>
+</div>
+</div>
+<!-- Table Card Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/60 text-outline text-label-sm font-label-sm tracking-wider uppercase h-10">
+<th class="py-2.5 px-4 font-semibold">Incident / Case Ref</th>
+<th class="py-2.5 px-4 font-semibold">Issue Summary</th>
+<th class="py-2.5 px-4 font-semibold">Parties Involved</th>
+<th class="py-2.5 px-4 font-semibold">Status / SLA Time</th>
+<th class="py-2.5 px-4 font-semibold text-right">Administrative Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/40 text-body-md font-body-md">
+<!-- Row 1: Dispute #DIS-804 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-mono font-semibold text-primary">#DIS-804</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-red-100 text-red-800 font-medium">Match Dispute</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="font-medium text-on-surface">Incorrect match score recorded</div>
+<div class="text-body-sm font-body-sm text-outline">Reported Set 2 recorded as 6-1 instead of 6-4, affecting Elo regional leaderboard.</div>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="font-medium text-on-surface">Kofi Mensah vs Demo Padel Club</div>
+<div class="text-body-sm font-body-sm text-outline">Match Referee: E. Osei</div>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-red-50 text-error border border-red-200">
+<span class="material-symbols-outlined text-[14px]">hourglass_top</span>
+<span>4 hrs remaining</span>
+</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap text-right">
+<div class="inline-flex items-center gap-2">
+<button class="h-8 px-2.5 rounded-lg border border-outline-variant bg-white hover:bg-surface-container text-on-surface text-label-md font-label-md flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Inspect Match Log</span>
+</button>
+<button class="h-8 px-2.5 rounded-lg bg-primary hover:bg-primary-container text-white text-label-md font-label-md flex items-center gap-1 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span>Override Score</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: GDPR Request #GDPR-012 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="font-mono font-semibold text-primary">#GDPR-012</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-amber-100 text-amber-800 font-medium">Privacy Mandate</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<div class="font-medium text-on-surface">Player requested full data anonymisation</div>
+<div class="text-body-sm font-body-sm text-outline">Right-to-be-Forgotten request. Purge court booking telemetry &amp; biometric login tokens.</div>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="font-medium text-on-surface">Verified Player ID: #GH-99120</div>
+<div class="text-body-sm font-body-sm text-outline">Account Status: Suspended (Voluntary)</div>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-amber-50 text-amber-900 border border-amber-200">
+<span class="material-symbols-outlined text-[14px]">pending_actions</span>
+<span>Pending Identity Verification (30-day window)</span>
+</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap text-right">
+<div class="inline-flex items-center gap-2">
+<button class="h-8 px-2.5 rounded-lg border border-error text-error hover:bg-red-50 text-label-md font-label-md font-semibold flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">delete_forever</span>
+<span>Execute Anonymise (Irreversible)</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination / Context -->
+<div class="p-3 bg-surface-container-low/40 border-t border-outline-variant/40 flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-outline">
+<div class="flex items-center gap-2">
+<span>Showing 2 priority records</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Audit Hash: 9f8a3c2b1d</span>
+<span>•</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container text-[10px] font-mono">Example data</span>
+</div>
+<div class="flex items-center gap-3 mt-2 sm:mt-0">
+<span class="text-label-sm font-label-sm">Page 1 of 1</span>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded border border-outline-variant/60 flex items-center justify-center hover:bg-surface-container text-on-surface disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-7 h-7 rounded border border-outline-variant/60 flex items-center justify-center hover:bg-surface-container text-on-surface disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Contextual Security & Audit Floating Ribbon -->
+<footer class="pt-4 border-t border-outline-variant/40 flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-outline pb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-tertiary-container">security</span>
+<span>Padel Ghana National Platform Super-Admin Console</span>
+<span>•</span>
+<span class="font-mono text-[11px]">Session Authenticated (MFA Verified)</span>
+</div>
+<div class="flex items-center gap-4 mt-2 sm:mt-0 text-[11px] font-mono">
+<span>LATENCY: 18ms</span>
+<span>SSL: TLS 1.3</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-semibold">Example data mode</span>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

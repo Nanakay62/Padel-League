@@ -14,8 +14,8 @@ All color pairs are tested against WCAG 2.1 relative luminance algorithms. Hand-
 | `Tokens.colors.border` | `#E7E7E3` | Subtle 1px dividers and borders |
 | `Tokens.colors.text` | `#14181A` | High-contrast charcoal primary text |
 | `Tokens.colors.textMuted` | `#5F676B` | Muted secondary text & metadata |
-| `Tokens.colors.primary` | `#00C853` | Primary button fill & active tab highlight ONLY |
-| `Tokens.colors.textOnPrimary` | `#14181A` | Charcoal text on primary button fill |
+| `Tokens.colors.primary` | `#1D4ED8` | Primary button fill & active tab highlight ONLY |
+| `Tokens.colors.textOnPrimary` | `#FFFFFF` | Charcoal text on primary button fill |
 | `Tokens.colors.greenText` | `#007A33` | Accessible forest green for text on white/off-white |
 | `Tokens.colors.gold` | `#F4C430` | Rankings and achievement badges |
 | `Tokens.colors.danger` | `#B3261E` | Destructive actions & error alerts |
@@ -36,7 +36,7 @@ All active text/surface pairs achieve at least 4.5:1 (WCAG AA).
 | **Primary Text on Card White** | `#14181A` | `#FFFFFF` | **17.87 : 1** | **AAA Pass** | Headings, labels, and event titles inside cards |
 | **Muted Text on Card White** | `#5F676B` | `#FFFFFF` | **5.77 : 1** | **AA Pass** | Subtitles, timestamps, metadata, and venue addresses on cards |
 | **Muted Text on App Background** | `#5F676B` | `#F6F6F4` | **5.33 : 1** | **AA Pass** | Section descriptions and footnotes on page background |
-| **Text on Primary Button** | `#14181A` | `#00C853` | **7.99 : 1** | **AAA Pass** | Button label and icon inside electric green primary CTA buttons |
+| **Text on Primary Button** | `#FFFFFF` | `#1D4ED8` | **6.70 : 1** | **AA Pass** | White text on brand blue primary CTA buttons |
 | **Green Text on Card White** | `#007A33` | `#FFFFFF` | **5.48 : 1** | **AA Pass** | Accessible green highlight text, badges, and status pills on cards |
 | **Green Text on App Background** | `#007A33` | `#F6F6F4` | **5.07 : 1** | **AA Pass** | Accessible green text labels on warm off-white page background |
 | **Text on Gold Badge** | `#14181A` | `#F4C430` | **10.88 : 1** | **AAA Pass** | Charcoal text on gold badges and ranking pills |
@@ -53,7 +53,7 @@ These combinations fail WCAG 2.1 AA and are strictly forbidden in code:
 
 | Forbidden Pair | Foreground | Background | Contrast Ratio | Result | Enforcement Rule |
 |---|---|---|---|---|---|
-| ~~White on Electric Green~~ | `#FFFFFF` | `#00C853` | **2.24 : 1** | **FAIL** | ❌ FORBIDDEN. Green fill must always take charcoal `#14181A` text. |
+| ~~White on Electric Green~~ | `#FFFFFF` | `#00C853` | **2.24 : 1** | **FAIL** | ❌ FORBIDDEN. Green fill fails contrast with white; buttons use brand blue `#1D4ED8`. |
 | ~~White on Gold~~ | `#FFFFFF` | `#F4C430` | **1.64 : 1** | **FAIL** | ❌ FORBIDDEN. Gold fill must always take charcoal `#14181A` text. |
 | ~~Electric Green on White Card~~ | `#00C853` | `#FFFFFF` | **2.24 : 1** | **FAIL** | ❌ FORBIDDEN. For green text on white, use accessible `#007A33`. |
 

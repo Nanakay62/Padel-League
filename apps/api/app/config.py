@@ -131,5 +131,18 @@ class Settings(BaseSettings):
     # Default is "exclusive". Rule awaits an accountant verification.
     tax_mode: str = "exclusive"
 
+    # Multi-Tenant & Admin Portals
+    totp_encryption_key: str = "dGVzdC10b3RwLWVuY3J5cHRpb24ta2V5LTMyYnl0ZXM="
+    max_venues_per_club_user: int = (
+        1  # Liftable launch limit without database migration
+    )
+    venue_invite_ttl_hours: int = 72
+    club_host: str = "club.padelghana.com"
+    admin_host: str = "admin.padelghana.com"
+    club_session_cookie_name: str = "padel_club_session"
+    admin_session_cookie_name: str = "padel_admin_session"
+    mexicano_available: bool = True
+    testimonials_enabled: bool = False
+
 
 settings = Settings()

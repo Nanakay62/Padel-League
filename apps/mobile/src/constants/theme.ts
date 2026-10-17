@@ -9,18 +9,18 @@ export const Tokens = {
     border: '#E7E7E3',
     text: '#14181A',
     textMuted: '#5F676B',
-    primary: '#00C853', // Used ONLY for primary button fill & active nav
-    textOnPrimary: '#14181A', // Charcoal text on primary button
+    primary: '#1D4ED8', // Playtomic brand blue used for primary CTA buttons & active highlights
+    textOnPrimary: '#FFFFFF', // High-contrast white text on brand blue button (6.78:1)
     greenText: '#007A33', // Accessible green text on light surfaces (>= 4.5:1)
     gold: '#F4C430',
     textOnGold: '#14181A',
     surfaceElevated: '#FFFFFF',
     surface: '#FFFFFF',
     surfaceMuted: '#F6F6F4',
-    primaryForeground: '#14181A',
-    primaryText: '#007A33',
-    primaryLight: '#E6F9EE',
-    primaryBorder: '#A3E8BC',
+    primaryForeground: '#FFFFFF',
+    primaryText: '#1D4ED8',
+    primaryLight: '#EFF6FF',
+    primaryBorder: '#DBEAFE',
     goldText: '#8F6B00',
     goldLight: '#FEF8E7',
     goldBorder: '#F9DE8B',
@@ -30,19 +30,31 @@ export const Tokens = {
     danger: '#B3261E',
     dangerSurface: '#FDF2F2',
 
+    // Brand Blue & Hero Gradient (aligned with Marketing Landing Page)
+    brandBlue: '#1D4ED8',
+    brandBlueDark: '#1E40AF',
+    brandBlueNavy: '#172554',
+    heroGradient: 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 55%, #172554 100%)',
+    bannerBlueDark: '#1E40AF',
+    bannerBlueBorder: 'rgba(255, 255, 255, 0.15)',
+    bannerBlueText: '#FFFFFF',
+    bannerBlueTextMuted: '#DBEAFE',
+    bannerBlueTag: '#93C5FD',
+    bannerBlueIcon: '#BFDBFE',
+
     // Desktop Navigation Sidebar (Stitch Obsidian Mica anchor)
     sidebarBackground: '#0B0F0E',
     sidebarBorder: '#1F2426',
     sidebarText: '#FFFFFF',
     sidebarTextMuted: '#9BA2A6',
-    sidebarItemActiveBg: 'rgba(0, 200, 83, 0.12)',
+    sidebarItemActiveBg: 'rgba(29, 78, 216, 0.12)',
     sidebarQuickActionBg: 'rgba(255, 255, 255, 0.06)',
     sidebarQuickActionBorder: '#25302C',
 
     // Hero Banner Media Overlays & Accents
     heroOverlay: 'rgba(24, 28, 30, 0.45)',
-    heroTagBg: 'rgba(0, 200, 83, 0.2)',
-    heroTagBorder: 'rgba(0, 200, 83, 0.4)',
+    heroTagBg: 'rgba(29, 78, 216, 0.15)',
+    heroTagBorder: 'rgba(29, 78, 216, 0.35)',
     heroPillBg: 'rgba(255, 255, 255, 0.12)',
     heroPillBorder: 'rgba(255, 255, 255, 0.2)',
     heroTextMuted: '#CBD5E1',
@@ -363,7 +375,7 @@ export const TokenContrastPairs: TokenPair[] = [
     name: 'Text on Primary Button',
     foreground: Tokens.colors.textOnPrimary,
     background: Tokens.colors.primary,
-    context: 'Button label and icon inside electric green primary CTA buttons',
+    context: 'White text on brand blue primary CTA buttons',
   },
   {
     name: 'Green Text on Card White',

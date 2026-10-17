@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Mail, ShieldCheck, Smartphone } from 'lucide-react-native';
+import { Eye, EyeOff, Mail, ShieldCheck, Smartphone } from 'lucide-react-native';
 import { Tokens, Typography } from '@/constants/theme';
 import { useAuth } from '@/context/AuthContext';
 import { getApiBaseUrl } from '@/lib/config';
@@ -20,18 +20,22 @@ interface PhoneLoginScreenProps {
   onSuccess?: () => void;
   apiBaseUrl?: string;
   redirectTo?: string;
+  initialAuthMethod?: 'PHONE' | 'EMAIL';
+  initialEmailMode?: 'SIGN_IN' | 'REGISTER' | 'RESET';
 }
 
 export function PhoneLoginScreen({
   onSuccess,
   apiBaseUrl,
   redirectTo: _redirectTo,
+  initialAuthMethod = 'PHONE',
+  initialEmailMode = 'SIGN_IN',
 }: PhoneLoginScreenProps) {
   const baseUrl = apiBaseUrl || getApiBaseUrl();
   const { login } = useAuth();
 
   // Top level auth method
-  const [authMethod, setAuthMethod] = useState<'PHONE' | 'EMAIL'>('PHONE');
+  const [authMethod, setAuthMethod] = useState<'PHONE' | 'EMAIL'>(initialAuthMethod);
 
   // Phone OTP state
   const [phone, setPhone] = useState('');
@@ -42,9 +46,10 @@ export function PhoneLoginScreen({
   const [error, setError] = useState<string | null>(null);
 
   // Email state
-  const [emailMode, setEmailMode] = useState<'SIGN_IN' | 'REGISTER' | 'RESET'>('SIGN_IN');
+  const [emailMode, setEmailMode] = useState<'SIGN_IN' | 'REGISTER' | 'RESET'>(initialEmailMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [registerSuccessMsg, setRegisterSuccessMsg] = useState<string | null>(null);
 
@@ -252,7 +257,7 @@ export function PhoneLoginScreen({
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} testID="auth-safe-area">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.container}
@@ -562,18 +567,33 @@ export function PhoneLoginScreen({
                   />
 
                   <Text style={styles.label}>{t('authPasswordLabel')}</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder={t('authPasswordPlaceholder')}
-                    placeholderTextColor={Tokens.colors.textMuted}
-                    secureTextEntry
-                    autoCapitalize="none"
-                    autoComplete={emailMode === 'REGISTER' ? 'new-password' : 'current-password'}
-                    textContentType={emailMode === 'REGISTER' ? 'newPassword' : 'password'}
-                    value={password}
-                    onChangeText={setPassword}
-                    testID="password-input"
-                  />
+                  <View style={styles.passwordContainer}>
+                    <TextInput
+                      style={styles.passwordInput}
+                      placeholder={t('authPasswordPlaceholder')}
+                      placeholderTextColor={Tokens.colors.textMuted}
+                      secureTextEntry={!showPassword}
+                      autoCapitalize="none"
+                      autoComplete={emailMode === 'REGISTER' ? 'new-password' : 'current-password'}
+                      textContentType={emailMode === 'REGISTER' ? 'newPassword' : 'password'}
+                      value={password}
+                      onChangeText={setPassword}
+                      testID="password-input"
+                    />
+                    <TouchableOpacity
+                      style={styles.passwordToggleBtn}
+                      onPress={() => setShowPassword((prev) => !prev)}
+                      accessibilityLabel={showPassword ? 'Hide password' : 'Show password'}
+                      accessibilityRole="button"
+                      testID="toggle-password-visibility"
+                    >
+                      {showPassword ? (
+                        <EyeOff size={20} color={Tokens.colors.textMuted} />
+                      ) : (
+                        <Eye size={20} color={Tokens.colors.textMuted} />
+                      )}
+                    </TouchableOpacity>
+                  </View>
 
                   {registerSuccessMsg && (
                     <View style={styles.successBox} testID="register-success-box">
@@ -638,7 +658,13 @@ export function PhoneLoginScreen({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Tokens.colors.background,
+    backgroundColor: Tokens.colors.brandBlue,
+    ...(Platform.OS === 'web'
+      ? ({
+          backgroundImage: Tokens.colors.heroGradient,
+          minHeight: '100vh',
+        } as any)
+      : {}),
   },
   container: {
     flex: 1,
@@ -652,8 +678,20 @@ const styles = StyleSheet.create({
     backgroundColor: Tokens.colors.surface,
     borderRadius: Tokens.radii.card,
     borderWidth: Tokens.borders.width,
-    borderColor: Tokens.colors.border,
+    borderColor: 'rgba(255, 255, 255, 0.25)',
     padding: Tokens.spacing.lg,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.25)',
+      },
+      default: {
+        elevation: 8,
+        shadowColor: Tokens.colors.text,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 12,
+      },
+    }),
   },
   headerRow: {
     flexDirection: 'row',
@@ -810,6 +848,31 @@ const styles = StyleSheet.create({
     fontFamily: Typography.fontFamily.medium,
     fontSize: Tokens.fontSize.base,
     fontWeight: Tokens.fontWeight.medium,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 48,
+    borderRadius: Tokens.radii.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    backgroundColor: Tokens.colors.surface,
+  },
+  passwordInput: {
+    flex: 1,
+    height: '100%',
+    paddingHorizontal: Tokens.spacing.sm,
+    color: Tokens.colors.text,
+    fontFamily: Typography.fontFamily.medium,
+    fontSize: Tokens.fontSize.base,
+    fontWeight: Tokens.fontWeight.medium,
+  },
+  passwordToggleBtn: {
+    paddingHorizontal: Tokens.spacing.sm,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: Tokens.dimensions.minTouchTarget,
   },
   otpInput: {
     height: 56,

@@ -1,0 +1,830 @@
+<!DOCTYPE html><html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Screen D: Preview, Drafts &amp; History — Padel Ghana Admin</title>
+<!-- Google Fonts: Inter & Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with Forms and Container Queries Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#1d4ed8",
+            "outline-variant": "#c4c5d7",
+            "on-primary-fixed-variant": "#0039b5",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed-variant": "#364e03",
+            "tertiary-fixed-dim": "#b3d17a",
+            "inverse-primary": "#b7c4ff",
+            "surface-dim": "#d2d9f4",
+            "secondary-fixed": "#dde1ff",
+            "surface-variant": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed": "#001551",
+            "surface": "#faf8ff",
+            "surface-tint": "#2151da",
+            "outline": "#747686",
+            "background": "#faf8ff",
+            "on-primary": "#ffffff",
+            "tertiary-fixed": "#ceee93",
+            "secondary-container": "#708cfd",
+            "surface-container-highest": "#dae2fd",
+            "secondary-fixed-dim": "#b8c4ff",
+            "on-background": "#131b2e",
+            "on-secondary-fixed-variant": "#173bab",
+            "on-surface": "#131b2e",
+            "tertiary": "#344c01",
+            "primary-fixed-dim": "#b7c4ff",
+            "on-secondary-container": "#00217a",
+            "on-primary-container": "#cad3ff",
+            "surface-container": "#eaedff",
+            "on-surface-variant": "#434655",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "primary": "#0037b0",
+            "surface-bright": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "inverse-surface": "#283044",
+            "on-tertiary-container": "#c1e087",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#4b641a",
+            "error": "#ba1a1a",
+            "surface-container-high": "#e2e7ff",
+            "on-secondary-fixed": "#001453",
+            "on-tertiary-fixed": "#131f00",
+            "surface-container-low": "#f2f3ff",
+            "secondary": "#3755c3",
+            "inverse-on-surface": "#eef0ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "margin": "2rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "label-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "body-md": ["Inter"],
+            "data-metric": ["Inter"],
+            "label-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="h-full overflow-hidden bg-slate-50 text-on-surface antialiased flex flex-col font-body-md">
+<!-- ================= TOP APP BAR (Shared Component JSON anchored) ================= -->
+<header class="w-full px-6 py-3 flex items-center justify-between sticky top-0 z-40 bg-surface-container-lowest/80 dark:bg-inverse-surface/85 backdrop-blur-md border-b border-outline-variant/40 dark:border-outline/40 shadow-sm">
+<!-- Left branding & club context / breadcrumbs -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="sports_tennis">sports_tennis</span>
+<span class="text-headline-md font-headline-md text-primary dark:text-inverse-primary font-bold tracking-tight">Padel Ghana Admin</span>
+</div>
+<div class="h-5 w-px bg-slate-300"></div>
+<!-- Facility Switcher Badge / Breadcrumb -->
+
+</div>
+<!-- Navigation Links from Shared Components JSON -->
+<nav class="hidden xl:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors pb-1" href="#">Facility Overview</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors pb-1" href="#">Schedules</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors pb-1" href="#">Bookings</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors pb-1" href="#">Finance</a>
+<a class="text-primary dark:text-inverse-primary font-label-md text-label-md border-b-2 border-primary dark:border-inverse-primary pb-1" href="#">Support</a>
+</nav>
+<!-- Search & Right Profile Actions -->
+<div class="flex items-center gap-3">
+<!-- Search bar right aligned -->
+<div class="relative w-64 hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-body-sm font-body-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Search facilities, courts, audits..." type="text">
+</div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-1 border-l border-slate-200 pl-3">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-600 relative transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500"></span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-600 transition-colors" title="Help">
+<span class="material-symbols-outlined text-xl" data-icon="help">help</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-600 transition-colors" title="Settings">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+</button>
+</div>
+<!-- Trailing Action Buttons -->
+<a class="px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-label-md text-label-md transition-colors flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-base" data-icon="support_agent">support_agent</span>
+        Help Desk
+      </a>
+<button class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-label-md text-label-md font-medium transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+        Exit Preview
+      </button>
+<!-- Profile Avatar -->
+<div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+<img alt="Kwame Mensah Operations Lead Avatar" class="w-8 h-8 rounded-full border border-primary/20 object-cover" data-alt="Professional headshot of Kwame Mensah, Ghanaian operations lead with a confident, modern demeanor dressed in smart-casual business athletic blazer, brightly lit studio photography with royal blue and neutral soft tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA38WxHUw0JemgDymMNGSBtCUg_iObhnN03bVPHPVQGZOIZKOTq3N7q3aZlKya7fWb0-Fwn-YMRpDQ-gqn__WSMa7ID8yG7QeMvg5Jw5iAdgYd7ha5JgiOMSHtzs0MVBGio5OLqw5u1CVoupYLMFmkOmIToiTobQdm9gujfWt5G_iTrBOsIe57fXgvjbTMWw-1aO4fQmBIWTipe60eRkvEgVvGwZitHSKmgF0F9UdqF3k6M3m1vFjFA">
+<div class="hidden 2xl:flex flex-col text-left">
+<span class="text-xs font-semibold text-slate-900 leading-tight">Kwame Mensah</span>
+<span class="text-[10px] text-slate-500">Operations Lead</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN LAYOUT WRAPPER (SIDEBAR + WORKSPACE) ================= -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- ================= FROSTED GLASS SIDEBAR (Shared Component JSON) ================= -->
+<aside class="w-64 flex-shrink-0 bg-surface-container-lowest/70 dark:bg-inverse-surface/90 backdrop-blur-xl border-r border-outline-variant/40 dark:border-outline/40 flex flex-col justify-between p-4 z-30 overflow-y-auto custom-scrollbar">
+<div class="space-y-6">
+<!-- Facility Identity Header -->
+<div class="flex items-center gap-3 px-1 py-1">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-blue-500 flex items-center justify-center text-white shadow-sm ring-2 ring-white">
+<span class="material-symbols-outlined text-2xl" data-icon="sports_tennis">sports_tennis</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-primary dark:text-inverse-primary font-bold leading-tight">Accra Central Club</h2>
+<p class="text-body-sm font-body-sm text-slate-500">Facility Operator ID #GH-042</p>
+</div>
+</div>
+<!-- CTA from JSON -->
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary-container text-white font-label-md text-label-md font-semibold flex items-center justify-center gap-2 shadow-sm hover:bg-blue-700 transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="add_circle">add_circle</span>
+          New Court Booking
+        </button>
+<!-- Navigation Tabs from JSON (Active: Facility Settings) -->
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high/50 dark:hover:bg-surface-container/20 hover:text-on-surface dark:hover:text-inverse-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
+            Courts &amp; Schedules
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high/50 dark:hover:bg-surface-container/20 hover:text-on-surface dark:hover:text-inverse-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="confirmation_number">confirmation_number</span>
+            Bookings Ledger
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high/50 dark:hover:bg-surface-container/20 hover:text-on-surface dark:hover:text-inverse-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="group">group</span>
+            Members &amp; Players
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high/50 dark:hover:bg-surface-container/20 hover:text-on-surface dark:hover:text-inverse-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+            Financials
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high/50 dark:hover:bg-surface-container/20 hover:text-on-surface dark:hover:text-inverse-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="history">history</span>
+            Audit Log
+          </a>
+<!-- ACTIVE: Facility Settings -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-container text-white font-label-md text-label-md shadow-sm" href="#">
+<span class="material-symbols-outlined text-lg fill" data-icon="tune">tune</span>
+            Facility Settings
+          </a>
+</nav>
+</div>
+<!-- Footer navigation from JSON -->
+<div class="pt-4 border-t border-slate-200 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-base" data-icon="menu_book">menu_book</span>
+          Documentation
+        </a>
+<a class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 font-label-md text-label-md transition-colors" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-base text-emerald-600" data-icon="signal_cellular_alt">signal_cellular_alt</span>
+            System Status
+          </div>
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+</a>
+<div class="px-3 pt-2 text-[10px] text-slate-400 font-medium">
+          Ghana Cloud Region • v2.4.1
+        </div>
+</div>
+</aside>
+<!-- ================= MAIN CONTENT CANVAS ================= -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+<!-- STAFF AUDIT NOTICE BANNER -->
+<div class="bg-blue-50/90 border-b border-blue-200/80 px-6 py-2 flex items-center justify-between text-xs text-blue-900 z-20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="verified">verified</span>
+<span class="font-medium">Updated by Padel Ghana staff on 12 Oct • Audit Verified</span>
+<span class="text-blue-300">|</span>
+<span class="text-slate-600">Reviewing staging replica for Demo Padel Club venue public listing</span>
+</div>
+<div class="flex items-center gap-3">
+<a class="font-semibold text-primary underline hover:text-blue-800 cursor-pointer" href="#history-drawer" onclick="toggleHistory(true)">See changes</a>
+<span class="bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-semibold px-2 py-0.5 rounded-full">Example data</span>
+</div>
+</div>
+<!-- FACILITY SECONDARY SUB-TABS & GLOBAL STATUS BAR -->
+<div class="bg-white border-b border-slate-200 px-6 pt-3 pb-0 flex flex-col gap-3 shadow-xs">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+<!-- Left: Title and Draft Badge -->
+<div class="flex items-center gap-3 flex-wrap">
+<div class="flex items-center gap-2">
+<h1 class="text-headline-md font-headline-md font-bold text-slate-900 tracking-tight">Facility Settings</h1>
+<span class="text-slate-400">/</span>
+<span class="text-slate-700 font-medium">Preview &amp; History</span>
+</div>
+<!-- Draft Status Pill -->
+<div class="flex items-center gap-1.5 bg-amber-50 text-amber-800 border border-amber-300/80 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              Draft (Unsaved changes)
+            </div>
+<span class="text-xs text-slate-500 hidden sm:inline">Last published 12 Oct by Padel Ghana Staff</span>
+</div>
+<!-- Right Action Header Buttons -->
+<div class="flex items-center gap-2 pb-2 lg:pb-0 flex-wrap">
+<!-- Undo with counter -->
+<button class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-label-md text-label-md flex items-center gap-1.5 transition-colors" title="Revert last modification">
+<span class="material-symbols-outlined text-base" data-icon="undo">undo</span>
+<span class="">Undo Last Action</span>
+<span class="text-[10px] bg-slate-100 font-mono text-slate-600 px-1.5 py-0.2 rounded border border-slate-200">1</span>
+</button>
+<!-- Edit History Toggle Button -->
+<button class="px-2.5 py-1.5 rounded-lg border border-blue-200 bg-blue-50/60 hover:bg-blue-100/70 text-primary font-label-md text-label-md font-semibold flex items-center gap-1.5 transition-colors" onclick="toggleHistory()">
+<span class="material-symbols-outlined text-base" data-icon="history">history</span>
+<span class="">Edit History</span>
+<span class="text-[10px] bg-blue-600 text-white font-medium px-1.5 py-0.2 rounded-full">7 revisions</span>
+</button>
+<!-- Discard Draft (Forgiving pattern) -->
+<button class="px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="delete_sweep">delete_sweep</span>
+              Discard Draft
+            </button>
+<!-- Primary Publish Changes Button -->
+<button class="px-4 py-1.5 rounded-lg bg-primary-container hover:bg-blue-700 text-white font-label-md text-label-md font-semibold shadow-sm transition-all flex items-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-base" data-icon="publish">publish</span>
+              Publish Changes to Player App
+            </button>
+</div>
+</div>
+<!-- Facility Sub-Navigation Tabs -->
+<div class="flex items-center gap-6 border-t border-slate-100 pt-2 text-xs">
+<a class="text-slate-500 hover:text-slate-900 pb-2.5 border-b-2 border-transparent transition-colors font-medium" href="#">Details &amp; Photos</a>
+<a class="text-slate-500 hover:text-slate-900 pb-2.5 border-b-2 border-transparent transition-colors font-medium" href="#">Courts &amp; Amenities</a>
+<a class="text-slate-500 hover:text-slate-900 pb-2.5 border-b-2 border-transparent transition-colors font-medium" href="#">Hours &amp; Prices</a>
+<!-- Active Tab: Public Preview & History -->
+<a class="text-primary font-bold pb-2.5 border-b-2 border-primary transition-colors flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+            Public Preview &amp; History
+          </a>
+</div>
+</div>
+<!-- ================= WORKSPACE SPLIT VIEW ================= -->
+<div class="flex-1 flex min-h-0 overflow-hidden relative">
+<!-- ================= LEFT COLUMN: DRAFT EDITOR & FIELD VALUES (~55%) ================= -->
+<div class="w-full lg:w-[56%] flex-1 overflow-y-auto p-6 custom-scrollbar space-y-6">
+<!-- Notice Card -->
+<div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-amber-700 text-xl mt-0.5" data-icon="info">info</span>
+<div class="text-xs">
+<div class="font-bold text-amber-900 mb-0.5">Staging Environment: 3 Unsaved Draft Edits</div>
+<p class="text-amber-800 leading-relaxed">
+                Changes here are visible only in this operator preview. Once published, court booking rates and updated venue operating hours will sync instantly with the Padel Ghana Player iOS &amp; Android mobile applications.
+              </p>
+</div>
+</div>
+<!-- Section: Basic Club Details -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500" data-icon="apartment">apartment</span>
+<h3 class="text-headline-sm font-headline-sm text-slate-900 text-base">Club Details &amp; Narrative</h3>
+</div>
+<span class="bg-blue-50 text-blue-700 text-[11px] font-semibold px-2 py-0.5 rounded border border-blue-200">1 field modified</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Field: Club Name -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-slate-800 font-semibold">Club Name</label>
+<span class="text-[11px] text-slate-400">Published state matches</span>
+</div>
+<div class="relative">
+<input class="w-full h-11 px-3 bg-slate-50 text-slate-900 rounded-lg border border-slate-300 text-body-md font-body-md focus:border-primary focus:bg-white" readonly="" type="text" value="Demo Padel Club">
+<span class="material-symbols-outlined absolute right-3 top-3 text-slate-400 text-sm" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- Field: Short Description (MODIFIED) -->
+<div class="rounded-lg p-3 bg-blue-50/40 border border-blue-200">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<label class="font-label-md text-label-md text-slate-900 font-bold">Public Venue Description</label>
+<span class="bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Updated in draft</span>
+</div>
+<button class="text-xs text-primary hover:underline font-medium">Revert to published</button>
+</div>
+<textarea class="w-full p-2.5 text-body-md font-body-md bg-white border border-blue-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary" rows="3">Accra's premier padel destination featuring 4 panoramic indoor courts, pro lighting, and vibrant social tournaments.</textarea>
+<div class="mt-2 text-[11px] text-slate-500 flex items-center justify-between">
+<span class="">Previous: "Accra's premier padel center with indoor courts and weekend events."</span>
+<span class="text-slate-400">114 / 200 chars</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Location & Coordinates -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500" data-icon="location_on">location_on</span>
+<h3 class="text-headline-sm font-headline-sm text-slate-900 text-base">Location &amp; Digital Addressing</h3>
+</div>
+<span class="bg-slate-100 text-slate-600 text-[11px] font-medium px-2 py-0.5 rounded">Verified by Staff</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="font-label-md text-label-md text-slate-700 block mb-1">Street Address</label>
+<div class="h-11 px-3 flex items-center bg-white rounded-lg border border-slate-200 text-body-md font-body-md text-slate-800">
+                  14 Senchi Street, Airport Residential
+                </div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-slate-700 block mb-1">GhanaPostGPS Code</label>
+<div class="h-11 px-3 flex items-center justify-between bg-white rounded-lg border border-slate-200 text-body-md font-body-md text-slate-800 font-mono font-medium">
+<span class="">GA-112-9082</span>
+<span class="material-symbols-outlined text-emerald-600 text-base" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Active Price Bands in Draft -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500" data-icon="payments">payments</span>
+<h3 class="text-headline-sm font-headline-sm text-slate-900 text-base">Active Price Bands (Draft Schedule)</h3>
+</div>
+<span class="bg-amber-100 text-amber-900 text-[11px] font-semibold px-2 py-0.5 rounded border border-amber-300">1 Rate Modified</span>
+</div>
+<div class="space-y-3">
+<!-- Tier 1: Weekday Morning -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-slate-50/50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-blue-100 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="wb_sunny">wb_sunny</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-semibold text-slate-900">Weekday Morning (Off-Peak)</div>
+<div class="text-[11px] text-slate-500">Mon - Fri: 06:00 AM – 04:00 PM</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-data-currency text-data-currency font-bold text-slate-900 tabular-nums">GH₵ 85.00 <span class="text-xs font-normal text-slate-500">/hr</span></div>
+<span class="text-[10px] text-slate-400">Unchanged</span>
+</div>
+</div>
+<!-- Tier 2: Prime Evening Rush (MODIFIED) -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-blue-300 bg-blue-50/40">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="bolt">bolt</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<div class="font-label-md text-label-md font-bold text-slate-900">Prime Evening Rush</div>
+<span class="bg-blue-600 text-white text-[10px] font-bold px-1.5 rounded">+GH₵ 15.00 draft</span>
+</div>
+<div class="text-[11px] text-slate-500">Mon - Sun: 05:00 PM – 11:00 PM</div>
+</div>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-1.5 justify-end">
+<span class="line-through text-xs text-slate-400 font-mono">GH₵ 125.00</span>
+<span class="font-data-currency text-data-currency font-bold text-primary tabular-nums">GH₵ 140.00</span>
+<span class="text-xs text-slate-600">/hr</span>
+</div>
+<span class="text-[10px] text-blue-700 font-medium">Modified by Kwame Mensah</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Operating Hours Draft Summary -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500" data-icon="schedule">schedule</span>
+<h3 class="text-headline-sm font-headline-sm text-slate-900 text-base">Operating Hours Draft Summary</h3>
+</div>
+<span class="bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2 py-0.5 rounded border border-emerald-200">Late night hours active</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+<div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+<div class="text-slate-500 font-medium mb-1">Monday – Thursday</div>
+<div class="font-bold text-slate-800 text-sm">06:00 AM – 11:00 PM</div>
+<div class="text-[11px] text-slate-500 mt-1">17 hours daily court availability</div>
+</div>
+<div class="p-3 bg-blue-50/50 border border-blue-200 rounded-lg">
+<div class="flex items-center justify-between text-blue-800 font-semibold mb-1">
+<span class="">Friday – Saturday</span>
+<span class="bg-blue-600 text-white text-[9px] px-1 rounded">Extended</span>
+</div>
+<div class="font-bold text-slate-900 text-sm">06:00 AM – 01:00 AM <span class="text-[11px] text-blue-700 font-normal">(Next day)</span></div>
+<div class="text-[11px] text-blue-700 mt-1">Weekend late night social slots included</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= RIGHT COLUMN: LIVE PLAYER MOBILE PREVIEW (~44%) ================= -->
+<div class="hidden lg:flex lg:w-[44%] border-l border-slate-200 bg-slate-100/70 p-6 flex-col items-center justify-between overflow-y-auto custom-scrollbar">
+<div class="w-full flex items-center justify-between max-w-sm mb-3">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base" data-icon="smartphone">smartphone</span>
+<span class="text-xs font-bold text-slate-800 uppercase tracking-wider">How Players See It</span>
+</div>
+<div class="flex items-center gap-1 text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded-full border border-slate-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+              Live React Native Preview
+            </div>
+</div>
+<!-- SMARTPHONE MOCKUP FRAME (approx 380px wide) -->
+<div class="w-[375px] bg-slate-900 rounded-[44px] p-3 shadow-2xl ring-1 ring-slate-900/10 flex flex-col relative transition-all">
+<!-- Screen glass face -->
+<div class="w-full bg-slate-50 rounded-[34px] overflow-hidden flex flex-col h-[680px] relative border border-slate-800">
+<!-- iOS Status Bar -->
+<div class="h-10 bg-slate-900 text-white px-6 flex items-center justify-between text-[11px] font-semibold select-none z-30">
+<span class="">14:45</span>
+<!-- Notch -->
+<div class="w-24 h-4 bg-black rounded-b-xl flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-slate-800"></div>
+</div>
+<div class="flex items-center gap-1 text-[10px]">
+<span class="material-symbols-outlined text-xs" data-icon="signal_cellular_alt">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-xs" data-icon="wifi">wifi</span>
+<span class="material-symbols-outlined text-xs" data-icon="battery_full">battery_full</span>
+</div>
+</div>
+<!-- App Top Bar (Mock) -->
+<div class="bg-white/80 backdrop-blur-md px-4 py-2 flex items-center justify-between border-b border-slate-200 z-20">
+<button class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="text-xs font-bold text-slate-900">Venue Details</span>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+<span class="material-symbols-outlined text-sm" data-icon="favorite_border">favorite_border</span>
+</button>
+<button class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+<span class="material-symbols-outlined text-sm" data-icon="share">share</span>
+</button>
+</div>
+</div>
+<!-- Phone Content Scroll Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar bg-white">
+<!-- Venue Hero Banner Image -->
+<div class="relative h-44 w-full bg-slate-800">
+<img alt="Demo Padel Club Venue Banner" class="w-full h-full object-cover" data-alt="A vivid modern panoramic indoor padel court in Accra Ghana with royal blue sports turf, clean crisp glass walls, high ceiling professional LED floodlights, and a warm energetic athletic ambiance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGX_zs7vh1jFirxKbItXWA_56tYJNLjPEPeYhmVlVAmQsvhNWZW8ZWAT08TOKb_8CtF52K4xOk9ejtKAYjWEcXMwykoWa23ZWE0vM4cWGh6KeBsDNvcjkydiPevp0L0ESUKVvTgF_bhKV5oh-dhvK8nDXU0-p2zxCo3ZBkUiV3ZT31_Uu_Ctga6AdwEURPnwGtWDV0U0gUR3u9khXrIo2lk0svcLQ4BTjSDVoFF2bdTjMsI7yUupL6">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20"></div>
+<div class="absolute bottom-3 left-3 right-3 text-white">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-primary text-white text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
+<span class="material-symbols-outlined text-[10px]" data-icon="verified">verified</span> Verified Venue
+                      </span>
+<span class="bg-black/60 backdrop-blur-xs text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px] text-amber-400" data-icon="star">star</span> 4.9 (84)
+                      </span>
+</div>
+<h2 class="text-base font-bold tracking-tight">Demo Padel Club</h2>
+<p class="text-[11px] text-slate-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-slate-300" data-icon="location_on">location_on</span>
+                      Airport Residential Area, Accra
+                    </p>
+</div>
+</div>
+<!-- Quick Action Buttons for Mobile Players -->
+<div class="p-3 bg-slate-50 border-b border-slate-100 flex items-center gap-2">
+<button class="flex-1 py-2 bg-primary text-white rounded-lg text-xs font-bold shadow-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="calendar_month">calendar_month</span>
+                    Book a Court
+                  </button>
+<button class="py-2 px-3 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold hover:bg-slate-50 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="sports_tennis">sports_tennis</span>
+                    Events
+                  </button>
+<button class="py-2 px-2.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold hover:bg-slate-50" title="GPS Directions">
+<span class="material-symbols-outlined text-xs text-slate-600" data-icon="navigation">navigation</span>
+</button>
+</div>
+<!-- Live Status & Pricing Pill in Mobile View -->
+<div class="p-3 border-b border-slate-100 flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="font-semibold text-slate-800">Open today until 11:00 PM</span>
+</div>
+<div class="font-data-currency text-data-currency font-bold text-primary">
+                    From GH₵ 85.00<span class="text-[10px] font-normal text-slate-500">/hr</span>
+</div>
+</div>
+<!-- About Venue (Using draft updated text!) -->
+<div class="p-3 border-b border-slate-100">
+<div class="flex items-center justify-between mb-1">
+<h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">About Venue</h4>
+<span class="text-[9px] text-blue-600 font-bold bg-blue-50 px-1 rounded">Draft Preview</span>
+</div>
+<p class="text-[11px] text-slate-600 leading-relaxed">
+                    Accra's premier padel destination featuring 4 panoramic indoor courts, pro lighting, and vibrant social tournaments.
+                  </p>
+</div>
+<!-- Available Courts & Lighting -->
+<div class="p-3 border-b border-slate-100">
+<h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">Courts &amp; Lighting</h4>
+<div class="grid grid-cols-2 gap-2 text-center text-xs">
+<div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
+<div class="font-bold text-slate-800">4 Courts</div>
+<div class="text-[10px] text-slate-500">Indoor Panoramic</div>
+</div>
+<div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
+<div class="font-bold text-slate-800">Pro LEDs</div>
+<div class="text-[10px] text-slate-500">Shadowless 400 Lux</div>
+</div>
+</div>
+</div>
+<!-- Featured Amenities Chip List -->
+<div class="p-3 space-y-2">
+<h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Featured Amenities</h4>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[10px] rounded-md font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]" data-icon="light_mode">light_mode</span> Floodlights
+                    </span>
+<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[10px] rounded-md font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]" data-icon="shower">shower</span> Showers
+                    </span>
+<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[10px] rounded-md font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]" data-icon="local_cafe">local_cafe</span> Cafe
+                    </span>
+<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[10px] rounded-md font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]" data-icon="sports_tennis">sports_tennis</span> Racket Rental
+                    </span>
+<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[10px] rounded-md font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]" data-icon="wifi">wifi</span> Free WiFi
+                    </span>
+<span class="px-2 py-1 bg-slate-100 text-slate-700 text-[10px] rounded-md font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]" data-icon="local_parking">local_parking</span> Parking
+                    </span>
+</div>
+</div>
+<!-- Sticky Booking CTA inside phone -->
+<div class="sticky bottom-0 bg-white/95 backdrop-blur-md p-3 border-t border-slate-200">
+<button class="w-full py-2.5 bg-primary text-white text-xs font-bold rounded-xl shadow-md">
+                    Select Time &amp; Book
+                  </button>
+</div>
+</div>
+<!-- Device home indicator -->
+<div class="h-4 bg-slate-900 flex items-center justify-center">
+<div class="w-28 h-1 bg-slate-600 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Phone device footer note -->
+<div class="mt-3 text-center">
+<p class="text-[11px] text-slate-500 font-medium">
+              Live mobile player simulation • Interstitial preview
+            </p>
+<span class="text-[10px] text-slate-400">Renders on iPhone 15 &amp; Pixel 8 Viewports</span>
+</div>
+</div>
+</div>
+</main>
+<!-- ================= SLIDE-OVER / INLINE PANEL: EDIT HISTORY & VERSION AUDIT ================= -->
+<div class="fixed inset-y-0 right-0 w-full sm:w-[460px] bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-0 transition-transform duration-300 flex flex-col" id="history-drawer">
+<!-- Drawer Header -->
+<div class="px-5 py-4 border-b border-slate-200 bg-slate-50/80 flex items-center justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="history">history</span>
+<h3 class="text-headline-sm font-headline-sm text-slate-900 font-bold">Edit History</h3>
+</div>
+<p class="text-xs text-slate-500 mt-0.5">Demo Padel Club • Facility #GH-042</p>
+</div>
+<button class="w-8 h-8 rounded-lg hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors" onclick="toggleHistory(false)">
+<span class="material-symbols-outlined text-xl" data-icon="close">close</span>
+</button>
+</div>
+<!-- Filter / Search by Actor -->
+<div class="px-5 py-3 border-b border-slate-100 bg-white flex items-center gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="filter_list">filter_list</span>
+<input class="w-full h-8 pl-8 pr-3 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-primary" placeholder="Filter by author or field..." type="text">
+</div>
+<select class="h-8 text-xs bg-slate-50 border border-slate-200 rounded-lg px-2 text-slate-700">
+<option>All Actors</option>
+<option>Kwame Mensah</option>
+<option>Padel Ghana Staff</option>
+<option>Kofi Boateng</option>
+</select>
+</div>
+<!-- Revisions Feed List -->
+<div class="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar">
+<!-- Revision Row 1: Today Kwame Mensah -->
+<div class="p-3.5 rounded-xl border border-blue-200 bg-blue-50/30 relative space-y-2.5 hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">KM</span>
+<div>
+<span class="font-bold text-slate-900">Kwame Mensah</span>
+<span class="text-slate-400 text-[10px] ml-1">(Owner)</span>
+</div>
+</div>
+<span class="font-mono text-[11px] text-blue-800 font-semibold bg-blue-100 px-2 py-0.5 rounded">Today, 14:38 GMT</span>
+</div>
+<p class="text-xs text-slate-700">
+            Updated <span class="font-semibold text-slate-900">Prime Evening Rush</span> hourly rate band:
+          </p>
+<!-- Diff box -->
+<div class="p-2 rounded-lg bg-white border border-slate-200 text-xs font-mono space-y-1">
+<div class="text-red-700 bg-red-50 px-1.5 py-0.5 rounded flex items-center justify-between">
+<span class="">- old: GH₵ 125.00/hr</span>
+<span class="text-[10px]">Previous</span>
+</div>
+<div class="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded flex items-center justify-between font-semibold">
+<span class="">+ new: GH₵ 140.00/hr</span>
+<span class="text-[10px]">Draft Value</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[10px] text-slate-400">Affected: Public booking rates</span>
+<button class="px-2.5 py-1 text-xs font-semibold text-primary hover:bg-blue-100/60 rounded border border-blue-300 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="restore">restore</span>
+              Revert to this
+            </button>
+</div>
+</div>
+<!-- Revision Row 2: 12 Oct Padel Ghana Staff (Audit Verified) -->
+<div class="p-3.5 rounded-xl border border-slate-200 bg-white relative space-y-2.5 hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-bold">PG</span>
+<div>
+<span class="font-bold text-slate-900">Padel Ghana Staff</span>
+<span class="bg-blue-100 text-primary text-[9px] font-bold px-1.5 py-0.2 rounded-full ml-1">Audit Verified</span>
+</div>
+</div>
+<span class="font-mono text-[11px] text-slate-500">12 Oct, 11:20 GMT</span>
+</div>
+<p class="text-xs text-slate-700">
+            Corrected GhanaPostGPS addressing and updated court 2 ceiling clearance note.
+          </p>
+<!-- Diff box -->
+<div class="p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs font-mono space-y-1">
+<div class="text-red-700 bg-red-50/80 px-1.5 py-0.5 rounded">- GPS: GA-110-4410</div>
+<div class="text-emerald-700 bg-emerald-50/80 px-1.5 py-0.5 rounded font-semibold">+ GPS: GA-112-9082 (Verified)</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[10px] text-slate-400">Published live to Player App</span>
+<button class="px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded border border-slate-300 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="restore">restore</span>
+              Revert to this
+            </button>
+</div>
+</div>
+<!-- Revision Row 3: 08 Oct Kwame Mensah -->
+<div class="p-3.5 rounded-xl border border-slate-200 bg-white relative space-y-2.5 hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">KM</span>
+<div>
+<span class="font-bold text-slate-900">Kwame Mensah</span>
+<span class="text-slate-400 text-[10px] ml-1">(Owner)</span>
+</div>
+</div>
+<span class="font-mono text-[11px] text-slate-500">08 Oct, 09:15 GMT</span>
+</div>
+<p class="text-xs text-slate-700">
+            Added Friday &amp; Saturday late night past midnight operating hours (01:00 AM).
+          </p>
+<div class="p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs font-mono space-y-1">
+<div class="text-red-700 bg-red-50/80 px-1.5 py-0.5 rounded">- Fri-Sat: Closes 11:00 PM</div>
+<div class="text-emerald-700 bg-emerald-50/80 px-1.5 py-0.5 rounded font-semibold">+ Fri-Sat: Closes 01:00 AM (Next day)</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[10px] text-slate-400">Version #042-REV-05</span>
+<button class="px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded border border-slate-300 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="restore">restore</span>
+              Revert
+            </button>
+</div>
+</div>
+<!-- Revision Row 4: 29 Sep Kofi Boateng -->
+<div class="p-3.5 rounded-xl border border-slate-200 bg-white relative space-y-2.5 hover:shadow-xs transition-shadow">
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-slate-600 text-white flex items-center justify-center text-[10px] font-bold">KB</span>
+<div>
+<span class="font-bold text-slate-900">Kofi Boateng</span>
+<span class="text-slate-400 text-[10px] ml-1">(Admin)</span>
+</div>
+</div>
+<span class="font-mono text-[11px] text-slate-500">29 Sep, 16:40 GMT</span>
+</div>
+<p class="text-xs text-slate-700">
+            Uploaded 3 new high-res court floodlight photos and amenity chips.
+          </p>
+<div class="p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-1">
+<div class="text-slate-600 font-mono text-[11px]">+ Added: floodlight_court1_wide.jpg, court2_glass.jpg, lounge_cafe.jpg</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[10px] text-slate-400">Version #042-REV-04</span>
+<button class="px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded border border-slate-300 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="restore">restore</span>
+              Revert
+            </button>
+</div>
+</div>
+</div>
+<!-- Drawer Footer -->
+<div class="p-4 border-t border-slate-200 bg-slate-50 text-xs flex items-center justify-between">
+<span class="text-slate-500">Full immutable audit logs stored in Ghana region</span>
+<button class="px-3 py-1.5 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-900 transition-colors" onclick="toggleHistory(false)">
+          Close Panel
+        </button>
+</div>
+</div>
+</div>
+<!-- Inline Micro-interactions Script -->
+<script>
+    function toggleHistory(forceOpen) {
+      const drawer = document.getElementById('history-drawer');
+      if (forceOpen === true) {
+        drawer.classList.remove('translate-x-full');
+        drawer.classList.add('translate-x-0');
+      } else if (forceOpen === false) {
+        drawer.classList.add('translate-x-full');
+        drawer.classList.remove('translate-x-0');
+      } else {
+        drawer.classList.toggle('translate-x-full');
+        drawer.classList.toggle('translate-x-0');
+      }
+    }
+  </script>
+
+
+</body></html>

@@ -83,7 +83,7 @@ async def get_current_admin_user_id(
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token subject"
             )
-        if role != "ADMIN":
+        if role not in ("ADMIN", "SUPER_ADMIN"):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Admin privileges required. Player credentials are not permitted.",
@@ -107,7 +107,7 @@ async def get_current_admin_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Admin account not found or inactive",
         )
-    if user.role != "ADMIN":
+    if user.role not in ("ADMIN", "SUPER_ADMIN"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin privileges required",

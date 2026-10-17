@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Club Portal - Team &amp; Account Settings | Padel Ghana</title>
+<!-- Inter Font Family -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config verbatum from Design System -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#e2e7ff",
+            "on-primary-fixed": "#001551",
+            "outline": "#747686",
+            "on-surface-variant": "#434655",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#2151da",
+            "secondary-container": "#708cfd",
+            "background": "#faf8ff",
+            "on-tertiary-container": "#c1e087",
+            "on-primary-container": "#cad3ff",
+            "primary": "#0037b0",
+            "tertiary": "#344c01",
+            "on-surface": "#131b2e",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-variant": "#dae2fd",
+            "on-secondary-fixed": "#001453",
+            "tertiary-fixed": "#ceee93",
+            "on-primary-fixed-variant": "#0039b5",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#b3d17a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "on-secondary-fixed-variant": "#173bab",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#364e03",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "secondary": "#3755c3",
+            "on-tertiary-fixed": "#131f00",
+            "on-secondary-container": "#00217a",
+            "surface-dim": "#d2d9f4",
+            "on-background": "#131b2e",
+            "primary-fixed-dim": "#b7c4ff",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#4b641a",
+            "inverse-primary": "#b7c4ff",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#1d4ed8",
+            "on-error-container": "#93000a",
+            "surface-container": "#eaedff",
+            "outline-variant": "#c4c5d7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "data-metric": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="h-full bg-surface text-on-surface antialiased font-body-md text-body-md flex flex-col">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component from JSON) -->
+<!-- Fixed glass navigation chrome with active state logic resolved for Facility Settings -->
+<aside class="fixed top-0 left-0 h-screen w-64 bg-surface/80 dark:bg-inverse-surface/85 backdrop-blur-md border-r border-outline-variant/60 dark:border-outline/40 shadow-sm z-50 flex flex-col justify-between p-4">
+<div class="flex flex-col space-y-6">
+<!-- Brand Header -->
+<div class="flex items-center gap-3 px-2 pt-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-bold shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-[24px]">sports_tennis</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight">Padel Ghana</span>
+<span class="text-body-sm font-body-sm text-outline">Club Back-Office</span>
+</div>
+</div>
+<!-- Quick CTA -->
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-primary-container text-white font-label-lg text-label-lg shadow-sm hover:bg-primary transition duration-150" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Booking</span>
+</button>
+<!-- Main Navigation Items -->
+<nav class="flex flex-col space-y-1">
+<!-- Inactive tabs -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-150 font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-label-md font-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-150 font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">sports_tennis</span>
+<span class="text-label-md font-label-md">Courts &amp; Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-150 font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<span class="text-label-md font-label-md">Memberships</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-150 font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">trophy</span>
+<span class="text-label-md font-label-md">Tournaments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-150 font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+<span class="text-label-md font-label-md">Financial Ledger</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors duration-150 font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<span class="text-label-md font-label-md">Audit Log</span>
+</a>
+<!-- Active Tab: Facility Settings (Maps directly to Settings in Back-Office context) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-container-high text-primary font-semibold shadow-xs" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Footer navigation -->
+<div class="flex flex-col space-y-1 pt-4 border-t border-outline-variant/50">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span>Help &amp; Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-error hover:bg-error-container/40 transition-colors text-label-md font-label-md" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area with sticky frosted top nav -->
+<div class="flex-1 ml-64 flex flex-col h-screen overflow-y-auto">
+<!-- TopNavBar (Shared Component from JSON) -->
+<header class="sticky top-0 w-full z-40 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md border-b border-outline-variant/60 shadow-sm flex justify-between items-center px-6 py-3">
+<!-- Search bar on left -->
+<div class="flex items-center w-80 relative">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 text-body-sm font-body-sm bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-on-surface" placeholder="Search bookings, members, transaction ID..." type="text"/>
+</div>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-3">
+<button class="px-3 py-1.5 border border-outline-variant bg-surface-container-lowest hover:bg-surface-container text-on-surface rounded-lg text-label-md font-label-md flex items-center gap-1.5 shadow-2xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>Export Ledger</span>
+</button>
+<button class="px-3.5 py-1.5 bg-primary-container hover:bg-primary text-white rounded-lg text-label-md font-label-md flex items-center gap-1.5 shadow-2xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Court Slot</span>
+</button>
+<div class="h-5 w-px bg-outline-variant/70 mx-1"></div>
+<button class="relative p-2 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" title="Notifications" type="button">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span>
+</button>
+<!-- User Profile -->
+<div class="flex items-center gap-2.5 pl-2">
+<div class="w-9 h-9 rounded-full bg-surface-container-high border border-outline-variant/70 overflow-hidden flex items-center justify-center font-semibold text-primary text-body-sm">
+              KM
+            </div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-label-md font-label-md font-semibold text-on-surface leading-tight">Kwame Mensah</span>
+<span class="text-label-sm font-label-sm text-outline">Operational Director</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Sub-navigation & Header Canvas -->
+<main class="flex-1 p-space-xl max-w-7xl w-full mx-auto space-y-6">
+<!-- Audit Verification Banner -->
+<div class="w-full bg-surface-container-lowest border border-outline-variant/80 rounded-xl px-4 py-3 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold text-on-surface">Updated by Padel Ghana staff on 12 Oct • Audit Verified</strong>
+<span class="text-outline ml-1.5 hidden md:inline">All security protocols and member management actions conform to GOC regulatory standards.</span>
+</p>
+</div>
+<button class="text-primary hover:text-primary-container text-label-md font-label-md font-semibold flex items-center gap-1 shrink-0 self-end sm:self-auto" type="button">
+<span>See changes</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Facility Settings Header with Sub-tabs -->
+<div class="space-y-4">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-outline uppercase tracking-wider mb-1">
+<span>Facility Management</span>
+<span>/</span>
+<span class="text-primary font-semibold">Settings</span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface font-semibold tracking-tight">Facility Settings</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                Accra Central Arena • Live
+              </span>
+</div>
+</div>
+<!-- Secondary Sub-Tabs Strip -->
+<div class="border-b border-outline-variant/70 flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+<a class="px-4 py-2.5 text-label-md font-label-md text-on-surface-variant hover:text-on-surface hover:border-b-2 hover:border-outline-variant font-medium whitespace-nowrap transition-all" href="#">
+              Details &amp; Photos
+            </a>
+<a class="px-4 py-2.5 text-label-md font-label-md text-on-surface-variant hover:text-on-surface hover:border-b-2 hover:border-outline-variant font-medium whitespace-nowrap transition-all" href="#">
+              Courts &amp; Amenities
+            </a>
+<a class="px-4 py-2.5 text-label-md font-label-md text-on-surface-variant hover:text-on-surface hover:border-b-2 hover:border-outline-variant font-medium whitespace-nowrap transition-all" href="#">
+              Hours &amp; Prices
+            </a>
+<a class="px-4 py-2.5 text-label-md font-label-md text-on-surface-variant hover:text-on-surface hover:border-b-2 hover:border-outline-variant font-medium whitespace-nowrap transition-all" href="#">
+              Public Preview
+            </a>
+<!-- Active Sub-tab -->
+<a class="px-4 py-2.5 text-label-md font-label-md text-primary font-semibold border-b-2 border-primary whitespace-nowrap" href="#">
+              Team &amp; Account Security
+            </a>
+</div>
+</div>
+<!-- SECTION 1: Team & Staff Management (Owner Only) -->
+<section class="space-y-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Team &amp; Staff Management</h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-primary-fixed text-on-primary-fixed border border-primary-fixed-dim">
+                  Owner Only
+                </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Control facility access tiering, invite administrators, and review two-factor statuses.</p>
+</div>
+<!-- Invite Button triggers modal -->
+<button class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-primary text-white font-label-lg text-label-lg hover:bg-on-primary-fixed-variant transition shadow-sm shrink-0" onclick="document.getElementById('inviteModal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Invite Staff Member</span>
+</button>
+</div>
+<!-- Info Callout Banner -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-secondary-fixed/80 flex items-start gap-3.5">
+<span class="material-symbols-outlined text-secondary text-[22px] mt-0.5 shrink-0">admin_panel_settings</span>
+<div class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed">
+<strong class="font-semibold text-on-surface">Role Permissions &amp; Access:</strong> Owners have billing, pricing, and staff invitation rights. Admins can manage bookings, schedules, and player scores. All privileges are tied directly to active dual-factor authentication tokens.
+            </div>
+</div>
+<!-- Active Staff Roster Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 shadow-sm overflow-hidden">
+<div class="px-5 py-3 border-b border-outline-variant/60 bg-surface-container-low/40 flex items-center justify-between">
+<span class="text-label-md font-label-md font-semibold text-on-surface">Active Facility Roster</span>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider bg-surface px-2 py-0.5 rounded border border-outline-variant/40">Example data</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/60 border-b border-outline-variant/60 text-outline uppercase font-label-sm text-label-sm tracking-wider">
+<th class="py-3 px-5">Staff Member</th>
+<th class="py-3 px-4">Role Badge</th>
+<th class="py-3 px-4">2FA Status</th>
+<th class="py-3 px-4">Activity Log</th>
+<th class="py-3 px-5 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/40 font-body-sm text-body-sm">
+<!-- Member 1: Kwame Mensah (You) -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary font-semibold flex items-center justify-center text-label-md shrink-0">
+                          KM
+                        </div>
+<div>
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+<span>Kwame Mensah</span>
+<span class="text-outline text-label-sm font-normal">(You)</span>
+</div>
+<div class="text-outline text-body-sm">kwame@padelaccra.com</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                        Owner
+                      </span>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 text-label-sm font-label-sm text-emerald-700 font-semibold">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">verified_user</span>
+<span>Active (Authenticator)</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant font-medium">
+                      Just now
+                    </td>
+<td class="py-3.5 px-5 text-right">
+<span class="text-outline text-label-sm font-label-sm italic px-2 py-1">
+                        Cannot remove self
+                      </span>
+</td>
+</tr>
+<!-- Member 2: Kofi Boateng -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-slate-100 text-slate-700 font-semibold flex items-center justify-center text-label-md shrink-0">
+                          KB
+                        </div>
+<div>
+<div class="font-semibold text-on-surface">Kofi Boateng</div>
+<div class="text-outline text-body-sm">kofi.b@padelaccra.com</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-slate-100 text-slate-700 border border-slate-300">
+                        Admin
+                      </span>
+</td>
+<td class="py-3.5 px-4">
+<div class="inline-flex items-center gap-1.5 text-label-sm font-label-sm text-emerald-700 font-semibold">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">shield</span>
+<span>Active</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">
+                      2 hours ago
+                    </td>
+<td class="py-3.5 px-5 text-right space-x-2">
+<button class="px-2.5 py-1 text-label-sm font-label-sm font-semibold text-primary hover:bg-surface-container-high rounded transition-colors" type="button">
+                        Edit Role
+                      </button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm font-semibold text-error hover:bg-error-container/40 rounded transition-colors" type="button">
+                        Revoke Access
+                      </button>
+</td>
+</tr>
+<!-- Member 3: Abena Osei -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold flex items-center justify-center text-label-md shrink-0">
+                          AO
+                        </div>
+<div>
+<div class="font-semibold text-on-surface">Abena Osei</div>
+<div class="text-outline text-body-sm">abena.o@padelaccra.com</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+                        Admin (Pending Invite)
+                      </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="text-outline text-label-sm font-label-sm">— Pending Setup</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface-variant">
+                      Invited: 11 Oct 2024
+                    </td>
+<td class="py-3.5 px-5 text-right space-x-2">
+<button class="px-2.5 py-1 text-label-sm font-label-sm font-semibold text-secondary hover:bg-surface-container-high rounded transition-colors" type="button">
+                        Resend Invite
+                      </button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm font-semibold text-error hover:bg-error-container/40 rounded transition-colors" type="button">
+                        Revoke
+                      </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Account Security & Credentials -->
+<section class="space-y-4 pt-2">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Account Security &amp; Credentials</h2>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">Manage master passwords, two-factor authentication, and monitor regional device handshakes.</p>
+</div>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider bg-surface-container px-2 py-0.5 rounded border border-outline-variant/40">Example data</span>
+</div>
+<!-- Bento Grid: Password & 2FA Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Card A: Change Password -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-6 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2.5 mb-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Change Password</h3>
+</div>
+<p class="text-body-sm font-body-sm text-outline mb-5">
+                  Update your authentication credentials. Ensure minimum 12 characters with alphanumeric and special characters.
+                </p>
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<!-- Current Password -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-1">Current Password</label>
+<input class="w-full h-11 px-3.5 text-body-md bg-surface-container-lowest border border-outline rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" type="password" value="••••••••••••"/>
+</div>
+<!-- New Password -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-1">New Password</label>
+<input class="w-full h-11 px-3.5 text-body-md bg-surface-container-lowest border border-outline rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Enter robust new password" type="password"/>
+<!-- Password Strength Meter -->
+<div class="mt-2.5">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline mb-1">
+<span>Password Strength:</span>
+<span class="text-emerald-700 font-semibold">Strong</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden flex gap-1">
+<div class="h-full w-1/4 bg-emerald-600 rounded-full"></div>
+<div class="h-full w-1/4 bg-emerald-600 rounded-full"></div>
+<div class="h-full w-1/4 bg-emerald-600 rounded-full"></div>
+<div class="h-full w-1/4 bg-slate-200 rounded-full"></div>
+</div>
+</div>
+</div>
+</form>
+</div>
+<div class="pt-5 mt-5 border-t border-outline-variant/60 flex items-center justify-end">
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-label-lg font-label-lg hover:bg-on-primary-fixed-variant transition shadow-2xs" type="button">
+                  Update Password
+                </button>
+</div>
+</div>
+<!-- Card B: Two-Factor Authentication -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-6 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">security</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Two-Factor Authentication</h3>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    Enabled
+                  </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mb-4">
+                  Multi-factor protection is enforced across all Padel Ghana administrative hubs to protect sensitive revenue logs.
+                </p>
+<div class="p-4 rounded-lg bg-surface-container-low border border-outline-variant/50 space-y-2 mb-4">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md font-medium text-on-surface">Configured Authenticator</span>
+<span class="text-label-sm font-label-sm text-emerald-700 font-semibold">Active (Google Authenticator / 1Password)</span>
+</div>
+<div class="text-body-sm font-body-sm text-outline">
+                    Bound via TOTP standard RFC 6238 on verified device.
+                  </div>
+</div>
+<!-- Warning box for recovery codes -->
+<div class="p-3 rounded-lg bg-amber-50/70 border border-amber-200 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-amber-700 text-[18px] mt-0.5">warning</span>
+<p class="text-body-sm font-body-sm text-amber-900 leading-snug">
+                    Regenerating backup recovery codes will immediately invalidate your previous 8 emergency tokens.
+                  </p>
+</div>
+</div>
+<div class="pt-5 mt-5 border-t border-outline-variant/60 flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-outline">8 of 10 codes remaining</span>
+<button class="px-3.5 py-2 border border-outline text-on-surface hover:bg-surface-container rounded-lg text-label-md font-label-md font-semibold transition flex items-center gap-1.5" onclick="alert('Confirmation prompt: Regenerating recovery codes will invalidate all previously printed offline keys.')" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span>Regenerate Recovery Codes</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 2.3: Active Sessions & Device Management -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/70 p-6 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Active Sessions &amp; Device Management</h3>
+<p class="text-body-sm font-body-sm text-outline">Instances currently authorized to access court booking matrix and client records.</p>
+</div>
+<!-- Dangerous Action: Sign Out of All Other Devices -->
+<button class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-error hover:bg-red-700 text-white rounded-lg text-label-md font-label-md font-semibold transition shadow-2xs self-start sm:self-auto" onclick="confirm('Are you sure you want to invalidate all other active browser and terminal sessions?')" type="button">
+<span class="material-symbols-outlined text-[18px]">phonelink_erase</span>
+<span>Sign Out of All Other Devices</span>
+</button>
+</div>
+<!-- Sessions List -->
+<div class="space-y-3">
+<!-- Current Active Session -->
+<div class="flex items-center justify-between p-4 rounded-xl border border-emerald-200 bg-emerald-50/20">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest border border-emerald-200 flex items-center justify-center text-primary shrink-0 shadow-2xs">
+<span class="material-symbols-outlined text-[24px]">desktop_mac</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-semibold text-on-surface text-label-lg font-label-lg">Chrome on macOS</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.2 rounded-full text-label-sm font-label-sm font-semibold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                        Current Session
+                      </span>
+</div>
+<div class="text-body-sm font-body-sm text-outline flex items-center gap-2 mt-0.5">
+<span>Accra, Ghana</span>
+<span>•</span>
+<span class="font-mono text-label-sm">IP: 102.176.64.12</span>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider bg-surface px-1.5 py-0.2 rounded border border-outline-variant/40">Example data</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-flex items-center gap-1 text-label-sm font-label-sm text-emerald-700 font-semibold">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    Online Now
+                  </span>
+</div>
+</div>
+<!-- Other Session 1: Safari on iPhone -->
+<div class="flex items-center justify-between p-4 rounded-xl border border-outline-variant/60 bg-surface-container-lowest hover:bg-surface-container-low/30 transition-colors">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[24px]">smartphone</span>
+</div>
+<div>
+<div class="font-semibold text-on-surface text-label-lg font-label-lg">Safari on iPhone 15 Pro</div>
+<div class="text-body-sm font-body-sm text-outline flex items-center gap-2 mt-0.5">
+<span>Accra, Ghana</span>
+<span>•</span>
+<span>Active 4 hours ago</span>
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider bg-surface px-1.5 py-0.2 rounded border border-outline-variant/40">Example data</span>
+</div>
+</div>
+</div>
+<button class="text-error hover:bg-error-container/40 px-3 py-1.5 rounded-lg text-label-sm font-label-sm font-semibold transition-colors" type="button">
+                  Revoke
+                </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Bar -->
+<footer class="mt-auto px-8 py-4 border-t border-outline-variant/50 bg-surface/50 text-outline text-body-sm flex flex-col sm:flex-row items-center justify-between gap-2">
+<p>© 2024 Padel Ghana Operational Management Ltd. All rights reserved.</p>
+<div class="flex items-center gap-4 text-label-sm font-label-sm font-medium">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Security Protocol</a>
+<a class="hover:text-primary transition-colors" href="#">Club Operating Standards</a>
+</div>
+</footer>
+</div>
+</div>
+<!-- Modal Preview: Invite Staff Member (Default Hidden) -->
+<div class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4" id="inviteModal">
+<div class="relative bg-surface-container-lowest rounded-2xl max-w-lg w-full p-6 shadow-xl border border-outline-variant">
+<!-- Modal Header -->
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/60">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Invite Staff Member</h3>
+<p class="text-body-sm font-body-sm text-outline">Issue credentials to club venue administrative staff</p>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface p-1 rounded-lg hover:bg-surface-container" onclick="document.getElementById('inviteModal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<form class="space-y-4 pt-4" onsubmit="event.preventDefault(); document.getElementById('inviteModal').classList.add('hidden');">
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-1">Full Legal Name</label>
+<input class="w-full h-11 px-3.5 text-body-md bg-surface-container-lowest border border-outline rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., Efua Mensah" type="text"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-1">Email Address</label>
+<input class="w-full h-11 px-3.5 text-body-md bg-surface-container-lowest border border-outline rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="e.g., efua.m@padelaccra.com" type="email"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-1">Assigned Role</label>
+<select class="w-full h-11 px-3.5 text-body-md bg-surface-container-lowest border border-outline rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+<option value="admin">Admin (Bookings, Schedules, Player Scores)</option>
+<option value="owner">Co-Owner (Full Billing, Financial Ledger, Deletions)</option>
+<option value="finance">Finance Clerk (Financial Ledger View Only)</option>
+</select>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/60 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">info</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+            Invited users will receive an onboarding link valid for 48 hours requiring mandatory Two-Factor setup.
+          </p>
+</div>
+<!-- Actions -->
+<div class="pt-4 border-t border-outline-variant/60 flex items-center justify-end gap-3">
+<button class="px-4 py-2 border border-outline text-on-surface hover:bg-surface-container rounded-lg text-label-md font-label-md font-medium" onclick="document.getElementById('inviteModal').classList.add('hidden')" type="button">
+            Cancel
+          </button>
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-label-md font-label-md font-semibold hover:bg-on-primary-fixed-variant transition" type="submit">
+            Send Invitation
+          </button>
+</div>
+</form>
+</div>
+</div>
+</body></html>

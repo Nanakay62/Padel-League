@@ -1,0 +1,1315 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="Padel Ghana — Padel in Ghana, organised."
+  description="Find games and players in Accra. Join Americano events at your level, enter scores on the court, and track live standings."
+>
+  <!-- 1. HERO SECTION (Gradient band with photo overlay) -->
+  <section class="band-gradient-hero hero-section" id="hero">
+    <div class="container hero-container">
+      <div class="hero-grid">
+        <!-- Hero Copy -->
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Find <span class="text-lime">games</span> and <span class="text-lime">players</span> in Accra.
+          </h1>
+          <p class="hero-subtitle">
+            Find games at your level, join in a few taps, and follow live scores on the court.
+          </p>
+          <div class="hero-actions">
+            <a href={`${siteConfig.appUrl}/events`} class="btn btn-lime hero-btn-cta" id="hero-find-game-btn">
+              Find a game
+            </a>
+            <a href={`${siteConfig.appUrl}/venues`} class="btn btn-glass-on-blue hero-btn-secondary" id="hero-browse-clubs-btn">
+              Browse clubs
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Photo with 88% White Glass Floating Card -->
+        <div class="hero-media">
+          <div class="hero-photo-wrapper">
+            <img
+              src="/images/hero-players.jpg"
+              alt="Ghanaian padel players at outdoor padel court in Accra checking match scores on phone"
+              class="hero-photo"
+              width="640"
+              height="440"
+              loading="eager"
+            />
+            <!-- Floating Card Over Photo (Strictly 88% white card with dark text) -->
+            <div class="card-photo-overlay hero-floating-card">
+              <div class="floating-header">
+                <div>
+                  <h2 class="floating-venue-name">Accra Club</h2>
+                  <p class="floating-match-type">Americano Open &bull; Level 2.0–3.5</p>
+                </div>
+                <span class="badge-pill badge-success">Confirmed</span>
+              </div>
+              <div class="floating-footer">
+                <div class="floating-price">
+                  <span class="tnum price-val">GH&cent;&nbsp;85.00</span>
+                  <span class="price-unit">/ player</span>
+                </div>
+                <span class="floating-meta">8 spots confirmed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. HOW IT WORKS SECTION (Solid surface) -->
+  <section class="section-padded surface-base" id="how-it-works">
+    <div class="container space-y-lg">
+      <div class="section-header">
+        <span class="section-eyebrow">Simplicity First</span>
+        <h2 class="section-title">How it works</h2>
+        <p class="section-subtitle">
+          A frictionless flow from finding a game to the post-match WhatsApp debrief.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <!-- Step 1 -->
+        <div class="card-solid step-card">
+          <div class="step-card-top">
+            <div class="step-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <span class="step-number">Step 01</span>
+            <h3 class="step-title">Browse Americano events at your level</h3>
+          </div>
+          <p class="step-desc">
+            Browse organized social tournaments, open Americano brackets, and casual practice blocks tailored to your skill rating.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card-solid step-card">
+          <div class="step-card-top">
+            <div class="step-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+            <span class="step-number">Step 02</span>
+            <h3 class="step-title">Pay by mobile money or cash; the organiser confirms your spot</h3>
+          </div>
+          <p class="step-desc">
+            Use MTN MoMo, Telecel Cash, AT Money, or hand cash to the desk manager. Your slot is guaranteed once verified.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card-solid step-card">
+          <div class="step-card-top">
+            <div class="step-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <span class="step-number">Step 03</span>
+            <h3 class="step-title">Enter scores with plus and minus buttons and follow the live leaderboard</h3>
+          </div>
+          <p class="step-desc">
+            Record points tap-by-tap courtside. Track individual standings on your phone or follow along on the clubhouse screen.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. FORMATS SECTION (Ice blue solid surface) -->
+  <section class="section-padded band-ice-surface" id="formats">
+    <div class="container space-y-lg">
+      <div class="section-header">
+        <h2 class="section-title">Tournament formats made for Ghana</h2>
+        <p class="section-subtitle">
+          Fast, social, and competitive match setups tailored for local padel clubs and social nights.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Americano Card -->
+        <div class="card-solid format-card">
+          <div class="format-card-body">
+            <div class="format-header">
+              <div>
+                <h3 class="format-name">Americano</h3>
+                <span class="badge-pill badge-success">Social &amp; Fair</span>
+              </div>
+            </div>
+            <p class="format-desc">
+              Social, rotate partners every round, everyone plays with everyone. Enter as a solo player, match points count directly toward your personal tournament tally.
+            </p>
+            <ul class="format-bullets">
+              <li class="bullet-item">
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>No fixed partner needed &mdash; enter as a solo player.</span>
+              </li>
+              <li class="bullet-item">
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>All skill levels mixed smoothly with guaranteed round rotation.</span>
+              </li>
+              <li class="bullet-item">
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Each match plays to set points (e.g. 24 or 32 total points).</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Schematic Box -->
+          <div class="schematic-box">
+            <div class="schematic-top">
+              <span class="schematic-title">Round Rotation Sample</span>
+              <span class="schematic-meta tnum">24 Pts Total</span>
+            </div>
+            <div class="schematic-court">
+              <div class="court-team">P1 &amp; P2 vs P3 &amp; P4</div>
+              <div class="court-net">&mdash;&mdash;&mdash; NET &mdash;&mdash;&mdash;</div>
+              <div class="court-team">Next: P1 &amp; P3 vs P2 &amp; P4</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mexicano Card -->
+        <div class="card-solid format-card">
+          <div class="format-card-body">
+            <div class="format-header">
+              <div>
+                <h3 class="format-name">Mexicano</h3>
+                {siteConfig.flags.MEXICANO_AVAILABLE ? (
+                  <span class="badge-pill badge-gold">Competitive &amp; Dynamic</span>
+                ) : (
+                  <span class="badge-pill badge-soon">Coming Soon</span>
+                )}
+              </div>
+            </div>
+            <p class="format-desc">
+              Pairings follow the live leaderboard. First round is random, then subsequent rounds rebuild pairings from current standings so top-ranked players are matched with and against each other.
+            </p>
+            <ul class="format-bullets">
+              <li class="bullet-item">
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Live ladder re-seeding after every match round.</span>
+              </li>
+              <li class="bullet-item">
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Closer point spreads as high-ranked players face each other.</span>
+              </li>
+              <li class="bullet-item">
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Rewards consistent courtside performance throughout the session.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Schematic Box -->
+          <div class="schematic-box">
+            <div class="schematic-top">
+              <span class="schematic-title">Dynamic Pairing Model</span>
+              <span class="schematic-meta">Dynamic Seeding</span>
+            </div>
+            <div class="schematic-court">
+              <div class="court-team">Rank 1 &amp; Rank 3 vs Rank 2 &amp; Rank 4</div>
+              <div class="court-net">&mdash;&mdash;&mdash; NET &mdash;&mdash;&mdash;</div>
+              <div class="court-team">Rank 5 &amp; Rank 7 vs Rank 6 &amp; Rank 8</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leagues Coming Soon Strip -->
+      <div class="card-solid leagues-strip">
+        <div class="leagues-strip-left">
+          <svg class="clock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span class="leagues-title">Leagues, coming soon</span>
+        </div>
+        <span class="leagues-desc">Multi-week club divisions in development</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FEATURES GRID (6 CARDS ON SOLID SURFACE) -->
+  <section class="section-padded surface-base" id="features">
+    <div class="container space-y-lg">
+      <div class="section-header">
+        <span class="section-eyebrow">Built for local courts</span>
+        <h2 class="section-title">Everything needed to play and run padel</h2>
+      </div>
+
+      <div class="grid-3">
+        <!-- Feature 1 -->
+        <div class="card-solid feature-card">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Fair rotations</h3>
+          <p class="feature-desc">
+            Automated pairing ensures everyone plays balanced matches across every round with no duplicate partnerships.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card-solid feature-card">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+              <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+              <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+              <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+              <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+              <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">Live scoring that works offline</h3>
+          <p class="feature-desc">
+            Big tactile buttons on court that continue saving even if network signal drops. Syncs automatically when back online.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card-solid feature-card">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+              <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+              <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Pay in cedis (MoMo or cash)</h3>
+          <p class="feature-desc">
+            MTN MoMo, Telecel Cash, AT Money or club desk cash in GH&cent;; organiser confirms your entry directly on their roster.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card-solid feature-card">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">Share results to WhatsApp</h3>
+          <p class="feature-desc">
+            1-tap summary export of standings, round scores, and podium finishers directly to community WhatsApp groups.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card-solid feature-card">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+              <line x1="8" y1="2" x2="8" y2="18"></line>
+              <line x1="16" y1="6" x2="16" y2="22"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">Club pages with courts and directions</h3>
+          <p class="feature-desc">
+            Court specs, parking notes, racket hire availability, and verified GhanaPostGPS digital addresses for smooth arrival.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card-solid feature-card">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+              <polyline points="17 2 12 7 7 2"></polyline>
+            </svg>
+          </div>
+          <h3 class="feature-title">Leaderboard for the club TV</h3>
+          <p class="feature-desc">
+            Cast real-time match scores and cumulative tournament points to the clubhouse TV screen with dedicated full-screen presentation mode.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FOR ORGANISERS AND CLUBS (Gradient band - allowed placement) -->
+  <section class="band-gradient-hero section-padded" id="for-clubs">
+    <div class="container">
+      <div class="clubs-grid">
+        <div class="clubs-copy">
+          <h2 class="clubs-title">For organisers and clubs</h2>
+          <p class="clubs-subtitle">
+            Manage court capacity, verify local payments effortlessly, and keep player communities active without administrative headache.
+          </p>
+          <div class="clubs-actions">
+            <a href={siteConfig.whatsappUrl} class="btn btn-white-on-blue" id="clubs-whatsapp-cta">
+              Talk to us on WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Glass Cards (Allowed placement on hero gradient) -->
+        <div class="clubs-cards-grid">
+          <div class="card-hero-glass">
+            <div class="club-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--btn-on-blue-lime-bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </div>
+            <h3 class="club-card-title">Duplicate events</h3>
+            <p class="club-card-desc">
+              Duplicate last week's event schedule and court assignments in one tap. Keep recurring weeknight sessions consistent.
+            </p>
+          </div>
+
+          <div class="card-hero-glass">
+            <div class="club-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--btn-on-blue-lime-bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
+            <h3 class="club-card-title">Payment visibility</h3>
+            <p class="club-card-desc">
+              See who has paid at a glance with clear verified / unverified status toggles for MoMo reference numbers and cash check-ins.
+            </p>
+          </div>
+
+          <div class="card-hero-glass">
+            <div class="club-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--btn-on-blue-lime-bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </div>
+            <h3 class="club-card-title">Export player lists</h3>
+            <p class="club-card-desc">
+              Download clean attendance sheets and player contact lists anytime for club record keeping and safety audits.
+            </p>
+          </div>
+
+          <div class="card-hero-glass">
+            <div class="club-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--btn-on-blue-lime-bg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3 class="club-card-title">Fill quiet hours</h3>
+            <p class="club-card-desc">
+              Run spontaneous midday or late-night social sessions to boost utilization on your court during non-peak Accra hours.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. USE IT ON YOUR PHONE (Solid ice blue surface) -->
+  <section class="section-padded band-ice-surface" id="pwa">
+    <div class="container space-y-lg">
+      <div class="section-header">
+        <span class="section-eyebrow eyebrow-primary">No App Store Required</span>
+        <h2 class="section-title">Use it on your phone</h2>
+        <p class="section-subtitle">
+          Works smoothly in the web browser on Android and iPhone with no heavy store download or constant updates.
+        </p>
+      </div>
+
+      <div class="pwa-grid">
+        <div class="pwa-steps">
+          <div class="card-solid pwa-step-card">
+            <div class="pwa-badge tnum">1</div>
+            <div>
+              <h3 class="pwa-step-title">Open browser</h3>
+              <p class="pwa-step-desc">Open padelghana.com in your mobile browser on Safari, Chrome, or Firefox.</p>
+            </div>
+          </div>
+
+          <div class="card-solid pwa-step-card">
+            <div class="pwa-badge tnum">2</div>
+            <div>
+              <h3 class="pwa-step-title">Tap menu</h3>
+              <p class="pwa-step-desc">Tap Share (iOS Safari) or Menu &vellip; (Android Chrome).</p>
+            </div>
+          </div>
+
+          <div class="card-solid pwa-step-card">
+            <div class="pwa-badge tnum">3</div>
+            <div>
+              <h3 class="pwa-step-title">Save icon</h3>
+              <p class="pwa-step-desc">Select &ldquo;Add to Home Screen&rdquo; for instant 1-tap court access anytime.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pwa-media">
+          <img
+            src="/images/phone-players.png"
+            alt="A friendly group of Ghanaian padel players looking at a smartphone together courtside"
+            class="pwa-photo"
+            width="480"
+            height="400"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FREQUENTLY ASKED QUESTIONS (Strictly solid surface per Rule 4) -->
+  <section class="section-padded surface-base" id="faq">
+    <div class="container max-w-narrow space-y-lg">
+      <div class="section-header">
+        <h2 class="section-title">Frequently asked questions</h2>
+        <p class="section-subtitle">
+          Clear answers to how matches, scoring, and payments work in Accra.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <details class="card-solid faq-item" open>
+          <summary class="faq-summary">
+            <span class="faq-question">How do I join an event?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            Select any upcoming tournament, social, or Americano from the club schedule. Hit join, choose your payment method, and you're in the draw once approved by the organizer.
+          </p>
+        </details>
+
+        <details class="card-solid faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">How do I pay?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            Mobile money (MTN MoMo, Telecel Cash, AT Money) or cash at the club; organiser confirms your spot. Note online card payments are not live yet.
+          </p>
+        </details>
+
+        <details class="card-solid faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">What is Americano?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            Americano is a social tournament format where you rotate partners every round. Everyone plays with everyone and against everyone. Points won in each game accumulate on your personal score sheet.
+          </p>
+        </details>
+
+        <details class="card-solid faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">What do the levels mean?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </summary>
+          <p class="faq-answer">
+            Events are classified from Level 1 (beginners familiarizing with wall rebounds) up to Level 5 (advanced tournament players). Organisers outline the intended rating bracket so all matches stay competitive.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CONTACT BANNER (Solid surface) -->
+  <section class="section-padded band-white-surface" id="contact">
+    <div class="container">
+      <div class="contact-banner">
+        <div>
+          <h3 class="contact-title">Running a padel club in Accra?</h3>
+          <p class="contact-desc">
+            Get your courts listed, setup Americano ladders, and start verifying mobile payments.
+          </p>
+        </div>
+        <div class="contact-actions">
+          <a href={`mailto:${siteConfig.email}`} class="btn btn-secondary" id="contact-email-btn">
+            {siteConfig.email}
+          </a>
+          <a href={siteConfig.whatsappUrl} class="btn btn-primary" id="contact-whatsapp-btn">
+            Talk to us on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* --------------------------------------------------------------------------
+     General Section & Grid Utilities
+     -------------------------------------------------------------------------- */
+  .section-padded {
+    padding: 5rem 0;
+  }
+
+  .surface-base {
+    background-color: var(--color-bg);
+  }
+
+  .space-y-lg {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .section-header {
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .eyebrow-primary {
+    color: var(--color-primary);
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text);
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .max-w-narrow {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* --------------------------------------------------------------------------
+     1. Hero Section
+     -------------------------------------------------------------------------- */
+  .hero-section {
+    padding: 4.5rem 0 6rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 3.25rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--color-text-white);
+  }
+
+  .text-lime {
+    color: var(--btn-on-blue-lime-bg);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+    max-width: 540px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .hero-btn-cta {
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+  }
+
+  .hero-btn-secondary {
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+  }
+
+  .hero-media {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-photo-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    border-radius: var(--radius-card);
+    overflow: visible;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--glass-border-light);
+    object-cover: cover;
+  }
+
+  /* 88% White Card Floating Over Photo */
+  .hero-floating-card {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .floating-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .floating-venue-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  .floating-match-type {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-top: 0.125rem;
+  }
+
+  .floating-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .floating-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+  }
+
+  .price-val {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .price-unit {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .floating-meta {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  /* --------------------------------------------------------------------------
+     2. How It Works Section
+     -------------------------------------------------------------------------- */
+  .step-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  .step-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .step-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+  }
+
+  .step-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  .step-desc {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+
+  /* --------------------------------------------------------------------------
+     3. Formats Section
+     -------------------------------------------------------------------------- */
+  .format-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.75rem;
+    padding: 2rem;
+  }
+
+  .format-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .format-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .format-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    display: inline-block;
+    margin-right: 0.75rem;
+  }
+
+  .format-desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .format-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .bullet-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.45;
+  }
+
+  .check-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .schematic-box {
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .schematic-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+  }
+
+  .schematic-title {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .schematic-meta {
+    color: var(--color-text-muted);
+  }
+
+  .schematic-court {
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary-light);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .court-team {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.375rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    width: 100%;
+    text-align: center;
+  }
+
+  .court-net {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  .leagues-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    border: 1px solid var(--color-border-light);
+  }
+
+  .leagues-strip-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .clock-icon {
+    color: var(--color-primary);
+  }
+
+  .leagues-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--color-text);
+  }
+
+  .leagues-desc {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+
+  /* --------------------------------------------------------------------------
+     4. Features Grid
+     -------------------------------------------------------------------------- */
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.75rem;
+  }
+
+  .feature-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .feature-title {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .feature-desc {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+  }
+
+  /* --------------------------------------------------------------------------
+     5. For Organisers and Clubs
+     -------------------------------------------------------------------------- */
+  .clubs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .clubs-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .clubs-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .clubs-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  .clubs-actions {
+    padding-top: 0.5rem;
+  }
+
+  .clubs-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .club-card-icon {
+    margin-bottom: 0.75rem;
+  }
+
+  .club-card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-white);
+    margin-bottom: 0.375rem;
+  }
+
+  .club-card-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-border-light);
+  }
+
+  /* --------------------------------------------------------------------------
+     6. Use it on Your Phone (PWA)
+     -------------------------------------------------------------------------- */
+  .pwa-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .pwa-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pwa-step-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .pwa-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-border-light);
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pwa-step-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .pwa-step-desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .pwa-media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pwa-photo {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    border-radius: var(--radius-card);
+    mix-blend-mode: multiply;
+  }
+
+  /* --------------------------------------------------------------------------
+     7. FAQ Section (Solid surface)
+     -------------------------------------------------------------------------- */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    padding: 1.5rem;
+    transition: background-color 150ms ease;
+  }
+
+  .faq-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .faq-chevron {
+    color: var(--color-primary);
+    transition: transform 200ms ease;
+    flex-shrink: 0;
+  }
+
+  details[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* --------------------------------------------------------------------------
+     8. Contact Banner
+     -------------------------------------------------------------------------- */
+  .contact-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .contact-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .contact-desc {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .contact-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* --------------------------------------------------------------------------
+     Responsive Media Queries
+     -------------------------------------------------------------------------- */
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+    }
+
+    .hero-title {
+      font-size: 2.75rem;
+    }
+
+    .clubs-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .pwa-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section-padded {
+      padding: 3.5rem 0;
+    }
+
+    .hero-section {
+      padding: 3rem 0 5rem;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .clubs-cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .contact-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .contact-actions .btn {
+      width: 100%;
+    }
+
+    .leagues-strip {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .hero-floating-card {
+      position: static;
+      margin-top: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 1.875rem;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .hero-btn-cta,
+    .hero-btn-secondary {
+      width: 100%;
+    }
+  }
+</style>

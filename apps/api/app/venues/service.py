@@ -25,8 +25,15 @@ from app.domain.money import (
     verify_quote_token,
 )
 from app.events.models import Event, EventRound
+from app.identity.models import PlatformSetting
 from app.identity.phone import normalize_ghana_phone
-from app.venues.models import Court, OpenMatch, OpenMatchParticipant, Venue
+from app.venues.models import (
+    Court,
+    OpenMatch,
+    OpenMatchParticipant,
+    Venue,
+    VenueMembership,
+)
 from app.venues.schemas import (
     CourtResponse,
     OpenMatchCreate,
@@ -798,3 +805,29 @@ class VenueService:
             )
             for m in matches
         ]
+
+    async def can_user_join_venue(self, user_id: str, venue_id: str) -> bool:
+        """Check if user can join a venue without exceeding settings.max_venues_per_club_user."""
+        stmt = (
+            select(VenueMembership.venue_id)
+            .where(
+                VenueMembership.user_id == user_id,
+                VenueMembership.status == "ACTIVE",
+            )
+            .distinct()
+        )
+        res = await self.db.execute(stmt)
+        current_venues = set(res.scalars().all())
+        if venue_id in current_venues:
+            return True
+
+        stmt_set = select(PlatformSetting).where(PlatformSetting.id == "default")
+        res_set = await self.db.execute(stmt_set)
+        setting = res_set.scalars().first()
+        max_venues = (
+            999
+            if (setting and setting.allow_multi_venue_per_user)
+            else settings.max_venues_per_club_user
+        )
+
+        return len(current_venues) < max_venues

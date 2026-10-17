@@ -23,3 +23,72 @@
         format json
     }
 }
+
+# Club Back Office Portal Host
+{$CLUB_HOST:club.padelghana.com} {
+    root * /srv/portal
+    file_server
+
+    # Reverse proxy API requests to FastAPI
+    handle /portal/* {
+        reverse_proxy api:8000 {
+            flush_interval -1
+        }
+    }
+
+    handle /static/* {
+        reverse_proxy api:8000
+    }
+
+    # SPA client-side fallback
+    try_files {path} /index.html
+
+    # Security & Content Security Policy
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+
+# Platform Super Admin Portal Host
+{$ADMIN_HOST:admin.padelghana.com} {
+    root * /srv/portal
+    file_server
+
+    # Reverse proxy API requests to FastAPI
+    handle /portal/* {
+        reverse_proxy api:8000 {
+            flush_interval -1
+        }
+    }
+
+    handle /static/* {
+        reverse_proxy api:8000
+    }
+
+    # SPA client-side fallback
+    try_files {path} /index.html
+
+    # Security & Content Security Policy
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    }
+
+    log {
+        output stdout
+        format json
+    }
+}
+

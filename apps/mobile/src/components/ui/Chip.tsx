@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.border,
   },
   selectedChip: {
-    backgroundColor: Tokens.colors.text,
+    backgroundColor: Tokens.colors.primary,
     borderWidth: 1,
-    borderColor: Tokens.colors.text,
+    borderColor: Tokens.colors.primary,
   },
   pressed: {
     opacity: 0.8,
@@ -117,6 +117,8 @@ const styles = StyleSheet.create({
     color: Tokens.colors.text,
   },
   selectedText: {
-    color: Tokens.colors.card,
+    color: Tokens.colors.textOnPrimary,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
   },
 });

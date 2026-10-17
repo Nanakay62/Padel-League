@@ -1,0 +1,440 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="Contact & Feedback — Padel Ghana"
+  description="Contact the Padel Ghana team in Accra for venue partnerships, player feedback, tournament setup, and mobile money support."
+>
+  <!-- Hero Section (Solid primary blue per Rule 4: forms sit on solid surfaces) -->
+  <section class="page-hero-solid" id="contact-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-pill badge-hero-pill">GET IN TOUCH</div>
+        <h1 class="hero-title">Contact and feedback.</h1>
+        <p class="hero-subtitle">
+          Whether you run a padel venue in Accra, want to suggest a new club location, or have feedback on our scoring app, we'd love to hear from you.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Contact Canvas (Solid surface) -->
+  <section class="section-padded surface-base" id="contact-content">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Direct Channels (Left Column) -->
+        <div class="channels-col">
+          <div class="col-header">
+            <h2 class="col-title">Direct Contact Channels</h2>
+            <p class="col-desc">Connect with our Accra operations desk, club partnership team, or match organizers.</p>
+          </div>
+
+          <!-- Card 1: WhatsApp Support -->
+          <div class="card-solid channel-card">
+            <div class="channel-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+            </div>
+            <h3 class="channel-title">Instant WhatsApp Support</h3>
+            <p class="channel-desc">
+              Chat directly with our team for quick questions or event setup in Cantonments, Airport, or Labone.
+            </p>
+            <a href={siteConfig.whatsappUrl} class="btn btn-primary w-full" id="contact-card-whatsapp-btn">
+              Message on WhatsApp
+            </a>
+          </div>
+
+          <!-- Card 2: Email Inquiries -->
+          <div class="card-solid channel-card">
+            <div class="channel-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <h3 class="channel-title">Email Inquiries</h3>
+            <div class="email-lines">
+              <div>
+                <span class="email-label">General player inquiries:</span>
+                <a href={`mailto:${siteConfig.email}`} class="channel-link">{siteConfig.email}</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Accra Office -->
+          <div class="card-solid channel-card">
+            <div class="channel-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <h3 class="channel-title">Accra Office</h3>
+            <p class="office-text">{siteConfig.address}</p>
+            <p class="office-text">Phone: <span class="tnum font-semibold">{siteConfig.phoneDisplay}</span></p>
+          </div>
+        </div>
+
+        <!-- Contact Form (Right Column) -->
+        <div class="form-col">
+          <div class="card-solid form-card">
+            <div class="form-header">
+              <h2 class="form-title">Send a message or feedback</h2>
+              <p class="form-subtitle">
+                Have an Americano rules idea, venue feedback, or booking issue? Send us a message and our team will get back to you promptly.
+              </p>
+            </div>
+
+            <form class="contact-form" action="#" method="POST" id="feedback-form">
+              <div class="form-field">
+                <label for="full_name" class="form-label">
+                  Your Name <span class="req">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="full_name"
+                  name="full_name"
+                  class="form-input"
+                  placeholder="e.g. Kwame Mensah"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="phone_number" class="form-label">
+                  Phone number / WhatsApp <span class="req">*</span>
+                </label>
+                <div class="input-with-prefix">
+                  <span class="input-prefix select-none">+233</span>
+                  <input
+                    type="tel"
+                    id="phone_number"
+                    name="phone_number"
+                    class="form-input input-has-prefix"
+                    placeholder="024 123 4567"
+                    required
+                  />
+                </div>
+                <span class="field-hint">Used for fast match notifications and WhatsApp support.</span>
+              </div>
+
+              <div class="form-field">
+                <label for="email_address" class="form-label">
+                  Email address <span class="req">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email_address"
+                  name="email_address"
+                  class="form-input"
+                  placeholder="you@domain.com"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="inquiry_topic" class="form-label">
+                  Topic / Inquiry type <span class="req">*</span>
+                </label>
+                <select id="inquiry_topic" name="inquiry_topic" class="form-input form-select" required>
+                  <option value="" disabled selected>Select a topic</option>
+                  <option value="player_feedback">Player feedback</option>
+                  <option value="club_partnership">Club / Venue partnership</option>
+                  <option value="americano_suggestion">Americano format suggestion</option>
+                  <option value="momo_payment_support">Payment or MoMo support</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="message" class="form-label">
+                  Message <span class="req">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  class="form-input form-textarea"
+                  placeholder="How can we help?"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary form-submit-btn" id="contact-submit-btn">
+                Send message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero-solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    padding: 5rem 0 5.5rem;
+  }
+
+  .hero-container {
+    max-width: 800px;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .badge-hero-pill {
+    background-color: var(--btn-on-blue-glass-bg);
+    color: var(--color-border-light);
+    border: 1px solid var(--btn-on-blue-glass-border);
+    align-self: flex-start;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .channels-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .col-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .col-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .col-desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .channel-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 1.5rem;
+  }
+
+  .channel-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .channel-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .channel-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .channel-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .channel-link:hover {
+    text-decoration: underline;
+  }
+
+  .email-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .email-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.125rem;
+  }
+
+  .office-text {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .font-semibold {
+    font-weight: 600;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  /* Form Column */
+  .form-card {
+    padding: 2.5rem;
+  }
+
+  .form-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .form-subtitle {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin-top: 0.375rem;
+    line-height: 1.5;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .req {
+    color: var(--color-primary);
+  }
+
+  .form-input {
+    width: 100%;
+    min-height: var(--touch-target-min);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .form-input::placeholder {
+    color: var(--color-input-placeholder);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-focus-ring);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+  }
+
+  .input-with-prefix {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    pointer-events: none;
+  }
+
+  .input-has-prefix {
+    padding-left: 3.5rem;
+  }
+
+  .field-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .form-select {
+    cursor: pointer;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-submit-btn {
+    align-self: flex-start;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .form-card {
+      padding: 1.5rem;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+    }
+  }
+</style>

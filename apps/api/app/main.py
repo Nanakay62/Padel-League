@@ -79,7 +79,7 @@ def create_app() -> FastAPI:
                         settings.secret_key,
                         algorithms=[settings.jwt_algorithm],
                     )
-                    if payload.get("role") != "ADMIN":
+                    if payload.get("role") not in ("ADMIN", "SUPER_ADMIN"):
                         return Response(
                             content='{"detail":"Admin privileges required. Player credentials are not permitted."}',
                             status_code=403,
@@ -124,19 +124,36 @@ def create_app() -> FastAPI:
     from app.identity.routes import router as identity_router
     from app.leagues.routes import router as leagues_router
     from app.notify.routes import router as notify_router
+    from app.portal.admin_routes import admin_router
+    from app.portal.club_routes import club_router
+    from app.portal.routes import portal_router
     from app.ratings.routes import router as ratings_router
     from app.venues.routes import router as venues_router
 
+    app.include_router(admin_router)
     app.include_router(billing_router)
+    app.include_router(club_router)
     app.include_router(events_router)
     app.include_router(identity_router)
     app.include_router(leagues_router)
     app.include_router(notify_router)
+    app.include_router(portal_router)
     app.include_router(ratings_router)
     app.include_router(venues_router)
 
     # Mount back office admin
     setup_admin(app, engine)
+
+    # Mount static uploads directory for venue photos
+    from pathlib import Path
+
+    from fastapi.staticfiles import StaticFiles
+
+    uploads_dir = Path("uploads")
+    uploads_dir.mkdir(parents=True, exist_ok=True)
+    app.mount(
+        "/static/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads"
+    )
 
     return app
 

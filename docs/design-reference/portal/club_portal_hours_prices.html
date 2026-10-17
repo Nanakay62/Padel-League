@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Padel Ghana Admin | Hours and Prices</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed": "#dce1ff",
+            "on-tertiary-fixed-variant": "#364e03",
+            "tertiary-container": "#4b641a",
+            "background": "#faf8ff",
+            "primary-fixed-dim": "#b7c4ff",
+            "surface-container-high": "#e2e7ff",
+            "primary": "#0037b0",
+            "on-tertiary-fixed": "#131f00",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-container": "#eaedff",
+            "surface-container-low": "#f2f3ff",
+            "surface-bright": "#faf8ff",
+            "on-surface-variant": "#434655",
+            "on-surface": "#131b2e",
+            "secondary-container": "#708cfd",
+            "on-primary-container": "#cad3ff",
+            "inverse-primary": "#b7c4ff",
+            "outline-variant": "#c4c5d7",
+            "surface-tint": "#2151da",
+            "tertiary-fixed-dim": "#b3d17a",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed": "#001551",
+            "inverse-on-surface": "#eef0ff",
+            "on-secondary-fixed": "#001453",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary-container": "#00217a",
+            "surface": "#faf8ff",
+            "on-tertiary-container": "#c1e087",
+            "primary-container": "#1d4ed8",
+            "error": "#ba1a1a",
+            "on-secondary": "#ffffff",
+            "on-background": "#131b2e",
+            "inverse-surface": "#283044",
+            "tertiary": "#344c01",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#173bab",
+            "surface-dim": "#d2d9f4",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#0039b5",
+            "on-tertiary": "#ffffff",
+            "secondary": "#3755c3",
+            "tertiary-fixed": "#ceee93",
+            "surface-container-highest": "#dae2fd",
+            "outline": "#747686",
+            "on-error-container": "#93000a",
+            "surface-variant": "#dae2fd"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter-mobile": "1rem",
+            "gutter": "1.5rem",
+            "space-xl": "2rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Inter"],
+            "data-metric": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "body-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-sm": ["Inter"]
+          },
+          "fontSize": {
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "data-metric": ["28px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "data-currency": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      opacity: 0.6;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="h-full text-on-surface bg-background flex flex-col antialiased selection:bg-primary selection:text-on-primary">
+<!-- TOP APP BAR (Shared Components JSON execution) -->
+<header class="w-full px-6 py-3 flex items-center justify-between sticky top-0 z-40 bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant/40 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm font-bold shadow-sm">
+          PG
+        </div>
+<div>
+<span class="text-headline-md font-headline-md text-primary font-bold tracking-tight">Padel Ghana Admin</span>
+<span class="ml-2 text-label-sm font-label-sm bg-surface-container-high text-primary px-2 py-0.5 rounded-full">Club Portal</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#">Facility Overview</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#">Schedules</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#">Bookings</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#">Finance</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative w-64 hidden xl:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-body-sm font-body-sm bg-surface-container-lowest rounded-lg border border-outline-variant/60 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-on-surface placeholder:text-outline outline-none transition-all" placeholder="Search courts, bookings, staff..." type="text"/>
+</div>
+<div class="flex items-center gap-1 border-r border-outline-variant/50 pr-3">
+<button aria-label="Notifications" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all" type="button">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="Help" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all" type="button">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button aria-label="Settings" class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all" type="button">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant/70 text-on-surface text-label-md font-label-md hover:bg-surface-container-high/50 transition-all" type="button">
+<span class="material-symbols-outlined text-base">support_agent</span>
+          Help Desk
+        </button>
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high/80 text-on-surface text-label-md font-label-md hover:bg-surface-container-high transition-all" type="button">
+<span class="material-symbols-outlined text-base">exit_to_app</span>
+          Exit Preview
+        </button>
+<div class="flex items-center gap-2 pl-2">
+<img class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="Professional corporate headshot of Kwame Mensah, Operations Lead for Padel Ghana, wearing clean navy athletic blazer in a sunlit modern sports club office in Accra with pristine architectural padel courts visible through expansive glass walls in high key natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlVyybe_GlyG0Y58F7svNYzRY8XJIppYTSqNl2_llhlPAuG4mlm1M4jvFMmv5EgVPdG5-dierurE8xv5TBt3p40Xmxm2jKemzYdjnmVraj30dlO0TRBS-hLGmnANkpm1f-V4AKEGsf7-IL4QM7hOiF0KNjxzQkccDwai1H7nM9TYvroJihj3_HHn94EXvXhnK2SvSiO18E8rVaYnAXZSqtPd6MTNMHjNrvRF0FvigNPF8rbllWbnH6"/>
+<div class="hidden 2xl:flex flex-col text-left">
+<span class="text-label-md font-label-md leading-tight text-on-surface">Kwame Mensah</span>
+<span class="text-body-sm font-body-sm text-outline">Operations Lead</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- LEFT SIDEBAR NAVIGATION (Shared Components JSON execution) -->
+<aside class="w-64 flex-shrink-0 bg-surface-container-lowest/70 backdrop-blur-xl border-r border-outline-variant/40 flex flex-col justify-between p-4 overflow-y-auto hidden lg:flex select-none">
+<div class="flex flex-col gap-6">
+<!-- Club Crest / Switcher -->
+<div class="flex items-center gap-3 p-2 rounded-xl bg-surface-container-low/60 border border-outline-variant/30">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold text-headline-sm shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined">sports_tennis</span>
+</div>
+<div class="flex flex-col overflow-hidden">
+<h2 class="text-headline-sm font-headline-sm text-on-surface truncate">Accra Central Club</h2>
+<span class="text-body-sm font-body-sm text-outline truncate">Facility Operator ID #GH-042</span>
+</div>
+</div>
+<!-- Primary Call to Action -->
+<button class="w-full flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary-container text-on-primary text-label-lg font-label-lg hover:bg-primary transition-all shadow-sm active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-lg">add</span>
+          New Court Booking
+        </button>
+<!-- Main Navigation Items -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+            Courts &amp; Schedules
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+            Bookings Ledger
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+            Members &amp; Players
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+            Financials
+          </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+            Audit Log
+          </a>
+<!-- Active Tab: Facility Settings -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm" href="#">
+<span class="material-symbols-outlined">tune</span>
+            Facility Settings
+          </a>
+</nav>
+</div>
+<!-- Footer Utility Links -->
+<div class="pt-6 border-t border-outline-variant/30 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined text-base">menu_book</span>
+          Documentation
+        </a>
+<a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-base">signal_cellular_alt</span>
+            System Status
+          </div>
+<span class="w-2 h-2 rounded-full bg-[#007A33]"></span>
+</a>
+</div>
+</aside>
+<!-- MAIN SCROLLABLE CONTENT CANVAS -->
+<main class="flex-1 overflow-y-auto bg-background p-6 md:p-8 space-y-6 pb-28">
+<!-- Top Notice Banner -->
+<div class="flex items-center justify-between px-4 py-2.5 bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#007A33] text-lg">verified</span>
+<span class="text-body-sm font-body-sm text-on-surface">Updated by Padel Ghana staff on 12 Oct • Audit Verified</span>
+</div>
+<button class="text-primary hover:underline text-label-sm font-label-sm font-semibold flex items-center gap-1" type="button">
+          See changes
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Page Header & Facility Context -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-outline-variant/40">
+<div class="space-y-1">
+<div class="flex items-center gap-2 text-outline text-label-sm font-label-sm uppercase tracking-wider">
+<span>Demo Padel Club</span>
+<span>/</span>
+<span>Facility ID #GH-042</span>
+<span>/</span>
+<span>Airport Residential Area, Accra</span>
+</div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface tracking-tight">Club Hours &amp; Pricing</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="h-10 px-4 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-all shadow-sm active:scale-[0.98]" type="button">
+            Reset to Default
+          </button>
+<button class="h-10 px-4 rounded-lg bg-surface-container-high/80 hover:bg-surface-container-high text-primary text-label-md font-label-md transition-all flex items-center gap-2 active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-base">content_copy</span>
+            Copy to all weekdays
+          </button>
+</div>
+</div>
+<!-- Sub-Navigation Under Header -->
+<div class="flex items-center gap-1 border-b border-outline-variant/40 -mt-2">
+<a class="px-4 py-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Details &amp; Photos</a>
+<a class="px-4 py-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Courts &amp; Amenities</a>
+<a class="px-4 py-3 text-label-md font-label-md text-primary font-semibold border-b-2 border-primary relative -mb-[1px]" href="#">Hours &amp; Prices</a>
+<a class="px-4 py-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Public Preview</a>
+</div>
+<!-- SECTION 1: WEEKLY OPENING HOURS EDITOR -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-outline-variant/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-bright">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Regular Operating Hours</h3>
+<p class="text-body-md font-body-md text-outline">Set standard facility opening and closing times. Late-night sessions crossing midnight are supported.</p>
+</div>
+</div>
+<button class="self-start sm:self-auto h-10 px-3.5 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-all flex items-center gap-1.5 whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-base text-primary">dynamic_feed</span>
+            Copy Monday hours to all weekdays
+          </button>
+</div>
+<div class="divide-y divide-outline-variant/30">
+<!-- Monday Row -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface-bright transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-lg text-label-lg text-on-surface">Monday</span>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="06:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="11:00 PM"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-on-surface-variant">
+<input class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33]">Open (17 hrs)</span>
+</div>
+</div>
+<!-- Tuesday Row -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface-bright transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-lg text-label-lg text-on-surface">Tuesday</span>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="06:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="11:00 PM"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-on-surface-variant">
+<input class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33]">Open (17 hrs)</span>
+</div>
+</div>
+<!-- Wednesday Row -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface-bright transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-lg text-label-lg text-on-surface">Wednesday</span>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="06:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="11:00 PM"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-on-surface-variant">
+<input class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33]">Open (17 hrs)</span>
+</div>
+</div>
+<!-- Thursday Row -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface-bright transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-lg text-label-lg text-on-surface">Thursday</span>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="06:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="11:00 PM"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-on-surface-variant">
+<input class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33]">Open (17 hrs)</span>
+</div>
+</div>
+<!-- Friday Row (Late Night Active) -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-primary-fixed/20 hover:bg-primary-fixed/30 transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<div>
+<span class="font-label-lg text-label-lg text-on-surface">Friday</span>
+<span class="block text-label-sm font-label-sm text-primary font-semibold">Floodlight Play</span>
+</div>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="06:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-44 bg-surface-container-lowest border border-primary-container/60 text-primary-container font-medium rounded-lg text-body-md font-body-md focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="01:00 AM (Next day)"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-primary font-medium">
+<input checked="" class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-primary/10 text-primary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">dark_mode</span>
+                Late Night Active (19 hrs)
+              </span>
+</div>
+</div>
+<!-- Saturday Row (Late Night Active) -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-primary-fixed/20 hover:bg-primary-fixed/30 transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<div>
+<span class="font-label-lg text-label-lg text-on-surface">Saturday</span>
+<span class="block text-label-sm font-label-sm text-primary font-semibold">Floodlight Play</span>
+</div>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="06:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-44 bg-surface-container-lowest border border-primary-container/60 text-primary-container font-medium rounded-lg text-body-md font-body-md focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="01:00 AM (Next day)"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-primary font-medium">
+<input checked="" class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-primary/10 text-primary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">dark_mode</span>
+                Late Night Active (19 hrs)
+              </span>
+</div>
+</div>
+<!-- Sunday Row -->
+<div class="p-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface-bright transition-colors">
+<div class="w-36 flex items-center gap-3">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+<span class="font-label-lg text-label-lg text-on-surface">Sunday</span>
+</div>
+<div class="flex-1 flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Open</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="07:00 AM"/>
+</div>
+<span class="text-outline">to</span>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm text-outline uppercase">Close</span>
+<input class="h-11 px-3 w-32 bg-surface-container-lowest border border-outline/40 rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" type="text" value="10:00 PM"/>
+</div>
+<label class="flex items-center gap-2 ml-2 cursor-pointer text-body-sm font-body-sm text-on-surface-variant">
+<input class="w-4 h-4 rounded text-primary-container border-outline focus:ring-primary-container" type="checkbox"/>
+                Open late (past midnight)
+              </label>
+</div>
+<div class="flex items-center justify-end">
+<span class="px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33]">Open (15 hrs)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: COURT PRICE BANDS -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-outline-variant/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Hourly Court Rates &amp; Pricing Bands</h3>
+<p class="text-body-md font-body-md text-outline">Configure dynamic tiered rates based on time of day and peak demand.</p>
+</div>
+<button class="h-10 px-4 rounded-lg bg-primary-container text-on-primary text-label-md font-label-md hover:bg-primary transition-all flex items-center gap-2 shadow-sm active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-base">add_circle</span>
+            Add New Band
+          </button>
+</div>
+<!-- Ice Blue Policy Box -->
+<div class="m-6 p-4 rounded-lg bg-[#EFF6FF] border border-[#CBD5E1] flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container mt-0.5">info</span>
+<div class="text-body-md font-body-md text-on-surface">
+<span class="font-semibold text-primary">Pricing Policy Notice:</span> Changes affect future events and bookings only; published events keep their original locked price.
+          </div>
+</div>
+<!-- Warning Callout for Overlapping Bands -->
+<div class="mx-6 mb-6 p-4 rounded-lg bg-[#FFFBEB] border border-[#FDE68A] flex items-start gap-3">
+<span class="material-symbols-outlined text-[#B45309] mt-0.5">warning</span>
+<div class="text-body-sm font-body-sm text-[#78350F]">
+<span class="font-semibold">Band Overlap Detected:</span> Friday 04:00 PM – 11:00 PM overlaps with <span class="font-semibold">Prime Evening Rush</span> and <span class="font-semibold">Weekend Social</span>. The higher rate (<span class="font-semibold">GH₵ 160.00</span>) takes precedence automatically.
+          </div>
+</div>
+<!-- Table of Price Bands -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#EFF6FF] border-y border-outline-variant/40 h-10 text-label-sm font-label-sm text-[#475569] uppercase tracking-wider">
+<th class="px-6 py-2">Band Name</th>
+<th class="px-6 py-2">Applicable Days</th>
+<th class="px-6 py-2">Time Window</th>
+<th class="px-6 py-2 text-right">Hourly Rate</th>
+<th class="px-6 py-2 text-center">Status</th>
+<th class="px-6 py-2 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-body-md font-body-md">
+<!-- Band 1 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-4 font-semibold text-on-surface">
+                  Weekday Morning / Off-Peak
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  Mon, Tue, Wed, Thu, Fri
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  06:00 AM – 04:00 PM
+                </td>
+<td class="px-6 py-4 text-right font-headline-sm font-headline-sm text-primary">
+                  GH₵ 85.00 <span class="text-body-sm font-body-sm text-outline font-normal">/ hr</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33] font-semibold">Active</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Edit Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button aria-label="Duplicate Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">content_copy</span>
+</button>
+<button aria-label="Delete Band" class="w-8 h-8 rounded hover:bg-error-container/40 flex items-center justify-center text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Band 2 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-4 font-semibold text-on-surface">
+                  Prime Evening Rush
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  Mon, Tue, Wed, Thu
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  04:00 PM – 11:00 PM
+                </td>
+<td class="px-6 py-4 text-right font-headline-sm font-headline-sm text-primary">
+                  GH₵ 140.00 <span class="text-body-sm font-body-sm text-outline font-normal">/ hr</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33] font-semibold">Active</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Edit Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button aria-label="Duplicate Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">content_copy</span>
+</button>
+<button aria-label="Delete Band" class="w-8 h-8 rounded hover:bg-error-container/40 flex items-center justify-center text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Band 3 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-4 font-semibold text-on-surface">
+                  Weekend Social &amp; Open Play
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  Fri (from 4PM), Sat, Sun
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  04:00 PM – 11:00 PM
+                </td>
+<td class="px-6 py-4 text-right font-headline-sm font-headline-sm text-primary">
+                  GH₵ 160.00 <span class="text-body-sm font-body-sm text-outline font-normal">/ hr</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#007A33]/10 text-[#007A33] font-semibold">Active</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Edit Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button aria-label="Duplicate Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">content_copy</span>
+</button>
+<button aria-label="Delete Band" class="w-8 h-8 rounded hover:bg-error-container/40 flex items-center justify-center text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Band 4 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-4 font-semibold text-on-surface">
+                  Late Night Floodlight Special
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  Fri &amp; Sat
+                </td>
+<td class="px-6 py-4 text-on-surface-variant">
+                  11:00 PM – 01:00 AM
+                </td>
+<td class="px-6 py-4 text-right font-headline-sm font-headline-sm text-primary">
+                  GH₵ 110.00 <span class="text-body-sm font-body-sm text-outline font-normal">/ hr</span>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-primary/10 text-primary font-semibold">Floodlight</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Edit Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+<button aria-label="Duplicate Band" class="w-8 h-8 rounded hover:bg-surface-container-high/60 flex items-center justify-center text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-base">content_copy</span>
+</button>
+<button aria-label="Delete Band" class="w-8 h-8 rounded hover:bg-error-container/40 flex items-center justify-center text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- SECTION 3: 90-MINUTE MATCH SESSION CALCULATION EXPLAINER -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/60 shadow-sm p-6 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1.5 h-full bg-primary-container"></div>
+<div class="space-y-4 max-w-4xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calculate</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">How 90-Minute Sessions Are Calculated</h3>
+<span class="text-label-sm font-label-sm bg-surface-container-high text-on-surface px-2 py-0.5 rounded">Example data</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface leading-relaxed">
+            Padel matches commonly run for 90 minutes (1.5x hourly rate). When a match crosses two different price bands (e.g., 3:30 PM to 5:00 PM crossing off-peak into prime), rates are prorated to the exact minute.
+          </p>
+<!-- Inline Visual Example Card -->
+<div class="mt-4 p-5 rounded-xl bg-surface-container-low/70 border border-outline-variant/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm bg-primary-container text-on-primary px-2 py-0.5 rounded">Tuesday Session</span>
+<span class="text-headline-sm font-headline-sm text-on-surface">3:30 PM – 5:00 PM (90 mins)</span>
+</div>
+<p class="text-body-md font-body-md text-outline">
+<span class="font-medium text-on-surface">Breakdown:</span> 30 mins Off-Peak (GH₵ 85/hr = GH₵ 42.50) + 60 mins Prime Evening (GH₵ 140/hr = GH₵ 140.00)
+              </p>
+</div>
+<div class="flex flex-col sm:items-end justify-center pt-3 md:pt-0 border-t md:border-t-0 border-outline-variant/30">
+<span class="text-label-sm font-label-sm text-outline uppercase">Total Court Price</span>
+<span class="text-headline-md font-headline-md text-primary font-bold">GH₵ 182.50</span>
+<span class="text-body-sm font-body-sm text-outline">or GH₵ 45.63 per player (Americano of 4)</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- SECTION 4: STICKY BOTTOM ACTION BAR -->
+<footer class="fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/50 px-6 py-3.5 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+<span class="text-body-sm font-body-sm text-on-surface">
+<span class="font-medium">Saved as draft (14:38 GMT)</span> • Unsaved changes in pricing bands
+      </span>
+<span class="text-label-sm font-label-sm bg-surface-container-high text-outline px-2 py-0.5 rounded hidden md:inline-block">
+        Example data
+      </span>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+<button class="h-11 px-4 rounded-lg border border-outline-variant text-on-surface text-label-md font-label-md hover:bg-surface-container-low transition-all active:scale-[0.98]" type="button">
+        Discard Unsaved
+      </button>
+<button class="h-11 px-4 rounded-lg bg-surface-container-high/80 text-primary text-label-md font-label-md hover:bg-surface-container-high transition-all flex items-center gap-2 active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-base">smartphone</span>
+        Preview in Player App
+      </button>
+<button class="h-11 px-6 rounded-lg bg-primary-container text-on-primary text-label-lg font-label-lg font-semibold hover:bg-primary transition-all shadow-sm active:scale-[0.98]" type="button">
+        Publish Changes
+      </button>
+</div>
+</footer>
+</body></html>

@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 from app.config import settings
 from app.db import Base, get_db
+from app.identity.rate_limiter import auth_rate_limiter
 from app.main import app
 
 settings.environment = "test"
@@ -31,8 +32,10 @@ app.dependency_overrides[get_db] = override_get_db
 
 @pytest.fixture(autouse=True)
 async def prepare_database() -> AsyncGenerator[None, None]:
+    auth_rate_limiter.clear()
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+    auth_rate_limiter.clear()

@@ -1,0 +1,122 @@
+[
+  {
+    "screen_id": "395f854e302848b2a79785467c9c1c60",
+    "title": "Super Admin - Moderation & Support Desk",
+    "slug": "super_admin_moderation_support_desk",
+    "html_file": "super_admin_moderation_support_desk.html",
+    "img_file": "super_admin_moderation_support_desk.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "f463b12da6474b09af519f69e70b2650",
+    "title": "Club Portal - Events & Americano Management",
+    "slug": "club_portal_events_americano_management",
+    "html_file": "club_portal_events_americano_management.html",
+    "img_file": "club_portal_events_americano_management.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "5b6484b0f1984e1d82c90adf530fa024",
+    "title": "Club Portal - Profile, Photos & Courts",
+    "slug": "club_portal_profile_photos_courts",
+    "html_file": "club_portal_profile_photos_courts.html",
+    "img_file": "club_portal_profile_photos_courts.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "7b5e9a754d0d424cb4903f449ed78c8d",
+    "title": "Super Admin - Clubs Overview & Invite",
+    "slug": "super_admin_clubs_overview_invite",
+    "html_file": "super_admin_clubs_overview_invite.html",
+    "img_file": "super_admin_clubs_overview_invite.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2160"
+  },
+  {
+    "screen_id": "6f1c29f0e9954fb1b5f192ac1f3681fa",
+    "title": "Club Portal - Dashboard",
+    "slug": "club_portal_dashboard",
+    "html_file": "club_portal_dashboard.html",
+    "img_file": "club_portal_dashboard.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "cfeb084108b44ffaa0f8cee514d7ba0c",
+    "title": "Super Admin - Create Club & Invite Owner",
+    "slug": "super_admin_create_club_invite_owner",
+    "html_file": "super_admin_create_club_invite_owner.html",
+    "img_file": "super_admin_create_club_invite_owner.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "3604"
+  },
+  {
+    "screen_id": "63c6659222e84ccca2201f9e53613b26",
+    "title": "Club Portal - Team & Account Settings",
+    "slug": "club_portal_team_account_settings",
+    "html_file": "club_portal_team_account_settings.html",
+    "img_file": "club_portal_team_account_settings.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "fb0621abbc7d440ca90372f2ba44d91d",
+    "title": "Club Portal - Hours & Prices",
+    "slug": "club_portal_hours_prices",
+    "html_file": "club_portal_hours_prices.html",
+    "img_file": "club_portal_hours_prices.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "601d53a8c71440abb795fc8ffc1afa76",
+    "title": "Super Admin - Players, Orders & Global Audit Log",
+    "slug": "super_admin_players_orders_global_audit_log",
+    "html_file": "super_admin_players_orders_global_audit_log.html",
+    "img_file": "super_admin_players_orders_global_audit_log.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "a212195c89e34ba8bd2db16c76e4d026",
+    "title": "Club Portal - Sign-In & 2FA Security",
+    "slug": "club_portal_sign-in_2fa_security",
+    "html_file": "club_portal_sign-in_2fa_security.html",
+    "img_file": "club_portal_sign-in_2fa_security.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "9c2fb621ef89422f9a4cbc6c9e8122fd",
+    "title": "Super Admin - Platform Global Settings",
+    "slug": "super_admin_platform_global_settings",
+    "html_file": "super_admin_platform_global_settings.html",
+    "img_file": "super_admin_platform_global_settings.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  },
+  {
+    "screen_id": "6b24f13d26fb4f26916cfcc14e618e29",
+    "title": "Club Portal - Preview, Drafts & History",
+    "slug": "club_portal_preview_drafts_history",
+    "html_file": "club_portal_preview_drafts_history.html",
+    "img_file": "club_portal_preview_drafts_history.png",
+    "device_type": "DESKTOP",
+    "width": "2560",
+    "height": "2048"
+  }
+]

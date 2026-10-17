@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Club Portal Security &amp; Access | Padel Ghana</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#e2e7ff",
+            "on-primary-fixed": "#001551",
+            "outline": "#747686",
+            "on-surface-variant": "#434655",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#2151da",
+            "secondary-container": "#708cfd",
+            "background": "#faf8ff",
+            "on-tertiary-container": "#c1e087",
+            "on-primary-container": "#cad3ff",
+            "primary": "#0037b0",
+            "tertiary": "#344c01",
+            "on-surface": "#131b2e",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-fixed-dim": "#b8c4ff",
+            "surface-variant": "#dae2fd",
+            "on-secondary-fixed": "#001453",
+            "tertiary-fixed": "#ceee93",
+            "on-primary-fixed-variant": "#0039b5",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#b3d17a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "on-secondary-fixed-variant": "#173bab",
+            "secondary-fixed": "#dde1ff",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#364e03",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "secondary": "#3755c3",
+            "on-tertiary-fixed": "#131f00",
+            "on-secondary-container": "#00217a",
+            "surface-dim": "#d2d9f4",
+            "on-background": "#131b2e",
+            "primary-fixed-dim": "#b7c4ff",
+            "primary-fixed": "#dce1ff",
+            "tertiary-container": "#4b641a",
+            "inverse-primary": "#b7c4ff",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#1d4ed8",
+            "on-error-container": "#93000a",
+            "surface-container": "#eaedff",
+            "outline-variant": "#c4c5d7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "data-currency": ["Inter"],
+            "label-lg": ["Inter"],
+            "label-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "data-metric": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+            "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+            "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+            "headline-xl-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "data-currency": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "label-md": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "headline-sm": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+            "data-metric": ["28px", {"lineHeight": "32px", "fontWeight": "600"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-surface text-on-surface font-body-md antialiased flex flex-col justify-between selection:bg-primary-container selection:text-white">
+<!-- Operational Utility Top Header -->
+<header class="sticky top-0 z-50 bg-surface/85 backdrop-blur-md border-b border-outline-variant/60 shadow-sm px-6 py-3 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-white shadow-sm ring-2 ring-primary/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="sports_tennis">sports_tennis</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">Padel Ghana</span>
+<span class="bg-primary/10 text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full border border-primary/20">club.padelghana.com</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Federation Verified Club Infrastructure &amp; Portal Security</p>
+</div>
+</div>
+<!-- Interactive Flow Switcher / Tab Pill Navigation -->
+<div class="flex items-center bg-surface-container-high p-1 rounded-xl border border-outline-variant/50">
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-lg text-primary font-label-md text-label-md bg-surface-container-lowest shadow-sm transition-all duration-150" id="tab-btn-signin" onclick="switchView('signin')">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span>
+<span>View 1: Club Operator Sign-In</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all duration-150" id="tab-btn-invite" onclick="switchView('invite')">
+<span class="material-symbols-outlined text-[18px]" data-icon="person_add">person_add</span>
+<span>View 2: Staff Invitation &amp; 2FA Onboarding</span>
+</button>
+</div>
+<!-- Status & Region Badging -->
+<div class="hidden lg:flex items-center gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant/40">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Accra Cloud Region (West Africa Hub)</span>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Security Level</p>
+<p class="font-label-sm text-label-sm text-primary font-bold">Enforced MFA Tier-2</p>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center">
+<!-- VIEW 1: SIGN-IN FLOW (Includes Step 1 and Step 2 Challenge Modal) -->
+<section class="transition-opacity duration-200" id="view-signin">
+<div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Left Side Narrative & Security Posture -->
+<div class="md:col-span-5 space-y-6 pt-2">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container border border-outline-variant/60 font-label-sm text-label-sm text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified_user">verified_user</span>
+<span>Single Sign-On Security</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mb-2">Ghana Club Back-Office Portal</h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Authorized access for club owners, operational directors, and accredited court referees across the Greater Accra, Kumasi, and Takoradi metro circuits.
+            </p>
+</div>
+<div class="space-y-3 pt-2">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/60 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5" data-icon="shield">shield</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Hardware &amp; TOTP Enforcement</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Time-based one-time password (TOTP) token mandatory on all operational accounts.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/60 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5" data-icon="schedule">schedule</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Auto-Lockout Guard</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Accounts lock after 3 failed 2FA verification attempts for a 15-minute cool-down.</p>
+</div>
+</div>
+</div>
+<!-- Regional Club Help Banner -->
+<div class="p-4 rounded-xl bg-surface-container border border-outline-variant/50">
+<p class="font-label-md text-label-md text-on-surface mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary" data-icon="help">help</span>
+              Support Desk Accra
+            </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Issues receiving SMS or authenticator prompts? Reach our National Venue Operations team at <span class="font-semibold text-primary">+233 (0) 30 200 4891</span>.
+            </p>
+</div>
+</div>
+<!-- Right Side: Step 1 Sign-in Card with Interactive Step 2 Modal Trigger -->
+<div class="md:col-span-7 relative">
+<!-- Step 1 Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm relative">
+<div class="flex items-center justify-between pb-6 border-b border-outline-variant/40 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Sign In to Venue Console</h2>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-surface-container-high text-primary border border-outline-variant/40">Step 1 of 2</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Please provide your authorized credentials.</p>
+</div>
+<span class="px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-on-surface-variant border border-outline-variant/60">Example data</span>
+</div>
+<form class="space-y-5" onsubmit="event.preventDefault(); showModal2FA();">
+<!-- Email Input -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="signin-email">Official Work Email Address</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pl-10 rounded-lg border border-outline text-on-surface font-body-md text-body-md bg-surface-container-lowest focus:border-primary-container focus:ring-4 focus:ring-primary-container/15 transition-all outline-none" id="signin-email" required="" type="email" value="kwame.mensah@padelghana.com"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-[18px]" data-icon="mail">mail</span>
+</div>
+<p class="mt-1 font-body-sm text-body-sm text-on-surface-variant">Federation SSO address linked to your facility membership ledger.</p>
+</div>
+<!-- Password Input -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="signin-pwd">Master Password</label>
+<a class="font-label-md text-label-md text-primary hover:underline font-semibold" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pl-10 pr-10 rounded-lg border border-outline text-on-surface font-body-md text-body-md bg-surface-container-lowest focus:border-primary-container focus:ring-4 focus:ring-primary-container/15 transition-all outline-none" id="signin-pwd" required="" type="password" value="••••••••••••••••"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-[18px]" data-icon="key">key</span>
+<button class="absolute right-3 top-3 text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Device Checkbox -->
+<div class="flex items-center gap-2.5 pt-1">
+<input checked="" class="w-[18px] h-[18px] rounded border-outline text-primary-container focus:ring-2 focus:ring-primary/20 accent-primary cursor-pointer" id="remember-device" type="checkbox"/>
+<label class="font-body-md text-body-md text-on-surface cursor-pointer select-none" for="remember-device">
+                  Remember this workstation for 30 days
+                </label>
+</div>
+<div class="pt-2">
+<button class="w-full h-11 rounded-lg bg-primary-container hover:bg-primary text-white font-label-lg text-label-lg shadow-sm flex items-center justify-center gap-2 transition-colors duration-150" type="submit">
+<span>Proceed to 2FA Challenge</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+<div class="mt-6 pt-5 border-t border-outline-variant/40 flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-emerald-600" data-icon="lock_clock">lock_clock</span>
+                TLS 1.3 Certified
+              </span>
+<span>Host IP: 102.176.64.12 (Accra)</span>
+</div>
+</div>
+<!-- Step 2: 2FA Authentication Challenge Modal Overlay (Simulated Active State) -->
+<div class="absolute inset-0 z-20 bg-inverse-surface/40 backdrop-blur-[2px] rounded-xl flex items-center justify-center p-3" id="modal-2fa">
+<div class="bg-surface-container-lowest w-full rounded-xl border border-outline-variant shadow-xl p-6 md:p-7 relative animate-in fade-in zoom-in-95 duration-150">
+<!-- Modal Header -->
+<div class="flex items-start justify-between pb-4 border-b border-outline-variant/40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 border border-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]" data-icon="security">security</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Two-Factor Authentication</h3>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-surface-container text-on-surface-variant">Example data</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Step 2: Enter the 6-digit TOTP code</p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-md hover:bg-surface-container transition-colors" onclick="hideModal2FA()">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+</div>
+<!-- Friendly Error Alert Container -->
+<div class="mt-4 p-3.5 rounded-lg bg-error-container/40 border border-error/30 text-on-error-container flex items-start gap-3">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5" data-icon="error">error</span>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-semibold text-error">Invalid 2FA code. 2 attempts remaining before 15-minute lockout.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Please verify the clock sync on your Google Authenticator or 1Password app.</p>
+</div>
+</div>
+<!-- Verification Code Boxes (TOTP inputs) -->
+<div class="mt-5 space-y-4">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface">Authentication Code</label>
+<span class="font-label-sm text-label-sm text-primary font-medium">Valid for 24s</span>
+</div>
+<div class="flex justify-between gap-2">
+<input class="w-11 h-12 text-center text-headline-sm font-bold rounded-lg border border-error bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary-container outline-none" maxlength="1" type="text" value="7"/>
+<input class="w-11 h-12 text-center text-headline-sm font-bold rounded-lg border border-error bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary-container outline-none" maxlength="1" type="text" value="4"/>
+<input class="w-11 h-12 text-center text-headline-sm font-bold rounded-lg border border-error bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary-container outline-none" maxlength="1" type="text" value="9"/>
+<input class="w-11 h-12 text-center text-headline-sm font-bold rounded-lg border border-error bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary-container outline-none" maxlength="1" type="text" value="2"/>
+<input class="w-11 h-12 text-center text-headline-sm font-bold rounded-lg border border-error bg-surface-container-lowest text-on-surface focus:ring-2 focus:ring-primary-container outline-none" maxlength="1" type="text" value="0"/>
+<input autofocus="" class="w-11 h-12 text-center text-headline-sm font-bold rounded-lg border border-outline bg-surface-container-lowest text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 outline-none" maxlength="1" placeholder="-" type="text" value=""/>
+</div>
+<!-- Helper Switch -->
+<div class="flex items-center justify-between pt-1">
+<button class="text-primary hover:underline font-label-md text-label-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="key">key</span>
+<span>Use recovery backup code instead</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md" type="button">
+                    Resend SMS Code
+                  </button>
+</div>
+<div class="pt-3 flex gap-3">
+<button class="w-1/3 h-10 rounded-lg border border-outline-variant font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors" onclick="hideModal2FA()" type="button">
+                    Cancel
+                  </button>
+<button class="flex-1 h-10 rounded-lg bg-primary-container hover:bg-primary text-white font-label-md text-label-md transition-colors flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+<span>Confirm &amp; Authorize</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- VIEW 2: ACCEPT STAFF INVITATION & 2FA ONBOARDING FLOW -->
+<section class="hidden transition-opacity duration-200" id="view-invite">
+<div class="max-w-5xl mx-auto space-y-6">
+<!-- Invitation Context Banner -->
+<div class="bg-gradient-to-r from-primary to-primary-container text-white rounded-xl p-6 shadow-md relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[32px] text-tertiary-fixed" data-icon="sports_tennis">sports_tennis</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-tertiary-fixed text-tertiary tracking-wide">STAFF INVITATION</span>
+<span class="text-white/80 font-body-sm text-body-sm">Role: Senior Court Manager &amp; Referee</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-white mt-0.5">Demo Padel Club</h2>
+<p class="text-white/90 font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="location_on">location_on</span>
+                  Accra Central Metro, Cantonments Facility, Greater Accra
+                </p>
+</div>
+</div>
+<div class="flex sm:flex-col items-end justify-between sm:justify-center border-t sm:border-t-0 border-white/20 pt-3 sm:pt-0">
+<span class="px-2.5 py-1 rounded bg-white/15 text-white font-label-sm text-label-sm border border-white/20">Invited by Kofi Boateng (Owner)</span>
+<span class="text-white/70 font-body-sm text-body-sm mt-1">Expires in 48 hours</span>
+</div>
+</div>
+</div>
+<!-- Optional Expired Notice Example Callout -->
+<div class="p-3.5 rounded-lg bg-surface-container-high border border-outline-variant/60 flex items-center justify-between gap-4">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-outline text-[20px]" data-icon="info">info</span>
+<span class="font-body-sm text-body-sm text-on-surface">
+              Need another invitation link? If an activation token expires, please request an updated invite URL from your venue administrator.
+            </span>
+</div>
+<button class="shrink-0 font-label-md text-label-md text-primary font-semibold hover:underline">
+            Request new link
+          </button>
+</div>
+<!-- Main Onboarding Interactive Matrix: Two Columns -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Column A: Set Password & Strength Meter (5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm space-y-5">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary-container text-white text-xs font-bold flex items-center justify-center">1</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Set Account Password</h3>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Example data</span>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">Assigned Email</label>
+<input class="w-full h-10 px-3 rounded-lg border border-outline-variant bg-surface-container-low text-on-surface-variant font-body-md text-body-md cursor-not-allowed" disabled="" type="text" value="ama.owusu@demopadel.com"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="new-pass">Create Password</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-10 rounded-lg border border-outline text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-4 focus:ring-primary-container/15 outline-none" id="new-pass" oninput="updateMeter(this.value)" type="password" value="AccraPadel#2024!"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-outline text-[18px]" data-icon="lock_reset">lock_reset</span>
+</div>
+</div>
+<!-- Password Strength Meter Component -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/50 space-y-3">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Complexity Score</span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-bold" id="strength-label">Strong (4/4 requirements met)</span>
+</div>
+<!-- 4-segment progress bar -->
+<div class="grid grid-cols-4 gap-1.5 h-1.5 w-full">
+<div class="rounded-full bg-emerald-600 h-full"></div>
+<div class="rounded-full bg-emerald-600 h-full"></div>
+<div class="rounded-full bg-emerald-600 h-full"></div>
+<div class="rounded-full bg-emerald-600 h-full"></div>
+</div>
+<!-- Granular Validation Checklist -->
+<div class="grid grid-cols-2 gap-2 pt-1 font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5 text-emerald-700">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span>10+ Characters</span>
+</div>
+<div class="flex items-center gap-1.5 text-emerald-700">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span>Uppercase letter</span>
+</div>
+<div class="flex items-center gap-1.5 text-emerald-700">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span>Symbol (!@#$)</span>
+</div>
+<div class="flex items-center gap-1.5 text-emerald-700">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+<span>Number (0-9)</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="confirm-pass">Confirm Master Password</label>
+<input class="w-full h-11 px-3.5 rounded-lg border border-outline text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-4 focus:ring-primary-container/15 outline-none" id="confirm-pass" type="password" value="AccraPadel#2024!"/>
+</div>
+</div>
+<!-- Regional Verification Notice -->
+<div class="pt-2 text-on-surface-variant font-body-sm text-body-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0" data-icon="policy">policy</span>
+<span>All staff onboarding adheres to Ghana Data Protection Commission guidelines (Act 843).</span>
+</div>
+</div>
+<!-- Column B: 2FA Pairing & Recovery Codes (7 Cols) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Step 2: Configure 2FA Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm space-y-5">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary-container text-white text-xs font-bold flex items-center justify-center">2</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Configure Two-Factor Authentication (Mandatory)</h3>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-primary/10 text-primary">Required for Role</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+<!-- QR Code Display Mockup -->
+<div class="md:col-span-5 flex flex-col items-center p-3 rounded-xl bg-surface-container-low border border-outline-variant/60">
+<!-- SVG Synthetic QR Code Representation -->
+<div class="w-36 h-36 bg-white p-2 rounded-lg border border-outline-variant flex flex-col justify-between items-center relative shadow-sm">
+<svg class="w-full h-full text-on-surface" fill="currentColor" viewbox="0 0 100 100">
+<!-- Stylized 2D matrix pattern -->
+<rect fill="none" height="28" rx="2" stroke="currentColor" stroke-width="4" width="28" x="5" y="5"></rect>
+<rect height="16" width="16" x="11" y="11"></rect>
+<rect fill="none" height="28" rx="2" stroke="currentColor" stroke-width="4" width="28" x="67" y="5"></rect>
+<rect height="16" width="16" x="73" y="11"></rect>
+<rect fill="none" height="28" rx="2" stroke="currentColor" stroke-width="4" width="28" x="5" y="67"></rect>
+<rect height="16" width="16" x="11" y="73"></rect>
+<rect height="18" width="8" x="42" y="10"></rect>
+<rect height="8" width="16" x="42" y="38"></rect>
+<rect height="8" width="18" x="10" y="42"></rect>
+<rect height="8" width="22" x="68" y="42"></rect>
+<rect height="28" width="8" x="42" y="62"></rect>
+<rect height="12" width="12" x="62" y="68"></rect>
+<rect height="12" width="12" x="78" y="78"></rect>
+</svg>
+<!-- Tennis/Padel emblem watermark in center -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-6 h-6 rounded-full bg-primary-container text-white flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[14px]" data-icon="sports_tennis">sports_tennis</span>
+</div>
+</div>
+</div>
+<span class="mt-2 font-label-sm text-label-sm text-on-surface-variant text-center">Scan via Google Authenticator or Apple Keychain</span>
+</div>
+<!-- Manual Code & Secret Entry -->
+<div class="md:col-span-7 space-y-3">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Manual Base-32 Secret Key</label>
+<div class="flex items-center gap-1.5">
+<code class="px-3 py-2 rounded-lg bg-surface-container font-mono text-sm font-semibold text-primary tracking-wider border border-outline-variant/60 select-all">
+                        PDGH-7492-KWAM-2024
+                      </code>
+<button class="h-10 px-3 rounded-lg border border-outline-variant hover:bg-surface-container flex items-center gap-1 font-label-md text-label-md text-on-surface transition-colors" onclick="copySecretKey()" title="Copy key">
+<span class="material-symbols-outlined text-[16px]" data-icon="content_copy">content_copy</span>
+<span id="copy-txt">Copy</span>
+</button>
+</div>
+</div>
+<!-- 6-digit confirmation to activate -->
+<div class="pt-1">
+<label class="block font-label-md text-label-md text-on-surface mb-1">Enter Verification Code to Link</label>
+<div class="flex gap-2">
+<input class="h-11 w-36 text-center tracking-widest font-mono text-base font-bold rounded-lg border border-outline focus:border-primary-container focus:ring-4 focus:ring-primary-container/15 outline-none" maxlength="6" placeholder="000 000" type="text"/>
+<button class="h-11 px-4 rounded-lg bg-surface-container-high text-primary hover:bg-surface-variant font-label-md text-label-md font-semibold border border-outline-variant/60 flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="link">link</span>
+<span>Verify &amp; Bind</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Emergency Recovery Codes Section -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-sm space-y-4">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="lock_open">lock_open</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Emergency Recovery Codes</h3>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded-lg border border-outline-variant text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm flex items-center gap-1 transition-colors" onclick="downloadCodes()">
+<span class="material-symbols-outlined text-[14px]" data-icon="download">download</span>
+<span>Download TXT</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg border border-outline-variant text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm flex items-center gap-1 transition-colors" onclick="copyAllCodes()">
+<span class="material-symbols-outlined text-[14px]" data-icon="file_copy">file_copy</span>
+<span>Copy all</span>
+</button>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                If you lose your mobile device or authenticator app, these one-time codes are the only way to regain access to your Padel Ghana operator console.
+              </p>
+<!-- 8 One-Time Backup Codes Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-surface-container-low p-4 rounded-xl border border-outline-variant/50">
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  GH89-2911
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  KL44-8802
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  MN77-1049
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  PQ23-9941
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  TK55-3210
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  WA91-4478
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  CR60-1288
+                </div>
+<div class="p-2 rounded bg-surface-container-lowest text-center font-mono text-xs font-semibold text-on-surface border border-outline-variant/40">
+                  ZA19-0034
+                </div>
+</div>
+<!-- Mandatory Confirmation Checkbox -->
+<div class="pt-1">
+<label class="flex items-start gap-3 cursor-pointer">
+<input checked="" class="mt-0.5 w-[18px] h-[18px] rounded border-outline text-primary-container focus:ring-2 focus:ring-primary/20 accent-primary cursor-pointer" id="store-confirm" type="checkbox"/>
+<span class="font-label-md text-label-md text-on-surface select-none">
+                    I have safely stored my backup recovery codes in an encrypted manager or secured physical vault.
+                  </span>
+</label>
+</div>
+<!-- Complete Onboarding CTA Trigger -->
+<div class="pt-3">
+<button class="w-full h-11 rounded-lg bg-primary-container hover:bg-primary text-white font-label-lg text-label-lg shadow-sm flex items-center justify-center gap-2 transition-colors duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="how_to_reg">how_to_reg</span>
+<span>Activate Staff Account &amp; Open Back-Office</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Ambient Regulatory Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/60 px-6 py-4 mt-8">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-3">
+<span class="font-semibold text-on-surface">Padel Ghana Operations Ltd</span>
+<span>•</span>
+<span>Registered in Ghana (CS1482024)</span>
+<span>•</span>
+<span>Accra Sports Stadium District</span>
+</div>
+<div class="flex items-center gap-4">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Club Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Federation Audit Registry</a>
+</div>
+</div>
+</footer>
+<!-- Light interactive script for View Toggling and Micro-Interactions -->
+<script>
+    function switchView(viewName) {
+      const viewSignIn = document.getElementById('view-signin');
+      const viewInvite = document.getElementById('view-invite');
+      const btnSignIn = document.getElementById('tab-btn-signin');
+      const btnInvite = document.getElementById('tab-btn-invite');
+
+      if (viewName === 'signin') {
+        viewSignIn.classList.remove('hidden');
+        viewInvite.classList.add('hidden');
+        
+        btnSignIn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-primary font-label-md text-label-md bg-surface-container-lowest shadow-sm transition-all duration-150";
+        btnInvite.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all duration-150";
+      } else {
+        viewSignIn.classList.add('hidden');
+        viewInvite.classList.remove('hidden');
+
+        btnInvite.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-primary font-label-md text-label-md bg-surface-container-lowest shadow-sm transition-all duration-150";
+        btnSignIn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all duration-150";
+      }
+    }
+
+    function hideModal2FA() {
+      const modal = document.getElementById('modal-2fa');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function showModal2FA() {
+      const modal = document.getElementById('modal-2fa');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function copySecretKey() {
+      navigator.clipboard.writeText('PDGH-7492-KWAM-2024');
+      const label = document.getElementById('copy-txt');
+      label.innerText = 'Copied!';
+      setTimeout(() => { label.innerText = 'Copy'; }, 2000);
+    }
+
+    function copyAllCodes() {
+      const codes = "GH89-2911\nKL44-8802\nMN77-1049\nPQ23-9941\nTK55-3210\nWA91-4478\nCR60-1288\nZA19-0034";
+      navigator.clipboard.writeText(codes);
+      alert("All 8 emergency backup codes copied to clipboard.");
+    }
+
+    function downloadCodes() {
+      const codes = "Padel Ghana - Emergency Recovery Codes\nClub: Demo Padel Club (Accra Central)\nGenerated: 2024\n\nGH89-2911\nKL44-8802\nMN77-1049\nPQ23-9941\nTK55-3210\nWA91-4478\nCR60-1288\nZA19-0034";
+      const blob = new Blob([codes], { type: 'text/plain' });
+      const anchor = document.createElement('a');
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = 'padelghana-recovery-codes.txt';
+      anchor.click();
+    }
+
+    function updateMeter(val) {
+      const label = document.getElementById('strength-label');
+      if (val.length >= 10) {
+        label.innerText = "Strong (4/4 requirements met)";
+        label.className = "font-label-sm text-label-sm text-emerald-700 font-bold";
+      } else if (val.length >= 6) {
+        label.innerText = "Fair (2/4 requirements met)";
+        label.className = "font-label-sm text-label-sm text-amber-700 font-bold";
+      } else {
+        label.innerText = "Weak (Unacceptable)";
+        label.className = "font-label-sm text-label-sm text-error font-bold";
+      }
+    }
+  </script>
+</body></html>

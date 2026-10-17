@@ -2,8 +2,9 @@
 
 import uuid
 from datetime import UTC, datetime
+from typing import Any
 
-from sqlalchemy import DateTime, Integer, String
+from sqlalchemy import JSON, Boolean, DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import Base
@@ -20,12 +21,24 @@ class AuditLog(Base):
         String(36), primary_key=True, default=lambda: str(uuid.uuid4())
     )
     actor_id: Mapped[str] = mapped_column(String(36), index=True, nullable=False)
+    actor_kind: Mapped[str] = mapped_column(
+        String(32), default="USER", nullable=False
+    )  # USER, SUPER_ADMIN, SYSTEM
+    actor_role: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    venue_id: Mapped[str | None] = mapped_column(String(36), index=True, nullable=True)
     action: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
     target_type: Mapped[str] = mapped_column(String(32), index=True, nullable=False)
     target_id: Mapped[str] = mapped_column(String(36), index=True, nullable=False)
     amount_pesewas: Mapped[int | None] = mapped_column(Integer, nullable=True)
     reference: Mapped[str | None] = mapped_column(String(120), nullable=True)
     details: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    old_value: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    new_value: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    is_revertible: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    reverted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    reverts_audit_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=utc_now, nullable=False
     )

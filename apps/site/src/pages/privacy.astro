@@ -1,0 +1,712 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+  title="Privacy Policy & Data Protection — Padel Ghana"
+  description="Privacy Policy and Ghana Data Protection Act 2012 (Act 843) compliance for Padel Ghana players, club managers, and mobile money transactions."
+>
+  <!-- Hero Section (Solid primary blue per Rule 4: legal pages sit on solid surfaces) -->
+  <section class="page-hero-solid" id="privacy-hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-row">
+          <span class="badge-pill badge-hero-pill">LEGAL &amp; POLICIES</span>
+          {!siteConfig.flags.LEGAL_REVIEWED && (
+            <span class="badge-pill badge-draft-pill">
+              <span class="draft-dot"></span>
+              Draft &bull; Pending legal counsel review (Act 843 &amp; Act 772)
+            </span>
+          )}
+        </div>
+        <h1 class="hero-title">Privacy &amp; Data Protection.</h1>
+        <p class="hero-subtitle">
+          How we collect, protect, and process your personal details and match records in strict accordance with the Data Protection Act, 2012 (Act 843) of Ghana.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section (Solid surface) -->
+  <section class="section-padded surface-base" id="privacy-content">
+    <div class="container">
+      <div class="legal-layout">
+        <!-- Sticky Sidebar Navigation -->
+        <aside class="legal-sidebar" aria-label="Legal Document Index">
+          <div class="card-solid sidebar-card">
+            <div class="sidebar-header">
+              <span class="sidebar-category">Document Index</span>
+              <span class="sidebar-active-tag">Active</span>
+            </div>
+            <nav class="sidebar-nav">
+              <a href="/terms" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">01</span>
+                  <span>Terms of Service</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/privacy" class="sidebar-link active">
+                <span class="link-label">
+                  <span class="link-num">02</span>
+                  <span>Privacy &amp; Data (DPC)</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/refund-policy" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">03</span>
+                  <span>Refund &amp; Cancellations</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="/contact" class="sidebar-link">
+                <span class="link-label">
+                  <span class="link-num">04</span>
+                  <span>Legal Enquiries</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </nav>
+
+            <div class="sidebar-notice">
+              <div class="notice-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div class="notice-text">
+                <p class="notice-title">DPC Compliance</p>
+                <p class="notice-desc">
+                  Official registration with the Data Protection Commission of Ghana.
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Document Article Body -->
+        <article class="card-solid legal-article">
+          {!siteConfig.flags.LEGAL_REVIEWED && (
+            <div class="draft-callout">
+              <div class="draft-callout-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+              <div class="draft-callout-text">
+                <strong>Notice:</strong> Draft for Ghanaian legal counsel review (Data Protection Act 843, Electronic Transactions Act 772). Final terms will be published prior to pilot launch.
+              </div>
+            </div>
+          )}
+
+          <div class="doc-meta">
+            <span>Last revised: February 2026</span>
+            <span>Statute: Data Protection Act, 2012 (Act 843)</span>
+          </div>
+
+          <!-- Section 1 -->
+          <section class="doc-section" id="data-controller">
+            <div class="section-tag">SECTION 01</div>
+            <h2 class="doc-heading">1. Data Controller Information</h2>
+            <p class="doc-text">
+              <strong>{siteConfig.name}</strong>, operated by {siteConfig.legalName}, acts as the registered Data Controller under the mandates of the <strong>Data Protection Act, 2012 (Act 843)</strong> of the Parliament of Ghana.
+            </p>
+            <p class="doc-text">
+              We are officially registered with the Data Protection Commission (DPC) Ghana under registration identifier: <span class="tnum font-mono">{siteConfig.dpcNumber}</span>. For all privacy, data protection, and subject access requests, our designated Data Protection Officer may be contacted at <a href={`mailto:${siteConfig.email}`} class="doc-inline-link">{siteConfig.email}</a>.
+            </p>
+          </section>
+
+          <!-- Section 2 -->
+          <section class="doc-section" id="lawful-basis">
+            <div class="section-tag">SECTION 02</div>
+            <h2 class="doc-heading">2. Lawful Basis for Processing</h2>
+            <p class="doc-text">
+              In accordance with Section 18 of Act 843, Padel Ghana collects and processes personal information strictly pursuant to legitimate legal bases:
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>Contractual Necessity:</strong> Processing required to register you for Americano and Mexicano events, balance round rotations, verify check-ins at Accra host venues, and process GHS entry fees.
+              </li>
+              <li>
+                <strong>Explicit User Consent:</strong> Freely given consent provided during mobile phone OTP authentication and player profile creation.
+              </li>
+              <li>
+                <strong>Statutory Compliance:</strong> Archiving payment audit logs and transaction references as required by Ghanaian financial and tax reporting standards.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 3 -->
+          <section class="doc-section" id="data-collected">
+            <div class="section-tag">SECTION 03</div>
+            <h2 class="doc-heading">3. Categories of Personal Data Collected</h2>
+            <div class="data-grid">
+              <div class="data-card">
+                <h3 class="data-card-title">Identity &amp; Profile Data</h3>
+                <p class="data-card-desc">
+                  Full name, Ghanaian mobile telephone number (MTN, Telecel, AT), WhatsApp contact handle, and self-declared or calibrated skill tier (1.0 to 7.0).
+                </p>
+              </div>
+
+              <div class="data-card">
+                <h3 class="data-card-title">Payment &amp; Transaction Metadata</h3>
+                <p class="data-card-desc">
+                  Mobile Money transaction references, Paystack payment IDs, fee amounts in GHS pesewas, and timestamps. <strong>Card CVVs and MoMo PINs are never collected or stored.</strong>
+                </p>
+              </div>
+
+              <div class="data-card">
+                <h3 class="data-card-title">Gameplay &amp; Rating Records</h3>
+                <p class="data-card-desc">
+                  Round match scores, partner pairings, and RatingEvent ledger rows. Ratings update only through append-only event records, preserving historical match integrity.
+                </p>
+              </div>
+
+              <div class="data-card">
+                <h3 class="data-card-title">Technical &amp; Log Data</h3>
+                <p class="data-card-desc">
+                  Client IP address, browser user-agent, mobile device metadata, and offline score sync tokens (<span class="font-mono">result_id</span>) used to ensure idempotent submissions.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 4 -->
+          <section class="doc-section" id="clubhouse-displays">
+            <div class="section-tag">SECTION 04</div>
+            <h2 class="doc-heading">4. Courtside Digital Displays &amp; Public Leaderboards</h2>
+            <p class="doc-text">
+              Because Americano and Mexicano formats rely on active participant coordination, the following information is displayed during live club sessions:
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>Clubhouse TV Displays:</strong> Your display name, court assignment, and current round point tally are projected on venue screens so players know which court to report to.
+              </li>
+              <li>
+                <strong>Digital Leaderboard:</strong> Live standings are accessible to all event participants via the mobile app during the session.
+              </li>
+              <li>
+                <strong>Privacy Choice:</strong> If you prefer not to display your full name on clubhouse monitors, you may configure a preferred display nickname or initials in your player profile settings.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 5 -->
+          <section class="doc-section" id="media-policy">
+            <div class="section-tag">SECTION 05</div>
+            <h2 class="doc-heading">5. Photography, Social Media &amp; Guaranteed Takedown Policy</h2>
+            <p class="doc-text">
+              From time to time, accredited Padel Ghana photographers or host club organizers capture photos and highlight clips during community tournaments in Cantonments, Airport, or Labone for social media and community promotion.
+            </p>
+            <div class="doc-highlight-card">
+              <h3 class="highlight-title">Guaranteed 48-Hour Media Takedown</h3>
+              <p class="highlight-desc">
+                We respect your personal privacy. If a photo or video featuring you is published on Padel Ghana channels and you wish it removed:
+              </p>
+              <ul class="doc-list-compact">
+                <li>Send an email to <a href={`mailto:${siteConfig.email}`} class="doc-inline-link">{siteConfig.email}</a> with a link or screenshot of the image.</li>
+                <li>Our communications team will remove the media asset from all Padel Ghana channels within <strong>48 hours</strong> of receipt, no questions asked.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Section 6 -->
+          <section class="doc-section" id="data-sharing">
+            <div class="section-tag">SECTION 06</div>
+            <h2 class="doc-heading">6. Data Sharing &amp; Third-Party Processors</h2>
+            <p class="doc-text">
+              <strong>Padel Ghana does not sell, lease, or monetize your personal information to third-party marketing companies.</strong> We share data strictly with vetted operational processors under data processing agreements conforming to Act 843:
+            </p>
+            <ul class="doc-list">
+              <li>
+                <strong>SMS Gateway Provider:</strong> To deliver passwordless SMS one-time passcodes (OTP) to Ghanaian mobile numbers.
+              </li>
+              <li>
+                <strong>Paystack (Payment Gateway):</strong> PCIDSS Level 1 certified gateway to process Mobile Money (MTN, Telecel, AT) and card transactions in Ghana Cedis.
+              </li>
+              <li>
+                <strong>Host Club Organisers:</strong> Designated on-ground venue managers receive confirmed player rosters (names and skill tiers) solely for court check-in and check-off.
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 7 -->
+          <section class="doc-section" id="security-retention">
+            <div class="section-tag">SECTION 07</div>
+            <h2 class="doc-heading">7. Data Security, Offline Sync &amp; Retention</h2>
+            <p class="doc-text">
+              We employ strict industry-standard technical measures to secure participant data:
+            </p>
+            <ul class="doc-list">
+              <li>All web and API communications are encrypted in transit via Transport Layer Security (TLS 1.3).</li>
+              <li>Offline score entries use cryptographic client-generated UUIDs (<span class="font-mono">result_id</span>) to ensure replays never duplicate match scores or corrupt ratings.</li>
+              <li>Financial transaction logs are preserved for 6 years in accordance with Ghanaian statutory corporate and tax record-keeping requirements.</li>
+            </ul>
+          </section>
+
+          <!-- Section 8 -->
+          <section class="doc-section" id="statutory-rights">
+            <div class="section-tag">SECTION 08</div>
+            <h2 class="doc-heading">8. Your Statutory Rights Under Act 843</h2>
+            <p class="doc-text">
+              Under Sections 32 through 43 of the Ghana Data Protection Act, 2012 (Act 843), you enjoy explicit individual rights regarding your data:
+            </p>
+            <ul class="doc-list">
+              <li><strong>Right of Access:</strong> Request a full machine-readable copy of your profile, rating ledger, and transaction history.</li>
+              <li><strong>Right to Rectification:</strong> Request correction of inaccurate phone numbers, names, or profile entries.</li>
+              <li><strong>Right to Erasure:</strong> Request permanent deletion of non-statutory account records.</li>
+              <li><strong>Right to Object:</strong> Object at any time to non-essential communications or promotional announcements.</li>
+              <li><strong>Right to Lodge a Complaint:</strong> If you believe your data has been handled inconsistently with Act 843, you have the right to lodge a formal complaint with the Data Protection Commission (DPC) Ghana (<a href="https://www.dataprotection.org.gh" target="_blank" rel="noopener noreferrer" class="doc-inline-link">dataprotection.org.gh</a>).</li>
+            </ul>
+          </section>
+
+          <!-- Section 9 -->
+          <section class="doc-section" id="dpo-contact">
+            <div class="section-tag">SECTION 09</div>
+            <h2 class="doc-heading">9. Contact the Data Protection Officer</h2>
+            <div class="entity-card">
+              <div class="entity-grid">
+                <div>
+                  <span class="entity-label">Designated Officer:</span>
+                  <span class="entity-val">Data Protection &amp; Compliance Officer</span>
+                </div>
+                <div>
+                  <span class="entity-label">DPC Registration:</span>
+                  <span class="entity-val tnum">{siteConfig.dpcNumber}</span>
+                </div>
+                <div>
+                  <span class="entity-label">Email for Inquiries:</span>
+                  <a href={`mailto:${siteConfig.email}`} class="entity-link">{siteConfig.email}</a>
+                </div>
+                <div>
+                  <span class="entity-label">Postal / Physical:</span>
+                  <span class="entity-val">{siteConfig.address}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Styles (Solid primary blue) */
+  .page-hero-solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    padding: 4.5rem 0 3.5rem;
+    border-bottom: 1px solid var(--color-primary-hover);
+  }
+
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 800px;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .badge-hero-pill {
+    background-color: var(--btn-on-blue-glass-bg);
+    color: var(--color-border-light);
+    border: 1px solid var(--btn-on-blue-glass-border);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-draft-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-badge-gold-bg);
+    color: var(--color-badge-gold-text);
+    border: 1px solid var(--color-badge-gold-border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+  }
+
+  .draft-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-badge-gold-text);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text-white);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-border-light);
+  }
+
+  /* Legal Layout */
+  .legal-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .legal-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .sidebar-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-active-tag {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--touch-target-min);
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .sidebar-link:hover {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+  }
+
+  .sidebar-link.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .link-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .link-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .sidebar-notice {
+    display: flex;
+    gap: 0.875rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .notice-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .notice-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .notice-desc {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  /* Document Article */
+  .legal-article {
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .draft-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--color-badge-gold-bg);
+    border: 1px solid var(--color-badge-gold-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-badge-gold-text);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .draft-callout-icon {
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .doc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .doc-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
+
+  .doc-heading {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .doc-text {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-left: 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list strong {
+    color: var(--color-text);
+  }
+
+  .doc-inline-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .doc-inline-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* Data Cards Grid */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .data-card {
+    padding: 1.25rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .data-card-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .data-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .doc-highlight-card {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .highlight-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .highlight-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .doc-list-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* Entity Card */
+  .entity-card {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .entity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .entity-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .entity-val {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .entity-link {
+    display: inline-block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .entity-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .legal-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-sidebar {
+      position: static;
+    }
+
+    .legal-article {
+      padding: 1.75rem;
+    }
+
+    .data-grid,
+    .entity-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+      font-size: 2.25rem;
+    }
+  }
+</style>

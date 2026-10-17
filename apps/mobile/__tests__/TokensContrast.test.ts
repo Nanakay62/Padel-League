@@ -37,13 +37,17 @@ describe('Design Tokens Contrast & WCAG 2.1 Compliance', () => {
   });
 
   it('verifies forbidden combinations fail WCAG AA (confirming why they are banned)', () => {
-    // White on primary electric green (#00C853) fails badly
-    const whiteOnGreen = computeContrastRatio('#FFFFFF', Tokens.colors.primary);
+    // White on electric green (#00C853) fails badly (explaining why buttons are brand blue, not green)
+    const whiteOnGreen = computeContrastRatio('#FFFFFF', '#00C853');
     expect(whiteOnGreen).toBeLessThan(4.5);
 
     // White on gold (#F4C430) fails badly
     const whiteOnGold = computeContrastRatio('#FFFFFF', Tokens.colors.gold);
     expect(whiteOnGold).toBeLessThan(4.5);
+
+    // White text on primary brand blue (#1D4ED8) passes WCAG AA (>= 4.5:1)
+    const whiteOnBlue = computeContrastRatio(Tokens.colors.textOnPrimary, Tokens.colors.primary);
+    expect(whiteOnBlue).toBeGreaterThanOrEqual(4.5);
   });
 
   it('generates docs/design-tokens.md with calculated contrast ratios table', () => {
@@ -57,8 +61,8 @@ describe('Design Tokens Contrast & WCAG 2.1 Compliance', () => {
       {
         name: 'White on Electric Green',
         fg: '#FFFFFF',
-        bg: Tokens.colors.primary,
-        reason: '❌ FORBIDDEN. Green fill must always take charcoal `#14181A` text.',
+        bg: '#00C853',
+        reason: '❌ FORBIDDEN. Green fill fails contrast with white; buttons use brand blue `#1D4ED8`.',
       },
       {
         name: 'White on Gold',
@@ -68,7 +72,7 @@ describe('Design Tokens Contrast & WCAG 2.1 Compliance', () => {
       },
       {
         name: 'Electric Green on White Card',
-        fg: Tokens.colors.primary,
+        fg: '#00C853',
         bg: Tokens.colors.card,
         reason: '❌ FORBIDDEN. For green text on white, use accessible `#007A33`.',
       },
