@@ -29,6 +29,12 @@ async def override_get_db() -> AsyncGenerator[AsyncSession, None]:
 
 app.dependency_overrides[get_db] = override_get_db
 
+if hasattr(app.state, "admin") and app.state.admin:
+    app.state.admin.engine = test_engine
+    app.state.admin.session_maker = db_session_maker
+    for view in app.state.admin._views:
+        view.session_maker = db_session_maker
+
 
 @pytest.fixture(autouse=True)
 async def prepare_database() -> AsyncGenerator[None, None]:

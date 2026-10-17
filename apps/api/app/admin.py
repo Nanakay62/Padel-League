@@ -347,4 +347,5 @@ def setup_admin(app: FastAPI, engine: AsyncEngine) -> Admin:
     admin.add_view(LeagueAdmin)
     admin.add_view(LeagueBoxAdmin)
     admin.add_view(LeaguePairAdmin)
+    app.state.admin = admin
     return admin
