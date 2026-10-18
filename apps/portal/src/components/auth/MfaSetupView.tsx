@@ -15,7 +15,8 @@ export const MfaSetupView: React.FC = () => {
 
   const isLocalDev =
     window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname.endsWith(".vercel.app");
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 

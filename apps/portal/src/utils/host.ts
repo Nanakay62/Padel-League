@@ -11,9 +11,13 @@ export function getHostType(): HostType {
     return portalParam;
   }
 
-  // Local storage override for dev
+  // Local storage override for dev and preview
   const savedDevPortal = localStorage.getItem("padel_dev_portal");
-  if (hostname === "localhost" || hostname === "127.0.0.1") {
+  if (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname.endsWith(".vercel.app")
+  ) {
     if (savedDevPortal === "ADMIN" || savedDevPortal === "CLUB") {
       return savedDevPortal as HostType;
     }

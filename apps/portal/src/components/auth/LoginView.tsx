@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { setDevHostType } from "../../utils/host";
 
 export const LoginView: React.FC = () => {
   const { hostType, login } = useAuth();
@@ -182,6 +183,85 @@ export const LoginView: React.FC = () => {
             {isSubmitting ? "Signing in..." : "Continue with 2FA"}
           </button>
         </form>
+
+        {/* Demo Credentials Helper */}
+        <div
+          style={{
+            marginTop: "var(--spacing-6)",
+            padding: "var(--spacing-4)",
+            backgroundColor: "var(--surface-container-low)",
+            border: "1px dashed var(--outline-variant)",
+            borderRadius: "var(--radius-md)",
+            fontSize: "12px",
+          }}
+        >
+          <div
+            style={{
+              fontWeight: 700,
+              color: "var(--on-surface)",
+              marginBottom: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <span>Testing Credentials:</span>
+            <span style={{ fontSize: "11px", color: "var(--primary)" }}>MFA Code: 123456</span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <button
+              type="button"
+              onClick={() => {
+                if (isAdmin) setDevHostType("CLUB");
+                setEmail("owner@accrapadel.com");
+                setPassword("PadelGhana2026!");
+              }}
+              style={{
+                textAlign: "left",
+                padding: "6px 10px",
+                borderRadius: "var(--radius-sm)",
+                backgroundColor: !isAdmin ? "var(--surface-container-high)" : "var(--surface)",
+                color: "var(--on-surface)",
+                border: "1px solid var(--outline-variant)",
+                fontSize: "11px",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>🎾 <strong>Club Owner:</strong> owner@accrapadel.com</span>
+              <span style={{ color: "var(--primary)", fontWeight: 600 }}>Fill ↵</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (!isAdmin) setDevHostType("ADMIN");
+                setEmail("admin@padelghana.com");
+                setPassword("PadelGhana2026!");
+              }}
+              style={{
+                textAlign: "left",
+                padding: "6px 10px",
+                borderRadius: "var(--radius-sm)",
+                backgroundColor: isAdmin ? "var(--surface-container-high)" : "var(--surface)",
+                color: "var(--on-surface)",
+                border: "1px solid var(--outline-variant)",
+                fontSize: "11px",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>🛡️ <strong>Super Admin:</strong> admin@padelghana.com</span>
+              <span style={{ color: "var(--primary)", fontWeight: 600 }}>Fill ↵</span>
+            </button>
+          </div>
+          <div style={{ marginTop: "8px", fontSize: "11px", color: "var(--on-surface-variant)" }}>
+            Default Password: <code style={{ fontWeight: 600, color: "var(--on-surface)" }}>PadelGhana2026!</code>
+          </div>
+        </div>
       </div>
     </div>
   );

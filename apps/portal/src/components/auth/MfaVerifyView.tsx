@@ -10,7 +10,8 @@ export const MfaVerifyView: React.FC = () => {
 
   const isLocalDev =
     window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname.endsWith(".vercel.app");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

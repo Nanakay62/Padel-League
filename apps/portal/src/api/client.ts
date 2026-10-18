@@ -33,6 +33,7 @@ export interface MfaSetupData {
 }
 
 import { getHostType } from "../utils/host";
+import { handleDemoRequest } from "./demo";
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -40,6 +41,8 @@ export class ApiError extends Error {
     this.name = "ApiError";
   }
 }
+
+const API_BASE = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers || {});
@@ -54,26 +57,46 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     }
   }
 
-  const response = await fetch(path, {
-    ...options,
-    headers,
-    credentials: "include", // Ensures SameSite=Strict cookies are sent and received
-  });
+  const url = API_BASE ? `${API_BASE}${path}` : path;
 
-  if (!response.ok) {
-    let errorDetail = `Request failed with status ${response.status}`;
-    try {
-      const errJson = await response.json();
-      if (errJson.detail) {
-        errorDetail = typeof errJson.detail === "string" ? errJson.detail : JSON.stringify(errJson.detail);
-      }
-    } catch {
-      // Non-json error
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+      credentials: "include", // Ensures SameSite=Strict cookies are sent and received
+    });
+
+    const contentType = response.headers.get("content-type") || "";
+
+    // If Vercel static router served index.html or 404 on API route, fallback to demo mode
+    if (!API_BASE && (contentType.includes("text/html") || response.status === 404)) {
+      return handleDemoRequest<T>(path, options);
     }
-    throw new ApiError(response.status, errorDetail);
-  }
 
-  return response.json() as Promise<T>;
+    if (!response.ok) {
+      let errorDetail = `Request failed with status ${response.status}`;
+      try {
+        const errJson = await response.json();
+        if (errJson.detail) {
+          errorDetail = typeof errJson.detail === "string" ? errJson.detail : JSON.stringify(errJson.detail);
+        }
+      } catch {
+        // Non-json error
+      }
+      throw new ApiError(response.status, errorDetail);
+    }
+
+    return response.json() as Promise<T>;
+  } catch (err: unknown) {
+    if (err instanceof ApiError) {
+      throw err;
+    }
+    // Network or server unreachable: fallback to demo mode if no explicit remote API base was specified
+    if (!API_BASE) {
+      return handleDemoRequest<T>(path, options);
+    }
+    throw err;
+  }
 }
 
 export const api = {
