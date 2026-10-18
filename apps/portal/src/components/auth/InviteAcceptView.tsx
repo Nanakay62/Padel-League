@@ -10,6 +10,7 @@ export const InviteAcceptView: React.FC<InviteAcceptViewProps> = ({ token, onSuc
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -119,20 +120,42 @@ export const InviteAcceptView: React.FC<InviteAcceptViewProps> = ({ token, onSuc
           </div>
 
           <div style={{ marginBottom: "var(--spacing-4)" }}>
-            <label
-              htmlFor="invite-password-input"
+            <div
               style={{
-                display: "block",
-                fontSize: "13px",
-                fontWeight: 600,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
                 marginBottom: "var(--spacing-1)",
               }}
             >
-              Create Password (min. 12 characters)
-            </label>
+              <label
+                htmlFor="invite-password-input"
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 600,
+                }}
+              >
+                Create Password (min. 12 characters)
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: "0 2px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "var(--primary)",
+                  cursor: "pointer",
+                }}
+              >
+                {showPassword ? "🙈 Hide" : "👁️ Show"}
+              </button>
+            </div>
             <input
               id="invite-password-input"
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               minLength={12}
               value={password}
@@ -144,6 +167,7 @@ export const InviteAcceptView: React.FC<InviteAcceptViewProps> = ({ token, onSuc
                 border: "1px solid var(--outline-variant)",
                 borderRadius: "var(--radius-md)",
                 backgroundColor: "var(--surface)",
+                letterSpacing: showPassword ? "normal" : "0.15em",
               }}
             />
           </div>
@@ -162,7 +186,7 @@ export const InviteAcceptView: React.FC<InviteAcceptViewProps> = ({ token, onSuc
             </label>
             <input
               id="invite-confirm-password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               minLength={12}
               value={confirmPassword}
@@ -174,6 +198,7 @@ export const InviteAcceptView: React.FC<InviteAcceptViewProps> = ({ token, onSuc
                 border: "1px solid var(--outline-variant)",
                 borderRadius: "var(--radius-md)",
                 backgroundColor: "var(--surface)",
+                letterSpacing: showPassword ? "normal" : "0.15em",
               }}
             />
           </div>

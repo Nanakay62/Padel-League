@@ -14,7 +14,7 @@ import {
 } from "./client";
 
 // Storage keys
-const DEMO_AUTH_KEY = "padel_demo_auth";
+export const DEMO_AUTH_KEY = "padel_demo_auth";
 const DEMO_VENUES_KEY = "padel_demo_venues";
 const DEMO_COURTS_KEY = "padel_demo_courts";
 const DEMO_PRICING_KEY = "padel_demo_pricing";
@@ -22,6 +22,14 @@ const DEMO_STAFF_KEY = "padel_demo_staff";
 const DEMO_AUDIT_KEY = "padel_demo_audit";
 const DEMO_PHOTOS_KEY = "padel_demo_photos";
 const DEMO_SETTINGS_KEY = "padel_demo_settings";
+
+export function isDemoSessionActive(): boolean {
+  try {
+    return Boolean(localStorage.getItem(DEMO_AUTH_KEY));
+  } catch {
+    return false;
+  }
+}
 
 interface DemoSession {
   user: UserProfile;
@@ -200,7 +208,7 @@ export async function handleDemoRequest<T>(path: string, options: RequestInit = 
   // 1. Auth: Login
   if (path === "/portal/auth/login" && method === "POST") {
     const email = (body.email || "").trim().toLowerCase();
-    const password = body.password || "";
+    const password = (body.password || "").trim();
 
     if (
       (email === "admin@padelghana.com" && password === "PadelGhana2026!") ||
