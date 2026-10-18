@@ -13,6 +13,13 @@ export async function saveAuthTokens(
 ): Promise<void> {
   if (Platform.OS === 'web') {
     memoryAccessToken = accessToken;
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem(ACCESS_KEY, accessToken);
+      }
+    } catch {
+      // ignore
+    }
     return;
   }
   await SecureStore.setItemAsync(ACCESS_KEY, accessToken);
@@ -26,6 +33,15 @@ export async function getAuthTokens(): Promise<{
   refreshToken: string | null;
 }> {
   if (Platform.OS === 'web') {
+    if (!memoryAccessToken) {
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          memoryAccessToken = sessionStorage.getItem(ACCESS_KEY);
+        }
+      } catch {
+        // ignore
+      }
+    }
     return {
       accessToken: memoryAccessToken,
       refreshToken: null, // Managed via HttpOnly cookie on web
@@ -39,6 +55,13 @@ export async function getAuthTokens(): Promise<{
 export async function clearAuthTokens(): Promise<void> {
   if (Platform.OS === 'web') {
     memoryAccessToken = null;
+    try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem(ACCESS_KEY);
+      }
+    } catch {
+      // ignore
+    }
     return;
   }
   await SecureStore.deleteItemAsync(ACCESS_KEY);

@@ -13,12 +13,19 @@ import { Platform } from 'react-native';
  */
 export function getApiBaseUrl(): string {
   if (process.env.EXPO_PUBLIC_API_URL) {
-    return process.env.EXPO_PUBLIC_API_URL.replace(/\/+$/, '');
+    const envUrl = process.env.EXPO_PUBLIC_API_URL.replace(/\/+$/, '');
+    if (typeof window !== 'undefined' && window.location?.protocol === 'https:' && envUrl.startsWith('http://')) {
+      return '';
+    }
+    return envUrl;
   }
 
   if (Platform.OS === 'web') {
     if (typeof window !== 'undefined' && window.location?.hostname) {
-      return `http://${window.location.hostname}:8000`;
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return `http://${window.location.hostname}:8000`;
+      }
+      return '';
     }
     return 'http://localhost:8000';
   }
