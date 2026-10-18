@@ -10,6 +10,7 @@ export interface SiteConfig {
   whatsappUrl: string;
   appUrl: string;
   siteUrl: string;
+  clubPortalUrl: string;
   flags: {
     MEXICANO_AVAILABLE: boolean;
     LEGAL_REVIEWED: boolean;
@@ -28,8 +29,14 @@ const envSiteUrl =
   (typeof process !== "undefined" && process.env && process.env.SITE_URL) ||
   "http://localhost:4321";
 
+const envClubPortalUrl =
+  (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.CLUB_PORTAL_URL) ||
+  (typeof process !== "undefined" && process.env && process.env.CLUB_PORTAL_URL) ||
+  "https://padel-ghana-club.vercel.app";
+
 const cleanAppUrl = envAppUrl.trim().replace(/\/+$/, "");
 const cleanSiteUrl = envSiteUrl.trim().replace(/\/+$/, "");
+const cleanClubPortalUrl = envClubPortalUrl.trim().replace(/\/+$/, "");
 
 export const siteConfig: SiteConfig = {
   name: "Padel Ghana",
@@ -43,6 +50,7 @@ export const siteConfig: SiteConfig = {
   whatsappUrl: "https://wa.me/233501234016?text=Hello%20Padel%20Ghana",
   appUrl: cleanAppUrl,
   siteUrl: cleanSiteUrl,
+  clubPortalUrl: cleanClubPortalUrl,
   flags: {
     MEXICANO_AVAILABLE: false, // Set to true when Mexicano checklist items are ticked
     LEGAL_REVIEWED: false,     // Set to true after Ghanaian lawyer review
