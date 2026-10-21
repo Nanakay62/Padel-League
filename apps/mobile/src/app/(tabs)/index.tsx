@@ -458,7 +458,7 @@ export default function HomeScreen() {
             <Text style={styles.sectionSubtitle}>{t('upcomingLeaguesSubtitle')}</Text>
           </View>
           <Pressable
-            onPress={() => router.push('/leagues')}
+            onPress={() => router.push('/(tabs)/leagues' as any)}
             accessibilityRole="button"
             accessibilityLabel="Circuit standings"
             testID="home-see-all-leagues-btn"
@@ -523,7 +523,7 @@ export default function HomeScreen() {
 
                   <Pressable
                     style={styles.outlineActionBtn}
-                    onPress={() => router.push('/leagues')}
+                    onPress={() => router.push('/(tabs)/leagues' as any)}
                     accessibilityRole="button"
                     accessibilityLabel={league.actionLabel}
                     testID={`home-league-${league.id}`}
@@ -580,7 +580,7 @@ export default function HomeScreen() {
 
           <Card
             style={styles.quickActionTile}
-            onPress={() => router.push('/leagues')}
+            onPress={() => router.push('/(tabs)/leagues' as any)}
             testID="home-box-leagues-btn"
           >
             <View style={styles.quickActionIconNeutral}>

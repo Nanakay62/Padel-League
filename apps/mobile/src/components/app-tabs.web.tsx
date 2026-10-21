@@ -597,7 +597,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-home-btn"
             aria-label={t('navHome')}
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/(tabs)' as any)}
             style={{
               flex: 1,
               display: 'flex',
@@ -633,7 +633,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-play-btn"
             aria-label={t('navPlay')}
-            onClick={() => router.push('/play')}
+            onClick={() => router.push('/(tabs)/play' as any)}
             style={{
               flex: 1,
               display: 'flex',
@@ -669,7 +669,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-leagues-btn"
             aria-label={t('navLeagues')}
-            onClick={() => router.push('/leagues')}
+            onClick={() => router.push('/(tabs)/leagues' as any)}
             style={{
               flex: 1,
               display: 'flex',
@@ -705,7 +705,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-community-btn"
             aria-label={t('navCommunity')}
-            onClick={() => router.push('/community')}
+            onClick={() => router.push('/(tabs)/community' as any)}
             style={{
               flex: 1,
               display: 'flex',
@@ -741,7 +741,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-profile-btn"
             aria-label={t('navProfile')}
-            onClick={() => router.push('/profile')}
+            onClick={() => router.push('/(tabs)/profile' as any)}
             style={{
               flex: 1,
               display: 'flex',

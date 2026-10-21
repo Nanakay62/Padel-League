@@ -33,9 +33,8 @@ export const Tokens = {
     // Brand Blue & Hero Gradient (aligned with Marketing Landing Page)
     brandBlue: '#1D4ED8',
     brandBlueDark: '#1E40AF',
-    brandBlueNavy: '#172554',
-    heroGradient: 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 55%, #172554 100%)',
-    heroOverlayGradient: 'linear-gradient(135deg, rgba(29, 78, 216, 0.72) 0%, rgba(30, 64, 175, 0.8) 55%, rgba(23, 37, 84, 0.92) 100%)',
+    heroGradient: 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%)',
+    heroOverlayGradient: 'linear-gradient(135deg, rgba(29, 78, 216, 0.82) 0%, rgba(30, 64, 175, 0.88) 100%)',
     bannerBlueDark: '#1E40AF',
     bannerBlueBorder: 'rgba(255, 255, 255, 0.15)',
     bannerBlueText: '#FFFFFF',

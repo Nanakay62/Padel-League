@@ -157,7 +157,7 @@ export default function ProfileTabScreen() {
 
               <TouchableOpacity
                 style={[styles.metricItem, styles.metricBorder]}
-                onPress={() => router.push('/leagues')}
+                onPress={() => router.push('/(tabs)/leagues' as any)}
               >
                 <Text style={styles.metricLabel}>Accra Circuit</Text>
                 <Text style={styles.metricValue}>Active</Text>
@@ -182,7 +182,7 @@ export default function ProfileTabScreen() {
 
           <TouchableOpacity
             style={[styles.menuRow, styles.menuRowBorder]}
-            onPress={() => router.push('/leagues')}
+            onPress={() => router.push('/(tabs)/leagues' as any)}
           >
             <View style={styles.menuRowLeft}>
               <Trophy size={18} color={Tokens.colors.text} />
