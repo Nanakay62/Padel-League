@@ -6,11 +6,11 @@ import {
   View,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Wifi, Database, Download, Trash2, RefreshCw } from 'lucide-react-native';
+import { Wifi, Database, Download, Trash2, RefreshCw, Shield, Zap } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
 import { FeedbackDialog, useFeedbackDialog } from '@/components/ui/FeedbackDialog';
-import { Screen, PageHeader, Card, Button, StatusPill } from '@/components/ui';
+import { Screen, Card, Button, StatusPill, CircuitBanner } from '@/components/ui';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -69,10 +69,21 @@ export default function SettingsScreen() {
 
   return (
     <Screen>
-      <PageHeader
+      <CircuitBanner
+        badge="ACCOUNT & PERFORMANCE"
         title="Settings & Performance"
-        subtitle="Optimized for Ghanaian connectivity and outdoor court play"
-        showBack
+        description="Settings & Privacy • Connectivity modes, courtside offline synchronization, and Data Protection compliance."
+        testID="settings-banner-card"
+        stats={[
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: 'Data Protection Act 843 compliant',
+          },
+          {
+            icon: <Zap size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: 'Offline courtside cache active',
+          },
+        ]}
       />
 
       <View style={[styles.container, (isDesktop || isTablet) && styles.containerWide]}>

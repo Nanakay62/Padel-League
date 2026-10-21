@@ -19,11 +19,12 @@ import {
   Button,
   Chip,
   StatusPill,
+  CircuitBanner,
 } from '@/components/ui';
 
 export default function FindEventsScreen() {
   const router = useRouter();
-  const { isDesktop, margin, gutter, maxContentWidth } = useResponsiveLayout();
+  const { margin, gutter, maxContentWidth } = useResponsiveLayout();
   const { data: events } = useEvents();
   const [selectedFormat, setSelectedFormat] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
@@ -71,30 +72,22 @@ export default function FindEventsScreen() {
         </View>
 
         {/* Blue Hero Banner Card */}
-        <Card style={styles.circuitBannerCard}>
-          <Text style={[styles.bannerTitle, isDesktop && styles.bannerTitleDesktop]}>
-            Find Events
-          </Text>
-          <Text style={styles.bannerDescription}>
-            Discover and join Americano, Mexicano, and social match sessions across Accra. Filter by player rating band and secured court slots.
-          </Text>
-
-          <View style={styles.bannerStatsRow}>
-            <View style={styles.bannerStatItem}>
-              <Zap size={14} color={Tokens.colors.gold} strokeWidth={1.75} />
-              <Text style={styles.bannerStatText}>
-                {events.length} active sessions
-              </Text>
-            </View>
-            <Text style={styles.bannerStatDot}>•</Text>
-            <View style={styles.bannerStatItem}>
-              <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />
-              <Text style={styles.bannerStatText}>
-                Official GPR synced
-              </Text>
-            </View>
-          </View>
-        </Card>
+        <CircuitBanner
+          badge="ACCRA AMERICANO & SOCIAL EVENTS"
+          title="Find Events"
+          description="Discover and join Americano, Mexicano, and social match sessions across Accra. Filter by player rating band and secured court slots."
+          testID="events-banner-card"
+          stats={[
+            {
+              icon: <Zap size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+              label: `${events.length} active sessions`,
+            },
+            {
+              icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+              label: 'Official GPR synced',
+            },
+          ]}
+        />
 
         {/* Filter Chips & Counter Section */}
         <View style={styles.filterSection}>

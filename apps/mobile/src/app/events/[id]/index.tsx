@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,10 @@ import { MapPin, Clock, Radio, Shield, UserPlus } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { formatGhanaCedis, formatAccraDateTime } from '@/lib/formatting';
 import { useEvents } from '@/hooks/useData';
+import { useAuth } from '@/context/AuthContext';
+import { apiFetch } from '@/lib/api-client';
+import { CheckoutModal } from '@/features/billing/CheckoutModal';
+import { OrganizerMarkPaidModal } from '@/features/billing/OrganizerMarkPaidModal';
 import {
   Screen,
   PageHeader,
@@ -20,9 +24,29 @@ import {
 export default function EventDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const { isDesktop, margin, gutter, maxContentWidth } = useResponsiveLayout();
   const [isJoined, setIsJoined] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [userCreditsPesewas, setUserCreditsPesewas] = useState(0);
+  const [isOrganizerModalOpen, setIsOrganizerModalOpen] = useState(false);
+  const [selectedAttendee, setSelectedAttendee] = useState<{
+    id: string;
+    name: string;
+    amountFormatted: string;
+  } | null>(null);
+
   const { data: events } = useEvents();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      apiFetch('/me/credits')
+        .then((r) => r.ok && r.json())
+        .then((d) => d && setUserCreditsPesewas(d.balance_pesewas ?? 0))
+        .catch(() => {});
+    }
+  }, [isAuthenticated]);
+
 
   const foundEvent = events.find((e) => e.id === id);
 
@@ -57,7 +81,72 @@ export default function EventDetailScreen() {
   const isFull = event.confirmed_players.length >= event.max_players;
   const openSlotsCount = Math.max(0, event.max_players - event.confirmed_players.length);
 
+  const handleOpenJoin = () => {
+    if (!isAuthenticated) {
+      router.push('/login' as any);
+      return;
+    }
+    setIsCheckoutOpen(true);
+  };
+
+  const handleInitiatePayment = async (
+    method: 'PAYSTACK' | 'MANUAL_MOMO' | 'CASH',
+    useCredits: boolean
+  ) => {
+    const res = await apiFetch(`/events/${event.id}/join`, {
+      method: 'POST',
+      body: JSON.stringify({ method, use_credits: useCredits }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || 'Failed to join event');
+    }
+
+    const regData = await res.json();
+
+    const isFullyPaid =
+      regData.status === 'CONFIRMED' || regData.order?.status === 'PAID';
+    if (isFullyPaid) {
+      setIsJoined(true);
+    }
+
+    return {
+      orderId: regData.order?.id || '',
+      reference: regData.order?.reference || '',
+      authorizationUrl: regData.order?.paystack_authorization_url,
+      isFullyPaid,
+    };
+  };
+
+  const handleCheckOrderStatus = async (orderId: string) => {
+    const res = await apiFetch(`/orders/${orderId}`);
+    if (!res.ok) throw new Error('Failed to check order status');
+    const data = await res.json();
+    if (data.status === 'PAID') {
+      setIsJoined(true);
+    }
+    return { status: data.status };
+  };
+
+  const handleSimulatePaymentApproval = async (_orderId: string) => {
+    setIsJoined(true);
+  };
+
+  const handleConfirmPaid = async (reference: string, note?: string) => {
+    if (!selectedAttendee) return;
+    const res = await apiFetch(`/registrations/${selectedAttendee.id}/mark-paid`, {
+      method: 'POST',
+      body: JSON.stringify({ reference, note }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || 'Failed to confirm payment');
+    }
+  };
+
   return (
+
     <Screen>
       <PageHeader
         title={event.title}
@@ -253,14 +342,41 @@ export default function EventDetailScreen() {
               }
               variant={isJoined ? 'secondary' : 'primary'}
               size="md"
-              onPress={() => setIsJoined(!isJoined)}
+              onPress={handleOpenJoin}
             />
           </View>
         </Card>
       </View>
+
+      <CheckoutModal
+        visible={isCheckoutOpen}
+        eventTitle={event.title}
+        courtFeePesewas={event.court_share_pesewas}
+        platformFeePesewas={event.platform_fee_pesewas}
+        userCreditsPesewas={userCreditsPesewas}
+        onClose={() => setIsCheckoutOpen(false)}
+        onInitiatePayment={handleInitiatePayment}
+        onCheckOrderStatus={handleCheckOrderStatus}
+        onPaymentConfirmed={() => setIsJoined(true)}
+        onSimulateSuccess={handleSimulatePaymentApproval}
+      />
+
+      {selectedAttendee && (
+        <OrganizerMarkPaidModal
+          visible={isOrganizerModalOpen}
+          playerName={selectedAttendee.name}
+          amountFormatted={selectedAttendee.amountFormatted}
+          onClose={() => {
+            setIsOrganizerModalOpen(false);
+            setSelectedAttendee(null);
+          }}
+          onConfirmPaid={handleConfirmPaid}
+        />
+      )}
     </Screen>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

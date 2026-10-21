@@ -17,9 +17,10 @@ import {
   PlusCircle,
   Medal,
   ArrowRight,
+  Shield,
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
-import { Card, Chip, StatusPill, Button } from '@/components/ui';
+import { Card, Chip, StatusPill, Button, CircuitBanner } from '@/components/ui';
 
 export interface BoxStandingItem {
   rank: number;
@@ -197,34 +198,43 @@ export function LeagueStandingsScreen({
 
   return (
     <View style={styles.container}>
-      {/* Top Circuit Header Strip */}
-      <View style={styles.headerRow}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.leagueTitle}>{leagueTitle}</Text>
-          <Text style={styles.seasonSubtitle}>
-            {seasonName} • Challenge pairs within 3 rungs to climb the national leaderboard.
-          </Text>
-        </View>
-
-        <View style={styles.headerActions}>
-          {onViewRulebook && (
+      {/* Top Blue Banner Card */}
+      <CircuitBanner
+        badge="ACCRA CHAMPIONSHIP CIRCUIT"
+        title={leagueTitle}
+        description={`${seasonName} • Challenge pairs within 3 rungs to climb the national leaderboard.`}
+        testID="leagues-banner-card"
+        rightAction={
+          <View style={styles.headerActions}>
+            {onViewRulebook && (
+              <Button
+                title="League Rulebook"
+                variant="secondary"
+                size="sm"
+                icon={<BookOpen size={16} color={Tokens.colors.textMuted} />}
+                onPress={onViewRulebook}
+              />
+            )}
             <Button
-              title="League Rulebook"
-              variant="secondary"
+              title="Create Ladder Challenge"
+              variant="primary"
               size="sm"
-              icon={<BookOpen size={16} color={Tokens.colors.textMuted} />}
-              onPress={onViewRulebook}
+              icon={<PlusCircle size={16} color={Tokens.colors.textOnPrimary} />}
+              onPress={onCreateChallenge}
             />
-          )}
-          <Button
-            title="Create Ladder Challenge"
-            variant="primary"
-            size="sm"
-            icon={<PlusCircle size={16} color={Tokens.colors.textOnPrimary} />}
-            onPress={onCreateChallenge}
-          />
-        </View>
-      </View>
+          </View>
+        }
+        stats={[
+          {
+            icon: <Trophy size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: 'Accra Championship Circuit',
+          },
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: 'Official GPR synced',
+          },
+        ]}
+      />
 
       {/* Season Progress Strip */}
       <Card style={styles.progressCard}>

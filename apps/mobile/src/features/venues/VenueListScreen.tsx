@@ -20,9 +20,10 @@ import {
   Info,
   Phone,
   MessageCircle,
+  Shield,
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
-import { Card, Button } from '@/components/ui';
+import { Card, Button, CircuitBanner } from '@/components/ui';
 
 export interface VenueItem {
   id: string;
@@ -128,27 +129,23 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
 
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Top Section Header */}
-      <View style={styles.topHeader}>
-        <View style={styles.headerInfo}>
-          <Text style={styles.mainTitle}>Accra Padel Clubs & Court Booking</Text>
-          <Text style={styles.mainSubtitle}>
-            Book panoramic glass courts across Accra with real-time pricing and slot availability.
-          </Text>
-        </View>
-
-        {/* Quick Summary Stats Pill */}
-        <View style={styles.summaryStatsPill}>
-          <View style={styles.summaryStatItem}>
-            <Text style={styles.summaryStatLabel}>Available Today</Text>
-            <Text style={[styles.summaryStatVal, Typography.tabularNums]}>6 Courts</Text>
-          </View>
-          <View style={[styles.summaryStatItem, styles.summaryStatItemBorder]}>
-            <Text style={styles.summaryStatLabel}>Active Venues</Text>
-            <Text style={[styles.summaryStatVal, Typography.tabularNums]}>3 Premier</Text>
-          </View>
-        </View>
-      </View>
+      {/* Top Blue Banner Card */}
+      <CircuitBanner
+        badge="VENUES DIRECTORY"
+        title="Accra Padel Clubs & Court Booking"
+        description="Book panoramic glass courts across Accra with real-time pricing and slot availability."
+        testID="venues-banner-card"
+        stats={[
+          {
+            icon: <Zap size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: '6 Courts available today',
+          },
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: '3 Premier venues verified',
+          },
+        ]}
+      />
 
       {/* Filter Strip */}
       <Card style={styles.filterStrip}>

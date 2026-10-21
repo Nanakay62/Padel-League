@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Image,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -742,6 +743,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: Tokens.colors.heroOverlay,
+    ...Platform.select({
+      web: {
+        backgroundImage: Tokens.colors.heroOverlayGradient,
+      },
+    }),
   },
   heroContent: {
     position: 'relative',
@@ -756,31 +762,33 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   heroCircuitPill: {
-    backgroundColor: Tokens.colors.card,
+    backgroundColor: Tokens.colors.bannerBluePillBg,
+    borderWidth: 1,
+    borderColor: Tokens.colors.bannerBluePillBorder,
     paddingHorizontal: Tokens.spacing.xs,
     paddingVertical: 2,
     borderRadius: Tokens.radii.pill,
   },
   heroCircuitPillText: {
-    fontFamily: Typography.fontFamily.medium,
-    fontWeight: Tokens.fontWeight.medium,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
     fontSize: Tokens.fontSize.xs,
     lineHeight: Tokens.lineHeight.xs,
-    color: Tokens.colors.text,
+    color: Tokens.colors.bannerBlueText,
     letterSpacing: 0.5,
   },
   heroDot: {
     fontFamily: Typography.fontFamily.regular,
     fontWeight: Tokens.fontWeight.regular,
     fontSize: Tokens.fontSize.sm,
-    color: Tokens.colors.surfaceContainerHighest,
+    color: Tokens.colors.bannerBlueDot,
   },
   heroBadgeSubtext: {
     fontFamily: Typography.fontFamily.medium,
     fontWeight: Tokens.fontWeight.medium,
     fontSize: Tokens.fontSize.sm,
     lineHeight: Tokens.lineHeight.sm,
-    color: Tokens.colors.card,
+    color: Tokens.colors.bannerBlueTextMuted,
   },
   heroHeadline: {
     fontFamily: Typography.fontFamily.semibold,

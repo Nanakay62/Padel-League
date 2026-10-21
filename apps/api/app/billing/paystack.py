@@ -6,12 +6,25 @@ import httpx
 
 from app.config import settings
 
+_mock_transactions: dict[str, dict[str, Any]] = {}
+
 
 class PaystackGateway:
     BASE_URL = "https://api.paystack.co"
 
     def __init__(self, secret_key: str | None = None) -> None:
-        self.secret_key = secret_key or settings.paystack_secret_key
+        self.secret_key = (
+            secret_key if secret_key is not None else settings.paystack_secret_key
+        )
+
+    def _ensure_production_safety(self) -> None:
+        if settings.environment == "production" and (
+            not self.secret_key or self.secret_key.startswith("sk_test_mock")
+        ):
+            raise RuntimeError(
+                "Cannot use mock Paystack secret key in production environment. "
+                "Please configure a valid live paystack_secret_key."
+            )
 
     async def initialize_transaction(
         self,
@@ -26,7 +39,16 @@ class PaystackGateway:
         If secret key starts with 'sk_test_mock' or is not set in development,
         returns simulated checkout authorization URL for offline/test resilience.
         """
+        self._ensure_production_safety()
+
         if not self.secret_key or self.secret_key.startswith("sk_test_mock"):
+            _mock_transactions[reference] = {
+                "status": "success",
+                "amount": amount_pesewas,
+                "currency": "GHS",
+                "reference": reference,
+                "gateway_response": "Successful (Mock)",
+            }
             return {
                 "authorization_url": f"https://checkout.paystack.com/mock-{reference}",
                 "access_code": f"access_{reference}",
@@ -64,7 +86,12 @@ class PaystackGateway:
 
     async def verify_transaction(self, reference: str) -> dict[str, Any]:
         """Server-side verify transaction with Paystack."""
+        self._ensure_production_safety()
+
         if not self.secret_key or self.secret_key.startswith("sk_test_mock"):
+            mock_data = _mock_transactions.get(reference)
+            if mock_data:
+                return mock_data
             return {
                 "status": "success",
                 "amount": 6000,

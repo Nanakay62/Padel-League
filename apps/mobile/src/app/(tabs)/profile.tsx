@@ -6,12 +6,13 @@ import {
   Trophy,
   Activity,
   Award,
+  Shield,
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { t } from '@/lib/i18n';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
-import { Screen, PageHeader, Card, StatusPill, Button } from '@/components/ui';
+import { Screen, Card, StatusPill, Button, CircuitBanner } from '@/components/ui';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
 
 export default function ProfileTabScreen() {
@@ -70,9 +71,21 @@ export default function ProfileTabScreen() {
 
   return (
     <Screen>
-      <PageHeader
+      <CircuitBanner
+        badge="PLAYER CIRCUIT ID"
         title={t('placeholderProfileTitle')}
-        subtitle="Player Account & Circuit Profile"
+        description={`Player Account & Circuit Profile • ${playerPhone}`}
+        testID="profile-banner-card"
+        stats={[
+          {
+            icon: <Award size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: hasRating ? `GPR ${playerRating}` : 'Unrated / Placement',
+          },
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: isAuthenticated ? 'Verified Account' : 'Guest Mode',
+          },
+        ]}
       />
 
       <View style={[styles.container, (isDesktop || isTablet) && styles.containerWide]}>

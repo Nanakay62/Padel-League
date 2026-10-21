@@ -5,9 +5,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import { MapPin, Send } from 'lucide-react-native';
+import { MapPin, Send, Users, Shield } from 'lucide-react-native';
 import { Tokens, Typography } from '@/constants/theme';
-import { Card, Button, Chip, StatusPill } from '@/components/ui';
+import { Card, Button, Chip, StatusPill, CircuitBanner } from '@/components/ui';
 
 export interface PartnerItem {
   id: string;
@@ -33,10 +33,23 @@ export function PartnerFinder({ partners, onInvite }: PartnerFinderProps) {
 
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>Find a Partner</Text>
-      <Text style={styles.subtitle}>
-        Connect with players in Ghana at your skill level looking for games.
-      </Text>
+      {/* Top Blue Banner Card */}
+      <CircuitBanner
+        badge="COMMUNITY MATCHMAKING"
+        title="Find a Hitting Partner"
+        description="Connect with verified padel players in Accra at your skill level looking for casual hits and match practice."
+        testID="partners-banner-card"
+        stats={[
+          {
+            icon: <Users size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: `${partners.length} active players`,
+          },
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: 'Level-calibrated pairs',
+          },
+        ]}
+      />
 
       {/* Filter Chips */}
       <View style={styles.filterRow}>

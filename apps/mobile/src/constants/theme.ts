@@ -35,12 +35,16 @@ export const Tokens = {
     brandBlueDark: '#1E40AF',
     brandBlueNavy: '#172554',
     heroGradient: 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 55%, #172554 100%)',
+    heroOverlayGradient: 'linear-gradient(135deg, rgba(29, 78, 216, 0.72) 0%, rgba(30, 64, 175, 0.8) 55%, rgba(23, 37, 84, 0.92) 100%)',
     bannerBlueDark: '#1E40AF',
     bannerBlueBorder: 'rgba(255, 255, 255, 0.15)',
     bannerBlueText: '#FFFFFF',
     bannerBlueTextMuted: '#DBEAFE',
     bannerBlueTag: '#93C5FD',
     bannerBlueIcon: '#BFDBFE',
+    bannerBluePillBg: 'rgba(255, 255, 255, 0.18)',
+    bannerBluePillBorder: 'rgba(255, 255, 255, 0.28)',
+    bannerBlueDot: 'rgba(255, 255, 255, 0.6)',
 
     // Desktop Navigation Sidebar (Stitch Obsidian Mica anchor)
     sidebarBackground: '#0B0F0E',

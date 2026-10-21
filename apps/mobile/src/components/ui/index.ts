@@ -7,3 +7,4 @@ export * from './PageHeader';
 export * from './ListRow';
 export * from './Stat';
 export * from './EmptyState';
+export * from './CircuitBanner';

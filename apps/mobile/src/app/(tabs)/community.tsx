@@ -1,16 +1,28 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Users } from 'lucide-react-native';
+import { Users, Shield } from 'lucide-react-native';
 import { Tokens, Typography } from '@/constants/theme';
 import { t } from '@/lib/i18n';
-import { Screen, PageHeader, Card, StatusPill } from '@/components/ui';
+import { Screen, Card, StatusPill, CircuitBanner } from '@/components/ui';
 
 export default function CommunityTabScreen() {
   return (
     <Screen>
-      <PageHeader
+      <CircuitBanner
+        badge="ACCRA PADEL NETWORK"
         title={t('placeholderCommunityTitle')}
-        subtitle="Ghana Padel Network"
+        description="Connect with Accra padel players, find hitting partners, and join club community channels."
+        testID="community-banner-card"
+        stats={[
+          {
+            icon: <Users size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: 'Ghana Padel Network',
+          },
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: 'Verified Players Only',
+          },
+        ]}
       />
 
       <Card style={styles.card}>

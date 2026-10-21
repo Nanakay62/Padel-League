@@ -18,7 +18,7 @@ describe('Home Screen Real Router Smoke Navigation Tests', () => {
     });
     fireEvent.press(getByTestId('home-credit-balance-btn'));
     expect(
-      await findByText('Credit balance and cancellation credits arrive with payments (Phase 5)')
+      await findByText('Current Balance')
     ).toBeTruthy();
 
     act(() => {

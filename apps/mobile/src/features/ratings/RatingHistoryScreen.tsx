@@ -5,9 +5,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import { TrendingUp, Award, Activity } from 'lucide-react-native';
+import { TrendingUp, Award, Activity, Zap, Shield } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
-import { Card, StatusPill, Chip } from '@/components/ui';
+import { Card, StatusPill, Chip, CircuitBanner } from '@/components/ui';
 
 export interface RatingEventHistoryItem {
   id: string;
@@ -55,21 +55,23 @@ export function RatingHistoryScreen({ data }: RatingHistoryScreenProps) {
         },
       ]}
     >
-      {/* Top Circuit Subheader Banner */}
-      <View style={styles.circuitHeader}>
-        <View style={styles.circuitBadgeRow}>
-          <View style={styles.circuitStatusPill}>
-            <Text style={styles.circuitStatusText}>Official Accra Ladder 2026</Text>
-          </View>
-          <Text style={styles.circuitUpdateText}>GPR Rating Engine</Text>
-        </View>
-        <Text style={[styles.headerTitle, isDesktop && styles.headerTitleDesktop]}>
-          Padel Ghana Official Player Rankings
-        </Text>
-        <Text style={styles.headerSubtitle}>
-          Dynamic Playtomic-aligned rating system based on verified match results in Accra tournaments, Americanos, and ladder games.
-        </Text>
-      </View>
+      {/* Top Blue Banner Card */}
+      <CircuitBanner
+        badge="GHANA PADEL RANKING (GPR)"
+        title="Padel Ghana Official Player Rankings"
+        description="Dynamic Playtomic-aligned rating system based on verified match results in Accra tournaments, Americanos, and ladder games."
+        testID="ratings-banner-card"
+        stats={[
+          {
+            icon: <Zap size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
+            label: 'GPR Rating Engine',
+          },
+          {
+            icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
+            label: 'Official Accra Ladder 2026',
+          },
+        ]}
+      />
 
       {/* Category Tabs */}
       <View style={styles.filterRow}>

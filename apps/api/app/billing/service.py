@@ -38,18 +38,32 @@ class BillingService:
         self.db = db
         self.paystack = PaystackGateway()
 
+    async def get_user_credits(self, user_id: str) -> tuple[int, list[Credit]]:
+        """Calculate active platform credit balance and return credit history."""
+        stmt = (
+            select(Credit)
+            .where(Credit.user_id == user_id)
+            .order_by(Credit.created_at.desc())
+        )
+        res = await self.db.execute(stmt)
+        records = list(res.scalars().all())
+        balance = sum(c.amount_pesewas for c in records)
+        return max(0, balance), records
+
     async def join_event(
         self,
         user_id: str,
         event_id: str,
         method: str,
         callback_url: str | None = None,
+        use_credits: bool = True,
     ) -> Registration:
         """Register a player for an event.
 
         - If slots are available, reserves a seat with a 10-minute hold (PENDING_PAYMENT)
           and creates an Order.
         - If the event is full, places the player on the ordered WAITLIST.
+        - Supports applying existing platform credits towards event payment.
         """
         now = _utc_now()
 
@@ -140,6 +154,88 @@ class BillingService:
         hold_expires_at = now + timedelta(minutes=settings.seat_hold_minutes)
         reference = f"padel_{uuid.uuid4().hex[:12]}"
 
+        # Apply platform credits if available and requested
+        payable_pesewas = total_payable
+        credits_applied = 0
+        if use_credits:
+            current_balance, _ = await self.get_user_credits(user_id)
+            if current_balance > 0:
+                credits_applied = min(current_balance, total_payable)
+                payable_pesewas = total_payable - credits_applied
+
+                debit = Credit(
+                    id=str(uuid.uuid4()),
+                    user_id=user_id,
+                    amount_pesewas=-credits_applied,
+                    reason=f"Applied to {event.title}",
+                    created_at=now,
+                )
+                self.db.add(debit)
+                audit = AuditLog(
+                    actor_id=user_id,
+                    action="CREDIT_REDEEMED",
+                    target_type="event",
+                    target_id=event_id,
+                    amount_pesewas=credits_applied,
+                    reference=f"credit_debit_{event_id[:8]}",
+                    details=json.dumps(
+                        {"event_id": event_id, "amount_redeemed": credits_applied}
+                    ),
+                    created_at=now,
+                )
+                self.db.add(audit)
+
+        # 100% paid by credits: confirm immediately without payment rail
+        if payable_pesewas == 0:
+            order = Order(
+                id=str(uuid.uuid4()),
+                user_id=user_id,
+                event_id=event_id,
+                amount_pesewas=0,
+                court_fee_pesewas=court_fee,
+                platform_fee_pesewas=platform_fee,
+                currency="GHS",
+                method="CREDIT",
+                status="PAID",
+                reference=reference,
+                paid_at=now,
+                created_at=now,
+            )
+            self.db.add(order)
+            await self.db.flush()
+
+            registration = Registration(
+                id=str(uuid.uuid4()),
+                event_id=event_id,
+                user_id=user_id,
+                order_id=order.id,
+                status="CONFIRMED",
+                hold_expires_at=None,
+                created_at=now,
+            )
+            self.db.add(registration)
+            audit = AuditLog(
+                actor_id=user_id,
+                action="CREDIT_PAYMENT_CONFIRMED",
+                target_type="order",
+                target_id=order.id,
+                amount_pesewas=credits_applied,
+                reference=reference,
+                details=json.dumps(
+                    {"method": "CREDIT", "total_covered": total_payable}
+                ),
+                created_at=now,
+            )
+            self.db.add(audit)
+            await self.db.commit()
+
+            loaded_stmt = (
+                select(Registration)
+                .where(Registration.id == registration.id)
+                .options(selectinload(Registration.order))
+            )
+            return (await self.db.execute(loaded_stmt)).scalar_one()
+
         # Initialize Paystack checkout if online payment
         paystack_auth_url: str | None = None
         if method == "PAYSTACK":
@@ -151,7 +247,7 @@ class BillingService:
                 else f"player_{user_id[:8]}@padelghana.com"
             )
             checkout_info = await self.paystack.initialize_transaction(
-                amount_pesewas=total_payable,
+                amount_pesewas=payable_pesewas,
                 email=email,
                 reference=reference,
                 callback_url=callback_url,
@@ -163,7 +259,7 @@ class BillingService:
             id=str(uuid.uuid4()),
             user_id=user_id,
             event_id=event_id,
-            amount_pesewas=total_payable,
+            amount_pesewas=payable_pesewas,
             court_fee_pesewas=court_fee,
             platform_fee_pesewas=platform_fee,
             currency="GHS",
@@ -274,6 +370,7 @@ class BillingService:
             select(Order)
             .where(Order.reference == reference)
             .options(selectinload(Order.registrations))
+            .with_for_update()
         )
         res = await self.db.execute(order_stmt)
         order = res.scalar_one_or_none()
@@ -284,14 +381,94 @@ class BillingService:
         if order.status == "PAID":
             return {"status": "already_processed"}
 
-        # Server-verify transaction with Paystack API before confirming
+        # 1. Payload amount and currency verification
+        payload_amount = data.get("amount")
+        payload_currency = data.get("currency")
+        if payload_amount != order.amount_pesewas:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Payment amount mismatch: expected {order.amount_pesewas}, got {payload_amount}",
+            )
+        if payload_currency != order.currency:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Payment currency mismatch: expected {order.currency}, got {payload_currency}",
+            )
+
+        # 2. Server-verify transaction with Paystack API before confirming
         verification = await self.paystack.verify_transaction(reference)
         if verification.get("status") != "success":
             raise HTTPException(
                 status_code=400, detail="Paystack transaction verification failed"
             )
+        if verification.get("amount") != order.amount_pesewas:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Verified amount mismatch: expected {order.amount_pesewas}, got {verification.get('amount')}",
+            )
+        if verification.get("currency") != order.currency:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Verified currency mismatch: expected {order.currency}, got {verification.get('currency')}",
+            )
 
         now = _utc_now()
+
+        # 3. Handle late payment arrival on expired hold
+        is_late = order.status == "EXPIRED" or any(
+            r.status == "EXPIRED" for r in order.registrations
+        )
+        if is_late:
+            active_count_stmt = (
+                select(func.count())
+                .select_from(Registration)
+                .where(
+                    Registration.event_id == order.event_id,
+                    Registration.status.in_(["PENDING_PAYMENT", "CONFIRMED"]),
+                )
+            )
+            active_count = (await self.db.execute(active_count_stmt)).scalar() or 0
+            event = await self.db.get(Event, order.event_id)
+            max_players = event.max_players if event else 4
+
+            if active_count >= max_players:
+                # Event is completely full! In accordance with handbook invariants:
+                # Do not overbook court; issue 100% platform credit to user instead.
+                order.status = "PAID"
+                order.paid_at = now
+                for reg in order.registrations:
+                    reg.status = "CANCELLED_FREE"
+
+                credit = Credit(
+                    id=str(uuid.uuid4()),
+                    user_id=order.user_id,
+                    amount_pesewas=order.amount_pesewas,
+                    reason=f"Event capacity full on late payment: {event.title if event else 'Event'}",
+                    source_registration_id=order.registrations[0].id
+                    if order.registrations
+                    else None,
+                    created_at=now,
+                )
+                self.db.add(credit)
+
+                audit = AuditLog(
+                    actor_id="SYSTEM",
+                    action="LATE_PAYMENT_OVERFLOW_CREDIT",
+                    target_type="order",
+                    target_id=order.id,
+                    amount_pesewas=order.amount_pesewas,
+                    reference=reference,
+                    details=json.dumps(
+                        {
+                            "reason": "Event full on late payment confirmation; 100% platform credit issued."
+                        }
+                    ),
+                    created_at=now,
+                )
+                self.db.add(audit)
+                await self.db.commit()
+                return {"status": "overflow_credited"}
+
         order.status = "PAID"
         order.paid_at = now
 

@@ -25,13 +25,27 @@ def _utc_now() -> datetime:
 
 
 @app.task
-async def expire_seat_holds_task(db: AsyncSession) -> int:
+async def expire_seat_holds_task(db: AsyncSession | None = None) -> int:
     """Sweep and release expired seat holds, auto-promoting waitlisted players.
 
     Double-run safe and idempotent.
     """
-    billing_svc = BillingService(db)
-    return await billing_svc.sweep_expired_holds()
+    if db is not None:
+        billing_svc = BillingService(db)
+        return await billing_svc.sweep_expired_holds()
+
+    from app.db import async_session_maker
+
+    async with async_session_maker() as session:
+        billing_svc = BillingService(session)
+        return await billing_svc.sweep_expired_holds()
+
+
+@app.periodic(cron="* * * * *")
+@app.task
+async def periodic_expire_seat_holds(timestamp: int = 0) -> int:
+    """Periodic 1-minute sweep of expired seat holds."""
+    return await expire_seat_holds_task()
 
 
 @app.task

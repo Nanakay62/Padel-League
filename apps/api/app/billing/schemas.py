@@ -9,6 +9,23 @@ from pydantic import BaseModel, ConfigDict
 class JoinEventRequest(BaseModel):
     method: Literal["MANUAL_MOMO", "CASH", "PAYSTACK"]
     callback_url: str | None = None
+    use_credits: bool = True
+
+
+class CreditResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    user_id: str
+    amount_pesewas: int
+    reason: str
+    source_registration_id: str | None = None
+    created_at: datetime
+
+
+class CreditBalanceResponse(BaseModel):
+    balance_pesewas: int
+    credits: list[CreditResponse]
 
 
 class OrderResponse(BaseModel):

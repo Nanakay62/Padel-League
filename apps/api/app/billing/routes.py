@@ -12,6 +12,8 @@ from app.billing.models import Order
 from app.billing.schemas import (
     AuditLogResponse,
     CancelRegistrationResponse,
+    CreditBalanceResponse,
+    CreditResponse,
     JoinEventRequest,
     MarkPaidRequest,
     OrderResponse,
@@ -47,8 +49,22 @@ async def join_event(
         event_id=event_id,
         method=payload.method,
         callback_url=payload.callback_url,
+        use_credits=payload.use_credits,
     )
     return RegistrationResponse.model_validate(registration)
+
+
+@router.get("/me/credits", response_model=CreditBalanceResponse)
+async def get_my_credits(
+    user: CurrentUser,
+    db: DatabaseSession,
+) -> CreditBalanceResponse:
+    service = BillingService(db)
+    balance, records = await service.get_user_credits(user.id)
+    return CreditBalanceResponse(
+        balance_pesewas=balance,
+        credits=[CreditResponse.model_validate(c) for c in records],
+    )
 
 
 @router.post(

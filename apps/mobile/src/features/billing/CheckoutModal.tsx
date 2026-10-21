@@ -18,14 +18,20 @@ interface CheckoutModalProps {
   platformFeePesewas?: number;
   organizerPhone?: string;
   organizerName?: string;
+  userCreditsPesewas?: number;
   onClose: () => void;
-  onInitiatePayment: (method: 'PAYSTACK' | 'MANUAL_MOMO' | 'CASH') => Promise<{
+  onInitiatePayment: (
+    method: 'PAYSTACK' | 'MANUAL_MOMO' | 'CASH',
+    useCredits: boolean
+  ) => Promise<{
     orderId: string;
     reference: string;
     authorizationUrl?: string;
+    isFullyPaid?: boolean;
   }>;
   onCheckOrderStatus: (orderId: string) => Promise<{ status: string }>;
   onPaymentConfirmed: () => void;
+  onSimulateSuccess?: (orderId: string) => Promise<void>;
 }
 
 export function CheckoutModal({
@@ -35,14 +41,17 @@ export function CheckoutModal({
   platformFeePesewas = 500,
   organizerPhone = '+233 24 123 4567',
   organizerName = 'Coach Kojo',
+  userCreditsPesewas = 0,
   onClose,
   onInitiatePayment,
   onCheckOrderStatus,
   onPaymentConfirmed,
+  onSimulateSuccess,
 }: CheckoutModalProps) {
   const [selectedMethod, setSelectedMethod] = useState<'PAYSTACK' | 'MANUAL_MOMO' | 'CASH'>(
     'PAYSTACK'
   );
+  const [useCredits, setUseCredits] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isWaitingForApproval, setIsWaitingForApproval] = useState(false);
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
@@ -50,6 +59,10 @@ export function CheckoutModal({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const breakdown = computePricingBreakdown(courtFeePesewas, platformFeePesewas);
+  const appliedCredits = useCredits && userCreditsPesewas > 0
+    ? Math.min(userCreditsPesewas, breakdown.totalPesewas)
+    : 0;
+  const netPayablePesewas = Math.max(0, breakdown.totalPesewas - appliedCredits);
 
   // Poll order status when waiting for MoMo phone approval
   useEffect(() => {
@@ -77,8 +90,14 @@ export function CheckoutModal({
     setIsProcessing(true);
     setErrorMessage(null);
     try {
-      const order = await onInitiatePayment(selectedMethod);
+      const order = await onInitiatePayment(selectedMethod, useCredits);
       setActiveOrderId(order.orderId);
+
+      if (order.isFullyPaid || netPayablePesewas === 0) {
+        onPaymentConfirmed();
+        onClose();
+        return;
+      }
 
       if (selectedMethod === 'PAYSTACK') {
         if (order.authorizationUrl) {
@@ -94,6 +113,22 @@ export function CheckoutModal({
       setIsProcessing(false);
     }
   };
+
+  const handleSimulateApproval = async () => {
+    if (!activeOrderId || !onSimulateSuccess) return;
+    setIsProcessing(true);
+    try {
+      await onSimulateSuccess(activeOrderId);
+      setIsWaitingForApproval(false);
+      onPaymentConfirmed();
+      onClose();
+    } catch (err: unknown) {
+      setErrorMessage(err instanceof Error ? err.message : 'Failed to simulate approval');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
 
   return (
     <Modal visible={visible} transparent animationType="slide">
@@ -112,12 +147,38 @@ export function CheckoutModal({
               <Text style={styles.breakdownLabel}>Platform Fee</Text>
               <Text style={styles.breakdownValue}>{breakdown.platformFeeFormatted}</Text>
             </View>
+            {appliedCredits > 0 && (
+              <View style={styles.breakdownRow}>
+                <Text style={[styles.breakdownLabel, { color: Tokens.colors.greenText }]}>
+                  Platform Credits Applied
+                </Text>
+                <Text style={[styles.breakdownValue, { color: Tokens.colors.greenText }]}>
+                  - {formatPesewasToGHS(appliedCredits)}
+                </Text>
+              </View>
+            )}
             <View style={styles.divider} />
             <View style={styles.breakdownRow}>
               <Text style={styles.totalLabel}>Total Payable</Text>
-              <Text style={styles.totalValue}>{breakdown.totalFormatted}</Text>
+              <Text style={styles.totalValue}>
+                {formatPesewasToGHS(netPayablePesewas)}
+              </Text>
             </View>
           </View>
+
+          {userCreditsPesewas > 0 && (
+            <TouchableOpacity
+              style={styles.creditToggleCard}
+              onPress={() => setUseCredits(!useCredits)}
+              accessibilityRole="checkbox"
+              accessibilityLabel="Apply platform credits"
+              accessibilityState={{ checked: useCredits }}
+            >
+              <Text style={styles.creditToggleText}>
+                {useCredits ? 'Using' : 'Apply'} Platform Credits ({formatPesewasToGHS(userCreditsPesewas)} available)
+              </Text>
+            </TouchableOpacity>
+          )}
 
           {isWaitingForApproval ? (
             <View style={styles.waitingContainer}>
@@ -128,14 +189,29 @@ export function CheckoutModal({
                 Money) and enter your PIN.
               </Text>
               <Text style={styles.holdNotice}>Your seat is held for 10 minutes.</Text>
+
+              {onSimulateSuccess && (
+                <TouchableOpacity
+                  style={styles.simulateButton}
+                  onPress={handleSimulateApproval}
+                  disabled={isProcessing}
+                  accessibilityRole="button"
+                  accessibilityLabel="Simulate MoMo Payment Approval (Test Mode)"
+                >
+                  <Text style={styles.simulateButtonText}>
+                    Simulate MoMo Approval (Test Mode)
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           ) : manualReference ? (
             <View style={styles.manualContainer}>
               <Text style={styles.manualTitle}>Seat Reserved for 10 Minutes</Text>
               <Text style={styles.manualSubtitle}>
-                Please transfer {formatPesewasToGHS(breakdown.totalPesewas)} directly to the
+                Please transfer {formatPesewasToGHS(netPayablePesewas)} directly to the
                 organiser or pay cash at the club reception:
               </Text>
+
               <View style={styles.momoDetailBox}>
                 <Text style={styles.momoRow}>
                   Name: <Text style={styles.momoBold}>{organizerName}</Text>
@@ -457,4 +533,34 @@ const styles = StyleSheet.create({
     fontWeight: Tokens.fontWeight.semibold,
     fontSize: Tokens.fontSize.base,
   },
+  creditToggleCard: {
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderRadius: Tokens.radii.sm,
+    padding: Tokens.spacing.sm,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    marginBottom: Tokens.spacing.md,
+  },
+  creditToggleText: {
+    color: Tokens.colors.text,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.medium,
+  },
+  simulateButton: {
+    marginTop: Tokens.spacing.md,
+    backgroundColor: Tokens.colors.surfaceMuted,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.goldBorder,
+    paddingVertical: Tokens.spacing.sm,
+    paddingHorizontal: Tokens.spacing.md,
+    borderRadius: Tokens.radii.button,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  simulateButtonText: {
+    color: Tokens.colors.goldText,
+    fontSize: Tokens.fontSize.sm,
+    fontWeight: Tokens.fontWeight.semibold,
+  },
 });
+
