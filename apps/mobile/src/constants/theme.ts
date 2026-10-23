@@ -75,6 +75,24 @@ export const Tokens = {
     activeRoundBorder: '#FCE8A3',
     activeRoundText: '#8D6B00',
 
+    // Playtomic-Aligned Semantic UI Tokens (Player slots, Day picker, Quick actions)
+    slotFilledBg: '#EFF6FF',
+    slotFilledBorder: '#BFDBFE',
+    slotEmptyBorder: '#CBD5E1',
+    slotEmptyBg: '#F8FAFC',
+    slotEmptyIcon: '#94A3B8',
+    dayPickerActiveBg: '#1D4ED8',
+    dayPickerActiveText: '#FFFFFF',
+    dayPickerInactiveBg: '#FFFFFF',
+    dayPickerInactiveBorder: '#E7E7E3',
+    dayPickerInactiveText: '#5F676B',
+    dayPickerInactiveSub: '#9BA2A6',
+    quickActionBlueBg: '#EFF6FF',
+    quickActionGreenBg: '#ECFDF5',
+    quickActionGoldBg: '#FEF9E7',
+    quickActionPurpleBg: '#F3E8FF',
+    quickActionPurpleText: '#7E22CE',
+
     // Courtside Live Scoring Dark Theme (ONLY for /events/[id]/live)
     live: {
       background: '#0B0F0E',
@@ -146,6 +164,8 @@ export const Tokens = {
     minStepper: 64,
   },
   fontSize: {
+    badge: 9,
+    xxs: 10,
     xs: 12,
     sm: 14,
     base: 16,
@@ -157,6 +177,8 @@ export const Tokens = {
     displayLg: 36,
   },
   lineHeight: {
+    badge: 11,
+    xxs: 14,
     xs: 16,
     sm: 20,
     base: 24,

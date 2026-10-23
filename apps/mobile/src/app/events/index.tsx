@@ -20,6 +20,8 @@ import {
   Chip,
   StatusPill,
   CircuitBanner,
+  HorizontalDayPicker,
+  PlayerSlotRoster,
 } from '@/components/ui';
 
 export default function FindEventsScreen() {
@@ -27,6 +29,7 @@ export default function FindEventsScreen() {
   const { margin, gutter, maxContentWidth } = useResponsiveLayout();
   const { data: events } = useEvents();
   const [selectedFormat, setSelectedFormat] = useState('ALL');
+  const [selectedDay, setSelectedDay] = useState('today');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredEvents = events.filter((evt) => {
@@ -87,6 +90,12 @@ export default function FindEventsScreen() {
               label: 'Official GPR synced',
             },
           ]}
+        />
+
+        {/* Playtomic Horizontal Day Picker */}
+        <HorizontalDayPicker
+          selectedDayId={selectedDay}
+          onSelectDay={setSelectedDay}
         />
 
         {/* Filter Chips & Counter Section */}
@@ -155,6 +164,21 @@ export default function FindEventsScreen() {
                   <Text style={[styles.timeText, Typography.tabularNums]}>
                     {formatAccraDateTime(item.start_time)}
                   </Text>
+                </View>
+
+                {/* Playtomic Slot Roster Preview */}
+                <View style={styles.rosterRow}>
+                  <PlayerSlotRoster
+                    mode="court"
+                    filledSlots={[
+                      { name: 'Player 1', level: `${item.level_min.toFixed(1)}` },
+                      { name: 'Player 2', level: `${((item.level_min + item.level_max) / 2).toFixed(1)}` },
+                      ...(confirmedCount > 2 ? [{ name: 'Player 3', level: `${item.level_max.toFixed(1)}` }] : []),
+                    ]}
+                    totalSlots={4}
+                    emptySlotLabel={item.status === 'FULL' ? undefined : 'Join'}
+                    onPressEmpty={() => router.push(`/events/${item.id}` as any)}
+                  />
                 </View>
 
                 {/* Capacity Progress Section */}
@@ -396,6 +420,9 @@ const styles = StyleSheet.create({
     fontSize: Tokens.fontSize.xs,
     lineHeight: Tokens.lineHeight.xs,
     color: Tokens.colors.textMuted,
+  },
+  rosterRow: {
+    paddingVertical: Tokens.spacing.xs,
   },
   capacitySection: {
     backgroundColor: Tokens.colors.background,

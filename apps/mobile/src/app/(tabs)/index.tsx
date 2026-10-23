@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Platform,
@@ -30,7 +30,7 @@ import {
   useNextGame,
   useRating,
 } from '@/hooks/useData';
-import { Card } from '@/components/ui';
+import { Card, HorizontalDayPicker, PlayerSlotRoster } from '@/components/ui';
 
 export const HOME_HERO_IMAGE_URL =
   'https://lh3.googleusercontent.com/aida/AEtjO1XqMzywArgQMCs2_7pEHQakoPhf30KfGCWivMto-yKD2Mu4Ov-d2gUTL6vqT-S4afGf9g4L0H4YLVDTyswT1mAiIUJMH0S2JlAgttn79NpCmUmWmEB3LXjRcv90rrsi1BN_NH8ZVexdg0yAtcbTmWLr_jwM--2lrI51eRd8xlyN6W4rv7Owv5YeNg0hg9kNUbLvacgtEY_kHqg9pNzgDKskdY8E1qrY3Mk4avXnqsMY-mIQHcvcS-jQ83E';
@@ -46,6 +46,10 @@ interface PlaySessionItem {
   capacity: string;
   isCapacityAlert?: boolean;
   pricePesewas: number;
+  slots?: {
+    filled: { name: string; level?: string }[];
+    total: number;
+  };
 }
 
 const PLAY_SESSIONS: PlaySessionItem[] = [
@@ -59,6 +63,14 @@ const PLAY_SESSIONS: PlaySessionItem[] = [
     targetLevel: 'Level 3.0 - 4.0',
     capacity: '14/16 players',
     pricePesewas: 10000,
+    slots: {
+      filled: [
+        { name: 'K. Mensah', level: '3.8' },
+        { name: 'A. Osei', level: '3.2' },
+        { name: 'N. Asante', level: '3.5' },
+      ],
+      total: 4,
+    },
   },
   {
     id: 'evt-002',
@@ -71,6 +83,14 @@ const PLAY_SESSIONS: PlaySessionItem[] = [
     capacity: '7/8 players',
     isCapacityAlert: true,
     pricePesewas: 9000,
+    slots: {
+      filled: [
+        { name: 'K. Mensah', level: '4.2' },
+        { name: 'D. Boateng', level: '3.9' },
+        { name: 'S. Addo', level: '4.0' },
+      ],
+      total: 4,
+    },
   },
   {
     id: 'evt-003',
@@ -82,6 +102,13 @@ const PLAY_SESSIONS: PlaySessionItem[] = [
     targetLevel: 'Level 2.5 - 3.5',
     capacity: '11/12 players',
     pricePesewas: 8500,
+    slots: {
+      filled: [
+        { name: 'E. Quaye', level: '2.8' },
+        { name: 'Y. Darko', level: '3.1' },
+      ],
+      total: 4,
+    },
   },
 ];
 
@@ -142,6 +169,7 @@ const UPCOMING_LEAGUES: UpcomingLeagueRow[] = [
 export default function HomeScreen() {
   const router = useRouter();
   const { isDesktop, margin, gutter, maxContentWidth } = useResponsiveLayout();
+  const [selectedDay, setSelectedDay] = useState('today');
 
   const userBalancePesewas = 5000; // GH₵ 50.00
   const nextGameResult = useNextGame();
@@ -165,18 +193,24 @@ export default function HomeScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Top Header Row with Demo Data Badge & Balance */}
+        {/* Top Header Row with Player Avatar & Balance */}
         <View style={styles.header}>
-          <View>
-            <View style={styles.greetingRow}>
-              <Text style={styles.greetingText}>{t('greetingAfternoon')}</Text>
-              {nextGameResult.isMock && (
-                <View style={styles.demoBadge}>
-                  <Text style={styles.demoBadgeText}>{t('demoDataBadge')}</Text>
-                </View>
-              )}
+          <View style={styles.headerProfileRow}>
+            <View style={styles.avatarCircle}>
+              <Text style={styles.avatarInitialText}>KA</Text>
+              <View style={styles.avatarOnlineDot} />
             </View>
-            <Text style={styles.taglineText}>{t('tagline')}</Text>
+            <View>
+              <View style={styles.greetingRow}>
+                <Text style={styles.greetingText}>{t('greetingAfternoon')}</Text>
+                {nextGameResult.isMock && (
+                  <View style={styles.demoBadge}>
+                    <Text style={styles.demoBadgeText}>{t('demoDataBadge')}</Text>
+                  </View>
+                )}
+              </View>
+              <Text style={styles.taglineText}>{t('tagline')}</Text>
+            </View>
           </View>
 
           <Pressable
@@ -262,6 +296,21 @@ export default function HomeScreen() {
                 <Text style={styles.specLabel}>{t('formatLabel')}</Text>
                 <Text style={styles.specValue}>Timed Americano (21 pts)</Text>
               </View>
+            </View>
+
+            {/* Playtomic Slot Roster */}
+            <View style={styles.nextGameRosterBox}>
+              <PlayerSlotRoster
+                mode="court"
+                filledSlots={[
+                  { name: 'Kofi A.', level: '3.6' },
+                  { name: 'Nana K.', level: '3.4' },
+                  { name: 'Yaw B.', level: '3.8' },
+                ]}
+                totalSlots={4}
+                emptySlotLabel="Join game"
+                onPressEmpty={() => router.push(`/events/${nextGame.id}` as any)}
+              />
             </View>
 
             {/* Next Game Footer */}
@@ -374,6 +423,12 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
+        {/* Playtomic Horizontal Day Picker */}
+        <HorizontalDayPicker
+          selectedDayId={selectedDay}
+          onSelectDay={setSelectedDay}
+        />
+
         <View style={styles.playSessionsGrid}>
           {PLAY_SESSIONS.map((item) => (
             <Card key={item.id} style={[styles.sessionCard, isDesktop ? styles.sessionCardDesktop : styles.sessionCardMobile]}>
@@ -428,6 +483,18 @@ export default function HomeScreen() {
                   </Text>
                 </View>
               </View>
+
+              {item.slots && (
+                <View style={styles.sessionRosterRow}>
+                  <PlayerSlotRoster
+                    mode="court"
+                    filledSlots={item.slots.filled}
+                    totalSlots={item.slots.total}
+                    emptySlotLabel="Join slot"
+                    onPressEmpty={() => router.push(`/events/${item.id}` as any)}
+                  />
+                </View>
+              )}
 
               <View style={styles.sessionFooterRow}>
                 <View>
@@ -547,8 +614,8 @@ export default function HomeScreen() {
             onPress={() => router.push('/events/create')}
             testID="home-create-event-btn"
           >
-            <View style={styles.quickActionIconPrimary}>
-              <Plus size={20} color={Tokens.colors.textOnPrimary} strokeWidth={1.75} />
+            <View style={styles.quickActionIconBlue}>
+              <Plus size={20} color={Tokens.colors.primary} strokeWidth={2} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionCreateEvent')}</Text>
             <Text style={styles.quickActionSubtitle}>Americano or Mexicano</Text>
@@ -559,8 +626,8 @@ export default function HomeScreen() {
             onPress={() => router.push('/play')}
             testID="home-find-events-btn"
           >
-            <View style={styles.quickActionIconNeutral}>
-              <Play size={20} color={Tokens.colors.text} strokeWidth={1.75} />
+            <View style={styles.quickActionIconGreen}>
+              <Play size={20} color={Tokens.colors.greenText} strokeWidth={2} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionFindEvents')}</Text>
             <Text style={styles.quickActionSubtitle}>Sessions & matches</Text>
@@ -571,8 +638,8 @@ export default function HomeScreen() {
             onPress={() => router.push('/partners')}
             testID="home-partner-finder-btn"
           >
-            <View style={styles.quickActionIconNeutral}>
-              <Users size={20} color={Tokens.colors.text} strokeWidth={1.75} />
+            <View style={styles.quickActionIconGold}>
+              <Users size={20} color={Tokens.colors.activeRoundText} strokeWidth={2} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionFindFourth')}</Text>
             <Text style={styles.quickActionSubtitle}>Matchmaking & pairs</Text>
@@ -583,8 +650,8 @@ export default function HomeScreen() {
             onPress={() => router.push('/(tabs)/leagues' as any)}
             testID="home-box-leagues-btn"
           >
-            <View style={styles.quickActionIconNeutral}>
-              <Trophy size={20} color={Tokens.colors.text} strokeWidth={1.75} />
+            <View style={styles.quickActionIconPurple}>
+              <Trophy size={20} color={Tokens.colors.quickActionPurpleText} strokeWidth={2} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionJoinLeague')}</Text>
             <Text style={styles.quickActionSubtitle}>Monthly box cycles</Text>
@@ -595,8 +662,8 @@ export default function HomeScreen() {
             onPress={() => router.push('/venues')}
             testID="home-venues-btn"
           >
-            <View style={styles.quickActionIconNeutral}>
-              <MapPin size={20} color={Tokens.colors.text} strokeWidth={1.75} />
+            <View style={styles.quickActionIconBlue}>
+              <MapPin size={20} color={Tokens.colors.primary} strokeWidth={2} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionViewVenues')}</Text>
             <Text style={styles.quickActionSubtitle}>Club directory</Text>
@@ -608,7 +675,7 @@ export default function HomeScreen() {
             testID="home-settings-btn"
           >
             <View style={styles.quickActionIconNeutral}>
-              <Settings size={20} color={Tokens.colors.text} strokeWidth={1.75} />
+              <Settings size={20} color={Tokens.colors.textMuted} strokeWidth={2} />
             </View>
             <Text style={styles.quickActionTitle}>{t('actionSettings')}</Text>
             <Text style={styles.quickActionSubtitle}>Preferences & rules</Text>
@@ -655,6 +722,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: Tokens.spacing.xs,
+  },
+  headerProfileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.sm,
+  },
+  avatarCircle: {
+    width: 42,
+    height: 42,
+    borderRadius: Tokens.radii.pill,
+    backgroundColor: Tokens.colors.surfaceContainerHighest,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  avatarInitialText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.sm,
+    color: Tokens.colors.text,
+  },
+  avatarOnlineDot: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 10,
+    height: 10,
+    borderRadius: Tokens.radii.pill,
+    backgroundColor: Tokens.colors.greenText,
+    borderWidth: 2,
+    borderColor: Tokens.colors.background,
   },
   greetingRow: {
     flexDirection: 'row',
@@ -930,6 +1028,12 @@ const styles = StyleSheet.create({
     borderRadius: Tokens.radii.sm,
     padding: Tokens.spacing.sm,
     gap: Tokens.spacing.sm,
+  },
+  nextGameRosterBox: {
+    marginTop: Tokens.spacing.xs,
+    paddingTop: Tokens.spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: Tokens.colors.surfaceContainer,
   },
   specColumn: {
     flex: 1,
@@ -1258,6 +1362,9 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.surfaceContainer,
     gap: Tokens.spacing.xs,
   },
+  sessionRosterRow: {
+    paddingVertical: Tokens.spacing.xs,
+  },
   sessionSpecRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1478,6 +1585,42 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: Tokens.radii.button,
     backgroundColor: Tokens.colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Tokens.spacing.xs,
+  },
+  quickActionIconBlue: {
+    width: 38,
+    height: 38,
+    borderRadius: Tokens.radii.sm,
+    backgroundColor: Tokens.colors.quickActionBlueBg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Tokens.spacing.xs,
+  },
+  quickActionIconGreen: {
+    width: 38,
+    height: 38,
+    borderRadius: Tokens.radii.sm,
+    backgroundColor: Tokens.colors.quickActionGreenBg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Tokens.spacing.xs,
+  },
+  quickActionIconGold: {
+    width: 38,
+    height: 38,
+    borderRadius: Tokens.radii.sm,
+    backgroundColor: Tokens.colors.quickActionGoldBg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Tokens.spacing.xs,
+  },
+  quickActionIconPurple: {
+    width: 38,
+    height: 38,
+    borderRadius: Tokens.radii.sm,
+    backgroundColor: Tokens.colors.quickActionPurpleBg,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Tokens.spacing.xs,
