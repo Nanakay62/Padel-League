@@ -100,6 +100,7 @@ export interface LeagueStandingsScreenProps {
   onSelectBox?: (boxId: string) => void;
   onViewFixtures?: (boxId: string) => void;
   onCreateChallenge?: () => void;
+  onChallengePair?: (pair: BoxStandingItem) => void;
   onViewRulebook?: () => void;
   onEnterScores?: (challengeId: string) => void;
   onReschedule?: (challengeId: string) => void;
@@ -180,6 +181,7 @@ export function LeagueStandingsScreen({
   onSelectBox,
   onViewFixtures,
   onCreateChallenge,
+  onChallengePair,
   onViewRulebook,
   onEnterScores,
   onReschedule,
@@ -200,7 +202,6 @@ export function LeagueStandingsScreen({
     <View style={styles.container}>
       {/* Top Blue Banner Card */}
       <CircuitBanner
-        badge="ACCRA CHAMPIONSHIP CIRCUIT"
         title={leagueTitle}
         description={`${seasonName} • Challenge pairs within 3 rungs to climb the national leaderboard.`}
         testID="leagues-banner-card"
@@ -216,6 +217,7 @@ export function LeagueStandingsScreen({
               />
             )}
             <Button
+              testID="leagues-create-challenge-btn"
               title="Create Ladder Challenge"
               variant="primary"
               size="sm"
@@ -324,7 +326,7 @@ export function LeagueStandingsScreen({
                   scrollEnabled={false}
                   renderItem={({ item, index }) => {
                     const isChampion = item.rank === 1;
-                    const isUser = item.is_user || item.pair_name.includes('Kwame');
+                    const isUser = Boolean(item.is_user);
                     const formHistory = item.form || (index % 2 === 0 ? ['W', 'W', 'W'] : ['W', 'L', 'W']);
                     const ratingDisplay = item.rating ? item.rating.toFixed(2) : (4.9 - index * 0.15).toFixed(2);
 
@@ -456,10 +458,17 @@ export function LeagueStandingsScreen({
                             <StatusPill label="Down" variant="danger" />
                           ) : (
                             <TouchableOpacity
+                              testID={`ladder-challenge-btn-rung-${item.rank}`}
+                              accessibilityRole="button"
+                              accessibilityLabel={`Challenge ${item.pair_name}`}
                               style={styles.challengeBtn}
                               activeOpacity={0.7}
                               onPress={() => {
-                                if (onViewFixtures) onViewFixtures(currentBox.id);
+                                if (onChallengePair) {
+                                  onChallengePair(item);
+                                } else if (onViewFixtures) {
+                                  onViewFixtures(currentBox.id);
+                                }
                               }}
                             >
                               <Text style={styles.challengeBtnText}>Challenge</Text>
@@ -572,6 +581,7 @@ export function LeagueStandingsScreen({
                     />
                   )}
                   <Button
+                    testID="challenge-enter-scores-btn"
                     title="Enter Scores"
                     variant="primary"
                     size="sm"

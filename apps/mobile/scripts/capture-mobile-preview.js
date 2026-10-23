@@ -23,47 +23,44 @@ async function capture() {
   await page.screenshot({ path: path.join(ARTIFACT_DIR, '01_mobile_home_hero_and_next_game.png') });
   console.log('Captured 01_mobile_home_hero_and_next_game.png');
 
-  // 2. Scroll to Sessions & Day Picker
+  // 2. Leagues Tab Screen - Banner and Standings Table
+  await page.goto(BASE_URL + '/leagues', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  await page.screenshot({ path: path.join(ARTIFACT_DIR, '07_mobile_leagues_banner_and_standings.png') });
+  console.log('Captured 07_mobile_leagues_banner_and_standings.png');
+
+  // 3. Open Challenge Modal from "+ Create Ladder Challenge" button
+  const createChallengeBtn = page.getByTestId('leagues-create-challenge-btn');
+  if (await createChallengeBtn.count() > 0) {
+    await createChallengeBtn.click();
+    await page.waitForTimeout(800);
+    await page.screenshot({ path: path.join(ARTIFACT_DIR, '08_mobile_leagues_challenge_modal.png') });
+    console.log('Captured 08_mobile_leagues_challenge_modal.png');
+
+    // Close challenge modal
+    const closeChallengeBtn = page.getByTestId('challenge-modal-close-btn');
+    if (await closeChallengeBtn.count() > 0) {
+      await closeChallengeBtn.click();
+      await page.waitForTimeout(600);
+    }
+  }
+
+  // 4. Scroll to Scheduled Challenge Duel Card and open Enter Scores Modal
   await page.evaluate(() => {
     const scroller = document.querySelector('.shell-right-col') || window;
-    scroller.scrollTo({ top: 520, behavior: 'instant' });
+    scroller.scrollTo({ top: 450, behavior: 'instant' });
   });
   await page.waitForTimeout(600);
-  await page.screenshot({ path: path.join(ARTIFACT_DIR, '02_mobile_home_day_picker_and_sessions.png') });
-  console.log('Captured 02_mobile_home_day_picker_and_sessions.png');
+  await page.screenshot({ path: path.join(ARTIFACT_DIR, '09_mobile_leagues_scheduled_duel_card.png') });
+  console.log('Captured 09_mobile_leagues_scheduled_duel_card.png');
 
-  // 3. Scroll to Sessions
-  await page.evaluate(() => {
-    const scroller = document.querySelector('.shell-right-col') || window;
-    scroller.scrollTo({ top: 1050, behavior: 'instant' });
-  });
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: path.join(ARTIFACT_DIR, '03_mobile_home_sessions.png') });
-  console.log('Captured 03_mobile_home_sessions.png');
-
-  // 4. Scroll to Leagues
-  await page.evaluate(() => {
-    const scroller = document.querySelector('.shell-right-col') || window;
-    scroller.scrollTo({ top: 1750, behavior: 'instant' });
-  });
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: path.join(ARTIFACT_DIR, '05_mobile_home_leagues_and_standings.png') });
-  console.log('Captured 05_mobile_home_leagues_and_standings.png');
-
-  // 5. Scroll to Quick Actions
-  await page.evaluate(() => {
-    const scroller = document.querySelector('.shell-right-col') || window;
-    scroller.scrollTo({ top: 2300, behavior: 'instant' });
-  });
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: path.join(ARTIFACT_DIR, '06_mobile_home_quick_actions_and_footer.png') });
-  console.log('Captured 06_mobile_home_quick_actions_and_footer.png');
-
-  // 6. Events Discovery Screen
-  await page.goto(BASE_URL + '/events', { waitUntil: 'networkidle' });
-  await page.waitForTimeout(1000);
-  await page.screenshot({ path: path.join(ARTIFACT_DIR, '04_mobile_events_day_picker_and_rosters.png') });
-  console.log('Captured 04_mobile_events_day_picker_and_rosters.png');
+  const enterScoresBtn = page.getByTestId('challenge-enter-scores-btn');
+  if (await enterScoresBtn.count() > 0) {
+    await enterScoresBtn.click();
+    await page.waitForTimeout(800);
+    await page.screenshot({ path: path.join(ARTIFACT_DIR, '10_mobile_leagues_enter_scores_modal.png') });
+    console.log('Captured 10_mobile_leagues_enter_scores_modal.png');
+  }
 
   await mobileContext.close();
   await browser.close();

@@ -1,9 +1,18 @@
-import React from 'react';
-import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   LeagueBoxItem,
   LeagueStandingsScreen,
+  ScheduledChallenge,
+  BoxStandingItem,
 } from '@/features/leagues/LeagueStandingsScreen';
+import {
+  CreateChallengeModal,
+  DefenderOption,
+} from '@/features/leagues/CreateChallengeModal';
+import {
+  EnterLadderScoreModal,
+  UpcomingChallengeData,
+} from '@/features/leagues/EnterLadderScoreModal';
 import { Screen } from '@/components/ui';
 
 export const SAMPLE_BOXES: LeagueBoxItem[] = [
@@ -15,7 +24,7 @@ export const SAMPLE_BOXES: LeagueBoxItem[] = [
       {
         rank: 1,
         pair_id: 'p1',
-        pair_name: 'Kwame A. & Yaw O.',
+        pair_name: 'Kojo A. & Yaw O.',
         points: 42,
         matches_played: 16,
         sets_won: 14,
@@ -144,7 +153,7 @@ export const SAMPLE_BOXES: LeagueBoxItem[] = [
         zone: 'SAFE',
         rating: 3.75,
         venue: 'Tema Country Club',
-        form: ['W', 'W', 'L'],
+        form: ['W', 'L', 'W'],
       },
       {
         rank: 3,
@@ -186,8 +195,107 @@ export const SAMPLE_BOXES: LeagueBoxItem[] = [
   },
 ];
 
+const INITIAL_CHALLENGE: ScheduledChallenge = {
+  id: 'ch-1',
+  title: 'Official Rung Duel',
+  venue: 'Accra Padel Club',
+  court: 'Court 1 (Panoramic)',
+  time: 'Thu, 6:00 PM',
+  challenger: {
+    name: 'Kwame A. & Partner',
+    rung: 4,
+    rating: 4.35,
+  },
+  defender: {
+    name: 'Ekow B. & Farouk S.',
+    rung: 3,
+    rating: 4.41,
+  },
+  format: 'Best of 3',
+  splitFeePerTeam: 'GH₵ 60.00 / team',
+  confirmed: true,
+};
+
 export default function LeaguesTabScreen() {
-  const router = useRouter();
+  // State for challenges and scoring
+  const [activeChallenge, setActiveChallenge] = useState<ScheduledChallenge>(INITIAL_CHALLENGE);
+  const [isChallengeModalVisible, setIsChallengeModalVisible] = useState(false);
+  const [selectedDefenderId, setSelectedDefenderId] = useState<string | undefined>(undefined);
+  const [isScoreModalVisible, setIsScoreModalVisible] = useState(false);
+
+  // Eligible defenders within 3-rung ladder window (Rungs 1 to 3 in Box 1)
+  const eligibleDefenders: DefenderOption[] = SAMPLE_BOXES[0].standings
+    .filter((s) => s.rank < 4 && s.rank >= 1)
+    .map((s) => ({
+      id: s.pair_id,
+      name: s.pair_name,
+      rung: s.rank,
+      rating: s.rating ?? 4.5,
+      venue: s.venue,
+    }));
+
+  const handleOpenCreateChallenge = () => {
+    setSelectedDefenderId(undefined);
+    setIsChallengeModalVisible(true);
+  };
+
+  const handleChallengePair = (pair: BoxStandingItem) => {
+    setSelectedDefenderId(pair.pair_id);
+    setIsChallengeModalVisible(true);
+  };
+
+  const handleSubmitChallenge = (data: {
+    defenderId: string;
+    venue: string;
+    timeSlot: string;
+  }) => {
+    const defender = eligibleDefenders.find((d) => d.id === data.defenderId) || eligibleDefenders[0];
+    if (defender) {
+      setActiveChallenge({
+        id: `ch-${Date.now()}`,
+        title: 'Official Rung Duel',
+        venue: data.venue,
+        court: 'Court 1',
+        time: data.timeSlot,
+        challenger: {
+          name: 'Kwame A. & Partner',
+          rung: 4,
+          rating: 4.35,
+        },
+        defender: {
+          name: defender.name,
+          rung: defender.rung,
+          rating: defender.rating,
+        },
+        format: 'Best of 3',
+        splitFeePerTeam: 'GH₵ 60.00 / team',
+        confirmed: true,
+      });
+    }
+    setIsChallengeModalVisible(false);
+  };
+
+  const handleEnterScores = (_challengeId: string) => {
+    setIsScoreModalVisible(true);
+  };
+
+  const handleSubmitScores = (_payload: {
+    resultId: string;
+    challengeId: string;
+    setScores: { team1: number; team2: number }[];
+    winnerTeam: 'challenger' | 'defender';
+  }) => {
+    setIsScoreModalVisible(false);
+  };
+
+  const scoreModalChallengeData: UpcomingChallengeData = {
+    id: activeChallenge.id,
+    opponent_name: activeChallenge.defender.name,
+    opponent_rung: activeChallenge.defender.rung,
+    scheduled_time: activeChallenge.time,
+    venue: activeChallenge.venue,
+    status: 'ACCEPTED',
+  };
 
   return (
     <Screen>
@@ -196,7 +304,32 @@ export default function LeaguesTabScreen() {
         seasonName="Season 2 • Accra Metro Premier"
         cycleWeeks={10}
         boxes={SAMPLE_BOXES}
-        onCreateChallenge={() => router.push('/events')}
+        upcomingChallenge={activeChallenge}
+        onCreateChallenge={handleOpenCreateChallenge}
+        onChallengePair={handleChallengePair}
+        onEnterScores={handleEnterScores}
+      />
+
+      <CreateChallengeModal
+        visible={isChallengeModalVisible}
+        onClose={() => setIsChallengeModalVisible(false)}
+        challengerPair={{
+          name: 'Kwame A. & Partner',
+          rung: 4,
+          rating: 4.35,
+        }}
+        eligibleDefenders={eligibleDefenders}
+        initialDefenderId={selectedDefenderId}
+        onSubmitChallenge={handleSubmitChallenge}
+      />
+
+      <EnterLadderScoreModal
+        visible={isScoreModalVisible}
+        onClose={() => setIsScoreModalVisible(false)}
+        challenge={scoreModalChallengeData}
+        challengerName={activeChallenge.challenger.name}
+        challengerRung={activeChallenge.challenger.rung}
+        onSubmitScores={handleSubmitScores}
       />
     </Screen>
   );
