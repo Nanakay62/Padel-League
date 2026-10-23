@@ -237,13 +237,6 @@ export default function HomeScreen() {
           <View style={styles.heroOverlay} />
 
           <View style={styles.heroContent}>
-            <View style={styles.heroBadgeRow}>
-              <View style={styles.heroCircuitPill}>
-                <Text style={styles.heroCircuitPillText}>{t('heroCircuitBadge')}</Text>
-              </View>
-              <Text style={styles.heroDot}>•</Text>
-              <Text style={styles.heroBadgeSubtext}>{t('heroCommunityOpenPlay')}</Text>
-            </View>
             <Text style={[styles.heroHeadline, isDesktop && styles.heroHeadlineDesktop]}>
               {t('heroTitle')}
             </Text>
@@ -821,9 +814,8 @@ const styles = StyleSheet.create({
     borderRadius: Tokens.radii.card,
     borderWidth: 1,
     borderColor: Tokens.colors.sidebarBorder,
-    minHeight: 280,
-    height: 280,
-    justifyContent: 'flex-end',
+    minHeight: 200,
+    justifyContent: 'center',
   },
   heroImageBg: {
     position: 'absolute',

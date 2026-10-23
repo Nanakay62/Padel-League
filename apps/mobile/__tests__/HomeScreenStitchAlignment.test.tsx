@@ -31,10 +31,9 @@ describe('HomeScreen Stitch Design Alignment', () => {
         'Accra’s dedicated circuit connecting players and clubs across Airport Residential, East Legon, and Cantonments.'
       )
     ).toBeTruthy();
-    expect(await findByText('ACCRA PADEL CIRCUIT')).toBeTruthy();
-    expect(await findByText('Community Open Play')).toBeTruthy();
-
-    // Verify removed pills
+    // Verify removed pills per user request
+    expect(queryByText('ACCRA PADEL CIRCUIT')).toBeNull();
+    expect(queryByText('Community Open Play')).toBeNull();
     expect(queryByText('1,240+ Active Players')).toBeNull();
     expect(queryByText('12+ Partner Clubs')).toBeNull();
   });
