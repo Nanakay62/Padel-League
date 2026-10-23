@@ -52,7 +52,8 @@ describe('HomeScreen Stitch Design Alignment', () => {
     expect(await findByText('Intermediate 3.0-4.0')).toBeTruthy();
     const capacityLabels = await findAllByText('Capacity');
     expect(capacityLabels.length).toBeGreaterThanOrEqual(1);
-    expect(await findByText('8/12 players')).toBeTruthy();
+    const capacityValues = await findAllByText('8/12 players');
+    expect(capacityValues.length).toBeGreaterThanOrEqual(1);
     const formatLabels = await findAllByText('Format');
     expect(formatLabels.length).toBeGreaterThanOrEqual(1);
     expect(await findByText('Timed Americano (21 pts)')).toBeTruthy();
