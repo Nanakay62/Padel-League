@@ -32,16 +32,34 @@ async function capture() {
   await page.screenshot({ path: path.join(ARTIFACT_DIR, '02_mobile_home_day_picker_and_sessions.png') });
   console.log('Captured 02_mobile_home_day_picker_and_sessions.png');
 
-  // 3. Scroll to Leagues & Quick Actions
+  // 3. Scroll to Sessions
   await page.evaluate(() => {
     const scroller = document.querySelector('.shell-right-col') || window;
-    scroller.scrollTo({ top: 1200, behavior: 'instant' });
+    scroller.scrollTo({ top: 1050, behavior: 'instant' });
   });
   await page.waitForTimeout(600);
-  await page.screenshot({ path: path.join(ARTIFACT_DIR, '03_mobile_home_leagues_and_quick_actions.png') });
-  console.log('Captured 03_mobile_home_leagues_and_quick_actions.png');
+  await page.screenshot({ path: path.join(ARTIFACT_DIR, '03_mobile_home_sessions.png') });
+  console.log('Captured 03_mobile_home_sessions.png');
 
-  // 4. Events Discovery Screen
+  // 4. Scroll to Leagues
+  await page.evaluate(() => {
+    const scroller = document.querySelector('.shell-right-col') || window;
+    scroller.scrollTo({ top: 1750, behavior: 'instant' });
+  });
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: path.join(ARTIFACT_DIR, '05_mobile_home_leagues_and_standings.png') });
+  console.log('Captured 05_mobile_home_leagues_and_standings.png');
+
+  // 5. Scroll to Quick Actions
+  await page.evaluate(() => {
+    const scroller = document.querySelector('.shell-right-col') || window;
+    scroller.scrollTo({ top: 2300, behavior: 'instant' });
+  });
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: path.join(ARTIFACT_DIR, '06_mobile_home_quick_actions_and_footer.png') });
+  console.log('Captured 06_mobile_home_quick_actions_and_footer.png');
+
+  // 6. Events Discovery Screen
   await page.goto(BASE_URL + '/events', { waitUntil: 'networkidle' });
   await page.waitForTimeout(1000);
   await page.screenshot({ path: path.join(ARTIFACT_DIR, '04_mobile_events_day_picker_and_rosters.png') });

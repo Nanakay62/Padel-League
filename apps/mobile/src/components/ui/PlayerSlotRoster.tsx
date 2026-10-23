@@ -15,7 +15,9 @@ export interface PlayerSlotRosterProps {
   filledSlots?: PlayerSlot[];
   totalCapacity?: number;
   totalSlots?: number;
+  confirmedCount?: number;
   mode?: 'court' | 'americano';
+  sectionTitle?: string;
   emptySlotLabel?: string;
   onPressEmpty?: () => void;
   compact?: boolean;
@@ -27,7 +29,9 @@ export function PlayerSlotRoster({
   filledSlots,
   totalCapacity,
   totalSlots,
+  confirmedCount,
   mode,
+  sectionTitle,
   emptySlotLabel = 'Open',
   onPressEmpty,
   compact = false,
@@ -42,9 +46,92 @@ export function PlayerSlotRoster({
     const spots = Array.from({ length: capacity }, (_, i) => activeSlots[i] || null);
 
     return (
-      <View style={[styles.container, compact && styles.containerCompact]} testID={testID}>
-        {spots.map((spot, idx) => {
-          if (spot) {
+      <View style={styles.rosterWrapper} testID={testID}>
+        {sectionTitle ? (
+          <View style={styles.sectionTitleRow}>
+            <Text style={styles.sectionTitleText}>{sectionTitle}</Text>
+          </View>
+        ) : null}
+        <View style={[styles.container, compact && styles.containerCompact]}>
+          {spots.map((spot, idx) => {
+            if (spot) {
+              const initials = spot.name
+                .split(' ')
+                .map((n) => n[0])
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
+
+              return (
+                <View key={idx} style={styles.slotWrapper}>
+                  <View
+                    style={[
+                      styles.avatarCircle,
+                      spot.isUser ? styles.userAvatarBorder : styles.filledAvatarBorder,
+                    ]}
+                  >
+                    {spot.avatarUrl ? (
+                      <Image source={{ uri: spot.avatarUrl }} style={styles.avatarImage} />
+                    ) : (
+                      <View style={styles.initialsContainer}>
+                        <Text style={styles.initialsText}>{initials}</Text>
+                      </View>
+                    )}
+
+                    {spot.level !== undefined && (
+                      <View style={styles.levelBadge}>
+                        <Text style={[styles.levelBadgeText, Typography.tabularNums]}>
+                          {typeof spot.level === 'number' ? spot.level.toFixed(1) : spot.level}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  {!compact && (
+                    <Text style={styles.slotNameText} numberOfLines={1}>
+                      {spot.isUser ? 'You' : spot.name.split(' ')[0]}
+                    </Text>
+                  )}
+                </View>
+              );
+            }
+
+            // Open Slot
+            const SlotComponent = onPressEmpty ? TouchableOpacity : View;
+
+            return (
+              <SlotComponent
+                key={idx}
+                style={styles.slotWrapper}
+                onPress={onPressEmpty}
+                activeOpacity={0.7}
+              >
+                <View style={styles.emptySlotCircle}>
+                  <Plus size={16} color={Tokens.colors.slotEmptyIcon} strokeWidth={2} />
+                </View>
+                {!compact && <Text style={styles.emptySlotLabel}>{emptySlotLabel}</Text>}
+              </SlotComponent>
+            );
+          })}
+        </View>
+      </View>
+    );
+  }
+
+  // Roster stack view for large events (e.g. Americano 8 to 16 players)
+  const visibleSlots = activeSlots.slice(0, 4);
+  const totalFilled = confirmedCount ?? activeSlots.length;
+  const remainingCount = Math.max(0, capacity - totalFilled);
+
+  return (
+    <View style={styles.rosterWrapper} testID={testID}>
+      {sectionTitle ? (
+        <View style={styles.sectionTitleRow}>
+          <Text style={styles.sectionTitleText}>{sectionTitle}</Text>
+        </View>
+      ) : null}
+      <View style={styles.stackContainer}>
+        <View style={styles.avatarOverlapRow}>
+          {visibleSlots.map((spot, idx) => {
             const initials = spot.name
               .split(' ')
               .map((n) => n[0])
@@ -53,101 +140,46 @@ export function PlayerSlotRoster({
               .toUpperCase();
 
             return (
-              <View key={idx} style={styles.slotWrapper}>
-                <View
-                  style={[
-                    styles.avatarCircle,
-                    spot.isUser ? styles.userAvatarBorder : styles.filledAvatarBorder,
-                  ]}
-                >
-                  {spot.avatarUrl ? (
-                    <Image source={{ uri: spot.avatarUrl }} style={styles.avatarImage} />
-                  ) : (
-                    <View style={styles.initialsContainer}>
-                      <Text style={styles.initialsText}>{initials}</Text>
-                    </View>
-                  )}
-
-                  {spot.level !== undefined && (
-                    <View style={styles.levelBadge}>
-                      <Text style={[styles.levelBadgeText, Typography.tabularNums]}>
-                        {typeof spot.level === 'number' ? spot.level.toFixed(1) : spot.level}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                {!compact && (
-                  <Text style={styles.slotNameText} numberOfLines={1}>
-                    {spot.isUser ? 'You' : spot.name.split(' ')[0]}
-                  </Text>
+              <View
+                key={idx}
+                style={[
+                  styles.overlapAvatar,
+                  { zIndex: 10 - idx, marginLeft: idx === 0 ? 0 : -8 },
+                  spot.isUser ? styles.userAvatarBorder : styles.filledAvatarBorder,
+                ]}
+              >
+                {spot.avatarUrl ? (
+                  <Image source={{ uri: spot.avatarUrl }} style={styles.avatarImage} />
+                ) : (
+                  <View style={styles.initialsContainer}>
+                    <Text style={styles.initialsTextSmall}>{initials}</Text>
+                  </View>
                 )}
               </View>
             );
-          }
+          })}
+        </View>
 
-          // Open Slot
-          const SlotComponent = onPressEmpty ? TouchableOpacity : View;
+        <View style={styles.quotaPill}>
+          <Text style={[styles.quotaPillText, Typography.tabularNums]}>
+            {totalFilled}/{capacity} players
+          </Text>
+          {remainingCount > 0 && (
+            <Text style={styles.remainingSubtext}>
+              ({remainingCount} {remainingCount === 1 ? 'spot left' : 'spots left'})
+            </Text>
+          )}
+        </View>
 
-          return (
-            <SlotComponent
-              key={idx}
-              style={styles.slotWrapper}
-              onPress={onPressEmpty}
-              activeOpacity={0.7}
-            >
-              <View style={styles.emptySlotCircle}>
-                <Plus size={16} color={Tokens.colors.slotEmptyIcon} strokeWidth={2} />
-              </View>
-              {!compact && <Text style={styles.emptySlotLabel}>{emptySlotLabel}</Text>}
-            </SlotComponent>
-          );
-        })}
-      </View>
-    );
-  }
-
-  // Roster stack view for large events (e.g. Americano 8 to 12 players)
-  const visibleSlots = activeSlots.slice(0, 4);
-  const remainingCount = Math.max(0, capacity - activeSlots.length);
-
-  return (
-    <View style={styles.stackContainer} testID={testID}>
-      <View style={styles.avatarOverlapRow}>
-        {visibleSlots.map((spot, idx) => {
-          const initials = spot.name
-            .split(' ')
-            .map((n) => n[0])
-            .slice(0, 2)
-            .join('')
-            .toUpperCase();
-
-          return (
-            <View
-              key={idx}
-              style={[
-                styles.overlapAvatar,
-                { zIndex: 10 - idx, marginLeft: idx === 0 ? 0 : -8 },
-                spot.isUser ? styles.userAvatarBorder : styles.filledAvatarBorder,
-              ]}
-            >
-              {spot.avatarUrl ? (
-                <Image source={{ uri: spot.avatarUrl }} style={styles.avatarImage} />
-              ) : (
-                <View style={styles.initialsContainer}>
-                  <Text style={styles.initialsTextSmall}>{initials}</Text>
-                </View>
-              )}
-            </View>
-          );
-        })}
-      </View>
-
-      <View style={styles.quotaPill}>
-        <Text style={[styles.quotaPillText, Typography.tabularNums]}>
-          {activeSlots.length}/{capacity} players
-        </Text>
-        {remainingCount > 0 && (
-          <Text style={styles.remainingSubtext}>({remainingCount} spots left)</Text>
+        {remainingCount > 0 && onPressEmpty && (
+          <TouchableOpacity
+            style={styles.americanoJoinButton}
+            onPress={onPressEmpty}
+            activeOpacity={0.7}
+          >
+            <Plus size={13} color={Tokens.colors.primary} strokeWidth={2} />
+            <Text style={styles.americanoJoinText}>{emptySlotLabel}</Text>
+          </TouchableOpacity>
         )}
       </View>
     </View>
@@ -292,5 +324,37 @@ const styles = StyleSheet.create({
     fontWeight: Tokens.fontWeight.regular,
     fontSize: Tokens.fontSize.xs,
     color: Tokens.colors.greenText,
+  },
+  rosterWrapper: {
+    gap: Tokens.spacing.xs,
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  sectionTitleText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.textMuted,
+    letterSpacing: 0.3,
+  },
+  americanoJoinButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: 4,
+    borderRadius: Tokens.radii.pill,
+    backgroundColor: Tokens.colors.slotEmptyBg,
+    borderWidth: 1,
+    borderColor: Tokens.colors.slotEmptyBorder,
+  },
+  americanoJoinText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
+    color: Tokens.colors.primary,
   },
 });

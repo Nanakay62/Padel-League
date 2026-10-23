@@ -34,7 +34,7 @@ export const Tokens = {
     brandBlue: '#1D4ED8',
     brandBlueDark: '#1E40AF',
     heroGradient: 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%)',
-    heroOverlayGradient: 'linear-gradient(135deg, rgba(29, 78, 216, 0.82) 0%, rgba(30, 64, 175, 0.88) 100%)',
+    heroOverlayGradient: 'linear-gradient(135deg, rgba(29, 78, 216, 0.72) 0%, rgba(30, 64, 175, 0.78) 100%)',
     bannerBlueDark: '#1E40AF',
     bannerBlueBorder: 'rgba(255, 255, 255, 0.15)',
     bannerBlueText: '#FFFFFF',

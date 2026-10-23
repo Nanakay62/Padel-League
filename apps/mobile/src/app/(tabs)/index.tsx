@@ -38,7 +38,7 @@ export const HOME_HERO_IMAGE_URL =
 interface PlaySessionItem {
   id: string;
   format: string;
-  status: 'Open' | 'Needs a 4th';
+  status: 'Open' | 'Needs a 4th' | '1 spot left';
   title: string;
   venue: string;
   schedule: string;
@@ -49,6 +49,7 @@ interface PlaySessionItem {
   slots?: {
     filled: { name: string; level?: string }[];
     total: number;
+    confirmedCount?: number;
   };
 }
 
@@ -68,14 +69,16 @@ const PLAY_SESSIONS: PlaySessionItem[] = [
         { name: 'K. Mensah', level: '3.8' },
         { name: 'A. Osei', level: '3.2' },
         { name: 'N. Asante', level: '3.5' },
+        { name: 'P. Danquah', level: '3.7' },
       ],
-      total: 4,
+      total: 16,
+      confirmedCount: 14,
     },
   },
   {
     id: 'evt-002',
     format: 'Mexicano',
-    status: 'Needs a 4th',
+    status: '1 spot left',
     title: 'Saturday Morning Sprint',
     venue: 'Cantonments Club',
     schedule: 'Sat, 8:00 AM',
@@ -88,8 +91,10 @@ const PLAY_SESSIONS: PlaySessionItem[] = [
         { name: 'K. Mensah', level: '4.2' },
         { name: 'D. Boateng', level: '3.9' },
         { name: 'S. Addo', level: '4.0' },
+        { name: 'E. Mensah', level: '4.1' },
       ],
-      total: 4,
+      total: 8,
+      confirmedCount: 7,
     },
   },
   {
@@ -106,8 +111,11 @@ const PLAY_SESSIONS: PlaySessionItem[] = [
       filled: [
         { name: 'E. Quaye', level: '2.8' },
         { name: 'Y. Darko', level: '3.1' },
+        { name: 'A. Lamptey', level: '3.0' },
+        { name: 'M. Ofori', level: '2.9' },
       ],
-      total: 4,
+      total: 12,
+      confirmedCount: 11,
     },
   },
 ];
@@ -200,7 +208,7 @@ export default function HomeScreen() {
               <Text style={styles.avatarInitialText}>KA</Text>
               <View style={styles.avatarOnlineDot} />
             </View>
-            <View>
+            <View style={styles.greetingCol}>
               <View style={styles.greetingRow}>
                 <Text style={styles.greetingText}>{t('greetingAfternoon')}</Text>
                 {nextGameResult.isMock && (
@@ -209,7 +217,7 @@ export default function HomeScreen() {
                   </View>
                 )}
               </View>
-              <Text style={styles.taglineText}>{t('tagline')}</Text>
+              <Text style={styles.taglineText} numberOfLines={1}>{t('tagline')}</Text>
             </View>
           </View>
 
@@ -295,6 +303,7 @@ export default function HomeScreen() {
             <View style={styles.nextGameRosterBox}>
               <PlayerSlotRoster
                 mode="court"
+                sectionTitle="Court 2 • Starting Four"
                 filledSlots={[
                   { name: 'Kofi A.', level: '3.6' },
                   { name: 'Nana K.', level: '3.4' },
@@ -402,11 +411,12 @@ export default function HomeScreen() {
 
         {/* Play Near You Section */}
         <View style={styles.sectionHeaderRow}>
-          <View>
+          <View style={styles.sectionHeadingCol}>
             <Text style={styles.sectionHeading}>{t('playNearYouTitle')}</Text>
             <Text style={styles.sectionSubtitle}>{t('playNearYouSubtitle')}</Text>
           </View>
           <Pressable
+            style={styles.sectionHeaderLinkWrap}
             onPress={() => router.push('/play')}
             accessibilityRole="button"
             accessibilityLabel="View all sessions"
@@ -480,9 +490,10 @@ export default function HomeScreen() {
               {item.slots && (
                 <View style={styles.sessionRosterRow}>
                   <PlayerSlotRoster
-                    mode="court"
+                    mode="americano"
                     filledSlots={item.slots.filled}
                     totalSlots={item.slots.total}
+                    confirmedCount={item.slots.confirmedCount}
                     emptySlotLabel="Join slot"
                     onPressEmpty={() => router.push(`/events/${item.id}` as any)}
                   />
@@ -513,11 +524,12 @@ export default function HomeScreen() {
 
         {/* Upcoming Leagues Section */}
         <View style={styles.sectionHeaderRow}>
-          <View>
+          <View style={styles.sectionHeadingCol}>
             <Text style={styles.sectionHeading}>{t('upcomingLeaguesTitle')}</Text>
             <Text style={styles.sectionSubtitle}>{t('upcomingLeaguesSubtitle')}</Text>
           </View>
           <Pressable
+            style={styles.sectionHeaderLinkWrap}
             onPress={() => router.push('/(tabs)/leagues' as any)}
             accessibilityRole="button"
             accessibilityLabel="Circuit standings"
@@ -598,7 +610,9 @@ export default function HomeScreen() {
 
         {/* Quick Actions Grid */}
         <View style={styles.sectionHeaderRow}>
-          <Text style={styles.sectionHeading}>{t('quickActionsTitle')}</Text>
+          <View style={styles.sectionHeadingCol}>
+            <Text style={styles.sectionHeading}>{t('quickActionsTitle')}</Text>
+          </View>
         </View>
 
         <View style={styles.quickActionsGrid}>
@@ -720,6 +734,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Tokens.spacing.sm,
+    flex: 1,
+    minWidth: 0,
+    paddingRight: Tokens.spacing.xs,
+  },
+  greetingCol: {
+    flex: 1,
+    minWidth: 0,
   },
   avatarCircle: {
     width: 42,
@@ -792,6 +813,7 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.border,
     alignItems: 'flex-end',
     justifyContent: 'center',
+    flexShrink: 0,
   },
   balanceLabel: {
     fontFamily: Typography.fontFamily.regular,
@@ -1243,6 +1265,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: Tokens.spacing.sm,
   },
+  sectionHeadingCol: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: Tokens.spacing.sm,
+  },
+  sectionHeaderLinkWrap: {
+    flexShrink: 0,
+    alignSelf: 'flex-end',
+  },
   sectionHeading: {
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
@@ -1515,7 +1546,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    gap: Tokens.spacing.xl,
+    gap: Tokens.spacing.md,
     flexWrap: 'wrap',
   },
   leagueMetaCol: {

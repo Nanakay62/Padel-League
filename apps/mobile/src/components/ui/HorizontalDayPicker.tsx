@@ -25,7 +25,7 @@ export interface HorizontalDayPickerProps {
 
 const DEFAULT_DAYS: DayItem[] = [
   { key: 'today', dayLabel: 'TODAY', dateNumber: '23', isToday: true },
-  { key: 'tomorrow', dayLabel: 'TOMORROW', dateNumber: '24' },
+  { key: 'tomorrow', dayLabel: 'TOM', dateNumber: '24' },
   { key: 'sat', dayLabel: 'SAT', dateNumber: '25' },
   { key: 'sun', dayLabel: 'SUN', dateNumber: '26' },
   { key: 'mon', dayLabel: 'MON', dateNumber: '27' },

@@ -68,7 +68,7 @@ export default function FindEventsScreen() {
           <Button
             title="+ Host Event"
             variant="primary"
-            size="md"
+            size="sm"
             onPress={() => router.push('/events/create')}
             testID="find-events-host-btn"
           />
@@ -76,7 +76,6 @@ export default function FindEventsScreen() {
 
         {/* Blue Hero Banner Card */}
         <CircuitBanner
-          badge="ACCRA AMERICANO & SOCIAL EVENTS"
           title="Find Events"
           description="Discover and join Americano, Mexicano, and social match sessions across Accra. Filter by player rating band and secured court slots."
           testID="events-banner-card"
@@ -169,13 +168,15 @@ export default function FindEventsScreen() {
                 {/* Playtomic Slot Roster Preview */}
                 <View style={styles.rosterRow}>
                   <PlayerSlotRoster
-                    mode="court"
+                    mode={item.max_players > 4 ? 'americano' : 'court'}
                     filledSlots={[
                       { name: 'Player 1', level: `${item.level_min.toFixed(1)}` },
                       { name: 'Player 2', level: `${((item.level_min + item.level_max) / 2).toFixed(1)}` },
                       ...(confirmedCount > 2 ? [{ name: 'Player 3', level: `${item.level_max.toFixed(1)}` }] : []),
+                      ...(confirmedCount > 3 ? [{ name: 'Player 4', level: `${item.level_min.toFixed(1)}` }] : []),
                     ]}
-                    totalSlots={4}
+                    totalSlots={item.max_players}
+                    confirmedCount={confirmedCount}
                     emptySlotLabel={item.status === 'FULL' ? undefined : 'Join'}
                     onPressEmpty={() => router.push(`/events/${item.id}` as any)}
                   />
