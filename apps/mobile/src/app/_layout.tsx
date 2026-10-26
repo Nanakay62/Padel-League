@@ -12,6 +12,12 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
+    'Satoshi-Regular': require('../../assets/fonts/Satoshi-Regular.ttf'),
+    'Satoshi-Medium': require('../../assets/fonts/Satoshi-Medium.ttf'),
+    'Satoshi-Bold': require('../../assets/fonts/Satoshi-Bold.ttf'),
+    'Figtree-Regular': require('../../assets/fonts/Figtree-Regular.ttf'),
+    'Figtree-Medium': require('../../assets/fonts/Figtree-Medium.ttf'),
+    'Figtree-SemiBold': require('../../assets/fonts/Figtree-SemiBold.ttf'),
     'Inter-Regular': require('../../assets/fonts/Inter-Regular.ttf'),
     'Inter-Medium': require('../../assets/fonts/Inter-Medium.ttf'),
     'Inter-SemiBold': require('../../assets/fonts/Inter-SemiBold.ttf'),
