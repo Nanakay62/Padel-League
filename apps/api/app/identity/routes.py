@@ -1,14 +1,30 @@
 """FastAPI router for phone OTP auth, profile onboarding, and partner search."""
 
+from pathlib import Path
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    Query,
+    Request,
+    Response,
+    UploadFile,
+    status,
+)
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.config import settings
 from app.db import get_db
+from app.domain.photos import (
+    ALLOWED_PHOTO_MIME_TYPES,
+    MAX_PHOTO_SIZE_BYTES,
+    validate_photo_magic_bytes,
+)
 from app.identity.deps import get_current_admin_user_id, get_current_user_id
 from app.identity.models import PlayerProfile, User
 from app.identity.schemas import (
@@ -302,6 +318,55 @@ async def update_my_profile(
 ) -> UserProfileResponse:
     service = IdentityService(db)
     return await service.update_user_profile(user_id, payload)
+
+
+@router.post("/me/avatar", response_model=UserProfileResponse)
+async def upload_my_avatar(
+    file: Annotated[UploadFile, File(...)],
+    user_id: Annotated[str, Depends(get_current_user_id)],
+    db: DatabaseSession,
+) -> UserProfileResponse:
+    """Upload a player profile picture, validating MIME type, magic bytes, and 5 MB size limit."""
+    content_type = file.content_type or ""
+    if content_type.lower() not in ALLOWED_PHOTO_MIME_TYPES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid photo format. Only JPEG, PNG, and WebP are allowed.",
+        )
+
+    total_size = 0
+    chunks: list[bytes] = []
+    chunk_size = 64 * 1024
+    while True:
+        chunk = await file.read(chunk_size)
+        if not chunk:
+            break
+        total_size += len(chunk)
+        if total_size > MAX_PHOTO_SIZE_BYTES:
+            raise HTTPException(
+                status_code=status.HTTP_413_CONTENT_TOO_LARGE,
+                detail="Photo file size exceeds maximum limit of 5 MB.",
+            )
+        chunks.append(chunk)
+
+    content = b"".join(chunks)
+
+    try:
+        ext = validate_photo_magic_bytes(content, content_type)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid photo file content. {e}",
+        )
+
+    upload_dir = Path("uploads/avatars")
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    file_path = upload_dir / f"{user_id}{ext}"
+    file_path.write_bytes(content)
+
+    url = f"/static/uploads/avatars/{user_id}{ext}"
+    service = IdentityService(db)
+    return await service.update_user_profile(user_id, UserProfileUpdate(avatar_url=url))
 
 
 @router.post("/me/onboarding", response_model=LevelOnboardingResponse)

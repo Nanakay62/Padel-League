@@ -17,7 +17,7 @@
 
 ## GLOBAL GATES (re-check at the end of EVERY phase)
 
-- [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (148 files formatted), `uv run mypy app` (0 issues across 76 files), `uv run pytest -q` (391 passed) PASSED
+- [x] `make check` passes (ruff, mypy, pytest): evidence: `uv run ruff check .` (0 errors), `uv run ruff format --check .` (155 files formatted), `uv run mypy app` (0 issues across 77 files), `uv run pytest -q` (425 passed) PASSED
 - [x] `cd apps/mobile && npm run lint && npm test && npx tsc --noEmit` passes: evidence: `npm run lint` (0 errors), `npm test` (20 suites, 149 passed), `npx tsc --noEmit` (0 errors) PASSED
 - [x] CI is green on the latest commit: evidence: all 4 CI & Deploy jobs (Backend Tests, Mobile & Web Client Check, Docker Build, Cloudflare Pages Export) passing green on commit `0d2c50b` on `main`
 - [x] No secrets, tokens, or real phone numbers committed: evidence: `git log -p | grep matches no hardcoded live keys; .env git-ignored`

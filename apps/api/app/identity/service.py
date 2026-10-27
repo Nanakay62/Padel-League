@@ -919,6 +919,7 @@ class IdentityService:
             preferred_side=user.profile.preferred_side,
             home_venue_id=user.profile.home_venue_id,
             competitiveness=user.profile.competitiveness,
+            avatar_url=user.profile.avatar_url,
         )
 
     async def update_user_profile(
@@ -946,6 +947,8 @@ class IdentityService:
             user.profile.usual_play_times = data.usual_play_times
         if data.external_level_note is not None:
             user.profile.external_level_note = data.external_level_note
+        if data.avatar_url is not None:
+            user.profile.avatar_url = data.avatar_url
 
         await self.db.commit()
         return await self.get_user_profile(user_id)

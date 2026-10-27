@@ -1,5 +1,14 @@
-import React from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   Settings,
   ChevronRight,
@@ -7,6 +16,7 @@ import {
   Activity,
   Award,
   Shield,
+  Camera,
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { t } from '@/lib/i18n';
@@ -14,11 +24,14 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { Screen, Card, StatusPill, Button, CircuitBanner } from '@/components/ui';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
+import { apiFetch } from '@/lib/api-client';
 
 export default function ProfileTabScreen() {
   const router = useRouter();
-  const { user, isAuthenticated, logout, deleteAccount } = useAuth();
+  const { user, isAuthenticated, logout, deleteAccount, refreshProfile } = useAuth();
   const { isDesktop, isTablet } = useResponsiveLayout();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const playerName = isAuthenticated && user?.name ? user.name : t('guestPlayer');
   const playerPhone =
@@ -33,6 +46,41 @@ export default function ProfileTabScreen() {
         .join('')
         .toUpperCase() || 'P'
     : 'GP';
+
+  const handleSelectFile = () => {
+    if (Platform.OS === 'web' && fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (event: any) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      Alert.alert('File Too Large', 'Please select a photo under 5 MB.');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      setIsUploading(true);
+      const res = await apiFetch('/me/avatar', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        await refreshProfile();
+        Alert.alert('Photo Updated', 'Your profile picture has been saved.');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        Alert.alert('Upload Failed', err.detail || 'Could not upload photo.');
+      }
+    } catch (err: any) {
+      Alert.alert('Upload Error', err.message || 'An error occurred uploading photo.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const handleLogoutPress = () => {
     const pendingScoreCount = courtsideScoreQueue.size();
@@ -91,10 +139,40 @@ export default function ProfileTabScreen() {
       <View style={[styles.container, (isDesktop || isTablet) && styles.containerWide]}>
         {/* Main Profile Info Card */}
         <Card style={styles.profileCard}>
+          {Platform.OS === 'web' && (
+            <input
+              type="file"
+              ref={fileInputRef as any}
+              style={{ display: 'none' }}
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleFileChange}
+            />
+          )}
+
           <View style={styles.profileHeaderRow}>
-            <View style={styles.avatarBox}>
-              <Text style={styles.avatarInitials}>{avatarInitials}</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.avatarBox}
+              onPress={handleSelectFile}
+              disabled={!isAuthenticated || isUploading}
+              accessibilityRole="button"
+              accessibilityLabel="Change profile picture"
+              testID="profile-avatar-button"
+            >
+              {user?.avatar_url ? (
+                <Image source={{ uri: user.avatar_url }} style={styles.avatarImage} />
+              ) : (
+                <Text style={styles.avatarInitials}>{avatarInitials}</Text>
+              )}
+              {isAuthenticated && (
+                <View style={styles.cameraIconBadge}>
+                  {isUploading ? (
+                    <ActivityIndicator size="small" color={Tokens.colors.primaryForeground} />
+                  ) : (
+                    <Camera size={12} color={Tokens.colors.primaryForeground} />
+                  )}
+                </View>
+              )}
+            </TouchableOpacity>
 
             <View style={styles.profileDetailsCol}>
               <View style={styles.nameRow}>
@@ -273,14 +351,34 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.base,
   },
   avatarBox: {
-    width: 60,
-    height: 60,
+    width: 64,
+    height: 64,
     borderRadius: Tokens.radii.card,
     backgroundColor: Tokens.colors.surfaceContainer,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: Tokens.colors.border,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  avatarImage: {
+    width: 64,
+    height: 64,
+    borderRadius: Tokens.radii.card,
+  },
+  cameraIconBadge: {
+    position: 'absolute',
+    bottom: 2,
+    right: 2,
+    backgroundColor: Tokens.colors.primary,
+    width: 20,
+    height: 20,
+    borderRadius: Tokens.radii.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: Tokens.colors.card,
   },
   avatarInitials: {
     fontFamily: Typography.fontFamily.semibold,

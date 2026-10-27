@@ -30,6 +30,7 @@ import {
   useNextGame,
   useRating,
 } from '@/hooks/useData';
+import { useAuth } from '@/context/AuthContext';
 import { Card, HorizontalDayPicker, PlayerSlotRoster } from '@/components/ui';
 
 export const HOME_HERO_IMAGE_URL =
@@ -178,6 +179,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const { isDesktop, margin, gutter, maxContentWidth } = useResponsiveLayout();
   const [selectedDay, setSelectedDay] = useState('today');
+  const { user, isAuthenticated } = useAuth();
 
   const userBalancePesewas = 5000; // GH₵ 50.00
   const nextGameResult = useNextGame();
@@ -186,6 +188,14 @@ export default function HomeScreen() {
   const rating = ratingResult.data;
 
   const isProvisional = rating.reliability < 0.85;
+  const avatarInitials = isAuthenticated && user?.name
+    ? user.name
+        .split(' ')
+        .map((n) => n[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase() || 'P'
+    : 'GP';
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -205,17 +215,16 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <View style={styles.headerProfileRow}>
             <View style={styles.avatarCircle}>
-              <Text style={styles.avatarInitialText}>KA</Text>
+              {user?.avatar_url ? (
+                <Image source={{ uri: user.avatar_url }} style={styles.avatarImage} />
+              ) : (
+                <Text style={styles.avatarInitialText}>{avatarInitials}</Text>
+              )}
               <View style={styles.avatarOnlineDot} />
             </View>
             <View style={styles.greetingCol}>
               <View style={styles.greetingRow}>
                 <Text style={styles.greetingText}>{t('greetingAfternoon')}</Text>
-                {nextGameResult.isMock && (
-                  <View style={styles.demoBadge}>
-                    <Text style={styles.demoBadgeText}>{t('demoDataBadge')}</Text>
-                  </View>
-                )}
               </View>
               <Text style={styles.taglineText} numberOfLines={1}>{t('tagline')}</Text>
             </View>
@@ -750,6 +759,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    overflow: 'hidden',
+  },
+  avatarImage: {
+    width: 42,
+    height: 42,
+    borderRadius: Tokens.radii.pill,
   },
   avatarInitialText: {
     fontFamily: Typography.fontFamily.semibold,

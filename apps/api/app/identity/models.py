@@ -106,6 +106,7 @@ class PlayerProfile(Base):
     usual_play_times: Mapped[str | None] = mapped_column(String(255), nullable=True)
     strikes: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     external_level_note: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    avatar_url: Mapped[str | None] = mapped_column(String(512), nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False
     )

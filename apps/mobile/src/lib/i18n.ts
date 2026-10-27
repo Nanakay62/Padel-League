@@ -126,13 +126,13 @@ const translations = {
 
     // Placeholders
     placeholderCommunityTitle: 'Community',
-    placeholderCommunityText: 'Player matchmaking, rankings, and community groups arrive in Phase 3.',
+    placeholderCommunityText: 'Connect with Accra padel players, find hitting partners, and join club community channels.',
     placeholderProfileTitle: 'Profile',
-    placeholderProfileText: 'Player profiles, reliability history, and notification preferences arrive in Phase 3.',
+    placeholderProfileText: 'View player rating, reliability index, and match history.',
     placeholderSearchTitle: 'Search',
-    placeholderSearchText: 'Global search across events, courts, and players arrives in Phase 3.',
+    placeholderSearchText: 'Search tournaments, clubs, courts, and players across Accra.',
     placeholderNotificationsTitle: 'Notifications',
-    placeholderNotificationsText: 'Match reminders and score update notifications arrive in Phase 3.',
+    placeholderNotificationsText: 'Match reminders and score update notifications.',
 
     // Authentication (Slice A)
     authTitle: 'Padel Ghana',

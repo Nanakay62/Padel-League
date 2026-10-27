@@ -104,6 +104,7 @@ class UserProfileResponse(BaseModel):
     preferred_side: str
     home_venue_id: str | None = None
     competitiveness: str
+    avatar_url: str | None = None
 
 
 class UserProfileUpdate(BaseModel):
@@ -114,6 +115,7 @@ class UserProfileUpdate(BaseModel):
     competitiveness: str | None = None
     usual_play_times: str | None = None
     external_level_note: str | None = None
+    avatar_url: str | None = None
 
 
 class LevelOnboardingQuestions(BaseModel):

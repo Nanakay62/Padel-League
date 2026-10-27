@@ -22,6 +22,7 @@ export interface AuthUser {
   preferred_side?: string;
   competitiveness?: string;
   home_venue_id?: string | null;
+  avatar_url?: string | null;
 }
 
 interface AuthContextType {
@@ -65,6 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           preferred_side: data.preferred_side,
           competitiveness: data.competitiveness,
           home_venue_id: data.home_venue_id,
+          avatar_url: data.avatar_url,
         });
         setIsAuthenticated(true);
         return true;
@@ -162,6 +164,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           preferred_side: fallbackUser?.preferred_side || 'LEFT',
           competitiveness: fallbackUser?.competitiveness || 'COMPETITIVE',
           home_venue_id: fallbackUser?.home_venue_id || 'v1',
+          avatar_url: fallbackUser?.avatar_url || null,
         };
         setUser(userObj);
         setIsAuthenticated(true);
