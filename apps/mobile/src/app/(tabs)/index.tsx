@@ -529,7 +529,7 @@ export default function HomeScreen() {
                     filledSlots={item.slots.filled}
                     totalSlots={item.slots.total}
                     confirmedCount={item.slots.confirmedCount}
-                    emptySlotLabel="Join slot"
+                    emptySlotLabel="Join"
                     onPressEmpty={() => router.push(`/events/${item.id}` as any)}
                   />
                 </View>
@@ -1350,6 +1350,7 @@ const styles = StyleSheet.create({
     padding: Tokens.spacing.md,
     gap: Tokens.spacing.sm,
     justifyContent: 'space-between',
+    overflow: 'hidden',
   },
   sessionCardDesktop: {
     flex: 1,

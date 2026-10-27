@@ -130,45 +130,47 @@ export function PlayerSlotRoster({
         </View>
       ) : null}
       <View style={styles.stackContainer}>
-        <View style={styles.avatarOverlapRow}>
-          {visibleSlots.map((spot, idx) => {
-            const initials = spot.name
-              .split(' ')
-              .map((n) => n[0])
-              .slice(0, 2)
-              .join('')
-              .toUpperCase();
+        <View style={styles.stackLeftGroup}>
+          <View style={styles.avatarOverlapRow}>
+            {visibleSlots.map((spot, idx) => {
+              const initials = spot.name
+                .split(' ')
+                .map((n) => n[0])
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
 
-            return (
-              <View
-                key={idx}
-                style={[
-                  styles.overlapAvatar,
-                  { zIndex: 10 - idx, marginLeft: idx === 0 ? 0 : -8 },
-                  spot.isUser ? styles.userAvatarBorder : styles.filledAvatarBorder,
-                ]}
-              >
-                {spot.avatarUrl ? (
-                  <Image source={{ uri: spot.avatarUrl }} style={styles.avatarImage} />
-                ) : (
-                  <View style={styles.initialsContainer}>
-                    <Text style={styles.initialsTextSmall}>{initials}</Text>
-                  </View>
-                )}
-              </View>
-            );
-          })}
-        </View>
+              return (
+                <View
+                  key={idx}
+                  style={[
+                    styles.overlapAvatar,
+                    { zIndex: 10 - idx, marginLeft: idx === 0 ? 0 : -8 },
+                    spot.isUser ? styles.userAvatarBorder : styles.filledAvatarBorder,
+                  ]}
+                >
+                  {spot.avatarUrl ? (
+                    <Image source={{ uri: spot.avatarUrl }} style={styles.avatarImageSmall} />
+                  ) : (
+                    <View style={styles.initialsContainer}>
+                      <Text style={styles.initialsTextSmall}>{initials}</Text>
+                    </View>
+                  )}
+                </View>
+              );
+            })}
+          </View>
 
-        <View style={styles.quotaPill}>
-          <Text style={[styles.quotaPillText, Typography.tabularNums]}>
-            {totalFilled}/{capacity} players
-          </Text>
-          {remainingCount > 0 && (
-            <Text style={styles.remainingSubtext}>
-              ({remainingCount} {remainingCount === 1 ? 'spot left' : 'spots left'})
+          <View style={styles.quotaCol}>
+            <Text style={[styles.quotaPillText, Typography.tabularNums]} numberOfLines={1}>
+              {totalFilled}/{capacity} players
             </Text>
-          )}
+            {remainingCount > 0 && (
+              <Text style={styles.remainingSubtext} numberOfLines={1}>
+                {remainingCount} {remainingCount === 1 ? 'spot left' : 'spots left'}
+              </Text>
+            )}
+          </View>
         </View>
 
         {remainingCount > 0 && onPressEmpty && (
@@ -176,6 +178,8 @@ export function PlayerSlotRoster({
             style={styles.americanoJoinButton}
             onPress={onPressEmpty}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={`${emptySlotLabel}, ${remainingCount} spots available`}
           >
             <Plus size={13} color={Tokens.colors.primary} strokeWidth={2} />
             <Text style={styles.americanoJoinText}>{emptySlotLabel}</Text>
@@ -292,41 +296,62 @@ const styles = StyleSheet.create({
   stackContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Tokens.spacing.md,
+    justifyContent: 'space-between',
+    gap: Tokens.spacing.xs,
     paddingVertical: Tokens.spacing.xs,
+    width: '100%',
+  },
+  stackLeftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.xs,
+    flex: 1,
+    minWidth: 0,
+    flexShrink: 1,
   },
   avatarOverlapRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexShrink: 0,
   },
   overlapAvatar: {
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
     borderRadius: Tokens.radii.pill,
     position: 'relative',
     backgroundColor: Tokens.colors.slotFilledBg,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  quotaPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Tokens.spacing.xs,
+  avatarImageSmall: {
+    width: 28,
+    height: 28,
+    borderRadius: Tokens.radii.pill,
+  },
+  quotaCol: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1,
+    minWidth: 0,
+    gap: 1,
   },
   quotaPillText: {
-    fontFamily: Typography.fontFamily.medium,
-    fontWeight: Tokens.fontWeight.medium,
-    fontSize: Tokens.fontSize.sm,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
+    lineHeight: Tokens.lineHeight.xs,
     color: Tokens.colors.text,
   },
   remainingSubtext: {
-    fontFamily: Typography.fontFamily.regular,
-    fontWeight: Tokens.fontWeight.regular,
-    fontSize: Tokens.fontSize.xs,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
+    fontSize: Tokens.fontSize.xxs,
+    lineHeight: Tokens.lineHeight.xxs,
     color: Tokens.colors.greenText,
   },
   rosterWrapper: {
     gap: Tokens.spacing.xs,
+    width: '100%',
   },
   sectionTitleRow: {
     flexDirection: 'row',
@@ -343,13 +368,15 @@ const styles = StyleSheet.create({
   americanoJoinButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 3,
     paddingHorizontal: Tokens.spacing.sm,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: Tokens.radii.pill,
     backgroundColor: Tokens.colors.slotEmptyBg,
     borderWidth: 1,
     borderColor: Tokens.colors.slotEmptyBorder,
+    flexShrink: 0,
+    alignSelf: 'center',
   },
   americanoJoinText: {
     fontFamily: Typography.fontFamily.semibold,
