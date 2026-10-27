@@ -293,6 +293,8 @@ const styles = StyleSheet.create({
     fontSize: Tokens.fontSize.sm,
     color: Tokens.colors.text,
     paddingVertical: 0,
+    borderWidth: 0,
+    backgroundColor: 'transparent',
     ...Platform.select({
       web: {
         outlineWidth: 0,

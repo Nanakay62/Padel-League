@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { MapPin, Clock, Search, Shield, Zap } from 'lucide-react-native';
+import { MapPin, Clock, Search, Shield, Zap, Calendar } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { formatGhanaCedis, formatAccraDateTime } from '@/lib/formatting';
 import { useEvents } from '@/hooks/useData';
@@ -22,6 +22,7 @@ import {
   CircuitBanner,
   HorizontalDayPicker,
   PlayerSlotRoster,
+  EmptyState,
 } from '@/components/ui';
 
 export default function FindEventsScreen() {
@@ -38,7 +39,27 @@ export default function FindEventsScreen() {
     const matchesQuery =
       evt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       evt.venue_name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFormat && matchesQuery;
+
+    // Day filtering
+    let matchesDay = true;
+    if (selectedDay !== 'all') {
+      const evtDay = new Date(evt.start_time).getUTCDay(); // 0 = Sun, 4 = Thu, 5 = Fri, 6 = Sat
+      const dayMap: Record<string, number> = {
+        today: 4, // Thu
+        tomorrow: 5, // Fri
+        sat: 6,
+        sun: 0,
+        mon: 1,
+        tue: 2,
+        wed: 3,
+      };
+      const targetDay = dayMap[selectedDay];
+      if (targetDay !== undefined) {
+        matchesDay = evtDay === targetDay;
+      }
+    }
+
+    return matchesFormat && matchesQuery && matchesDay;
   });
 
   return (
@@ -222,6 +243,15 @@ export default function FindEventsScreen() {
               </Card>
             );
           }}
+          ListEmptyComponent={
+            <EmptyState
+              icon={<Calendar size={32} color={Tokens.colors.primary} strokeWidth={1.75} />}
+              title="No sessions on this day"
+              message="There are no scheduled sessions for this date yet. Check other dates or host your own session."
+              actionTitle="+ Host Event"
+              onActionPress={() => router.push('/events/create')}
+            />
+          }
         />
       </View>
     </Screen>
@@ -236,6 +266,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Tokens.spacing.sm,
     paddingVertical: Tokens.spacing.xs,
+  },
+  searchBarContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Tokens.spacing.sm,
+    backgroundColor: Tokens.colors.background,
+    borderWidth: Tokens.borders.width,
+    borderColor: Tokens.colors.border,
+    borderRadius: Tokens.radii.input,
+    paddingHorizontal: Tokens.spacing.base,
+    height: Tokens.touch.minTarget,
+    minHeight: Tokens.touch.minTarget,
+  },
+  searchInput: {
+    flex: 1,
+    height: '100%',
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Tokens.fontSize.sm,
+    color: Tokens.colors.text,
+    paddingVertical: 0,
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+    ...Platform.select({
+      web: {
+        outlineWidth: 0,
+      },
+    }),
   },
   content: {
     flex: 1,
@@ -304,28 +362,6 @@ const styles = StyleSheet.create({
   },
   filterSection: {
     gap: Tokens.spacing.sm,
-  },
-  searchBarContainer: {
-    flex: 1,
-    minWidth: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Tokens.colors.card,
-    borderRadius: Tokens.radii.input,
-    borderWidth: 1,
-    borderColor: Tokens.colors.border,
-    paddingHorizontal: Tokens.spacing.md,
-    gap: Tokens.spacing.xs,
-    minHeight: Tokens.touch.minTarget,
-  },
-  searchInput: {
-    flex: 1,
-    width: '100%',
-    color: Tokens.colors.text,
-    fontFamily: Typography.fontFamily.regular,
-    fontSize: Tokens.fontSize.sm,
-    lineHeight: Tokens.lineHeight.sm,
-    paddingVertical: Tokens.spacing.sm,
   },
   filterRow: {
     flexDirection: 'row',

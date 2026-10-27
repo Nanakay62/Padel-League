@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Image,
   Platform,
@@ -180,6 +180,22 @@ export default function HomeScreen() {
   const { isDesktop, margin, gutter, maxContentWidth } = useResponsiveLayout();
   const [selectedDay, setSelectedDay] = useState('today');
   const { user, isAuthenticated } = useAuth();
+
+  const filteredPlaySessions = useMemo(() => {
+    if (selectedDay === 'all' || selectedDay === 'today') {
+      return PLAY_SESSIONS;
+    }
+    if (selectedDay === 'tomorrow' || selectedDay === 'sat') {
+      return PLAY_SESSIONS.filter((session) => session.schedule.includes('Sat'));
+    }
+    if (selectedDay === 'sun') {
+      return PLAY_SESSIONS.filter((session) => session.schedule.includes('Sun'));
+    }
+    if (selectedDay === 'fri') {
+      return PLAY_SESSIONS.filter((session) => session.schedule.includes('Fri'));
+    }
+    return [];
+  }, [selectedDay]);
 
   const userBalancePesewas = 5000; // GH₵ 50.00
   const nextGameResult = useNextGame();
@@ -442,8 +458,18 @@ export default function HomeScreen() {
         />
 
         <View style={styles.playSessionsGrid}>
-          {PLAY_SESSIONS.map((item) => (
-            <Card key={item.id} style={[styles.sessionCard, isDesktop ? styles.sessionCardDesktop : styles.sessionCardMobile]}>
+          {filteredPlaySessions.length === 0 ? (
+            <Card style={[styles.sessionCard, isDesktop ? styles.sessionCardDesktop : styles.sessionCardMobile]}>
+              <View style={styles.sessionTitleGroup}>
+                <Text style={styles.sessionTitle}>No sessions scheduled for this day</Text>
+                <Text style={styles.sessionVenue}>
+                  Select another date above or explore upcoming open tournaments across Accra clubs.
+                </Text>
+              </View>
+            </Card>
+          ) : (
+            filteredPlaySessions.map((item) => (
+              <Card key={item.id} style={[styles.sessionCard, isDesktop ? styles.sessionCardDesktop : styles.sessionCardMobile]}>
               <View style={styles.sessionCardTopRow}>
                 <View style={styles.formatBadge}>
                   <Text style={styles.formatBadgeText}>{item.format}</Text>
@@ -528,7 +554,7 @@ export default function HomeScreen() {
                 </Pressable>
               </View>
             </Card>
-          ))}
+          )))}
         </View>
 
         {/* Upcoming Leagues Section */}

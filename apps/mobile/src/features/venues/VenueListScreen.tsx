@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Image,
   Linking,
@@ -48,6 +48,31 @@ export interface VenueItem {
   verified?: boolean;
 }
 
+export interface VenueCourt {
+  id: string;
+  name: string;
+  turf: string;
+  hourlyRateCedis: number;
+}
+
+export const VENUE_COURTS_MAP: Record<string, VenueCourt[]> = {
+  v1: [
+    { id: 'c1', name: 'Court 1 (Panoramic)', turf: 'Turf: Blue Mondo 12mm', hourlyRateCedis: 120 },
+    { id: 'c2', name: 'Court 2 (Center Court)', turf: 'Turf: Red Clay Spec', hourlyRateCedis: 140 },
+    { id: 'c3', name: 'Court 3 (Outdoor Pro)', turf: 'Turf: Green Pro Turf', hourlyRateCedis: 110 },
+    { id: 'c4', name: 'Court 4 (Standard Glass)', turf: 'Turf: Blue Mondo 12mm', hourlyRateCedis: 120 },
+  ],
+  v2: [
+    { id: 'c1', name: 'Court 1 (Covered Lounge)', turf: 'Turf: Blue Mondo 12mm', hourlyRateCedis: 110 },
+    { id: 'c2', name: 'Court 2 (Outdoor Pro)', turf: 'Turf: Supercourt 12mm', hourlyRateCedis: 110 },
+    { id: 'c3', name: 'Court 3 (Social Court)', turf: 'Turf: Classic Turf', hourlyRateCedis: 100 },
+  ],
+  v3: [
+    { id: 'c1', name: 'Court 1 (Premium Shaded)', turf: 'Turf: Blue Mondo 12mm', hourlyRateCedis: 130 },
+    { id: 'c2', name: 'Court 2 (Tournament Spec)', turf: 'Turf: Panoramic Glass', hourlyRateCedis: 140 },
+  ],
+};
+
 export interface VenueListScreenProps {
   venues: VenueItem[];
   onSelectVenue?: (venueId: string) => void;
@@ -71,6 +96,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
   const router = useRouter();
   const { isDesktop, isTablet } = useResponsiveLayout();
   const [selectedVenueId, setSelectedVenueId] = useState<string>(venues[0]?.id || 'v1');
+  const [selectedCourtId, setSelectedCourtId] = useState<string>('c1');
   const [selectedSlot, setSelectedSlot] = useState<string>('6:00 PM');
   const [selectedDuration, setSelectedDuration] = useState<number>(90); // 60, 90, 120
   const [includeBalls, setIncludeBalls] = useState<boolean>(true);
@@ -82,7 +108,20 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
 
   const selectedVenue = venues.find((v) => v.id === selectedVenueId) || venues[0];
 
+  const availableCourts = useMemo(() => {
+    if (VENUE_COURTS_MAP[selectedVenue.id]) {
+      return VENUE_COURTS_MAP[selectedVenue.id];
+    }
+    const parsedRate = parseInt(selectedVenue.baseRateFormatted.replace(/[^0-9]/g, ''), 10) || 120;
+    return Array.from({ length: selectedVenue.courtCount || 2 }).map((_, idx) => ({
+      id: `c${idx + 1}`,
+      name: `Court ${idx + 1} (${idx === 0 ? 'Panoramic' : 'Standard'})`,
+      turf: 'Turf: Blue Mondo 12mm',
+      hourlyRateCedis: parsedRate,
+    }));
+  }, [selectedVenue]);
 
+  const activeCourt = availableCourts.find((c) => c.id === selectedCourtId) || availableCourts[0];
 
   const handleCallClub = (phone?: string) => {
     if (phone) {
@@ -98,8 +137,8 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
     }
   };
 
-  // Price calculations in Pesewas & Cedis
-  const baseHourlyCedis = 120;
+  // Price calculations in Pesewas & Cedis based on active court hourly rate
+  const baseHourlyCedis = activeCourt.hourlyRateCedis;
   const courtFeeCedis = (baseHourlyCedis * selectedDuration) / 60;
   const lightingFeeCedis = 20;
   const ballsFeeCedis = includeBalls ? 65 : 0;
@@ -108,6 +147,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
 
   const handleVenueClick = (venueId: string) => {
     setSelectedVenueId(venueId);
+    setSelectedCourtId('c1');
     if (onSelectVenue) {
       onSelectVenue(venueId);
     }
@@ -182,6 +222,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
               return (
                 <TouchableOpacity
                   key={venue.id}
+                  testID={`venue-card-${venue.id}`}
                   activeOpacity={0.85}
                   onPress={() => handleVenueClick(venue.id)}
                 >
@@ -261,15 +302,59 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
           <Card style={styles.matrixCard}>
             <View style={styles.matrixHeader}>
               <View>
-                <Text style={styles.matrixSubheader}>Configuring Court Session</Text>
-                <Text style={styles.matrixTitle}>
-                  Court 1 (Panoramic)
+                <Text style={styles.matrixSubheader}>
+                  Configuring Court Session • {selectedVenue.address}
+                </Text>
+                <Text style={styles.matrixTitle} testID="active-court-name">
+                  {activeCourt.name}
                 </Text>
               </View>
               <View style={styles.turfBadge}>
                 <View style={styles.turfDot} />
-                <Text style={styles.turfText}>Turf: Blue Mondo 12mm</Text>
+                <Text style={styles.turfText}>{activeCourt.turf}</Text>
               </View>
+            </View>
+
+            {/* Court Selection Selector */}
+            <View style={styles.courtSelectionSection}>
+              <Text style={styles.fieldLabel}>Select Court ({availableCourts.length} Available)</Text>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.courtPillsRow}
+              >
+                {availableCourts.map((court) => {
+                  const isCourtActive = court.id === activeCourt.id;
+                  return (
+                    <TouchableOpacity
+                      key={court.id}
+                      style={[styles.courtPill, isCourtActive && styles.courtPillActive]}
+                      onPress={() => setSelectedCourtId(court.id)}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${court.name}, GH₵ ${court.hourlyRateCedis} per hour`}
+                      testID={`court-select-${court.id}`}
+                    >
+                      <Text
+                        style={[
+                          styles.courtPillName,
+                          isCourtActive && styles.courtPillNameActive,
+                        ]}
+                      >
+                        {court.name}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.courtPillRate,
+                          isCourtActive && styles.courtPillRateActive,
+                          Typography.tabularNums,
+                        ]}
+                      >
+                        GH₵ {court.hourlyRateCedis}.00 / hr
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
             </View>
 
             {/* Time Slots Grid */}
@@ -337,11 +422,12 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
               <Text style={styles.fieldLabel}>Match Duration</Text>
               <View style={styles.durationOptionsRow}>
                 {[
-                  { mins: 60, rate: 'GH₵ 120.00' },
-                  { mins: 90, rate: 'GH₵ 180.00', recommended: true },
-                  { mins: 120, rate: 'GH₵ 240.00' },
+                  { mins: 60, multiplier: 1 },
+                  { mins: 90, multiplier: 1.5, recommended: true },
+                  { mins: 120, multiplier: 2 },
                 ].map((dur) => {
                   const isDurSelected = selectedDuration === dur.mins;
+                  const durRate = `GH₵ ${(baseHourlyCedis * dur.multiplier).toFixed(2)}`;
                   return (
                     <TouchableOpacity
                       key={dur.mins}
@@ -360,7 +446,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
                         {dur.mins} mins
                       </Text>
                       <Text style={[styles.durationRate, Typography.tabularNums]}>
-                        {dur.rate}
+                        {durRate}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -604,7 +690,10 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
                   <Text style={styles.totalLabel}>Total Payable</Text>
                   <Text style={styles.vatSubtext}>VAT & NHIL Inclusive</Text>
                 </View>
-                <Text style={[styles.totalAmount, Typography.tabularNums]}>
+                <Text
+                  style={[styles.totalAmount, Typography.tabularNums]}
+                  testID="total-payable-amount"
+                >
                   GH₵ {totalCedis.toFixed(2)}
                 </Text>
               </View>
@@ -1002,6 +1091,45 @@ const styles = StyleSheet.create({
   turfText: {
     ...Typography.labelSm,
     color: Tokens.colors.text,
+  },
+  courtSelectionSection: {
+    gap: Tokens.spacing.xs,
+  },
+  courtPillsRow: {
+    gap: Tokens.spacing.sm,
+    paddingVertical: Tokens.spacing.xs,
+  },
+  courtPill: {
+    paddingHorizontal: Tokens.spacing.md,
+    paddingVertical: Tokens.spacing.sm,
+    borderRadius: Tokens.radii.card,
+    backgroundColor: Tokens.colors.surface,
+    borderWidth: 1,
+    borderColor: Tokens.colors.border,
+    minHeight: Tokens.touch.minTarget,
+    justifyContent: 'center',
+    gap: Tokens.spacing.xs,
+  },
+  courtPillActive: {
+    backgroundColor: Tokens.colors.slotFilledBg,
+    borderColor: Tokens.colors.primary,
+    borderWidth: 2,
+  },
+  courtPillName: {
+    ...Typography.labelMd,
+    color: Tokens.colors.text,
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+  },
+  courtPillNameActive: {
+    color: Tokens.colors.primary,
+  },
+  courtPillRate: {
+    ...Typography.bodySm,
+    color: Tokens.colors.textMuted,
+  },
+  courtPillRateActive: {
+    color: Tokens.colors.primary,
   },
   slotsSection: {
     gap: Tokens.spacing.sm,

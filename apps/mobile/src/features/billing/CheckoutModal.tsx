@@ -243,7 +243,7 @@ export function CheckoutModal({
                   ]}
                   onPress={() => setSelectedMethod('PAYSTACK')}
                   accessibilityRole="button"
-                  accessibilityLabel="MoMo or Card via Paystack"
+                  accessibilityLabel="MoMo or Card"
                 >
                   <Text
                     style={[
@@ -251,7 +251,7 @@ export function CheckoutModal({
                       selectedMethod === 'PAYSTACK' && styles.methodTextSelected,
                     ]}
                   >
-                    MoMo / Card (Paystack)
+                    MoMo / Card
                   </Text>
                 </TouchableOpacity>
 

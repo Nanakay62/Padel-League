@@ -75,6 +75,28 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Zero-outline reset for all inputs to eliminate browser black focus rings */
+input,
+textarea,
+select,
+[role="searchbox"],
+[role="textbox"] {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+}
+
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+[role="searchbox"]:focus,
+[role="textbox"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 #root {
   display: flex;
   height: 100%;
