@@ -1,9 +1,9 @@
 import React from 'react';
 import { Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Users, Shield, Trophy, Award, MessageCircle, ChevronRight, UserCheck } from 'lucide-react-native';
+import { Users, Shield, Trophy, Award, ChevronRight, UserCheck } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
-import { Screen, Card, CircuitBanner } from '@/components/ui';
+import { Screen, Card, CircuitBanner, WhatsAppIcon } from '@/components/ui';
 
 export default function CommunityTabScreen() {
   const router = useRouter();
@@ -102,7 +102,7 @@ export default function CommunityTabScreen() {
         <Card style={styles.card}>
           <View style={styles.headerRow}>
             <View style={styles.iconCircle}>
-              <MessageCircle size={22} color={Tokens.colors.greenText} strokeWidth={2} />
+              <WhatsAppIcon size={22} color={Tokens.colors.whatsapp} testID="community-whatsapp-icon" />
             </View>
             <View style={styles.actionCol}>
               <Text style={styles.cardTitle}>Club WhatsApp Channels</Text>
@@ -145,6 +145,7 @@ export default function CommunityTabScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: Tokens.spacing.xl,
     gap: Tokens.spacing.base,
     paddingBottom: Tokens.spacing.xxxl,
   },

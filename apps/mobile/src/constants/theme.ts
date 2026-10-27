@@ -92,6 +92,8 @@ export const Tokens = {
     quickActionGoldBg: '#FEF9E7',
     quickActionPurpleBg: '#F3E8FF',
     quickActionPurpleText: '#7E22CE',
+    whatsapp: '#25D366',
+    whatsappDark: '#128C7E',
 
     // Courtside Live Scoring Dark Theme (ONLY for /events/[id]/live)
     live: {

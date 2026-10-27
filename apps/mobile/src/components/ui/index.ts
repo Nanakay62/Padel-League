@@ -10,3 +10,4 @@ export * from './EmptyState';
 export * from './CircuitBanner';
 export * from './PlayerSlotRoster';
 export * from './HorizontalDayPicker';
+export * from './WhatsAppIcon';

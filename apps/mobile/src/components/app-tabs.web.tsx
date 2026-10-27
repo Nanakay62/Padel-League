@@ -10,12 +10,12 @@ import {
   CreditCard,
   User,
   Plus,
-  Search,
   Bell,
   Settings,
 } from 'lucide-react-native';
 import { Tokens, Typography } from '@/constants/theme';
 import { t } from '@/lib/i18n';
+import { DesktopSearchBar } from '@/components/DesktopSearchBar';
 
 function RacquetLogo() {
   return (
@@ -479,33 +479,10 @@ export default function AppTabs() {
         <div className="shell-right-col">
           {/* Desktop Top Bar (Rendered on >= 1024px via CSS) */}
           <header className="desktop-topbar">
-            {/* Search Button (Triggers /search route) */}
-            <button
-              type="button"
-              data-testid="topbar-search-btn"
-              aria-label={t('navSearch')}
-              onClick={() => router.push('/search')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.sm,
-                backgroundColor: Tokens.colors.background,
-                border: `1px solid ${Tokens.colors.border}`,
-                borderRadius: Tokens.radii.input,
-                padding: `${Tokens.spacing.sm}px ${Tokens.spacing.base}px`,
-                width: 320,
-                minHeight: Tokens.touch.minTarget,
-                cursor: 'pointer',
-                color: Tokens.colors.textMuted,
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: Tokens.fontWeight.regular,
-                fontFamily: Typography.fontFamily.regular,
-                textAlign: 'left',
-              }}
-            >
-              <Search size={16} color={Tokens.colors.textMuted} strokeWidth={1.75} />
-              <span>{t('searchPlaceholder')}</span>
-            </button>
+            {/* In-Place Search Bar (Search events, players, clubs...) */}
+            <div data-testid="topbar-search-btn">
+              <DesktopSearchBar />
+            </div>
 
             {/* Right Controls: Notifications Bell & Profile Menu */}
             <div style={{ display: 'flex', alignItems: 'center', gap: Tokens.spacing.md }}>
