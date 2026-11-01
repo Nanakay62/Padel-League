@@ -24,6 +24,7 @@ import {
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { Card, Button, CircuitBanner } from '@/components/ui';
+import { formatAccraDate } from '@/lib/formatting';
 
 export interface VenueItem {
   id: string;
@@ -105,6 +106,10 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
   const [paymentMethod, setPaymentMethod] = useState<'mtn' | 'telecel' | 'at' | 'card' | 'club'>('mtn');
   const [momoPhone, setMomoPhone] = useState<string>('');
   const [showBookingOpensModal, setShowBookingOpensModal] = useState<boolean>(false);
+
+  const todayDateString = useMemo(() => {
+    return formatAccraDate(new Date().toISOString());
+  }, []);
 
   const selectedVenue = venues.find((v) => v.id === selectedVenueId) || venues[0];
 
@@ -197,7 +202,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
           </View>
           <View style={styles.filterPill}>
             <Calendar size={14} color={Tokens.colors.textMuted} />
-            <Text style={styles.filterPillValue}>Today, Thu Oct 24</Text>
+            <Text style={styles.filterPillValue}>Today, {todayDateString}</Text>
           </View>
           <View style={styles.filterPill}>
             <Text style={styles.filterPillLabel}>Surface:</Text>
@@ -360,7 +365,7 @@ export function VenueListScreen({ venues, onSelectVenue, onBookSlot }: VenueList
             {/* Time Slots Grid */}
             <View style={styles.slotsSection}>
               <View style={styles.slotsLabelRow}>
-                <Text style={styles.fieldLabel}>Available Time Slots (Thu, Oct 24)</Text>
+                <Text style={styles.fieldLabel}>Available Time Slots ({todayDateString})</Text>
                 <View style={styles.slotLegend}>
                   <View style={styles.legendItem}>
                     <View style={[styles.legendDot, styles.legendDotSelected]} />

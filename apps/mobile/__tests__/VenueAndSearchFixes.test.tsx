@@ -5,6 +5,7 @@ import path from 'path';
 import { CheckoutModal } from '@/features/billing/CheckoutModal';
 import { VenueListScreen } from '@/features/venues/VenueListScreen';
 import { SAMPLE_VENUES } from '@/app/venues/index';
+import { formatAccraDate } from '@/lib/formatting';
 
 jest.mock('@/components/animated-icon', () => ({
   AnimatedSplashOverlay: () => null,
@@ -80,6 +81,21 @@ describe('Venue Booking, Day Filtering, and Search Polish', () => {
       // Total payable amount should reflect the new venue's rate
       const updatedTotal = screen.getByTestId('total-payable-amount');
       expect(updatedTotal.props.children).not.toEqual(initialAmountText);
+    });
+
+    it('displays dynamic today date in filter pill and available time slots instead of hardcoded Oct 24', async () => {
+      await render(<VenueListScreen venues={SAMPLE_VENUES} />);
+
+      const todayIso = new Date().toISOString();
+      const expectedAccraDate = formatAccraDate(todayIso);
+
+      // Must display dynamic today date
+      expect(screen.getByText(`Today, ${expectedAccraDate}`)).toBeTruthy();
+      expect(screen.getByText(`Available Time Slots (${expectedAccraDate})`)).toBeTruthy();
+
+      // Must NOT contain hardcoded "Thu Oct 24"
+      expect(screen.queryByText('Today, Thu Oct 24')).toBeNull();
+      expect(screen.queryByText('Available Time Slots (Thu, Oct 24)')).toBeNull();
     });
   });
 
