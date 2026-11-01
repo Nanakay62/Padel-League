@@ -43,15 +43,18 @@ export default function FindEventsScreen() {
     // Day filtering
     let matchesDay = true;
     if (selectedDay !== 'all') {
-      const evtDay = new Date(evt.start_time).getUTCDay(); // 0 = Sun, 4 = Thu, 5 = Fri, 6 = Sat
+      const evtDay = new Date(evt.start_time).getUTCDay(); // 0 = Sun, 1 = Mon...
+      const todayDay = new Date().getUTCDay();
       const dayMap: Record<string, number> = {
-        today: 4, // Thu
-        tomorrow: 5, // Fri
-        sat: 6,
+        today: todayDay,
+        tomorrow: (todayDay + 1) % 7,
         sun: 0,
         mon: 1,
         tue: 2,
         wed: 3,
+        thu: 4,
+        fri: 5,
+        sat: 6,
       };
       const targetDay = dayMap[selectedDay];
       if (targetDay !== undefined) {

@@ -89,13 +89,20 @@ export interface HookResult<T> {
 }
 
 // Seed data (All money in integer pesewas, all timestamps in UTC ISO strings)
+const getRelativeIso = (dayOffset: number, hour: number, minute: number = 0): string => {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() + dayOffset);
+  d.setUTCHours(hour, minute, 0, 0);
+  return d.toISOString();
+};
+
 const SEED_NEXT_GAME: NextGameData = {
   id: 'evt-001',
   title: 'Thursday Americano',
   venue_name: 'Accra Padel Club',
   venue_address: 'Airport Residential Area, Accra',
   gps_address: 'GA-492-8012',
-  start_time: '2026-10-08T18:00:00Z',
+  start_time: getRelativeIso(0, 18, 0),
   format: 'AMERICANO',
   court_count: 2,
   point_target: 24,
@@ -120,7 +127,7 @@ const SEED_EVENTS: EventItemData[] = [
     format: 'AMERICANO',
     courts: 2,
     point_target: 24,
-    start_time: '2026-10-08T18:00:00Z',
+    start_time: getRelativeIso(0, 18, 0),
     confirmed_count: 8,
     max_players: 12,
     seats_left: 4,
@@ -141,7 +148,7 @@ const SEED_EVENTS: EventItemData[] = [
     format: 'MEXICANO',
     courts: 3,
     point_target: 32,
-    start_time: '2026-10-09T19:00:00Z',
+    start_time: getRelativeIso(1, 19, 0),
     confirmed_count: 10,
     max_players: 12,
     seats_left: 2,
@@ -162,7 +169,7 @@ const SEED_EVENTS: EventItemData[] = [
     format: 'AMERICANO',
     courts: 2,
     point_target: 24,
-    start_time: '2026-10-10T16:00:00Z',
+    start_time: getRelativeIso(2, 16, 0),
     confirmed_count: 7,
     max_players: 8,
     seats_left: 1,

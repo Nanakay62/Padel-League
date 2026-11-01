@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -23,23 +23,57 @@ export interface HorizontalDayPickerProps {
   testID?: string;
 }
 
-const DEFAULT_DAYS: DayItem[] = [
-  { key: 'today', dayLabel: 'TODAY', dateNumber: '23', isToday: true },
-  { key: 'tomorrow', dayLabel: 'TOM', dateNumber: '24' },
-  { key: 'sat', dayLabel: 'SAT', dateNumber: '25' },
-  { key: 'sun', dayLabel: 'SUN', dateNumber: '26' },
-  { key: 'mon', dayLabel: 'MON', dateNumber: '27' },
-  { key: 'tue', dayLabel: 'TUE', dateNumber: '28' },
-  { key: 'wed', dayLabel: 'WED', dateNumber: '29' },
-];
+export function generateCurrentDays(baseDate: Date = new Date()): DayItem[] {
+  const weekdayKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const weekdayLabels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+  return Array.from({ length: 7 }).map((_, idx) => {
+    const d = new Date(baseDate.getTime() + idx * 24 * 60 * 60 * 1000);
+    const dayNumber = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Africa/Accra',
+      day: 'numeric',
+    }).format(d);
+
+    const dayOfWeekShort = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Africa/Accra',
+      weekday: 'short',
+    }).format(d);
+
+    const weekdayIndex = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(dayOfWeekShort);
+    const dayKey = weekdayKeys[weekdayIndex >= 0 ? weekdayIndex : 0];
+    const dayLabel = weekdayLabels[weekdayIndex >= 0 ? weekdayIndex : 0];
+
+    if (idx === 0) {
+      return {
+        key: 'today',
+        dayLabel: 'TODAY',
+        dateNumber: dayNumber,
+        isToday: true,
+      };
+    }
+    if (idx === 1) {
+      return {
+        key: 'tomorrow',
+        dayLabel: 'TOM',
+        dateNumber: dayNumber,
+      };
+    }
+    return {
+      key: dayKey,
+      dayLabel: dayLabel,
+      dateNumber: dayNumber,
+    };
+  });
+}
 
 export function HorizontalDayPicker({
-  days = DEFAULT_DAYS,
+  days,
   selectedKey,
   selectedDayId,
   onSelectDay,
   testID,
 }: HorizontalDayPickerProps) {
+  const resolvedDays = useMemo(() => (days && days.length > 0 ? days : generateCurrentDays()), [days]);
   const activeKey = selectedKey ?? selectedDayId ?? 'today';
 
   return (
@@ -49,7 +83,7 @@ export function HorizontalDayPicker({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {days.map((day) => {
+        {resolvedDays.map((day) => {
           const isSelected = day.key === activeKey;
 
           return (

@@ -185,16 +185,19 @@ export default function HomeScreen() {
     if (selectedDay === 'all' || selectedDay === 'today') {
       return PLAY_SESSIONS;
     }
-    if (selectedDay === 'tomorrow' || selectedDay === 'sat') {
-      return PLAY_SESSIONS.filter((session) => session.schedule.includes('Sat'));
-    }
-    if (selectedDay === 'sun') {
-      return PLAY_SESSIONS.filter((session) => session.schedule.includes('Sun'));
-    }
-    if (selectedDay === 'fri') {
-      return PLAY_SESSIONS.filter((session) => session.schedule.includes('Fri'));
-    }
-    return [];
+    const today = new Date();
+    const tomorrowDayIndex = (today.getUTCDay() + 1) % 7;
+    const weekdayShorts = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const tomorrowShort = weekdayShorts[tomorrowDayIndex];
+
+    const targetDay =
+      selectedDay === 'tomorrow'
+        ? tomorrowShort.toLowerCase()
+        : selectedDay.toLowerCase();
+
+    return PLAY_SESSIONS.filter((session) =>
+      session.schedule.toLowerCase().includes(targetDay)
+    );
   }, [selectedDay]);
 
   const userBalancePesewas = 5000; // GH₵ 50.00

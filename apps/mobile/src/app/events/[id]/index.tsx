@@ -64,7 +64,7 @@ export default function EventDetailScreen() {
     price_pesewas: foundEvent?.pricing.total_price_pesewas || 8500,
     court_share_pesewas: foundEvent?.pricing.court_share_pesewas || 8000,
     platform_fee_pesewas: foundEvent?.pricing.platform_fee_pesewas || 500,
-    start_time: foundEvent?.start_time ? formatAccraDateTime(foundEvent.start_time) : 'Thu, Oct 8 • 6:00 PM',
+    start_time: foundEvent?.start_time ? formatAccraDateTime(foundEvent.start_time) : formatAccraDateTime(new Date().toISOString()),
     confirmed_players: [
       { name: 'Nana K.', rating: '3.80', isSelf: true },
       { name: 'Daniel K.', rating: '3.50', isSelf: false },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Image,
   Linking,
@@ -26,6 +26,24 @@ import { SAMPLE_VENUES } from '@/app/venues/index';
 import { t } from '@/lib/i18n';
 import { formatGhs } from '@/lib/formatting';
 
+const FALLBACK_UPDATED_AT = new Date().toISOString();
+const FALLBACK_UPCOMING_EVENTS = [
+  {
+    id: 'ev-1',
+    title: 'Friday Night Social Americano',
+    format: 'AMERICANO',
+    status: 'OPEN',
+    start_time: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'ev-2',
+    title: 'Weekend Morning Ladder',
+    format: 'MEXICANO',
+    status: 'OPEN',
+    start_time: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
 export default function VenueDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -33,67 +51,54 @@ export default function VenueDetailScreen() {
 
   // Fallback to sample data if API is loading or offline
   const fallbackVenue = SAMPLE_VENUES.find((v) => v.id === id) || SAMPLE_VENUES[0];
-  const venue = apiVenue || {
-    id: fallbackVenue.id,
-    name: fallbackVenue.name,
-    address: fallbackVenue.address,
-    ghanapost_gps: fallbackVenue.ghanapostGps || 'GA-492-8012',
-    maps_url: fallbackVenue.mapsUrl || 'https://maps.google.com',
-    booking_phone: fallbackVenue.bookingPhone || '+233240001122',
-    booking_whatsapp: fallbackVenue.bookingPhone || '+233240001122',
-    booking_url: '',
-    court_count: fallbackVenue.courtCount,
-    base_rate_pesewas_per_hour: 12000,
-    base_rate_formatted: fallbackVenue.baseRateFormatted,
-    description: fallbackVenue.description || 'Premier padel club in Accra with panoramic glass courts.',
-    photos: fallbackVenue.imageUrl ? [{ url: fallbackVenue.imageUrl, alt: `${fallbackVenue.name} exterior` }] : [],
-    amenities: ['Pro Shop', 'Locker Rooms', 'Refreshments', 'Floodlights', 'Free Parking'],
-    opening_hours: [
-      { day: 0, opens_minute: 360, closes_minute: 1380 },
-      { day: 1, opens_minute: 360, closes_minute: 1380 },
-      { day: 2, opens_minute: 360, closes_minute: 1380 },
-      { day: 3, opens_minute: 360, closes_minute: 1380 },
-      { day: 4, opens_minute: 360, closes_minute: 120 }, // Overnight: closes 02:00 Sat
-      { day: 5, opens_minute: 420, closes_minute: 120 }, // Overnight: closes 02:00 Sun
-      { day: 6, opens_minute: 480, closes_minute: 1320 },
-    ],
-    price_bands: [],
-    duration_multipliers_bps: { '60': 10000, '90': 10000, '120': 10000 },
-    add_ons_config: [
-      { id: 'rackets', name: 'Racket Rental (x2)', price_pesewas: 4000 },
-      { id: 'balls', name: 'Head Padel Pro Can (3 Balls)', price_pesewas: 6500 },
-    ],
-    price_version: 1,
-    updated_at: new Date().toISOString(),
-    courts: Array.from({ length: fallbackVenue.courtCount }, (_, i) => ({
-      id: `c${i + 1}`,
-      venue_id: fallbackVenue.id,
-      court_number: i + 1,
-      is_indoor: false,
-      surface: 'Panoramic Glass Turf',
-      lighting: 'LED Floodlights',
-      photos: fallbackVenue.imageUrl ? [{ url: fallbackVenue.imageUrl, alt: `Court ${i + 1}` }] : [],
-      notes: `Court ${i + 1}`,
+  const venue = useMemo(() => {
+    return apiVenue || {
+      id: fallbackVenue.id,
+      name: fallbackVenue.name,
+      address: fallbackVenue.address,
+      ghanapost_gps: fallbackVenue.ghanapostGps || 'GA-492-8012',
+      maps_url: fallbackVenue.mapsUrl || 'https://maps.google.com',
+      booking_phone: fallbackVenue.bookingPhone || '+233240001122',
+      booking_whatsapp: fallbackVenue.bookingPhone || '+233240001122',
+      booking_url: '',
+      court_count: fallbackVenue.courtCount,
       base_rate_pesewas_per_hour: 12000,
+      base_rate_formatted: fallbackVenue.baseRateFormatted,
+      description: fallbackVenue.description || 'Premier padel club in Accra with panoramic glass courts.',
+      photos: fallbackVenue.imageUrl ? [{ url: fallbackVenue.imageUrl, alt: `${fallbackVenue.name} exterior` }] : [],
+      amenities: ['Pro Shop', 'Locker Rooms', 'Refreshments', 'Floodlights', 'Free Parking'],
+      opening_hours: [
+        { day: 0, opens_minute: 360, closes_minute: 1380 },
+        { day: 1, opens_minute: 360, closes_minute: 1380 },
+        { day: 2, opens_minute: 360, closes_minute: 1380 },
+        { day: 3, opens_minute: 360, closes_minute: 1380 },
+        { day: 4, opens_minute: 360, closes_minute: 120 }, // Overnight: closes 02:00 Sat
+        { day: 5, opens_minute: 420, closes_minute: 120 }, // Overnight: closes 02:00 Sun
+        { day: 6, opens_minute: 480, closes_minute: 1320 },
+      ],
       price_bands: [],
-    })),
-    upcoming_events: [
-      {
-        id: 'ev-1',
-        title: 'Friday Night Social Americano',
-        format: 'AMERICANO',
-        status: 'OPEN',
-        start_time: '2026-10-16T18:00:00Z',
-      },
-      {
-        id: 'ev-2',
-        title: 'Weekend Morning Ladder',
-        format: 'MEXICANO',
-        status: 'OPEN',
-        start_time: '2026-10-17T08:00:00Z',
-      },
-    ],
-  };
+      duration_multipliers_bps: { '60': 10000, '90': 10000, '120': 10000 },
+      add_ons_config: [
+        { id: 'rackets', name: 'Racket Rental (x2)', price_pesewas: 4000 },
+        { id: 'balls', name: 'Head Padel Pro Can (3 Balls)', price_pesewas: 6500 },
+      ],
+      price_version: 1,
+      updated_at: FALLBACK_UPDATED_AT,
+      courts: Array.from({ length: fallbackVenue.courtCount }, (_, i) => ({
+        id: `c${i + 1}`,
+        venue_id: fallbackVenue.id,
+        court_number: i + 1,
+        is_indoor: false,
+        surface: 'Panoramic Glass Turf',
+        lighting: 'LED Floodlights',
+        photos: fallbackVenue.imageUrl ? [{ url: fallbackVenue.imageUrl, alt: `Court ${i + 1}` }] : [],
+        notes: `Court ${i + 1}`,
+        base_rate_pesewas_per_hour: 12000,
+        price_bands: [],
+      })),
+      upcoming_events: FALLBACK_UPCOMING_EVENTS,
+    };
+  }, [apiVenue, fallbackVenue]);
 
   const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
