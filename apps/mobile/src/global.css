@@ -1,6 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap');
+
 :root {
-  --font-display: 'Satoshi', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-body: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --chalk: #F3F0E8;
+  --card: #FBFAF6;
+  --line: #DAD4C4;
+  --track: #E6E1D3;
+  --ink: #12201C;
+  --ink-soft: #2F4239;
+  --muted: #5A655F;
+  --on-ink: #F3F0E8;
+  --on-ink-muted: #C9D3CC;
+  --lime: #D5F23B;
+  --court: #1D5F5B;
+
+  --radius-hero: 28px;
+  --radius-tile: 22px;
+  --radius-card: 20px;
+  --radius-stat: 16px;
+  --radius-pill: 999px;
+
+  --font-display: 'Bricolage Grotesque', 'Satoshi', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -110,18 +130,52 @@ select:focus,
   height: 100vh;
   height: 100dvh;
   width: 100%;
-  background-color: #F6F6F4;
+  background-color: var(--chalk, #F3F0E8);
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  font-family: var(--font-body);
 }
 
 .desktop-sidebar {
   display: none !important;
+  background-color: #0B0F0E;
+  border-right: 1px solid #1F2426;
 }
 
 .desktop-topbar {
-  display: none !important;
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  min-height: 72px;
+  padding: 0 clamp(16px, 4vw, 40px);
+  background-color: var(--chalk, #F3F0E8);
+  border-bottom: 1px solid var(--line, #DAD4C4);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.desktop-topbar-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.desktop-topbar-pills {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
 .mobile-bottom-tabs {
@@ -130,14 +184,14 @@ select:focus,
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
-  background-color: #FFFFFF;
-  border-top: 1px solid #E7E7E3;
+  height: 64px;
+  background-color: var(--card, #FBFAF6);
+  border-top: 1px solid var(--line, #DAD4C4);
   z-index: 999;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  padding: 0 4px;
+  padding: 0 8px;
   box-sizing: border-box;
 }
 
@@ -147,71 +201,38 @@ select:focus,
   flex: 1;
   width: 100%;
   height: 100%;
-  height: 100vh;
-  height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 72px; /* Space for bottom tabs on mobile */
   box-sizing: border-box;
+  background-color: var(--chalk, #F3F0E8);
 }
 
 .shell-main-content {
   flex: 1;
   width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(16px, 4vw, 40px);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-height: min-content;
 }
 
-/* Desktop Viewport >= 1024px */
-@media (min-width: 1024px) {
-  .shell-root {
-    flex-direction: row;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .desktop-sidebar {
+/* Tablet & Desktop Viewport >= 768px */
+@media (min-width: 768px) {
+  .desktop-topbar-pills {
     display: flex !important;
-    flex-direction: column;
-    width: 256px;
-    min-width: 256px;
-    max-width: 256px;
-    height: 100vh;
-    background-color: #0B0F0E;
-    border-right: 1px solid #1F2426;
-    overflow-y: auto;
-    z-index: 100;
-    box-sizing: border-box;
-  }
-
-  .shell-right-col {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    height: 100vh;
-    overflow-y: auto;
-    padding-bottom: 0 !important;
-  }
-
-  .desktop-topbar {
-    display: flex !important;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    min-height: 64px;
-    padding: 0 24px;
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #E7E7E3;
-    position: sticky;
-    top: 0;
-    z-index: 90;
-    box-sizing: border-box;
   }
 
   .mobile-bottom-tabs {
     display: none !important;
   }
+
+  .shell-right-col {
+    padding-bottom: 0 !important;
+  }
 }
+

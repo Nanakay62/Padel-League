@@ -44,7 +44,7 @@ export default function CommunityTabScreen() {
             accessibilityLabel="Find Hitting Partners"
           >
             <View style={styles.iconCircle}>
-              <UserCheck size={22} color={Tokens.colors.primary} strokeWidth={2} />
+              <UserCheck size={22} color={Tokens.colors.lime} strokeWidth={2} />
             </View>
             <View style={styles.actionCol}>
               <Text style={styles.cardTitle}>Find Hitting Partners</Text>
@@ -65,7 +65,7 @@ export default function CommunityTabScreen() {
             accessibilityLabel="Accra Box Leagues"
           >
             <View style={styles.iconCircle}>
-              <Trophy size={22} color={Tokens.colors.gold} strokeWidth={2} />
+              <Trophy size={22} color={Tokens.colors.lime} strokeWidth={2} />
             </View>
             <View style={styles.actionCol}>
               <Text style={styles.cardTitle}>Accra Box Leagues & Ladders</Text>
@@ -86,7 +86,7 @@ export default function CommunityTabScreen() {
             accessibilityLabel="Player Ratings and Level Calibration"
           >
             <View style={styles.iconCircle}>
-              <Award size={22} color={Tokens.colors.primary} strokeWidth={2} />
+              <Award size={22} color={Tokens.colors.lime} strokeWidth={2} />
             </View>
             <View style={styles.actionCol}>
               <Text style={styles.cardTitle}>Ghana Padel Rating & Level Bands</Text>
@@ -102,7 +102,7 @@ export default function CommunityTabScreen() {
         <Card style={styles.card}>
           <View style={styles.headerRow}>
             <View style={styles.iconCircle}>
-              <WhatsAppIcon size={22} color={Tokens.colors.whatsapp} testID="community-whatsapp-icon" />
+              <WhatsAppIcon size={22} color={Tokens.colors.lime} testID="community-whatsapp-icon" />
             </View>
             <View style={styles.actionCol}>
               <Text style={styles.cardTitle}>Club WhatsApp Channels</Text>
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: Tokens.radii.card,
-    backgroundColor: Tokens.colors.surfaceContainer,
+    backgroundColor: Tokens.colors.ink,
     borderWidth: 1,
     borderColor: Tokens.colors.border,
     alignItems: 'center',
@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   cardTitle: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
+    fontFamily: Typography.fontFamily.display,
+    fontWeight: Tokens.fontWeight.bold,
     fontSize: Tokens.fontSize.base,
     lineHeight: Tokens.lineHeight.base,
     color: Tokens.colors.text,

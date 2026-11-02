@@ -14,7 +14,7 @@ export interface ButtonProps {
   title?: string;
   children?: React.ReactNode;
   onPress?: (event?: any) => void;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'ink' | 'outlineOnDark';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -39,6 +39,8 @@ export function Button({
 }: ButtonProps) {
   const isPrimary = variant === 'primary';
   const isSecondary = variant === 'secondary';
+  const isInk = variant === 'ink';
+  const isOutlineOnDark = variant === 'outlineOnDark';
   const isGhost = variant === 'ghost';
   const isDanger = variant === 'danger';
 
@@ -59,6 +61,8 @@ export function Button({
         size === 'lg' && styles.sizeLg,
         isPrimary && styles.primary,
         isSecondary && styles.secondary,
+        isInk && styles.ink,
+        isOutlineOnDark && styles.outlineOnDark,
         isGhost && styles.ghost,
         isDanger && styles.danger,
         disabled && styles.disabled,
@@ -74,6 +78,8 @@ export function Button({
             styles.baseText,
             isPrimary && styles.primaryText,
             isSecondary && styles.secondaryText,
+            isInk && styles.inkText,
+            isOutlineOnDark && styles.outlineOnDarkText,
             isGhost && styles.ghostText,
             isDanger && styles.dangerText,
             size === 'sm' && styles.textSm,
@@ -97,31 +103,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: Tokens.spacing.base,
+    paddingHorizontal: Tokens.spacing.lg,
     gap: Tokens.spacing.sm,
   },
   sizeSm: {
-    minHeight: Tokens.touch.minTarget,
+    minHeight: 40,
     paddingHorizontal: Tokens.spacing.md,
     paddingVertical: Tokens.spacing.xs,
   },
   sizeMd: {
     minHeight: Tokens.touch.minTarget,
-    paddingHorizontal: Tokens.spacing.base,
-    paddingVertical: Tokens.spacing.sm,
-  },
-  sizeLg: {
-    minHeight: 52,
     paddingHorizontal: Tokens.spacing.xl,
     paddingVertical: Tokens.spacing.md,
   },
+  sizeLg: {
+    minHeight: 52,
+    paddingHorizontal: Tokens.spacing.xxl,
+    paddingVertical: Tokens.spacing.md,
+  },
   primary: {
-    backgroundColor: Tokens.colors.primary,
+    backgroundColor: Tokens.colors.lime,
   },
   secondary: {
-    backgroundColor: Tokens.colors.card,
-    borderWidth: 1,
-    borderColor: Tokens.colors.border,
+    backgroundColor: 'transparent',
+    borderWidth: 1.5,
+    borderColor: Tokens.colors.line,
+  },
+  ink: {
+    backgroundColor: Tokens.colors.ink,
+  },
+  outlineOnDark: {
+    backgroundColor: 'transparent',
+    borderWidth: 1.5,
+    borderColor: Tokens.colors.onInkMuted,
   },
   ghost: {
     backgroundColor: 'transparent',
@@ -134,10 +148,12 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.85,
+    transform: [{ scale: 0.98 }],
   },
   focusedWeb: {
     outlineWidth: 2,
-    outlineColor: Tokens.colors.text,
+    outlineColor: Tokens.colors.ink,
+    outlineOffset: 2,
     outlineStyle: 'solid',
   } as ViewStyle,
   baseText: {
@@ -152,10 +168,22 @@ const styles = StyleSheet.create({
     lineHeight: Tokens.lineHeight.sm,
   },
   primaryText: {
-    color: Tokens.colors.textOnPrimary,
+    color: Tokens.colors.ink,
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: Tokens.fontWeight.bold,
   },
   secondaryText: {
     color: Tokens.colors.text,
+  },
+  inkText: {
+    color: Tokens.colors.chalk,
+    fontFamily: Typography.fontFamily.bold,
+    fontWeight: Tokens.fontWeight.bold,
+  },
+  outlineOnDarkText: {
+    color: Tokens.colors.onInk,
+    fontFamily: Typography.fontFamily.medium,
+    fontWeight: Tokens.fontWeight.medium,
   },
   ghostText: {
     color: Tokens.colors.textMuted,

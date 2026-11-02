@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     minHeight: Tokens.touch.minTarget,
     paddingHorizontal: Tokens.spacing.base,
     paddingVertical: Tokens.spacing.xs,
-    borderRadius: Tokens.radii.card,
+    borderRadius: Tokens.radii.pill,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -95,16 +95,16 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.border,
   },
   selectedChip: {
-    backgroundColor: Tokens.colors.primary,
+    backgroundColor: Tokens.colors.ink,
     borderWidth: 1,
-    borderColor: Tokens.colors.primary,
+    borderColor: Tokens.colors.ink,
   },
   pressed: {
     opacity: 0.8,
   },
   focusedWeb: {
     outlineWidth: 2,
-    outlineColor: Tokens.colors.primary,
+    outlineColor: Tokens.colors.lime,
     outlineStyle: 'solid',
   } as ViewStyle,
   text: {
@@ -114,10 +114,10 @@ const styles = StyleSheet.create({
     lineHeight: Tokens.lineHeight.sm,
   },
   unselectedText: {
-    color: Tokens.colors.text,
+    color: Tokens.colors.textMuted,
   },
   selectedText: {
-    color: Tokens.colors.textOnPrimary,
+    color: Tokens.colors.onInk,
     fontFamily: Typography.fontFamily.semibold,
     fontWeight: Tokens.fontWeight.semibold,
   },

@@ -5,11 +5,8 @@ import {
   Home,
   Play,
   Trophy,
-  Users,
   MapPin,
-  CreditCard,
   User,
-  Plus,
   Bell,
   Settings,
 } from 'lucide-react-native';
@@ -17,15 +14,24 @@ import { Tokens, Typography } from '@/constants/theme';
 import { t } from '@/lib/i18n';
 import { DesktopSearchBar } from '@/components/DesktopSearchBar';
 
-function RacquetLogo() {
+function PadelBallLogo() {
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={Tokens.colors.primary} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="9" r="6" />
-      <path d="M12 15v6" />
-      <path d="M9 21h6" />
-      <circle cx="10" cy="8" r="0.5" fill={Tokens.colors.gold} />
-      <circle cx="14" cy="8" r="0.5" fill={Tokens.colors.gold} />
-      <circle cx="12" cy="11" r="0.5" fill={Tokens.colors.gold} />
+    <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="15" fill={Tokens.colors.lime} />
+      <path
+        d="M6 10C12 10 16 6 16 1"
+        stroke={Tokens.colors.ink}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M26 22C20 22 16 26 16 31"
+        stroke={Tokens.colors.ink}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="11" cy="20" r="1.25" fill={Tokens.colors.ink} />
+      <circle cx="21" cy="12" r="1.25" fill={Tokens.colors.ink} />
     </svg>
   );
 }
@@ -41,6 +47,15 @@ export default function AppTabs() {
   const isVenues = pathname.includes('/venues');
   const isCredits = pathname.includes('/credits');
   const isProfile = pathname.includes('/profile');
+
+  const navItems = [
+    { name: 'Home', href: '/(tabs)', active: isHome, testId: 'sidebar-home-link' },
+    { name: 'Play', href: '/(tabs)/play', active: isPlay, testId: 'sidebar-play-link' },
+    { name: 'Leagues', href: '/(tabs)/leagues', active: isLeagues, testId: 'sidebar-leagues-link' },
+    { name: 'Community', href: '/(tabs)/community', active: isCommunity, testId: 'sidebar-community-link' },
+    { name: 'Venues', href: '/(tabs)/venues', active: isVenues, testId: 'sidebar-venues-link' },
+    { name: 'Credits', href: '/(tabs)/credits', active: isCredits, testId: 'sidebar-credits-link' },
+  ];
 
   return (
     <Tabs>
@@ -69,423 +84,71 @@ export default function AppTabs() {
       </TabList>
 
       <div className="shell-root">
-        {/* Desktop Sidebar (Rendered on >= 1024px via CSS) */}
-        <aside className="desktop-sidebar">
-          {/* Logo & Brand Header */}
-          <div
-            style={{
-              padding: `${Tokens.spacing.xl}px ${Tokens.spacing.lg}px ${Tokens.spacing.base}px`,
-              display: 'flex',
-              alignItems: 'center',
-              gap: Tokens.spacing.md,
-              cursor: 'pointer',
-              borderBottom: `1px solid ${Tokens.colors.sidebarBorder}`,
-            }}
-            onClick={() => router.push('/')}
-          >
-            <RacquetLogo />
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: Tokens.spacing.xs }}>
-                <span
-                  style={{
-                    fontSize: Tokens.fontSize.base,
-                    fontWeight: Tokens.fontWeight.semibold,
-                    color: Tokens.colors.sidebarText,
-                    letterSpacing: -0.5,
-                    fontFamily: Typography.fontFamily.semibold,
-                  }}
-                >
-                  PADEL
-                </span>
-                <span
-                  style={{
-                    fontSize: Tokens.fontSize.base,
-                    fontWeight: Tokens.fontWeight.semibold,
-                    color: Tokens.colors.primary,
-                    letterSpacing: -0.5,
-                    fontFamily: Typography.fontFamily.semibold,
-                  }}
-                >
-                  GHANA
-                </span>
-              </div>
-              <div
-                style={{
-                  fontSize: Tokens.fontSize.xs,
-                  color: Tokens.colors.sidebarTextMuted,
-                  fontWeight: Tokens.fontWeight.medium,
-                  fontFamily: Typography.fontFamily.medium,
-                }}
-              >
-                {t('tagline')}
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav
-            style={{
-              padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: Tokens.spacing.xs,
-            }}
-          >
-            <button
-              type="button"
-              data-testid="sidebar-home-link"
-              aria-label={t('navHome')}
-              onClick={() => router.push('/')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isHome ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isHome ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isHome ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <Home
-                size={18}
-                color={isHome ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navHome')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="sidebar-play-link"
-              aria-label={t('navPlay')}
-              onClick={() => router.push('/(tabs)/play' as any)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isPlay ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isPlay ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isPlay ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <Play
-                size={18}
-                color={isPlay ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navPlay')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="sidebar-leagues-link"
-              aria-label={t('navLeagues')}
-              onClick={() => router.push('/(tabs)/leagues' as any)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isLeagues ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isLeagues ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isLeagues ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <Trophy
-                size={18}
-                color={isLeagues ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navLeagues')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="sidebar-community-link"
-              aria-label={t('navCommunity')}
-              onClick={() => router.push('/(tabs)/community' as any)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isCommunity ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isCommunity ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isCommunity ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <Users
-                size={18}
-                color={isCommunity ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navCommunity')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="sidebar-venues-link"
-              aria-label={t('navVenues')}
-              onClick={() => router.push('/(tabs)/venues' as any)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isVenues ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isVenues ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isVenues ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <MapPin
-                size={18}
-                color={isVenues ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navVenues')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="sidebar-credits-link"
-              aria-label={t('navCredits')}
-              onClick={() => router.push('/(tabs)/credits' as any)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isCredits ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isCredits ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isCredits ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <CreditCard
-                size={18}
-                color={isCredits ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navCredits')}</span>
-            </button>
-
-            <button
-              type="button"
-              data-testid="sidebar-profile-link"
-              aria-label={t('navProfile')}
-              onClick={() => router.push('/(tabs)/profile' as any)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: Tokens.spacing.md,
-                padding: `${Tokens.spacing.md}px ${Tokens.spacing.base}px`,
-                minHeight: Tokens.touch.minTarget,
-                borderRadius: Tokens.radii.button,
-                backgroundColor: isProfile ? Tokens.colors.sidebarItemActiveBg : 'transparent',
-                color: isProfile ? Tokens.colors.sidebarText : Tokens.colors.sidebarTextMuted,
-                border: 'none',
-                outline: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontSize: Tokens.fontSize.sm,
-                fontWeight: isProfile ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              <User
-                size={18}
-                color={isProfile ? Tokens.colors.primary : Tokens.colors.sidebarTextMuted}
-                strokeWidth={1.75}
-              />
-              <span>{t('navProfile')}</span>
-            </button>
-          </nav>
-
-          {/* Quick Actions Section */}
-          <div
-            style={{
-              margin: `${Tokens.spacing.lg}px ${Tokens.spacing.md}px 0`,
-              paddingTop: Tokens.spacing.base,
-              borderTop: `1px solid ${Tokens.colors.sidebarBorder}`,
-            }}
-          >
+        {/* Court Chalk Desktop Top Header */}
+        <header className="desktop-topbar">
+          <div className="desktop-topbar-inner">
+            {/* Logo Mark + Wordmark */}
             <div
               style={{
-                fontSize: Tokens.fontSize.xs,
-                color: Tokens.colors.sidebarTextMuted,
-                textTransform: 'uppercase',
-                letterSpacing: 0.5,
-                fontWeight: Tokens.fontWeight.semibold,
-                fontFamily: Typography.fontFamily.semibold,
-                padding: `0 ${Tokens.spacing.md}px ${Tokens.spacing.sm}px`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: Tokens.spacing.md,
+                cursor: 'pointer',
               }}
+              onClick={() => router.push('/')}
             >
-              {t('quickActionsTitle')}
+              <PadelBallLogo />
+              <span
+                style={{
+                  fontSize: Tokens.fontSize.lg,
+                  fontWeight: Tokens.fontWeight.bold,
+                  color: Tokens.colors.ink,
+                  letterSpacing: -0.5,
+                  fontFamily: Typography.fontFamily.display,
+                }}
+              >
+                Padel Ghana
+              </span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: Tokens.spacing.xs }}>
-              <button
-                type="button"
-                data-testid="sidebar-create-event-btn"
-                aria-label={t('actionCreateEvent')}
-                onClick={() => router.push('/events/create')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: Tokens.spacing.md,
-                  padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
-                  minHeight: Tokens.touch.minTarget,
-                  borderRadius: Tokens.radii.button,
-                  backgroundColor: Tokens.colors.primary,
-                  color: Tokens.colors.textOnPrimary,
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: Tokens.fontSize.sm,
-                  fontWeight: Tokens.fontWeight.semibold,
-                  fontFamily: Typography.fontFamily.semibold,
-                }}
-              >
-                <Plus size={16} color={Tokens.colors.textOnPrimary} strokeWidth={2} />
-                <span>{t('actionCreateEvent')}</span>
-              </button>
+            {/* Horizontal Nav Pills (Desktop) */}
+            <nav className="desktop-topbar-pills">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  data-testid={item.testId}
+                  aria-label={item.name}
+                  onClick={() => router.push(item.href as any)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '8px 18px',
+                    minHeight: 40,
+                    borderRadius: Tokens.radii.pill,
+                    backgroundColor: item.active ? Tokens.colors.ink : 'transparent',
+                    color: item.active ? Tokens.colors.chalk : Tokens.colors.muted,
+                    border: 'none',
+                    outline: 'none',
+                    cursor: 'pointer',
+                    fontSize: Tokens.fontSize.sm,
+                    fontWeight: item.active ? Tokens.fontWeight.semibold : Tokens.fontWeight.medium,
+                    fontFamily: Typography.fontFamily.medium,
+                    transition: 'all 150ms ease',
+                  }}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </nav>
 
-              <button
-                type="button"
-                data-testid="sidebar-find-fourth-btn"
-                aria-label={t('actionFindFourth')}
-                onClick={() => router.push('/partners')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: Tokens.spacing.md,
-                  padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
-                  minHeight: Tokens.touch.minTarget,
-                  borderRadius: Tokens.radii.button,
-                  backgroundColor: Tokens.colors.sidebarQuickActionBg,
-                  color: Tokens.colors.sidebarText,
-                  border: `1px solid ${Tokens.colors.sidebarQuickActionBorder}`,
-                  cursor: 'pointer',
-                  fontSize: Tokens.fontSize.sm,
-                  fontWeight: Tokens.fontWeight.medium,
-                  fontFamily: Typography.fontFamily.medium,
-                }}
-              >
-                <Users size={16} color={Tokens.colors.sidebarTextMuted} strokeWidth={1.75} />
-                <span>{t('actionFindFourth')}</span>
-              </button>
-
-              <button
-                type="button"
-                data-testid="sidebar-join-league-btn"
-                aria-label={t('actionJoinLeague')}
-                onClick={() => router.push('/(tabs)/leagues' as any)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: Tokens.spacing.md,
-                  padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
-                  minHeight: Tokens.touch.minTarget,
-                  borderRadius: Tokens.radii.button,
-                  backgroundColor: Tokens.colors.sidebarQuickActionBg,
-                  color: Tokens.colors.sidebarText,
-                  border: `1px solid ${Tokens.colors.sidebarQuickActionBorder}`,
-                  cursor: 'pointer',
-                  fontSize: Tokens.fontSize.sm,
-                  fontWeight: Tokens.fontWeight.medium,
-                  fontFamily: Typography.fontFamily.medium,
-                }}
-              >
-                <Trophy size={16} color={Tokens.colors.sidebarTextMuted} strokeWidth={1.75} />
-                <span>{t('actionJoinLeague')}</span>
-              </button>
-
-              <button
-                type="button"
-                data-testid="sidebar-view-venues-btn"
-                aria-label={t('actionViewVenues')}
-                onClick={() => router.push('/(tabs)/venues' as any)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: Tokens.spacing.md,
-                  padding: `${Tokens.spacing.sm}px ${Tokens.spacing.md}px`,
-                  minHeight: Tokens.touch.minTarget,
-                  borderRadius: Tokens.radii.button,
-                  backgroundColor: Tokens.colors.sidebarQuickActionBg,
-                  color: Tokens.colors.sidebarText,
-                  border: `1px solid ${Tokens.colors.sidebarQuickActionBorder}`,
-                  cursor: 'pointer',
-                  fontSize: Tokens.fontSize.sm,
-                  fontWeight: Tokens.fontWeight.medium,
-                  fontFamily: Typography.fontFamily.medium,
-                }}
-              >
-                <MapPin size={16} color={Tokens.colors.sidebarTextMuted} strokeWidth={1.75} />
-                <span>{t('actionViewVenues')}</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        {/* Right Column: Top Bar + Page Content */}
-        <div className="shell-right-col">
-          {/* Desktop Top Bar (Rendered on >= 1024px via CSS) */}
-          <header className="desktop-topbar">
-            {/* In-Place Search Bar (Search events, players, clubs...) */}
-            <div data-testid="topbar-search-btn">
-              <DesktopSearchBar />
-            </div>
-
-            {/* Right Controls: Notifications Bell & Profile Menu */}
+            {/* Right Controls: Search, Notifications, Avatar */}
             <div style={{ display: 'flex', alignItems: 'center', gap: Tokens.spacing.md }}>
+              <div data-testid="topbar-search-btn">
+                <DesktopSearchBar />
+              </div>
+
               <button
                 type="button"
                 data-testid="topbar-notifications-btn"
@@ -495,49 +158,15 @@ export default function AppTabs() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: Tokens.touch.minTarget,
-                  height: Tokens.touch.minTarget,
-                  borderRadius: Tokens.radii.button,
-                  backgroundColor: Tokens.colors.background,
-                  border: `1px solid ${Tokens.colors.border}`,
+                  width: 40,
+                  height: 40,
+                  borderRadius: Tokens.radii.pill,
+                  backgroundColor: 'transparent',
+                  border: `1px solid ${Tokens.colors.line}`,
                   cursor: 'pointer',
                 }}
               >
-                <Bell size={18} color={Tokens.colors.text} strokeWidth={1.75} />
-              </button>
-
-              <button
-                type="button"
-                data-testid="topbar-profile-btn"
-                aria-label={t('navProfile')}
-                onClick={() => router.push('/(tabs)/profile' as any)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: Tokens.spacing.sm,
-                  backgroundColor: Tokens.colors.background,
-                  border: `1px solid ${Tokens.colors.border}`,
-                  borderRadius: Tokens.radii.button,
-                  padding: `4px ${Tokens.spacing.md}px`,
-                  minHeight: Tokens.touch.minTarget,
-                  cursor: 'pointer',
-                  color: Tokens.colors.text,
-                  fontSize: Tokens.fontSize.sm,
-                  fontWeight: Tokens.fontWeight.medium,
-                  fontFamily: Typography.fontFamily.medium,
-                }}
-              >
-                <img
-                  alt="Nana K."
-                  src="https://lh3.googleusercontent.com/aida/AEtjO1XqMzywArgQMCs2_7pEHQakoPhf30KfGCWivMto-yKD2Mu4Ov-d2gUTL6vqT-S4afGf9g4L0H4YLVDTyswT1mAiIUJMH0S2JlAgttn79NpCmUmWmEB3LXjRcv90rrsi1BN_NH8ZVexdg0yAtcbTmWLr_jwM--2lrI51eRd8xlyN6W4rv7Owv5YeNg0hg9kNUbLvacgtEY_kHqg9pNzgDKskdY8E1qrY3Mk4avXnqsMY-mIQHcvcS-jQ83E"
-                  style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: Tokens.radii.pill,
-                    objectFit: 'cover',
-                  }}
-                />
-                <span>Nana</span>
+                <Bell size={18} color={Tokens.colors.ink} strokeWidth={1.75} />
               </button>
 
               <button
@@ -549,26 +178,58 @@ export default function AppTabs() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: Tokens.touch.minTarget,
-                  height: Tokens.touch.minTarget,
-                  borderRadius: Tokens.radii.button,
-                  backgroundColor: Tokens.colors.background,
-                  border: `1px solid ${Tokens.colors.border}`,
+                  width: 40,
+                  height: 40,
+                  borderRadius: Tokens.radii.pill,
+                  backgroundColor: 'transparent',
+                  border: `1px solid ${Tokens.colors.line}`,
                   cursor: 'pointer',
                 }}
               >
-                <Settings size={18} color={Tokens.colors.text} strokeWidth={1.75} />
+                <Settings size={18} color={Tokens.colors.ink} strokeWidth={1.75} />
+              </button>
+
+              {/* Ink avatar circle with initial in lime */}
+              <button
+                type="button"
+                data-testid="topbar-profile-btn"
+                aria-label={t('navProfile')}
+                onClick={() => router.push('/(tabs)/profile' as any)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 40,
+                  height: 40,
+                  borderRadius: Tokens.radii.pill,
+                  backgroundColor: Tokens.colors.ink,
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.base,
+                    fontWeight: Tokens.fontWeight.bold,
+                    color: Tokens.colors.lime,
+                    fontFamily: Typography.fontFamily.display,
+                  }}
+                >
+                  N
+                </span>
               </button>
             </div>
-          </header>
+          </div>
+        </header>
 
-          {/* Active Screen Slot */}
+        {/* Content Column */}
+        <div className="shell-right-col">
           <main className="shell-main-content">
             <TabSlot />
           </main>
         </div>
 
-        {/* Mobile Bottom Tabs (Rendered on < 1024px via CSS) */}
+        {/* Mobile Bottom Tab Bar (5 tabs: Home, Play, Leagues, Venues, Profile) */}
         <nav className="mobile-bottom-tabs">
           <button
             type="button"
@@ -581,29 +242,52 @@ export default function AppTabs() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
               height: '100%',
-              minHeight: Tokens.touch.minTarget,
+              minHeight: 48,
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: isHome ? Tokens.colors.greenText : Tokens.colors.textMuted,
+              padding: 0,
             }}
           >
-            <Home
-              size={20}
-              color={isHome ? Tokens.colors.greenText : Tokens.colors.textMuted}
-              strokeWidth={1.75}
-            />
-            <span
-              style={{
-                fontSize: Tokens.fontSize.xs,
-                fontWeight: isHome ? Tokens.fontWeight.semibold : Tokens.fontWeight.regular,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              {t('navHome')}
-            </span>
+            {isHome ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: Tokens.colors.lime,
+                  borderRadius: Tokens.radii.pill,
+                  padding: '6px 14px',
+                }}
+              >
+                <Home size={18} color={Tokens.colors.ink} strokeWidth={2} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.bold,
+                    color: Tokens.colors.ink,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Home
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <Home size={20} color={Tokens.colors.muted} strokeWidth={1.75} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.medium,
+                    color: Tokens.colors.muted,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Home
+                </span>
+              </div>
+            )}
           </button>
 
           <button
@@ -617,29 +301,52 @@ export default function AppTabs() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
               height: '100%',
-              minHeight: Tokens.touch.minTarget,
+              minHeight: 48,
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: isPlay ? Tokens.colors.greenText : Tokens.colors.textMuted,
+              padding: 0,
             }}
           >
-            <Play
-              size={20}
-              color={isPlay ? Tokens.colors.greenText : Tokens.colors.textMuted}
-              strokeWidth={1.75}
-            />
-            <span
-              style={{
-                fontSize: Tokens.fontSize.xs,
-                fontWeight: isPlay ? Tokens.fontWeight.semibold : Tokens.fontWeight.regular,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              {t('navPlay')}
-            </span>
+            {isPlay ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: Tokens.colors.lime,
+                  borderRadius: Tokens.radii.pill,
+                  padding: '6px 14px',
+                }}
+              >
+                <Play size={18} color={Tokens.colors.ink} strokeWidth={2} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.bold,
+                    color: Tokens.colors.ink,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Play
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <Play size={20} color={Tokens.colors.muted} strokeWidth={1.75} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.medium,
+                    color: Tokens.colors.muted,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Play
+                </span>
+              </div>
+            )}
           </button>
 
           <button
@@ -653,65 +360,111 @@ export default function AppTabs() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
               height: '100%',
-              minHeight: Tokens.touch.minTarget,
+              minHeight: 48,
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: isLeagues ? Tokens.colors.greenText : Tokens.colors.textMuted,
+              padding: 0,
             }}
           >
-            <Trophy
-              size={20}
-              color={isLeagues ? Tokens.colors.greenText : Tokens.colors.textMuted}
-              strokeWidth={1.75}
-            />
-            <span
-              style={{
-                fontSize: Tokens.fontSize.xs,
-                fontWeight: isLeagues ? Tokens.fontWeight.semibold : Tokens.fontWeight.regular,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              {t('navLeagues')}
-            </span>
+            {isLeagues ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: Tokens.colors.lime,
+                  borderRadius: Tokens.radii.pill,
+                  padding: '6px 14px',
+                }}
+              >
+                <Trophy size={18} color={Tokens.colors.ink} strokeWidth={2} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.bold,
+                    color: Tokens.colors.ink,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Leagues
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <Trophy size={20} color={Tokens.colors.muted} strokeWidth={1.75} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.medium,
+                    color: Tokens.colors.muted,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Leagues
+                </span>
+              </div>
+            )}
           </button>
 
           <button
             type="button"
-            data-testid="tab-community-btn"
-            aria-label={t('navCommunity')}
-            onClick={() => router.push('/(tabs)/community' as any)}
+            data-testid="tab-venues-btn"
+            aria-label={t('navVenues')}
+            onClick={() => router.push('/(tabs)/venues' as any)}
             style={{
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
               height: '100%',
-              minHeight: Tokens.touch.minTarget,
+              minHeight: 48,
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: isCommunity ? Tokens.colors.greenText : Tokens.colors.textMuted,
+              padding: 0,
             }}
           >
-            <Users
-              size={20}
-              color={isCommunity ? Tokens.colors.greenText : Tokens.colors.textMuted}
-              strokeWidth={1.75}
-            />
-            <span
-              style={{
-                fontSize: Tokens.fontSize.xs,
-                fontWeight: isCommunity ? Tokens.fontWeight.semibold : Tokens.fontWeight.regular,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              {t('navCommunity')}
-            </span>
+            {isVenues ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: Tokens.colors.lime,
+                  borderRadius: Tokens.radii.pill,
+                  padding: '6px 14px',
+                }}
+              >
+                <MapPin size={18} color={Tokens.colors.ink} strokeWidth={2} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.bold,
+                    color: Tokens.colors.ink,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Venues
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <MapPin size={20} color={Tokens.colors.muted} strokeWidth={1.75} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.medium,
+                    color: Tokens.colors.muted,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Venues
+                </span>
+              </div>
+            )}
           </button>
 
           <button
@@ -725,29 +478,52 @@ export default function AppTabs() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
               height: '100%',
-              minHeight: Tokens.touch.minTarget,
+              minHeight: 48,
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: isProfile ? Tokens.colors.greenText : Tokens.colors.textMuted,
+              padding: 0,
             }}
           >
-            <User
-              size={20}
-              color={isProfile ? Tokens.colors.greenText : Tokens.colors.textMuted}
-              strokeWidth={1.75}
-            />
-            <span
-              style={{
-                fontSize: Tokens.fontSize.xs,
-                fontWeight: isProfile ? Tokens.fontWeight.semibold : Tokens.fontWeight.regular,
-                fontFamily: Typography.fontFamily.medium,
-              }}
-            >
-              {t('navProfile')}
-            </span>
+            {isProfile ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: Tokens.colors.lime,
+                  borderRadius: Tokens.radii.pill,
+                  padding: '6px 14px',
+                }}
+              >
+                <User size={18} color={Tokens.colors.ink} strokeWidth={2} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.bold,
+                    color: Tokens.colors.ink,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Profile
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <User size={20} color={Tokens.colors.muted} strokeWidth={1.75} />
+                <span
+                  style={{
+                    fontSize: Tokens.fontSize.xs,
+                    fontWeight: Tokens.fontWeight.medium,
+                    color: Tokens.colors.muted,
+                    fontFamily: Typography.fontFamily.medium,
+                  }}
+                >
+                  Profile
+                </span>
+              </div>
+            )}
           </button>
         </nav>
       </div>

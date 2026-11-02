@@ -365,13 +365,13 @@ const styles = StyleSheet.create({
   avatarImage: {
     width: 64,
     height: 64,
-    borderRadius: Tokens.radii.card,
+    borderRadius: Tokens.radii.pill,
   },
   cameraIconBadge: {
     position: 'absolute',
     bottom: 2,
     right: 2,
-    backgroundColor: Tokens.colors.primary,
+    backgroundColor: Tokens.colors.ink,
     width: 20,
     height: 20,
     borderRadius: Tokens.radii.pill,
@@ -381,10 +381,10 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.card,
   },
   avatarInitials: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
-    fontSize: Tokens.fontSize.lg,
-    lineHeight: Tokens.lineHeight.lg,
+    fontFamily: Typography.fontFamily.display,
+    fontWeight: Tokens.fontWeight.bold,
+    fontSize: Tokens.fontSize.xl,
+    lineHeight: Tokens.lineHeight.xl,
     color: Tokens.colors.text,
   },
   profileDetailsCol: {
@@ -397,10 +397,10 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.sm,
   },
   playerNameText: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
-    fontSize: Tokens.fontSize.xl,
-    lineHeight: Tokens.lineHeight.xl,
+    fontFamily: Typography.fontFamily.display,
+    fontWeight: Tokens.fontWeight.bold,
+    fontSize: Tokens.fontSize.xxl,
+    lineHeight: Tokens.lineHeight.xxl,
     color: Tokens.colors.text,
   },
   playerPhoneText: {
@@ -414,8 +414,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   guestActionBanner: {
-    backgroundColor: Tokens.colors.surfaceContainerLow,
-    borderRadius: Tokens.radii.card,
+    backgroundColor: Tokens.colors.chalk,
+    borderRadius: Tokens.radii.statTile,
     padding: Tokens.spacing.base,
     gap: Tokens.spacing.md,
     borderWidth: 1,
@@ -433,8 +433,8 @@ const styles = StyleSheet.create({
   },
   metricsStrip: {
     flexDirection: 'row',
-    backgroundColor: Tokens.colors.surfaceContainerLow,
-    borderRadius: Tokens.radii.card,
+    backgroundColor: Tokens.colors.chalk,
+    borderRadius: Tokens.radii.statTile,
     borderWidth: 1,
     borderColor: Tokens.colors.border,
     overflow: 'hidden',
@@ -456,8 +456,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   metricValue: {
-    fontFamily: Typography.fontFamily.semibold,
-    fontWeight: Tokens.fontWeight.semibold,
+    fontFamily: Typography.fontFamily.display,
+    fontWeight: Tokens.fontWeight.bold,
     fontSize: Tokens.fontSize.lg,
     color: Tokens.colors.text,
     marginVertical: 2,
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
   metricSub: {
     fontFamily: Typography.fontFamily.regular,
     fontSize: Tokens.fontSize.xs,
-    color: Tokens.colors.primaryText,
+    color: Tokens.colors.textMuted,
   },
   menuCard: {
     padding: 0,
