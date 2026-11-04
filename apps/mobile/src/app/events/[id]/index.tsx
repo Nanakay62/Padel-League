@@ -4,7 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import { MapPin, Clock, Radio, Shield, UserPlus } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { formatGhanaCedis, formatAccraDateTime } from '@/lib/formatting';
@@ -83,7 +83,7 @@ export default function EventDetailScreen() {
 
   const handleOpenJoin = () => {
     if (!isAuthenticated) {
-      router.push('/login' as any);
+      router.push('/login' as Href);
       return;
     }
     setIsCheckoutOpen(true);
@@ -318,7 +318,7 @@ export default function EventDetailScreen() {
           title="Courtside Live Screen"
           variant="secondary"
           size="lg"
-          onPress={() => router.push(`/events/${event.id}/live` as any)}
+          onPress={() => router.push(`/events/${event.id}/live` as Href)}
           icon={<Radio size={18} color={Tokens.colors.text} strokeWidth={1.75} />}
         />
 

@@ -20,11 +20,17 @@ import {
 } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { t } from '@/lib/i18n';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { Screen, Card, StatusPill, Button, CircuitBanner } from '@/components/ui';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
 import { apiFetch } from '@/lib/api-client';
+
+interface WebFileInputEvent {
+  target: {
+    files?: FileList | null;
+  };
+}
 
 export default function ProfileTabScreen() {
   const router = useRouter();
@@ -53,7 +59,7 @@ export default function ProfileTabScreen() {
     }
   };
 
-  const handleFileChange = async (event: any) => {
+  const handleFileChange = async (event: WebFileInputEvent) => {
     const file = event.target.files?.[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
@@ -75,8 +81,8 @@ export default function ProfileTabScreen() {
         const err = await res.json().catch(() => ({}));
         Alert.alert('Upload Failed', err.detail || 'Could not upload photo.');
       }
-    } catch (err: any) {
-      Alert.alert('Upload Error', err.message || 'An error occurred uploading photo.');
+    } catch (err: unknown) {
+      Alert.alert('Upload Error', err instanceof Error ? err.message : 'An error occurred uploading photo.');
     } finally {
       setIsUploading(false);
     }
@@ -142,7 +148,7 @@ export default function ProfileTabScreen() {
           {Platform.OS === 'web' && (
             <input
               type="file"
-              ref={fileInputRef as any}
+              ref={fileInputRef as React.LegacyRef<HTMLInputElement>}
               style={{ display: 'none' }}
               accept="image/jpeg,image/png,image/webp"
               onChange={handleFileChange}
@@ -212,7 +218,7 @@ export default function ProfileTabScreen() {
                   title={t('guestSetLevelBtn')}
                   variant="secondary"
                   size="sm"
-                  onPress={() => router.push('/onboarding' as any)}
+                  onPress={() => router.push('/onboarding' as Href)}
                   testID="profile-guest-set-level-button"
                 />
               </View>
@@ -235,7 +241,7 @@ export default function ProfileTabScreen() {
 
               <TouchableOpacity
                 style={[styles.metricItem, styles.metricBorder]}
-                onPress={() => router.push('/(tabs)/leagues' as any)}
+                onPress={() => router.push('/(tabs)/leagues' as Href)}
               >
                 <Text style={styles.metricLabel}>Accra Circuit</Text>
                 <Text style={styles.metricValue}>Active</Text>
@@ -253,18 +259,18 @@ export default function ProfileTabScreen() {
           >
             <View style={styles.menuRowLeft}>
               <Award size={18} color={Tokens.colors.text} />
-              <Text style={styles.menuRowLabel}>Player Rating & Level Breakdown</Text>
+              <Text style={styles.menuRowLabel}>{t('profileRatingBreakdown')}</Text>
             </View>
             <ChevronRight size={16} color={Tokens.colors.textMuted} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.menuRow, styles.menuRowBorder]}
-            onPress={() => router.push('/(tabs)/leagues' as any)}
+            onPress={() => router.push('/(tabs)/leagues' as Href)}
           >
             <View style={styles.menuRowLeft}>
               <Trophy size={18} color={Tokens.colors.text} />
-              <Text style={styles.menuRowLabel}>Accra Box Leagues & Ladders</Text>
+              <Text style={styles.menuRowLabel}>{t('communityBoxLeaguesTitle')}</Text>
             </View>
             <ChevronRight size={16} color={Tokens.colors.textMuted} />
           </TouchableOpacity>

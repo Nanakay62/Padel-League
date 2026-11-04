@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { Wifi, Database, Download, Trash2, RefreshCw, Shield, Zap } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { courtsideScoreQueue } from '@/lib/offlineQueue';
@@ -57,7 +57,7 @@ export default function SettingsScreen() {
                 {
                   text: 'OK',
                   style: 'default',
-                  onPress: () => router.replace('/' as any),
+                  onPress: () => router.replace('/' as Href),
                 },
               ],
             });

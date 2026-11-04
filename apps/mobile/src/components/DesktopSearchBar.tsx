@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { Search, X, MapPin, Calendar, Users } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { Tokens, Typography } from '@/constants/theme';
 import { t } from '@/lib/i18n';
 
@@ -17,7 +17,7 @@ export interface SearchResultItem {
   category: 'venue' | 'event' | 'player';
   title: string;
   subtitle: string;
-  route: string;
+  route: Href;
 }
 
 const SEARCH_DATABASE: SearchResultItem[] = [
@@ -118,7 +118,7 @@ const SEARCH_DATABASE: SearchResultItem[] = [
 ];
 
 export interface DesktopSearchBarProps {
-  onNavigate?: (route: string) => void;
+  onNavigate?: (route: Href) => void;
 }
 
 export function DesktopSearchBar({ onNavigate }: DesktopSearchBarProps) {
@@ -148,7 +148,7 @@ export function DesktopSearchBar({ onNavigate }: DesktopSearchBarProps) {
     if (onNavigate) {
       onNavigate(item.route);
     } else {
-      router.push(item.route as any);
+      router.push(item.route);
     }
   };
 

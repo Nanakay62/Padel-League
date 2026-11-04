@@ -7,16 +7,19 @@ import {
   TextStyle,
   StyleProp,
   Platform,
+  GestureResponderEvent,
+  ActivityIndicator,
 } from 'react-native';
 import { Tokens, Typography } from '@/constants/theme';
 
 export interface ButtonProps {
   title?: string;
   children?: React.ReactNode;
-  onPress?: (event?: any) => void;
+  onPress?: (event?: GestureResponderEvent) => void;
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'ink' | 'outlineOnDark';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
+  loading?: boolean;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   accessibilityLabel?: string;
@@ -31,6 +34,7 @@ export function Button({
   variant = 'primary',
   size = 'md',
   disabled = false,
+  loading = false,
   style,
   textStyle,
   accessibilityLabel,
@@ -46,15 +50,24 @@ export function Button({
 
   const label = title ?? (typeof children === 'string' ? children : undefined);
   const a11y = accessibilityLabel ?? label ?? 'Button';
+  const isActionBlocked = disabled || loading;
+
+  const spinnerColor =
+    isPrimary
+      ? Tokens.colors.ink
+      : isInk || isDanger
+      ? Tokens.colors.primaryForeground
+      : Tokens.colors.text;
 
   return (
     <Pressable
       testID={testID}
       accessibilityRole="button"
       accessibilityLabel={a11y}
-      disabled={disabled}
+      accessibilityState={{ busy: loading, disabled: isActionBlocked }}
+      disabled={isActionBlocked}
       onPress={onPress}
-      style={({ pressed, focused }: any) => [
+      style={({ pressed, focused }: { pressed: boolean; focused?: boolean }) => [
         styles.base,
         size === 'sm' && styles.sizeSm,
         size === 'md' && styles.sizeMd,
@@ -65,32 +78,42 @@ export function Button({
         isOutlineOnDark && styles.outlineOnDark,
         isGhost && styles.ghost,
         isDanger && styles.danger,
-        disabled && styles.disabled,
-        pressed && !disabled && styles.pressed,
+        isActionBlocked && styles.disabled,
+        pressed && !isActionBlocked && styles.pressed,
         focused && Platform.OS === 'web' && styles.focusedWeb,
         style,
       ]}
     >
-      {icon}
-      {title ? (
-        <Text
-          style={[
-            styles.baseText,
-            isPrimary && styles.primaryText,
-            isSecondary && styles.secondaryText,
-            isInk && styles.inkText,
-            isOutlineOnDark && styles.outlineOnDarkText,
-            isGhost && styles.ghostText,
-            isDanger && styles.dangerText,
-            size === 'sm' && styles.textSm,
-            disabled && styles.disabledText,
-            textStyle,
-          ]}
-        >
-          {title}
-        </Text>
+      {loading ? (
+        <ActivityIndicator
+          size="small"
+          color={spinnerColor}
+          testID={testID ? `${testID}-spinner` : 'button-spinner'}
+        />
       ) : (
-        children
+        <>
+          {icon}
+          {title ? (
+            <Text
+              style={[
+                styles.baseText,
+                isPrimary && styles.primaryText,
+                isSecondary && styles.secondaryText,
+                isInk && styles.inkText,
+                isOutlineOnDark && styles.outlineOnDarkText,
+                isGhost && styles.ghostText,
+                isDanger && styles.dangerText,
+                size === 'sm' && styles.textSm,
+                disabled && styles.disabledText,
+                textStyle,
+              ]}
+            >
+              {title}
+            </Text>
+          ) : (
+            children
+          )}
+        </>
       )}
     </Pressable>
   );
@@ -107,7 +130,7 @@ const styles = StyleSheet.create({
     gap: Tokens.spacing.sm,
   },
   sizeSm: {
-    minHeight: 40,
+    minHeight: Tokens.accessibility.touchTargetApple,
     paddingHorizontal: Tokens.spacing.md,
     paddingVertical: Tokens.spacing.xs,
   },

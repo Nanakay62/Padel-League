@@ -31,10 +31,15 @@ export function getApiBaseUrl(): string {
   }
 
   // Running on mobile via Expo Metro (Expo Go or development build)
+  interface LegacyConstants {
+    manifest2?: { extra?: { expoGo?: { debuggerHost?: string } } };
+    manifest?: { debuggerHost?: string };
+  }
+  const legacyConstants = Constants as unknown as LegacyConstants;
   const hostUri =
     Constants.expoConfig?.hostUri ??
-    (Constants as any).manifest2?.extra?.expoGo?.debuggerHost ??
-    (Constants as any).manifest?.debuggerHost;
+    legacyConstants.manifest2?.extra?.expoGo?.debuggerHost ??
+    legacyConstants.manifest?.debuggerHost;
 
   if (hostUri) {
     const host = hostUri.split(':')[0];

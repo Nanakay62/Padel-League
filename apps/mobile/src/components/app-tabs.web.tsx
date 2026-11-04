@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, TabList, TabTrigger, TabSlot } from 'expo-router/ui';
-import { useRouter, usePathname } from 'expo-router';
+import { useRouter, usePathname, type Href } from 'expo-router';
 import {
   Home,
   Play,
@@ -48,7 +48,7 @@ export default function AppTabs() {
   const isCredits = pathname.includes('/credits');
   const isProfile = pathname.includes('/profile');
 
-  const navItems = [
+  const navItems: { name: string; href: Href; active: boolean; testId: string }[] = [
     { name: 'Home', href: '/(tabs)', active: isHome, testId: 'sidebar-home-link' },
     { name: 'Play', href: '/(tabs)/play', active: isPlay, testId: 'sidebar-play-link' },
     { name: 'Leagues', href: '/(tabs)/leagues', active: isLeagues, testId: 'sidebar-leagues-link' },
@@ -60,25 +60,25 @@ export default function AppTabs() {
   return (
     <Tabs>
       <TabList style={{ display: 'none' }}>
-        <TabTrigger name="index" href={"/(tabs)" as any}>
+        <TabTrigger name="index" href={"/(tabs)" as Href}>
           <span>Home</span>
         </TabTrigger>
-        <TabTrigger name="play" href={"/(tabs)/play" as any}>
+        <TabTrigger name="play" href={"/(tabs)/play" as Href}>
           <span>Play</span>
         </TabTrigger>
-        <TabTrigger name="leagues" href={"/(tabs)/leagues" as any}>
+        <TabTrigger name="leagues" href={"/(tabs)/leagues" as Href}>
           <span>Leagues</span>
         </TabTrigger>
-        <TabTrigger name="community" href={"/(tabs)/community" as any}>
+        <TabTrigger name="community" href={"/(tabs)/community" as Href}>
           <span>Community</span>
         </TabTrigger>
-        <TabTrigger name="venues" href={"/(tabs)/venues" as any}>
+        <TabTrigger name="venues" href={"/(tabs)/venues" as Href}>
           <span>Venues</span>
         </TabTrigger>
-        <TabTrigger name="credits" href={"/(tabs)/credits" as any}>
+        <TabTrigger name="credits" href={"/(tabs)/credits" as Href}>
           <span>Credits</span>
         </TabTrigger>
-        <TabTrigger name="profile" href={"/(tabs)/profile" as any}>
+        <TabTrigger name="profile" href={"/(tabs)/profile" as Href}>
           <span>Profile</span>
         </TabTrigger>
       </TabList>
@@ -119,7 +119,7 @@ export default function AppTabs() {
                   type="button"
                   data-testid={item.testId}
                   aria-label={item.name}
-                  onClick={() => router.push(item.href as any)}
+                  onClick={() => router.push(item.href)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -194,7 +194,7 @@ export default function AppTabs() {
                 type="button"
                 data-testid="topbar-profile-btn"
                 aria-label={t('navProfile')}
-                onClick={() => router.push('/(tabs)/profile' as any)}
+                onClick={() => router.push('/(tabs)/profile' as Href)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -235,7 +235,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-home-btn"
             aria-label={t('navHome')}
-            onClick={() => router.push('/(tabs)' as any)}
+            onClick={() => router.push('/(tabs)' as Href)}
             style={{
               flex: 1,
               display: 'flex',
@@ -294,7 +294,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-play-btn"
             aria-label={t('navPlay')}
-            onClick={() => router.push('/(tabs)/play' as any)}
+            onClick={() => router.push('/(tabs)/play' as Href)}
             style={{
               flex: 1,
               display: 'flex',
@@ -353,7 +353,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-leagues-btn"
             aria-label={t('navLeagues')}
-            onClick={() => router.push('/(tabs)/leagues' as any)}
+            onClick={() => router.push('/(tabs)/leagues' as Href)}
             style={{
               flex: 1,
               display: 'flex',
@@ -412,7 +412,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-venues-btn"
             aria-label={t('navVenues')}
-            onClick={() => router.push('/(tabs)/venues' as any)}
+            onClick={() => router.push('/(tabs)/venues' as Href)}
             style={{
               flex: 1,
               display: 'flex',
@@ -471,7 +471,7 @@ export default function AppTabs() {
             type="button"
             data-testid="tab-profile-btn"
             aria-label={t('navProfile')}
-            onClick={() => router.push('/(tabs)/profile' as any)}
+            onClick={() => router.push('/(tabs)/profile' as Href)}
             style={{
               flex: 1,
               display: 'flex',

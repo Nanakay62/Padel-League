@@ -7,6 +7,7 @@ module.exports = defineConfig([
   {
     rules: {
       "import/no-unresolved": "off",
+      "@typescript-eslint/no-explicit-any": "error",
     },
   },
   {

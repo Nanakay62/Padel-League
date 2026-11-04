@@ -58,8 +58,8 @@ export function LevelOnboarding({ onComplete }: LevelOnboardingProps) {
           const errData = await res.json().catch(() => ({}));
           setError(errData.detail || 'Failed to calculate rating. Please try again.');
         }
-      } catch (err: any) {
-        setError(err.message || 'Network error. Please try again.');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Network error. Please try again.');
       } finally {
         setIsLoading(false);
       }

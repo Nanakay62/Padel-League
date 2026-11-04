@@ -6,7 +6,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { Minus, Plus } from 'lucide-react-native';
 import { Tokens, Typography } from '@/constants/theme';
 import { Screen, PageHeader, Card, Button, Chip } from '@/components/ui';
@@ -22,7 +22,7 @@ export default function CreateEventScreen() {
 
   const handleCreate = () => {
     // In production, posts to POST /events
-    router.replace('/events' as any);
+    router.replace('/events' as Href);
   };
 
   return (

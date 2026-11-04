@@ -6,6 +6,7 @@ const SRC_DIR = path.resolve(__dirname, '../src');
 // Files allowed to define the root tokens or CSS
 const EXEMPT_FILES = [
   path.resolve(SRC_DIR, 'constants/theme.ts'),
+  path.resolve(SRC_DIR, 'constants/designSystem.ts'),
   path.resolve(SRC_DIR, 'global.css'),
 ];
 

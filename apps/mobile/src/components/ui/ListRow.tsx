@@ -65,7 +65,7 @@ export function ListRow({
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? title}
         onPress={onPress}
-        style={({ pressed, focused }: any) => [
+        style={({ pressed, focused }: { pressed: boolean; focused?: boolean }) => [
           styles.row,
           pressed && styles.pressed,
           focused && Platform.OS === 'web' && styles.focusedWeb,

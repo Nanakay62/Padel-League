@@ -1,9 +1,10 @@
 import React from 'react';
 import { Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { Users, Shield, Trophy, Award, ChevronRight, UserCheck } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { Screen, Card, CircuitBanner, WhatsAppIcon } from '@/components/ui';
+import { t } from '@/lib/i18n';
 
 export default function CommunityTabScreen() {
   const router = useRouter();
@@ -19,17 +20,17 @@ export default function CommunityTabScreen() {
   return (
     <Screen>
       <CircuitBanner
-        title="Accra Padel Community"
-        description="Connect with Accra padel players, find hitting partners, and join club community channels."
+        title={t('communityAccraBannerTitle')}
+        description={t('communityAccraBannerDesc')}
         testID="community-banner-card"
         stats={[
           {
             icon: <Users size={14} color={Tokens.colors.gold} strokeWidth={1.75} />,
-            label: 'Ghana Padel Network',
+            label: t('communityGhanaNetwork'),
           },
           {
             icon: <Shield size={14} color={Tokens.colors.bannerBlueIcon} strokeWidth={1.75} />,
-            label: 'Verified Players Only',
+            label: t('communityVerifiedPlayers'),
           },
         ]}
       />
@@ -41,15 +42,15 @@ export default function CommunityTabScreen() {
             style={styles.actionRow}
             onPress={() => router.push('/partners')}
             accessibilityRole="button"
-            accessibilityLabel="Find Hitting Partners"
+            accessibilityLabel={t('communityFindPartnersTitle')}
           >
             <View style={styles.iconCircle}>
               <UserCheck size={22} color={Tokens.colors.lime} strokeWidth={2} />
             </View>
             <View style={styles.actionCol}>
-              <Text style={styles.cardTitle}>Find Hitting Partners</Text>
+              <Text style={styles.cardTitle}>{t('communityFindPartnersTitle')}</Text>
               <Text style={styles.cardDescription}>
-                Browse verified Accra players by level band, court side preference, and home venue.
+                {t('communityFindPartnersDesc')}
               </Text>
             </View>
             <ChevronRight size={18} color={Tokens.colors.textMuted} />
@@ -60,17 +61,17 @@ export default function CommunityTabScreen() {
         <Card style={styles.card}>
           <TouchableOpacity
             style={styles.actionRow}
-            onPress={() => router.push('/(tabs)/leagues' as any)}
+            onPress={() => router.push('/(tabs)/leagues' as Href)}
             accessibilityRole="button"
-            accessibilityLabel="Accra Box Leagues"
+            accessibilityLabel={t('communityBoxLeaguesTitle')}
           >
             <View style={styles.iconCircle}>
               <Trophy size={22} color={Tokens.colors.lime} strokeWidth={2} />
             </View>
             <View style={styles.actionCol}>
-              <Text style={styles.cardTitle}>Accra Box Leagues & Ladders</Text>
+              <Text style={styles.cardTitle}>{t('communityBoxLeaguesTitle')}</Text>
               <Text style={styles.cardDescription}>
-                Compete in monthly round-robin division boxes with promotion and relegation cycles.
+                {t('communityBoxLeaguesDesc')}
               </Text>
             </View>
             <ChevronRight size={18} color={Tokens.colors.textMuted} />
@@ -83,15 +84,15 @@ export default function CommunityTabScreen() {
             style={styles.actionRow}
             onPress={() => router.push('/ratings')}
             accessibilityRole="button"
-            accessibilityLabel="Player Ratings and Level Calibration"
+            accessibilityLabel={t('communityRatingBandsTitle')}
           >
             <View style={styles.iconCircle}>
               <Award size={22} color={Tokens.colors.lime} strokeWidth={2} />
             </View>
             <View style={styles.actionCol}>
-              <Text style={styles.cardTitle}>Ghana Padel Rating & Level Bands</Text>
+              <Text style={styles.cardTitle}>{t('communityRatingBandsTitle')}</Text>
               <Text style={styles.cardDescription}>
-                Check your calibrated GPR score, match reliability index, and level breakdown.
+                {t('communityRatingBandsDesc')}
               </Text>
             </View>
             <ChevronRight size={18} color={Tokens.colors.textMuted} />
@@ -105,9 +106,9 @@ export default function CommunityTabScreen() {
               <WhatsAppIcon size={22} color={Tokens.colors.lime} testID="community-whatsapp-icon" />
             </View>
             <View style={styles.actionCol}>
-              <Text style={styles.cardTitle}>Club WhatsApp Channels</Text>
+              <Text style={styles.cardTitle}>{t('communityClubChannelsTitle')}</Text>
               <Text style={styles.cardDescription}>
-                Official group chats for organizing social hits, doubles pairings, and court talk.
+                {t('communityClubChannelsDesc')}
               </Text>
             </View>
           </View>
@@ -117,24 +118,24 @@ export default function CommunityTabScreen() {
               style={styles.channelItem}
               onPress={() => handleOpenWhatsAppCommunity('https://chat.whatsapp.com/accra-city-padel')}
             >
-              <Text style={styles.channelName}>Accra City Padel Club Channel</Text>
-              <Text style={styles.channelAction}>Open WhatsApp</Text>
+              <Text style={styles.channelName}>{t('communityAccraCityChannel')}</Text>
+              <Text style={styles.channelAction}>{t('communityOpenWhatsApp')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.channelItem, styles.channelItemBorder]}
               onPress={() => handleOpenWhatsAppCommunity('https://chat.whatsapp.com/east-legon-padel')}
             >
-              <Text style={styles.channelName}>East Legon Padel Community</Text>
-              <Text style={styles.channelAction}>Open WhatsApp</Text>
+              <Text style={styles.channelName}>{t('communityEastLegonChannel')}</Text>
+              <Text style={styles.channelAction}>{t('communityOpenWhatsApp')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.channelItem, styles.channelItemBorder]}
               onPress={() => handleOpenWhatsAppCommunity('https://chat.whatsapp.com/cantonments-padel')}
             >
-              <Text style={styles.channelName}>Cantonments Social Padel Group</Text>
-              <Text style={styles.channelAction}>Open WhatsApp</Text>
+              <Text style={styles.channelName}>{t('communityCantonmentsChannel')}</Text>
+              <Text style={styles.channelAction}>{t('communityOpenWhatsApp')}</Text>
             </TouchableOpacity>
           </View>
         </Card>

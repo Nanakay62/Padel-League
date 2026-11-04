@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import {
   ArrowLeft,
   Calendar,
@@ -290,7 +290,7 @@ export default function VenueDetailScreen() {
                       title={t('viewCourtBtn')}
                       variant="primary"
                       size="sm"
-                      onPress={() => router.push(`/venues/${venue.id}/courts/${court.id}` as any)}
+                      onPress={() => router.push(`/venues/${venue.id}/courts/${court.id}` as Href)}
                     />
                   </View>
                 </Card>

@@ -1,5 +1,11 @@
 import '@/global.css';
 import { Platform, TextStyle, useWindowDimensions } from 'react-native';
+import {
+  MOMO_RAILS,
+  MOTION_DURATIONS,
+  MOTION_EASINGS,
+  ACCESSIBILITY_TOKENS,
+} from './designSystem';
 
 export const Tokens = {
   colors: {
@@ -181,6 +187,12 @@ export const Tokens = {
     minTarget: 48,
     minStepper: 64,
   },
+  accessibility: ACCESSIBILITY_TOKENS,
+  motion: {
+    duration: MOTION_DURATIONS,
+    easing: MOTION_EASINGS,
+  },
+  momo: MOMO_RAILS,
   fontSize: {
     badge: 9,
     xxs: 10,

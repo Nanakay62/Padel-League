@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter, useLocalSearchParams, type Href } from 'expo-router';
 import { PhoneLoginScreen } from '@/features/auth/PhoneLoginScreen';
 
 export default function LoginRoute() {
@@ -8,7 +8,7 @@ export default function LoginRoute() {
 
   const handleSuccess = () => {
     if (params.redirect) {
-      router.replace(params.redirect as any);
+      router.replace(params.redirect as Href);
     } else if (router.canGoBack()) {
       router.back();
     } else {

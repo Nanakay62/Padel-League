@@ -42,6 +42,15 @@ export default function PartnersIndexScreen() {
   const [partners, setPartners] = useState<PartnerItem[]>(FALLBACK_PARTNERS);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  interface ApiPartnerItem {
+    id: string;
+    display_name: string;
+    level: number;
+    level_band: string;
+    preferred_side: 'left' | 'right' | 'either';
+    home_venue_id?: string;
+  }
+
   useEffect(() => {
     let isMounted = true;
     async function loadPartners() {
@@ -50,7 +59,7 @@ export default function PartnersIndexScreen() {
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0 && isMounted) {
-            const mapped: PartnerItem[] = data.map((p: any) => ({
+            const mapped: PartnerItem[] = (data as ApiPartnerItem[]).map((p) => ({
               id: p.id,
               displayName: p.display_name,
               level: p.level,

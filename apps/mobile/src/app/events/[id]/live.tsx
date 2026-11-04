@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import { LiveEventScreen, MatchItem, LeaderboardRow } from '@/features/events/LiveEventScreen';
 import { Tokens, Typography } from '@/constants/theme';
@@ -73,7 +73,7 @@ export default function LiveEventRoute() {
             if (router.canGoBack()) {
               router.back();
             } else {
-              router.replace(`/events/${eventId}` as any);
+              router.replace(`/events/${eventId}` as Href);
             }
           }}
           testID="live-back-btn"

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
+import { t } from '@/lib/i18n';
 import {
   RatingHistoryData,
   RatingHistoryScreen,
@@ -59,10 +60,10 @@ export default function RatingsIndexScreen() {
         showBack
         rightAction={
           <Button
-            title="Calibrate Level"
+            title={t('onboardingCalibrateBtn')}
             variant="secondary"
             size="sm"
-            onPress={() => router.push('/onboarding' as any)}
+            onPress={() => router.push('/onboarding' as Href)}
           />
         }
       />

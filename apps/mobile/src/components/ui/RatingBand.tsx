@@ -1,11 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, StyleProp, ViewStyle, DimensionValue } from 'react-native';
 import { Tokens, Typography } from '@/constants/theme';
+import { getPlaytomicBand, PLAYTOMIC_RATING_SCALE } from '@/constants/designSystem';
+import { t } from '@/lib/i18n';
 
 export interface RatingBandProps {
   currentRating: number;
   rangeMin?: number;
   rangeMax?: number;
+  scaleMin?: number;
+  scaleMax?: number;
   reliabilityPercent?: number;
   matchesCount?: number;
   winRatePercent?: number;
@@ -16,15 +20,17 @@ export function RatingBand({
   currentRating = 3.40,
   rangeMin = 3.2,
   rangeMax = 3.6,
+  scaleMin = PLAYTOMIC_RATING_SCALE.min,
+  scaleMax = PLAYTOMIC_RATING_SCALE.max,
   reliabilityPercent = 82,
   matchesCount = 14,
   winRatePercent = 64,
   style,
 }: RatingBandProps) {
-  // Normalize track from 2.0 to 5.0 (total range = 3.0)
-  const minScale = 2.0;
-  const maxScale = 5.0;
+  const minScale = scaleMin;
+  const maxScale = scaleMax;
   const totalScale = maxScale - minScale;
+  const band = getPlaytomicBand(currentRating);
 
   const clamp = (val: number, min: number, max: number) =>
     Math.min(Math.max(val, min), max);
@@ -39,8 +45,15 @@ export function RatingBand({
 
   return (
     <View style={[styles.card, style]}>
-      {/* Eyebrow Label */}
-      <Text style={styles.eyebrow}>YOUR RATING</Text>
+      {/* Eyebrow Label & Tier Badge */}
+      <View style={styles.eyebrowRow}>
+        <Text style={styles.eyebrow}>YOUR RATING</Text>
+        <View style={[styles.tierBadge, { backgroundColor: band.badgeBg }]}>
+          <Text style={[styles.tierBadgeText, { color: band.badgeText }]}>
+            {t(band.labelKey)}
+          </Text>
+        </View>
+      </View>
 
       {/* Big Display Rating */}
       <Text style={styles.displayRating}>{currentRating.toFixed(2)}</Text>
@@ -56,8 +69,8 @@ export function RatingBand({
             style={[
               styles.rangeBand,
               {
-                left: rangeLeftPercent as any,
-                width: rangeWidthPercent as any,
+                left: rangeLeftPercent as DimensionValue,
+                width: rangeWidthPercent as DimensionValue,
               },
             ]}
           />
@@ -65,7 +78,7 @@ export function RatingBand({
           <View
             style={[
               styles.markerWrapper,
-              { left: markerLeftPercent as any },
+              { left: markerLeftPercent as DimensionValue },
             ]}
           >
             <View style={styles.markerCircle} />
@@ -74,25 +87,25 @@ export function RatingBand({
 
         {/* Captions below slider */}
         <View style={styles.captionsRow}>
-          <Text style={styles.scaleBound}>2.0</Text>
+          <Text style={styles.scaleBound}>{minScale.toFixed(1)}</Text>
           <Text style={styles.likelyRangeText}>
-            Likely range {safeMin.toFixed(1)} – {safeMax.toFixed(1)}
+            {t('ratingLikelyRange', { min: safeMin.toFixed(1), max: safeMax.toFixed(1) })}
           </Text>
-          <Text style={styles.scaleBound}>5.0</Text>
+          <Text style={styles.scaleBound}>{maxScale.toFixed(1)}</Text>
         </View>
       </View>
 
       {/* Reliability Section */}
       <View style={styles.reliabilitySection}>
         <View style={styles.reliabilityHeader}>
-          <Text style={styles.reliabilityLabel}>Rating reliability</Text>
+          <Text style={styles.reliabilityLabel}>{t('ratingReliabilityTrack')}</Text>
           <Text style={styles.reliabilityValue}>{reliabilityPercent}%</Text>
         </View>
         <View style={styles.reliabilityTrack}>
           <View
             style={[
               styles.reliabilityFill,
-              { width: `${clamp(reliabilityPercent, 0, 100)}%` as any },
+              { width: `${clamp(reliabilityPercent, 0, 100)}%` as DimensionValue },
             ]}
           />
         </View>
@@ -101,11 +114,11 @@ export function RatingBand({
       {/* Stat Tiles: Matches & Win Rate */}
       <View style={styles.statTilesRow}>
         <View style={styles.statTile}>
-          <Text style={styles.statTileLabel}>Matches</Text>
+          <Text style={styles.statTileLabel}>{t('matchesStat')}</Text>
           <Text style={styles.statTileValue}>{matchesCount}</Text>
         </View>
         <View style={styles.statTile}>
-          <Text style={styles.statTileLabel}>Win rate</Text>
+          <Text style={styles.statTileLabel}>{t('winRateStat')}</Text>
           <Text style={styles.statTileValue}>{winRatePercent}%</Text>
         </View>
       </View>
@@ -121,6 +134,27 @@ const styles = StyleSheet.create({
     borderColor: Tokens.colors.line,
     padding: Tokens.spacing.xl,
     width: '100%',
+  },
+  eyebrowRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: Tokens.spacing.xs,
+  },
+  tierBadge: {
+    paddingHorizontal: Tokens.spacing.sm,
+    paddingVertical: 2,
+    borderRadius: Tokens.radii.chip,
+    borderWidth: 1,
+    borderColor: Tokens.colors.line,
+  },
+  tierBadgeText: {
+    fontFamily: Typography.fontFamily.semibold,
+    fontWeight: Tokens.fontWeight.semibold,
+    fontSize: Tokens.fontSize.xs,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   eyebrow: {
     fontFamily: Typography.fontFamily.semibold,

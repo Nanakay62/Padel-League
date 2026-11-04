@@ -52,7 +52,7 @@ export function Chip({
         accessibilityState={{ checked: selected }}
         accessibilityLabel={accessibilityLabel ?? label}
         onPress={onPress}
-        style={({ pressed, focused }: any) => [
+        style={({ pressed, focused }: { pressed: boolean; focused?: boolean }) => [
           styles.chip,
           selected ? styles.selectedChip : styles.unselectedChip,
           pressed && styles.pressed,

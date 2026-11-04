@@ -6,8 +6,9 @@ import {
   Text,
   TextInput,
   View,
+  type DimensionValue,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { MapPin, Clock, Search, Shield, Zap, Calendar } from 'lucide-react-native';
 import { Tokens, Typography, useResponsiveLayout } from '@/constants/theme';
 import { formatGhanaCedis, formatAccraDateTime } from '@/lib/formatting';
@@ -159,7 +160,7 @@ export default function FindEventsScreen() {
             return (
               <Card
                 style={styles.eventCard}
-                onPress={() => router.push(`/events/${item.id}` as any)}
+                onPress={() => router.push(`/events/${item.id}` as Href)}
               >
                 <View style={styles.cardHeader}>
                   <View style={styles.headerBadgesRow}>
@@ -202,14 +203,14 @@ export default function FindEventsScreen() {
                     totalSlots={item.max_players}
                     confirmedCount={confirmedCount}
                     emptySlotLabel={item.status === 'FULL' ? undefined : 'Join'}
-                    onPressEmpty={() => router.push(`/events/${item.id}` as any)}
+                    onPressEmpty={() => router.push(`/events/${item.id}` as Href)}
                   />
                 </View>
 
                 {/* Capacity Progress Section */}
                 <View style={styles.capacitySection}>
                   <View style={styles.capacityLabelsRow}>
-                    <Text style={styles.capacityLabel}>Players Registered</Text>
+                    <Text style={styles.capacityLabel}>{t('playersRegisteredLabel')}</Text>
                     <Text style={[styles.capacityRatioText, Typography.tabularNums]}>
                       {confirmedCount} / {item.max_players}
                     </Text>
@@ -218,7 +219,7 @@ export default function FindEventsScreen() {
                     <View
                       style={[
                         styles.capacityBarFill,
-                        { width: `${Math.round(capacityRatio * 100)}%` as any },
+                        { width: `${Math.round(capacityRatio * 100)}%` as DimensionValue },
                       ]}
                     />
                   </View>
@@ -227,19 +228,19 @@ export default function FindEventsScreen() {
                 {/* Card Footer */}
                 <View style={styles.cardFooter}>
                   <View>
-                    <Text style={styles.entryFeeLabel}>Entry Fee</Text>
+                    <Text style={styles.entryFeeLabel}>{t('entryFeeLabel')}</Text>
                     <Text style={[styles.priceTag, Typography.tabularNums]}>
                       {formatGhanaCedis(item.pricing.total_price_pesewas)}
                     </Text>
                   </View>
 
                   <Button
-                    title="View Session"
+                    title={t('viewSessionBtn')}
                     variant="primary"
                     size="sm"
                     onPress={(e) => {
                       e?.stopPropagation?.();
-                      router.push(`/events/${item.id}` as any);
+                      router.push(`/events/${item.id}` as Href);
                     }}
                   />
                 </View>
